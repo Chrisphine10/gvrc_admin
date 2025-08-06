@@ -1,0 +1,48 @@
+{% extends 'layouts/base-fullscreen.html' %}
+
+{% block title %} Error 404 {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary shadow border-0">
+            <div class="card-header bg-transparent pb-5">
+
+              <div class="text-muted text-center mt-2 mb-3">
+                <strong>GVRC Admin - Error 404</strong>
+              </div>
+
+              <div class="text-center mb-4">
+                <div class="mb-4">
+                  <i class="ni ni-bulb-61 text-info" style="font-size: 3rem;"></i>
+                </div>
+                <h4 class="text-white">Page Not Found</h4>
+                <p class="text-light">
+                  The page you are looking for doesn't exist. Please check the URL and try again.
+                </p>
+              </div>
+
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <a href="/" class="text-light"><small>Home</small></a>
+            </div>
+            <div class="col-6 text-right">
+              <a href="{% url 'login' %}" class="text-light"><small>Login</small></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %} 

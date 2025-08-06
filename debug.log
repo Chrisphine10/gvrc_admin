@@ -1,0 +1,57 @@
+Watching for file changes with StatReloader
+C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\dev.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /infrastructure/ HTTP/1.1" 200 21838
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\home\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+"GET / HTTP/1.1" 200 27414
+"GET /human-resources/ HTTP/1.1" 200 19621
+"GET /human-resources/add/ HTTP/1.1" 200 23218
+"GET /services/ HTTP/1.1" 200 19687
+"GET /facilities/ HTTP/1.1" 200 21309
+"GET /facilities/add/ HTTP/1.1" 200 27053
+"GET /infrastructure/ HTTP/1.1" 200 21838
+"GET /human-resources/ HTTP/1.1" 200 19621
+"GET /human-resources/add/ HTTP/1.1" 200 23218
+"GET /facilities/ HTTP/1.1" 200 21309
+"GET / HTTP/1.1" 200 27414
+"GET /infrastructure/ HTTP/1.1" 200 21838
+"GET /human-resources/ HTTP/1.1" 200 19621
+"GET /services/ HTTP/1.1" 200 19687
+"GET /infrastructure/ HTTP/1.1" 200 21838
+"GET /human-resources/ HTTP/1.1" 200 19621
+"GET /services/ HTTP/1.1" 200 19687
+"GET /facilities/ HTTP/1.1" 200 21309
+"GET /services/ HTTP/1.1" 200 19687
+"GET /facilities/ HTTP/1.1" 200 21309
+"GET /facilities/add/ HTTP/1.1" 200 27053
+"GET /services/ HTTP/1.1" 200 19687
+"GET /human-resources/ HTTP/1.1" 200 19621
+"GET /admin/facilities/facility/add/ HTTP/1.1" 200 23708
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /admin/ HTTP/1.1" 200 7764
+"GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+"GET /human-resources/ HTTP/1.1" 200 21886
+"GET /facilities/ HTTP/1.1" 200 23574
+"GET /services/add/ HTTP/1.1" 200 23318
+"GET / HTTP/1.1" 200 29679
+"GET /facilities/ HTTP/1.1" 200 23574
+"GET /services/ HTTP/1.1" 200 21952
+"GET /human-resources/ HTTP/1.1" 200 21886
+"GET /infrastructure/ HTTP/1.1" 200 24103
+"GET /human-resources/ HTTP/1.1" 200 21886
+"GET / HTTP/1.1" 200 29679

@@ -1,0 +1,301 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Add Community Facility - GVRC Admin{% endblock %}
+
+{% block content %}
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Add Community Facility</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/facilities/">Community Facilities</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Add Facility</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="/facilities/" class="btn btn-sm btn-neutral">
+            <i class="fas fa-list"></i> View All
+          </a>
+          <a href="/admin/facilities/facility/" class="btn btn-sm btn-neutral">
+            <i class="fas fa-cog"></i> Admin Panel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Add New Community Facility</h3>
+              <p class="text-sm text-muted mb-0">
+                Fill in the details below to register a new community facility
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        {% if toast_type and toast_message %}
+        <div class="card-header border-0 bg-light">
+          <div class="alert alert-{{ toast_type }} alert-dismissible fade show" role="alert">
+            <span class="alert-icon"><i class="fas fa-{% if toast_type == 'success' %}check-circle{% else %}exclamation-triangle{% endif %}"></i></span>
+            <span class="alert-text">{{ toast_message }}</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            
+            <!-- Basic Information -->
+            <h6 class="heading-small text-muted mb-4">Basic Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="name">Facility Name *</label>
+                    <input type="text" id="name" name="name" class="form-control {% if errors %}is-invalid{% endif %}" 
+                           placeholder="Enter facility name" 
+                           value="{{ form_data.name|default:'' }}" required>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'name' in error or 'Facility name' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="registration_number">Registration Number *</label>
+                    <input type="text" id="registration_number" name="registration_number" class="form-control {% if errors %}is-invalid{% endif %}" 
+                           placeholder="Enter registration number" 
+                           value="{{ form_data.registration_number|default:'' }}" required>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'registration' in error or 'Registration number' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="facility_type">Facility Type *</label>
+                    <select id="facility_type" name="facility_type" class="form-control {% if errors %}is-invalid{% endif %}" required>
+                      <option value="">Select facility type</option>
+                      {% for value, label in facility_types %}
+                      <option value="{{ value }}" {% if form_data.facility_type == value %}selected{% endif %}>{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'type' in error or 'Facility type' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="ownership">Ownership Type *</label>
+                    <select id="ownership" name="ownership" class="form-control {% if errors %}is-invalid{% endif %}" required>
+                      <option value="">Select ownership type</option>
+                      {% for value, label in ownership_types %}
+                      <option value="{{ value }}" {% if form_data.ownership == value %}selected{% endif %}>{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'ownership' in error or 'Ownership type' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Location Information -->
+            <h6 class="heading-small text-muted mb-4">Location Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="county">County *</label>
+                    <input type="text" id="county" name="county" class="form-control {% if errors %}is-invalid{% endif %}" 
+                           placeholder="Enter county" 
+                           value="{{ form_data.county|default:'' }}" required>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'county' in error or 'County' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="ward">Ward</label>
+                    <input type="text" id="ward" name="ward" class="form-control" 
+                           placeholder="Enter ward" 
+                           value="{{ form_data.ward|default:'' }}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="location">Location/Address</label>
+                    <input type="text" id="location" name="location" class="form-control" 
+                           placeholder="Enter street address or location description" 
+                           value="{{ form_data.location|default:'' }}">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Contact Information -->
+            <h6 class="heading-small text-muted mb-4">Contact Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="contact_person">Contact Person</label>
+                    <input type="text" id="contact_person" name="contact_person" class="form-control" 
+                           placeholder="Enter contact person name" 
+                           value="{{ form_data.contact_person|default:'' }}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" 
+                           placeholder="Enter phone number" 
+                           value="{{ form_data.phone|default:'' }}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" 
+                           placeholder="Enter email address" 
+                           value="{{ form_data.email|default:'' }}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="emergency_contact">Emergency Contact</label>
+                    <input type="tel" id="emergency_contact" name="emergency_contact" class="form-control" 
+                           placeholder="Enter emergency contact number" 
+                           value="{{ form_data.emergency_contact|default:'' }}">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Additional Information -->
+            <h6 class="heading-small text-muted mb-4">Additional Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="target_population">Target Population</label>
+                    <input type="text" id="target_population" name="target_population" class="form-control" 
+                           placeholder="e.g., Women, Children, Elderly" 
+                           value="{{ form_data.target_population|default:'' }}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="operating_hours">Operating Hours</label>
+                    <input type="text" id="operating_hours" name="operating_hours" class="form-control" 
+                           placeholder="e.g., 8:00 AM - 5:00 PM" 
+                           value="{{ form_data.operating_hours|default:'' }}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="services_offered">Services Offered</label>
+                    <textarea rows="3" id="services_offered" name="services_offered" class="form-control" 
+                              placeholder="Brief description of main services offered">{{ form_data.services_offered|default:'' }}</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Form Actions -->
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-save"></i> Create Facility
+                    </button>
+                    <a href="/facilities/" class="btn btn-secondary">
+                      <i class="fas fa-times"></i> Cancel
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+// Auto-hide toast notifications after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        setTimeout(function() {
+            if (alert.parentNode) {
+                alert.parentNode.removeChild(alert);
+            }
+        }, 5000);
+    });
+});
+</script>
+{% endblock %}

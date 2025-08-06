@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     "drf_yasg",
     # Local apps
     "apps.home",
+    "apps.authentication",
     "apps.api",
     "apps.common",
+    "apps.facilities",
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core.urls"
 
-HOME_TEMPLATES = os.path.join(BASE_DIR, "templates")
+HOME_TEMPLATES = os.path.join(BASE_DIR, "apps", "templates")
 
 TEMPLATES = [
     {
@@ -99,7 +101,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "apps", "static"),
+)
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

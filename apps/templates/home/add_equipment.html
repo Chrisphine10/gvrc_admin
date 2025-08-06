@@ -1,0 +1,272 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Add Equipment - GVRC Admin{% endblock %}
+
+{% block content %}
+<div class="header bg-warning pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Add Equipment</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/infrastructure/">Infrastructure & Equipment</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Add Equipment</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="/infrastructure/" class="btn btn-sm btn-neutral">
+            <i class="fas fa-list"></i> View All
+          </a>
+          <a href="/admin/facilities/facility_infrastructure/" class="btn btn-sm btn-neutral">
+            <i class="fas fa-cog"></i> Admin Panel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Add New Equipment</h3>
+              <p class="text-sm text-muted mb-0">
+                Fill in the details below to register new equipment or infrastructure
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        {% if toast_type and toast_message %}
+        <div class="card-header border-0 bg-light">
+          <div class="alert alert-{{ toast_type }} alert-dismissible fade show" role="alert">
+            <span class="alert-icon"><i class="fas fa-{% if toast_type == 'success' %}check-circle{% else %}exclamation-triangle{% endif %}"></i></span>
+            <span class="alert-text">{{ toast_message }}</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            
+            <!-- Basic Information -->
+            <h6 class="heading-small text-muted mb-4">Basic Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="equipment_name">Equipment Name *</label>
+                    <input type="text" id="equipment_name" name="equipment_name" class="form-control {% if errors %}is-invalid{% endif %}" 
+                           placeholder="Enter equipment name" 
+                           value="{{ form_data.equipment_name|default:'' }}" required>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'name' in error or 'Equipment name' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="category">Equipment Category *</label>
+                    <select id="category" name="category" class="form-control {% if errors %}is-invalid{% endif %}" required>
+                      <option value="">Select equipment category</option>
+                      {% for value, label in equipment_categories %}
+                      <option value="{{ value }}" {% if form_data.category == value %}selected{% endif %}>{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'category' in error or 'Equipment category' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="facility">Facility *</label>
+                    <select id="facility" name="facility" class="form-control {% if errors %}is-invalid{% endif %}" required>
+                      <option value="">Select facility</option>
+                      {% for facility in facilities %}
+                      <option value="{{ facility.id }}" {% if form_data.facility == facility.id|stringformat:"s" %}selected{% endif %}>
+                        {{ facility.name }} - {{ facility.get_facility_type_display }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'facility' in error or 'Facility' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="quantity">Quantity *</label>
+                    <input type="number" id="quantity" name="quantity" class="form-control {% if errors %}is-invalid{% endif %}" 
+                           placeholder="Enter quantity" 
+                           value="{{ form_data.quantity|default:'1' }}" min="1" required>
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'quantity' in error or 'Quantity' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Equipment Details -->
+            <h6 class="heading-small text-muted mb-4">Equipment Details</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="condition">Condition</label>
+                    <select id="condition" name="condition" class="form-control">
+                      {% for value, label in equipment_conditions %}
+                      <option value="{{ value }}" {% if form_data.condition == value %}selected{% endif %}>{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="registration_number">Registration Number</label>
+                    <input type="text" id="registration_number" name="registration_number" class="form-control" 
+                           placeholder="Enter registration number (for vehicles)" 
+                           value="{{ form_data.registration_number|default:'' }}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="model_year">Model Year</label>
+                    <input type="number" id="model_year" name="model_year" class="form-control {% if errors %}is-invalid{% endif %}" 
+                           placeholder="Enter model year" 
+                           value="{{ form_data.model_year|default:'' }}" min="1900" max="2030">
+                    {% if errors %}
+                    <div class="invalid-feedback">
+                      {% for error in errors %}
+                        {% if 'year' in error or 'Model year' in error %}{{ error }}{% endif %}
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="capacity">Capacity/Specifications</label>
+                    <input type="text" id="capacity" name="capacity" class="form-control" 
+                           placeholder="e.g., 4 passengers, 1000W, 50L" 
+                           value="{{ form_data.capacity|default:'' }}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="fuel_type">Fuel Type</label>
+                    <input type="text" id="fuel_type" name="fuel_type" class="form-control" 
+                           placeholder="e.g., Petrol, Diesel, Electric" 
+                           value="{{ form_data.fuel_type|default:'' }}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="is_operational">Operational Status</label>
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="is_operational" name="is_operational" 
+                             {% if form_data.is_operational %}checked{% endif %}>
+                      <label class="custom-control-label" for="is_operational">Equipment is operational</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Additional Information -->
+            <h6 class="heading-small text-muted mb-4">Additional Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="notes">Notes</label>
+                    <textarea rows="3" id="notes" name="notes" class="form-control" 
+                              placeholder="Additional notes about the equipment, maintenance history, or special instructions">{{ form_data.notes|default:'' }}</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Form Actions -->
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-warning">
+                      <i class="fas fa-save"></i> Create Equipment
+                    </button>
+                    <a href="/infrastructure/" class="btn btn-secondary">
+                      <i class="fas fa-times"></i> Cancel
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+// Auto-hide toast notifications after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        setTimeout(function() {
+            if (alert.parentNode) {
+                alert.parentNode.removeChild(alert);
+            }
+        }, 5000);
+    });
+});
+</script>
+{% endblock %}

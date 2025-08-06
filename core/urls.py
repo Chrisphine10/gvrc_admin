@@ -31,6 +31,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("apps.home.urls")),          # Home
+    path("", include("apps.authentication.urls")), # Authentication
     path("api/", include("apps.api.urls")),       # APIs
     path("", include("admin_gradient.urls")),     # Admin theme
     # API Documentation

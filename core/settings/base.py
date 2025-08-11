@@ -109,6 +109,7 @@ STATICFILES_DIRS = (
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/admin/login/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 

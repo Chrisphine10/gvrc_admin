@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.contrib.auth.decorators import login_required
 import json
 import logging
 
@@ -186,6 +187,7 @@ def index(request):
     return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def community_facilities(request):
     """Community Facilities List Page"""
     try:
@@ -255,6 +257,7 @@ def community_facilities(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def add_facility(request):
     """Add Community Facility Page"""
     try:
@@ -376,6 +379,7 @@ def add_facility(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def services_programs(request):
     """Services & Programs List Page"""
     try:
@@ -437,6 +441,7 @@ def services_programs(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def add_service(request):
     """Add Service & Program Page"""
     try:
@@ -549,6 +554,7 @@ def add_service(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def human_resources(request):
     """Human Resources List Page"""
     try:
@@ -611,6 +617,7 @@ def human_resources(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def add_staff(request):
     """Add Human Resource Staff Page"""
     try:
@@ -733,6 +740,7 @@ def add_staff(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def infrastructure(request):
     """Infrastructure List Page"""
     try:
@@ -801,6 +809,7 @@ def infrastructure(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
 def add_equipment(request):
     """Add Infrastructure Equipment Page"""
     try:
@@ -949,6 +958,12 @@ def add_equipment(request):
         return HttpResponse(html_template.render(context, request))
 
 
+@login_required
+def dashboard(request):
+    """Protected dashboard for staff and super admin"""
+    return HttpResponse(f"Hello {request.user.username}, you have full access to the dashboard.")
+
+@login_required
 def pages(request):
     context = {}
     # All resource paths end in .html.

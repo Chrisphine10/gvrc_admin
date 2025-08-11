@@ -8,8 +8,11 @@ from apps.home import views
 
 urlpatterns = [
 
-    # The home page
+    # The home page (public)
     path('', views.index, name='home'),
+    
+    # Protected dashboard
+    path('dashboard/', views.dashboard, name='dashboard'),
 
     # Main resource pages
     path('facilities/', views.community_facilities, name='facilities'),
@@ -21,7 +24,7 @@ urlpatterns = [
     path('infrastructure/', views.infrastructure, name='infrastructure'),
     path('infrastructure/add/', views.add_equipment, name='add_equipment'),
 
-    # Specific pages that should be handled by home app
+    # Protected pages that should be handled by home app
     path('profile/', views.pages, name='profile'),
     path('billing/', views.pages, name='billing'),
     path('rtl/', views.pages, name='rtl'),

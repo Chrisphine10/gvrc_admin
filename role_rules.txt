@@ -1,0 +1,9 @@
+Roles:
+1. Normal user — can access site without login, only public pages.
+2. Staff — must log in, can access all system pages (full access for now).
+3. Super admin — must log in, full access to system.
+
+Django Implementation for Current Rules:
+- Public pages open to all users
+- Staff and super admin require login for protected pages
+- Full access granted to staff and super admin users

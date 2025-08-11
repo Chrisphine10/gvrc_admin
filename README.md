@@ -89,3 +89,90 @@ At this point, the app runs at `http://127.0.0.1:8000/`.
 
 ---
 Starter built with [Django App Generator](https://app-generator.dev/tools/django-generator/) - Open-source service for developers and companies.
+
+
+## Things to remove
+
+<!-- Remove test API endpoints - Delete the test views and URLs -->
+
+Restore authentication - Remove @permission_classes([AllowAny]) decorators
+
+Remove email signals - Delete the automatic email functionality
+
+Clean up files - Remove test files like user_management.py and signals.py
+
+Revert settings - Restore original email and authentication settings
+
+## Running tests
+
+pytest
+pytest -v                    # verbose output
+pytest tests/test_api.py     # specific test file
+
+## Running pytest
+
+# Install dependencies first
+pip3 install -r requirements.txt
+
+# Run all tests
+pytest
+
+# Run with verbose output
+pytest -v
+
+# Run specific test file
+pytest tests/test_api.py
+
+# Run with database reuse (faster)
+pytest --reuse-db
+
+
+### API TEST RUNNER
+
+http://localhost:8000/api/test-runner/
+
+AFTER DEPLOYMENT IT WILL BE VISIBLE FOR EVERYONE
+
+1. Prevent Breaking Changes
+Ensure API still works after code updates
+
+Catch bugs before they reach production
+
+Verify endpoints return correct data formats
+
+2. Validate Business Logic
+Test authentication/authorization works
+
+Verify data validation rules
+
+Ensure proper error handling
+
+3. Integration Confidence
+Frontend developers know APIs work reliably
+
+Mobile apps can depend on consistent responses
+
+Third-party integrations won't break
+
+4. Documentation Through Code
+Tests show how APIs should be used
+
+Examples of expected request/response formats
+
+Living documentation that stays current
+
+5. Regression Prevention
+Automatically catch when old features break
+
+Run tests before every deployment
+
+CI/CD pipeline validation
+
+6. Performance Monitoring
+Track API response times
+
+Identify slow endpoints
+
+Ensure scalability requirements
+
+

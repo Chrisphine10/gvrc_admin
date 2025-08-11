@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Runner</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .run-btn { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .run-btn:hover { background: #0056b3; }
+        .run-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .results { margin-top: 20px; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .output { background: #f8f9fa; padding: 15px; border-radius: 4px; margin: 10px 0; font-family: monospace; white-space: pre-wrap; max-height: 400px; overflow-y: auto; }
+        .loading { text-align: center; padding: 20px; }
+        .test-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .summary-card { background: #f8f9fa; padding: 15px; border-radius: 4px; text-align: center; }
+        .summary-card.passed { border-left: 4px solid #28a745; }
+        .summary-card.failed { border-left: 4px solid #dc3545; }
+        .summary-card.skipped { border-left: 4px solid #ffc107; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 API Test Runner</h1>
+            <p>Run your pytest test suite from the web interface</p>
+        </div>
+        
+        <div style="text-align: center;">
+            <button id="runTests" class="run-btn">▶️ Run All Tests</button>
+        </div>
+        
+        <div id="results" class="results" style="display: none;">
+            <div id="summary" class="test-summary"></div>
+            <div id="output" class="output"></div>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <p>🔄 Running tests... Please wait</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('runTests').addEventListener('click', async function() {
+            const button = this;
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            const output = document.getElementById('output');
+            const summary = document.getElementById('summary');
+            
+            button.disabled = true;
+            loading.style.display = 'block';
+            results.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/run-tests/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                results.style.display = 'block';
+                
+                // Display summary if JSON report available
+                if (data.json_report && data.json_report.summary) {
+                    const s = data.json_report.summary;
+                    summary.innerHTML = `
+                        <div class="summary-card passed">
+                            <h3>${s.passed || 0}</h3>
+                            <p>Passed</p>
+                        </div>
+                        <div class="summary-card failed">
+                            <h3>${s.failed || 0}</h3>
+                            <p>Failed</p>
+                        </div>
+                        <div class="summary-card skipped">
+                            <h3>${s.skipped || 0}</h3>
+                            <p>Skipped</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>${s.total || 0}</h3>
+                            <p>Total</p>
+                        </div>
+                    `;
+                }
+                
+                // Display output
+                const status = data.success ? 'success' : 'error';
+                output.className = `output ${status}`;
+                output.textContent = data.stdout + (data.stderr ? '\n\nErrors:\n' + data.stderr : '');
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                results.style.display = 'block';
+                output.className = 'output error';
+                output.textContent = 'Error running tests: ' + error.message;
+            }
+            
+            button.disabled = false;
+        });
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
+from django.shortcuts import render
+from .test_runner import run_pytest_tests
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -48,4 +50,15 @@ def public_endpoint(request):
         "access": "public"
     }
     return Response(data)
+
+def test_runner_page(request):
+    """Web-based test runner interface"""
+    return render(request, 'test_runner.html')
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def run_tests_api(request):
+    """API endpoint to run tests"""
+    results = run_pytest_tests()
+    return Response(results)
 

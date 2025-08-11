@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "TODO_SET_SECRET_KEY")
 
-APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
+APP_DOMAIN = os.getenv("APP_DOMAIN", "http://localhost:8000")
 
 # Application definition
 INSTALLED_APPS = [
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     # Local apps
     "apps.home",
-    "apps.authentication",
+    "apps.authentication.apps.AuthenticationConfig",
     "apps.api",
     "apps.common",
     "apps.facilities",
@@ -112,6 +112,7 @@ LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/admin/login/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "noreply@gvrc-admin.com"
 
 # Django REST Framework settings
 REST_FRAMEWORK = {

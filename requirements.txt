@@ -6,3 +6,6 @@ django-admin-gradient
 djangorestframework
 drf-yasg
 python-decouple
+pytest==7.4.3
+pytest-django==4.7.0
+pytest-json-report==1.5.0

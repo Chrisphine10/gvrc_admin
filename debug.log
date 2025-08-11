@@ -474,3 +474,217 @@ Watching for file changes with StatReloader
 "GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
 "GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
 "GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
+/home/user/Desktop/gvrc_admin/apps/authentication/__init__.py changed, reloading.
+Watching for file changes with StatReloader
+/home/user/Desktop/gvrc_admin/core/settings/base.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/home/user/Desktop/gvrc_admin/core/settings/base.py changed, reloading.
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 29679
+"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
+"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
+"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
+"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
+"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
+"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
+"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
+"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
+"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
+"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
+"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
+"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
+"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
+"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
+"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
+"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
+"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
+"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
+"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
+"GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
+"GET /swagger/ HTTP/1.1" 200 2445
+"GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
+"GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
+"GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
+"GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
+"GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
+"GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
+"GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 15480
+"GET /swagger/?format=openapi HTTP/1.1" 200 1508
+"GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
+Watching for file changes with StatReloader
+"GET /swagger/ HTTP/1.1" 200 2445
+"GET /swagger/?format=openapi HTTP/1.1" 200 1508
+/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
+Watching for file changes with StatReloader
+/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
+Watching for file changes with StatReloader
+/home/user/Desktop/gvrc_admin/apps/api/urls.py changed, reloading.
+Watching for file changes with StatReloader
+/home/user/Desktop/gvrc_admin/apps/api/urls.py changed, reloading.
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 29679
+Watching for file changes with StatReloader
+"GET /api/test-runner/ HTTP/1.1" 200 5553
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 10822
+"POST /api/run-tests/ HTTP/1.1" 200 7887
+"POST /api/run-tests/ HTTP/1.1" 200 7897
+"GET /api/public/ HTTP/1.1" 200 5364
+"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+"GET /api/endpoint/ HTTP/1.1" 200 5489
+"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+"GET /api/public/ HTTP/1.1" 200 5364
+"GET /api/hello/ HTTP/1.1" 200 5216
+"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+"GET /api/status/ HTTP/1.1" 200 5302
+"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+"GET /api/test-runner/ HTTP/1.1" 200 5553
+"POST /api/run-tests/ HTTP/1.1" 200 7895
+Not Found: /api/
+"GET /api/ HTTP/1.1" 404 11928
+"GET / HTTP/1.1" 200 29404
+"GET /static/assets/img/brand/blue.png HTTP/1.1" 200 7883
+"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 200 9015
+"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 200 57180
+"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 200 166436
+"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 200 266315
+"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 200 124734
+"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 200 88145
+"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 200 173325
+"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 200 80650
+"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 200 455973
+"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 200 3886
+"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 200 4587
+"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 200 13026
+"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 200 172812
+"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 200 3552
+"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 200 21706
+"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 200 8580
+"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 76084
+"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 200 75936
+"GET /static/assets/img/brand/favicon.png HTTP/1.1" 200 4976
+"GET /api/public/ HTTP/1.1" 200 5364
+Not Found: /api/runtester
+"GET /api/runtester HTTP/1.1" 404 11965
+"GET /api/test-runner/ HTTP/1.1" 200 5553
+"POST /api/run-tests/ HTTP/1.1" 200 7895
+Not Found: /api/
+"GET /api/ HTTP/1.1" 404 11928
+Not Found: /api/admin
+"GET /api/admin HTTP/1.1" 404 11949
+Not Found: /apirun-tester
+"GET /apirun-tester HTTP/1.1" 404 10830
+Not Found: /api/run-tester
+"GET /api/run-tester HTTP/1.1" 404 11969
+"GET /api/test-runner/ HTTP/1.1" 200 5553
+"POST /api/run-tests/ HTTP/1.1" 200 7895
+Not Found: /admin
+"GET /admin HTTP/1.1" 404 10798
+Not Found: /public
+"GET /public HTTP/1.1" 404 10802
+Not Found: /public
+"GET /public HTTP/1.1" 404 10802
+"GET /admin/ HTTP/1.1" 200 7762
+"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+"GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+"GET /static/admin/css/base.css HTTP/1.1" 304 0
+"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+"GET /static/admin/js/theme.js HTTP/1.1" 304 0
+"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 10822
+"GET /admin/auth/user/ HTTP/1.1" 200 12079
+"GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+"GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+"GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+"GET /static/admin/js/core.js HTTP/1.1" 304 0
+"GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+"GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+"GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+"GET /static/admin/js/actions.js HTTP/1.1" 304 0
+"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /static/admin/img/search.svg HTTP/1.1" 304 0
+"GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+"GET /static/admin/js/filters.js HTTP/1.1" 304 0
+"GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+"GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+"POST /admin/auth/user/ HTTP/1.1" 302 0
+"GET /admin/auth/user/ HTTP/1.1" 200 12272
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /static/admin/img/icon-alert.svg HTTP/1.1" 200 504
+"GET /admin/auth/user/add/ HTTP/1.1" 200 11658
+"GET /static/admin/css/forms.css HTTP/1.1" 304 0
+"GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+"GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+"POST /admin/auth/user/add/ HTTP/1.1" 200 11948
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"POST /admin/auth/user/add/ HTTP/1.1" 200 11832
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"POST /admin/auth/user/add/ HTTP/1.1" 200 11832
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+Not Found: /admin/public
+"GET /admin/public HTTP/1.1" 404 5053
+Not Found: /public
+"GET /public HTTP/1.1" 404 10802
+Not Found: /login
+"GET /login HTTP/1.1" 404 10798
+Not Found: /staff
+"GET /staff HTTP/1.1" 404 10798
+"GET / HTTP/1.1" 200 29679
+"GET /human-resources/add/ HTTP/1.1" 200 25483
+"GET /human-resources/ HTTP/1.1" 200 21886
+"GET /services/add/ HTTP/1.1" 200 23318
+Not Found: /landing
+"GET /landing HTTP/1.1" 404 10806
+"GET /admin/ HTTP/1.1" 200 7762
+"GET /admin/auth/user/ HTTP/1.1" 200 12079
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /admin/auth/user/add/ HTTP/1.1" 200 11658
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+Not Found: /a
+"GET /a HTTP/1.1" 404 10782
+"GET / HTTP/1.1" 200 29679
+"GET /facilities/ HTTP/1.1" 200 23574
+"GET /services/ HTTP/1.1" 200 21952
+"GET /human-resources/ HTTP/1.1" 200 21886
+"GET /infrastructure/ HTTP/1.1" 200 24103
+Watching for file changes with StatReloader

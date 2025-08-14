@@ -55,3 +55,18 @@ Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancien
 "GET /infrastructure/ HTTP/1.1" 200 24103
 "GET /human-resources/ HTTP/1.1" 200 21886
 "GET / HTTP/1.1" 200 29679
+"GET /admin/ HTTP/1.1" 200 7764
+"GET /services/ HTTP/1.1" 200 21952
+"GET /human-resources/ HTTP/1.1" 200 21886
+"GET /infrastructure/ HTTP/1.1" 200 24103
+"GET /services/ HTTP/1.1" 200 21952
+"GET /facilities/ HTTP/1.1" 200 23574
+"GET / HTTP/1.1" 200 29679
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
+"GET /help/ HTTP/1.1" 200 4805
+C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\dev.py changed, reloading.

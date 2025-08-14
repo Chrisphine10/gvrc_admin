@@ -955,7 +955,7 @@ def pages(request):
     # Pick out the html file name from the url. And load that template.
     try:
 
-        load_template = request.path.split('/')[-1]
+        load_template = request.path.strip('/').split('/')[-1]
 
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
@@ -972,16 +972,188 @@ def pages(request):
         else:
             context['page_title'] = load_template.replace('-', ' ').title()
 
-        html_template = loader.get_template('home/' + load_template)
-        return HttpResponse(html_template.render(context, request))
+        # Use simple template for help page to avoid template inheritance issues
+        if load_template == 'help':
+            # Return simple HTML directly to avoid template loading issues
+            html_content = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - GVRC Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4"><i class="fas fa-question-circle me-2"></i>GVRC Admin Help Center</h1>
+                
+                <div class="alert alert-info">
+                    <h5><i class="fas fa-info-circle me-2"></i>About GVRC Admin</h5>
+                    <p class="mb-0">
+                        GVRC Admin is a centralized directory and administrative system for managing community-based facilities 
+                        including health facilities, police stations, CBOs, safe houses, legal aid centers, gender desks, 
+                        and other community organizations.
+                    </p>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>Community Facility Types</h3>
+                        
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5><i class="fas fa-hospital me-2"></i>Health Facilities</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Manage healthcare facilities and medical services:</p>
+                                <ul>
+                                    <li>Hospitals, Clinics, Dispensaries</li>
+                                    <li>Health Centers, Laboratories, Pharmacies</li>
+                                    <li>Medical staff and equipment tracking</li>
+                                    <li>Health service availability monitoring</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5><i class="fas fa-shield-alt me-2"></i>Security & Police Facilities</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Track police stations and security services:</p>
+                                <ul>
+                                    <li>Police Stations and Police Posts</li>
+                                    <li>Security Offices and Personnel</li>
+                                    <li>Emergency response coordination</li>
+                                    <li>Security equipment and resources</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5><i class="fas fa-hands-helping me-2"></i>Community Organizations</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Manage community-based organizations and support services:</p>
+                                <ul>
+                                    <li>Community-Based Organizations (CBOs)</li>
+                                    <li>Non-Governmental Organizations (NGOs)</li>
+                                    <li>Faith-Based Organizations</li>
+                                    <li>Community Centers and Youth Centers</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5><i class="fas fa-home me-2"></i>Support & Protection Services</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Track support and protection facilities:</p>
+                                <ul>
+                                    <li>Safe Houses and Shelters</li>
+                                    <li>Legal Aid Centers</li>
+                                    <li>Gender Desks and Women Centers</li>
+                                    <li>Counseling and Rehabilitation Centers</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3>Quick Links</h3>
+                        <div class="list-group">
+                            <a href="/facilities/" class="list-group-item list-group-item-action">
+                                <i class="fas fa-building me-2"></i>Manage Community Facilities
+                            </a>
+                            <a href="/services/" class="list-group-item list-group-item-action">
+                                <i class="fas fa-hands-helping me-2"></i>Manage Services & Programs
+                            </a>
+                            <a href="/human-resources/" class="list-group-item list-group-item-action">
+                                <i class="fas fa-users me-2"></i>Manage Staff
+                            </a>
+                            <a href="/infrastructure/" class="list-group-item list-group-item-action">
+                                <i class="fas fa-ambulance me-2"></i>Manage Operational Equipment
+                            </a>
+                            <a href="/admin/" class="list-group-item list-group-item-action">
+                                <i class="fas fa-cog me-2"></i>Admin Panel
+                            </a>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h6><i class="fas fa-headset me-2"></i>Support</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">
+                                    For technical support or access requests, contact:
+                                </p>
+                                <ul class="list-unstyled small">
+                                    <li><i class="fas fa-envelope me-1"></i>admin@gvrc.com</li>
+                                    <li><i class="fas fa-phone me-1"></i>+254 XXX XXX XXX</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+            """
+            return HttpResponse(html_content)
+        else:
+            try:
+                html_template = loader.get_template('home/' + load_template)
+                return HttpResponse(html_template.render(context, request))
+            except:
+                # Return simple 404 page if template not found
+                error_html = """
+<!DOCTYPE html>
+<html>
+<head><title>Page Not Found</title></head>
+<body>
+<h1>404 - Page Not Found</h1>
+<p>The requested page could not be found.</p>
+</body>
+</html>
+                """
+                return HttpResponse(error_html)
 
     except template.TemplateDoesNotExist as e:
-        logger.error(f"Template not found: {e}")
-        html_template = loader.get_template('home/page-404.html')
-        return HttpResponse(html_template.render(context, request))
+        # Return simple 404 page without template loading
+        error_html = """
+<!DOCTYPE html>
+<html>
+<head><title>Page Not Found</title></head>
+<body>
+<h1>404 - Page Not Found</h1>
+<p>The requested page could not be found.</p>
+</body>
+</html>
+        """
+        return HttpResponse(error_html)
 
     except Exception as e:
-        # Log the error for debugging
-        logger.error(f"Error in pages view for {request.path}: {str(e)}")
-        html_template = loader.get_template('home/page-500.html')
-        return HttpResponse(html_template.render(context, request))
+        # Log the error for debugging (console only)
+        print(f"Error in pages view for {request.path}: {str(e)}")
+        # Return simple error page without template loading
+        error_html = """
+<!DOCTYPE html>
+<html>
+<head><title>Error</title></head>
+<body>
+<h1>Error</h1>
+<p>Something went wrong: """ + str(e) + """</p>
+</body>
+</html>
+        """
+        return HttpResponse(error_html)

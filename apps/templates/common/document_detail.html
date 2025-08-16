@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Document: {{ document.title }} {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">{{ document.title }}</h6>
+            <a href="{% url 'document_list' %}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p class="text-sm mb-1"><strong>Facility:</strong> {{ document.facility.facility_name|default:'-' }}</p>
+                <p class="text-sm mb-1"><strong>Type:</strong> {{ document.document_type.type_name }}</p>
+                <p class="text-sm mb-1"><strong>GBV Category:</strong> {{ document.gbv_category.category_name }}</p>
+                <p class="text-sm mb-1"><strong>Uploaded By:</strong> {{ document.uploaded_by.full_name }}</p>
+                <p class="text-sm mb-3"><strong>Uploaded At:</strong> {{ document.uploaded_at }}</p>
+              </div>
+              <div class="col-md-6">
+                <p class="text-sm"><strong>Description:</strong></p>
+                <p class="text-sm">{{ document.description|default:'-' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

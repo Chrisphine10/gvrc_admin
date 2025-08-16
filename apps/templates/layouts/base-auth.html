@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <title>
+    GVRC Admin - {% block title %} Healthcare Facility Management {% endblock %}
+  </title>
+
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+  
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+  <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+  
+  <!-- Argon CSS -->
+  <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+  
+  <!-- Custom GVRC Auth CSS -->
+  <link rel="stylesheet" href="/static/assets/css/gvrc-auth.css" type="text/css">
+
+  <!-- Specific CSS goes HERE -->
+  {% block stylesheets %}{% endblock stylesheets %}
+</head>
+
+<body class="gvrc-auth-bg">
+  <div class="main-content">
+    
+    <!-- Simple Navigation for Auth Pages -->
+    <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
+      <div class="container px-4">
+        <a class="navbar-brand" href="/">
+          <div class="d-flex align-items-center">
+            <div class="gvrc-logo me-3">
+              <i class="fas fa-heartbeat" style="font-size: 1.5rem; color: var(--gvrc-primary);"></i>
+            </div>
+            <div>
+              <span class="text-white font-weight-bold" style="font-size: 1.25rem;">GVRC Admin</span>
+              <div class="text-white-50" style="font-size: 0.75rem;">Healthcare Management System</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Page content -->
+    {% block content %}{% endblock content %}
+
+    <!-- Simple Footer -->
+    <footer class="py-4">
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-6 text-center">
+            <div class="copyright text-muted">
+              <span class="text-white-50">&copy; {{ current_year|default:"2024" }} GVRC Admin. Healthcare Facility Management System.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+    
+  <!-- Core JS -->
+  <script src="/static/assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="/static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Specific JS goes HERE --> 
+  {% block javascripts %}{% endblock javascripts %}
+  
+  <!-- Custom GVRC JS -->
+  <script>
+    // Add form animation classes
+    document.addEventListener('DOMContentLoaded', function() {
+      const formElements = document.querySelectorAll('.gvrc-form-group');
+      formElements.forEach((element, index) => {
+        setTimeout(() => {
+          element.classList.add('gvrc-form-fade-in');
+        }, index * 100);
+      });
+    });
+  </script>
+
+</body>
+</html>

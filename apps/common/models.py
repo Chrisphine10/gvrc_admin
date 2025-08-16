@@ -9,7 +9,24 @@ from django.utils import timezone
 class TimeStampedModel(models.Model):
     """Abstract base class with created_at and modified_at fields"""
     created_at = models.DateTimeField(default=timezone.now)
-    modified_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class UserTrackedModel(TimeStampedModel):
+    """Abstract base class with user tracking fields"""
+    created_by = models.IntegerField(null=True, blank=True)
+    updated_by = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class ActiveStatusModel(UserTrackedModel):
+    """Abstract base class with active status and user tracking"""
+    active_status = models.BooleanField(default=True)
 
     class Meta:
         abstract = True

@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Geography Overview {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4"><div class="card-body text-center"><h6>Counties</h6><h3 class="mb-0">{{ counties|length }}</h3></div></div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-4"><div class="card-body text-center"><h6>Constituencies</h6><h3 class="mb-0">{{ total_constituencies }}</h3></div></div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-4"><div class="card-body text-center"><h6>Wards</h6><h3 class="mb-0">{{ total_wards }}</h3></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header pb-0"><h6>Counties</h6></div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead><tr><th>County</th><th class="text-center">Constituencies</th><th class="text-center">Wards</th><th class="text-end">Actions</th></tr></thead>
+            <tbody>
+              {% for c in counties %}
+                <tr>
+                  <td class="text-sm">{{ c.county_name }}</td>
+                  <td class="text-sm text-center">{{ c.constituency_count }}</td>
+                  <td class="text-sm text-center">{{ c.ward_count }}</td>
+                  <td class="text-sm text-end"><a href="{% url 'county_detail' c.county_id %}" class="text-secondary">View</a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

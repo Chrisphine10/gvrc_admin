@@ -1,0 +1,113 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Lookup Tables {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Operational Status</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <tbody>
+                {% for s in operational_statuses %}
+                  <tr><td class="text-sm">{{ s.status_name }}</td></tr>
+                {% empty %}
+                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Contact Types</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <tbody>
+                {% for c in contact_types %}
+                  <tr><td class="text-sm">{{ c.type_name }}</td></tr>
+                {% empty %}
+                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Service Categories</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <tbody>
+                {% for sc in service_categories %}
+                  <tr><td class="text-sm">{{ sc.category_name }}</td></tr>
+                {% empty %}
+                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Owner Types</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <tbody>
+                {% for o in owner_types %}
+                  <tr><td class="text-sm">{{ o.owner_name }}</td></tr>
+                {% empty %}
+                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>GBV Categories</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <tbody>
+                {% for g in gbv_categories %}
+                  <tr><td class="text-sm">{{ g.category_name }}</td></tr>
+                {% empty %}
+                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Document Types</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <tbody>
+                {% for d in document_types %}
+                  <tr><td class="text-sm">{{ d.type_name }}</td></tr>
+                {% empty %}
+                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

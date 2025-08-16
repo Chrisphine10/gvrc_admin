@@ -9,9 +9,9 @@ from dotenv import load_dotenv
 
 # Import legacy helpers for backward compatibility
 try:
-    from apps.common.utils import *
-except ImportError:
     from helpers.util import *
+except ImportError:
+    pass
 
 load_dotenv()
 
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Third party apps
     "rest_framework",
+    "rest_framework.authtoken",
     "drf_yasg",
     # Local apps
     "apps.home",
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "apps.authentication.middleware.CustomAuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -109,14 +111,22 @@ STATICFILES_DIRS = (
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/login/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Custom authentication settings
+AUTHENTICATION_BACKENDS = [
+    'apps.authentication.backends.CustomUserBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Keep as fallback
+]
 
 # Django REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        'apps.authentication.backends.CustomTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -125,13 +135,19 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
-# Swagger settings
+# Swagger settings (keep minimal and valid for drf-yasg)
 SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': True,
+    'LOGIN_URL': '/login/',
+    'LOGOUT_URL': '/logout/',
     'SECURITY_DEFINITIONS': {
         'Token': {
             'type': 'apiKey',
             'name': 'Authorization',
-            'in': 'header'
-        }
-    }
+            'in': 'header',
+            'description': 'Token authentication for mobile apps. Format: Token <your_token>'
+        },
+    },
+    'DOC_EXPANSION': 'none',
+    'PERSIST_AUTH': True,
 }

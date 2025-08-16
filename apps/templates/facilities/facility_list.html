@@ -1,0 +1,309 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Community Facilities {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Statistics Cards -->
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Facilities</p>
+                  <h5 class="font-weight-bolder mb-0">{{ facilities.count }}</h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Operational</p>
+                  <h5 class="font-weight-bolder mb-0">{{ operational_facilities_count }}</h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                  <i class="ni ni-check-bold text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Counties Covered</p>
+                  <h5 class="font-weight-bolder mb-0">{{ counties_count }}</h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                  <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Wards Covered</p>
+                  <h5 class="font-weight-bolder mb-0">{{ wards_count }}</h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md">
+                  <i class="ni ni-pin-3 text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <h6>Search & Filter Facilities</h6>
+          </div>
+          <div class="card-body">
+            <form method="get" class="row g-3">
+              <div class="col-md-4">
+                <label for="search" class="form-label text-sm">Search Facilities</label>
+                <input type="text" class="form-control" id="search" name="search" 
+                       value="{{ search_query }}" placeholder="Name, registration, location...">
+              </div>
+              <div class="col-md-3">
+                <label for="county" class="form-label text-sm">County</label>
+                <select class="form-control" id="county" name="county">
+                  <option value="">All Counties</option>
+                  {% for county in counties %}
+                  <option value="{{ county.county_id }}" 
+                          {% if county.county_id|stringformat:"s" == selected_county %}selected{% endif %}>
+                    {{ county.county_name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label for="status" class="form-label text-sm">Operational Status</label>
+                <select class="form-control" id="status" name="status">
+                  <option value="">All Statuses</option>
+                  {% for status in operational_statuses %}
+                  <option value="{{ status.operational_status_id }}" 
+                          {% if status.operational_status_id|stringformat:"s" == selected_status %}selected{% endif %}>
+                    {{ status.status_name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary btn-sm me-2">
+                  <i class="fas fa-search"></i> Search
+                </button>
+                <a href="{% url 'facilities:facility_list' %}" class="btn btn-outline-secondary btn-sm">
+                  <i class="fas fa-times"></i> Clear
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Facilities List -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <div class="row">
+              <div class="col-6">
+                <h6>Community Facilities
+                  {% if search_query %}
+                    <small class="text-secondary">- Search results for "{{ search_query }}"</small>
+                  {% endif %}
+                </h6>
+              </div>
+              <div class="col-6 text-end">
+                <a href="{% url 'facilities:facility_map' %}" class="btn btn-info btn-sm me-2">
+                  <i class="ni ni-pin-3"></i> Map View
+                </a>
+                <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary btn-sm">
+                  <i class="fas fa-plus"></i> Add Facility
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Facility Details</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Location</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Services</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Contacts</th>
+                    <th class="text-secondary opacity-7">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for facility in facilities %}
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">
+                            <a href="{% url 'facilities:facility_detail' facility.facility_id %}" 
+                               class="text-dark font-weight-bold">
+                              {{ facility.facility_name }}
+                            </a>
+                          </h6>
+                          <p class="text-xs text-secondary mb-0">
+                            Reg: {{ facility.registration_number }}
+                          </p>
+                          {% if facility.facilitygbvcategory_set.exists %}
+                          <div class="mt-1">
+                            {% for gbv_cat in facility.facilitygbvcategory_set.all|slice:":2" %}
+                            <span class="badge badge-sm bg-gradient-danger me-1">
+                              {{ gbv_cat.gbv_category.category_name }}
+                            </span>
+                            {% endfor %}
+                            {% if facility.facilitygbvcategory_set.count > 2 %}
+                            <span class="text-xs text-secondary">+{{ facility.facilitygbvcategory_set.count|add:"-2" }} more</span>
+                            {% endif %}
+                          </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      {% if facility.operational_status %}
+                      <span class="badge badge-sm 
+                        {% if facility.operational_status.status_name == 'Operational' %}bg-gradient-success
+                        {% elif facility.operational_status.status_name == 'Under Construction' %}bg-gradient-warning
+                        {% else %}bg-gradient-secondary
+                        {% endif %}">
+                        {{ facility.operational_status.status_name }}
+                      </span>
+                      {% else %}
+                      <span class="text-xs text-secondary">-</span>
+                      {% endif %}
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      {% if facility.ward %}
+                      <div class="d-flex flex-column align-items-center">
+                        <a href="{% url 'common:county_detail' facility.ward.constituency.county.county_id %}" 
+                           class="badge badge-sm bg-gradient-info text-decoration-none mb-1">
+                          {{ facility.ward.constituency.county.county_name }}
+                        </a>
+                        <span class="text-xs text-secondary">{{ facility.ward.ward_name }}</span>
+                      </div>
+                      {% else %}
+                      <span class="text-xs text-secondary">-</span>
+                      {% endif %}
+                    </td>
+                    <td class="align-middle text-center">
+                      {% if facility.facilityservice_set.exists %}
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="text-xs font-weight-bold text-success">
+                          {{ facility.facilityservice_set.count }} Service{{ facility.facilityservice_set.count|pluralize }}
+                        </span>
+                        <small class="text-xs text-secondary">
+                          {% for service in facility.facilityservice_set.all|slice:":2" %}
+                            {{ service.service_category.category_name }}{% if not forloop.last %}, {% endif %}
+                          {% endfor %}
+                          {% if facility.facilityservice_set.count > 2 %}...{% endif %}
+                        </small>
+                      </div>
+                      {% else %}
+                      <span class="text-xs text-secondary">No services</span>
+                      {% endif %}
+                    </td>
+                    <td class="align-middle text-center">
+                      {% if facility.facilitycontact_set.exists %}
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="text-xs font-weight-bold text-info">
+                          {{ facility.facilitycontact_set.count }} Contact{{ facility.facilitycontact_set.count|pluralize }}
+                        </span>
+                        {% for contact in facility.facilitycontact_set.all|slice:":1" %}
+                        <small class="text-xs text-secondary">
+                          {{ contact.contact_type.type_name }}: {{ contact.contact_value|truncatechars:15 }}
+                        </small>
+                        {% endfor %}
+                      </div>
+                      {% else %}
+                      <span class="text-xs text-secondary">No contacts</span>
+                      {% endif %}
+                    </td>
+                    <td class="align-middle">
+                      <div class="d-flex align-items-center">
+                        <a href="{% url 'facilities:facility_detail' facility.facility_id %}" 
+                           class="btn btn-outline-primary btn-sm me-1" title="View Details">
+                          <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-secondary btn-sm me-1" title="Edit">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        {% if facility.facilitycoordinate_set.exists %}
+                        <a href="{% url 'facilities:facility_map' %}?facility={{ facility.facility_id }}" 
+                           class="btn btn-outline-info btn-sm" title="View on Map">
+                          <i class="ni ni-pin-3"></i>
+                        </a>
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="6" class="text-center py-4">
+                      <div class="d-flex flex-column align-items-center">
+                        <i class="ni ni-building text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-secondary mt-2 mb-0">No facilities found.</p>
+                        {% if search_query or selected_county or selected_status %}
+                        <small class="text-secondary">Try adjusting your filters or search terms.</small>
+                        {% else %}
+                        <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary btn-sm mt-2">
+                          <i class="fas fa-plus"></i> Add First Facility
+                        </a>
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

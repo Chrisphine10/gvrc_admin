@@ -12,14 +12,18 @@ urlpatterns = [
     path('', views.index, name='home'),
 
     # Main resource pages
-    path('facilities/', views.community_facilities, name='facilities'),
-    path('facilities/add/', views.add_facility, name='add_facility'),
+    # NOTE: facilities/ URLs are handled by apps.facilities.urls
+    # path('facilities/', views.community_facilities, name='facilities'),
+    # path('facilities/add/', views.add_facility, name='add_facility'),
     path('services/', views.services_programs, name='services'),
     path('services/add/', views.add_service, name='add_service'),
     path('human-resources/', views.human_resources, name='human_resources'),
     path('human-resources/add/', views.add_staff, name='add_staff'),
-    path('infrastructure/', views.infrastructure, name='infrastructure'),
-    path('infrastructure/add/', views.add_equipment, name='add_equipment'),
+    path('documents/', views.documents, name='documents'),
+    path('documents/add/', views.add_document, name='add_document'),
+    path('documents/<int:document_id>/', views.document_detail, name='document_detail'),
+    path('documents/<int:document_id>/edit/', views.document_update, name='document_update'),
+    path('documents/<int:document_id>/delete/', views.document_delete, name='document_delete'),
 
     # Specific pages that should be handled by home app
     path('profile/', views.pages, name='profile'),

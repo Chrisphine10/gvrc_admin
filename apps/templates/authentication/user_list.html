@@ -1,0 +1,73 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Users {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <div class="row align-items-center">
+              <div class="col-md-6"><h6>Active Users ({{ active_users_count }})</h6></div>
+              <div class="col-md-6 text-end">
+                <span class="text-sm text-muted">With facilities: {{ users_with_facilities }} | Active sessions: {{ total_sessions }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body pt-3 pb-0">
+            <form method="get" class="row g-2 align-items-end">
+              <div class="col-md-6">
+                <label class="form-label text-xs mb-1">Search</label>
+                <input type="text" name="search" value="{{ search_query }}" class="form-control" placeholder="Name, email or phone" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-xs mb-1">Facility</label>
+                <select name="facility" class="form-select">
+                  <option value="">All facilities</option>
+                  {% for f in facilities %}
+                    <option value="{{ f.facility_id }}" {% if selected_facility == f.facility_id|stringformat:'s' %}selected{% endif %}>{{ f.facility_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-2 text-end">
+                <button class="btn btn-primary">Filter</button>
+              </div>
+            </form>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Facility</th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for u in users %}
+                  <tr>
+                    <td><h6 class="mb-0 text-sm">{{ u.full_name }}</h6></td>
+                    <td><p class="text-xs text-secondary mb-0">{{ u.email }}</p></td>
+                    <td class="align-middle text-center"><span class="text-secondary text-xs">{{ u.phone_number }}</span></td>
+                    <td class="align-middle text-center"><span class="text-secondary text-xs">{{ u.facility.facility_name|default:'-' }}</span></td>
+                    <td class="align-middle text-end">
+                      <a href="{% url 'user_detail' u.user_id %}" class="text-secondary font-weight-bold text-xs">View</a>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr><td colspan="5" class="text-center py-4 text-secondary">No users found.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

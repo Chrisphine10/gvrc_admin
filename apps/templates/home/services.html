@@ -1,220 +1,415 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
-{% block title %}Services & Programs - GVRC Admin{% endblock %}
+{% block title %} Services & Programs {% endblock title %}
 
 {% block content %}
-<div class="header bg-success pb-6">
-  <div class="container-fluid">
-    <div class="header-body">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0">Services & Programs</h6>
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-              <li class="breadcrumb-item active" aria-current="page">Services & Programs</li>
-            </ol>
-          </nav>
-        </div>
-        <div class="col-lg-6 col-5 text-right">
-          <a href="/services/add/" class="btn btn-sm btn-neutral">
-            <i class="fas fa-plus"></i> Add Service
-          </a>
-          <a href="/admin/facilities/facility_services/" class="btn btn-sm btn-neutral">
-            <i class="fas fa-cog"></i> Admin Panel
-          </a>
-        </div>
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Services & Programs</li>
+          </ol>
+        </nav>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Page content -->
-<div class="container-fluid mt--6">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <!-- Card header -->
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Services & Programs Directory</h3>
-              <p class="text-sm text-muted mb-0">
-                Total: {{ total_count }} services found
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Search and Filters -->
-        <div class="card-header border-0 bg-light">
-          <form method="get" class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-control-label">Search</label>
-                <input type="text" name="search" class="form-control" placeholder="Search services..." value="{{ search }}">
+    <!-- Statistics Cards -->
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Services</p>
+                  <h5 class="font-weight-bolder mb-0">{{ total_services }}</h5>
+                </div>
               </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label class="form-control-label">Service Category</label>
-                <select name="category" class="form-control">
-                  <option value="">All Categories</option>
-                  {% for value, label in service_categories %}
-                  <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label class="form-control-label">Facility</label>
-                <select name="facility_name" class="form-control">
-                  <option value="">All Facilities</option>
-                  {% for facility in facilities %}
-                  <option value="{{ facility.name }}" {% if facility.name == selected_facility_name %}selected{% endif %}>{{ facility.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label class="form-control-label">&nbsp;</label>
-                <div>
-                  <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fas fa-search"></i> Search
-                  </button>
-                  <a href="/services/" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-times"></i> Clear
-                  </a>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                  <i class="ni ni-settings-gear-65 text-lg opacity-10" aria-hidden="true"></i>
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
-
-        <!-- Light table -->
-        <div class="table-responsive">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col" class="sort" data-sort="service">Service Name</th>
-                <th scope="col" class="sort" data-sort="facility">Facility</th>
-                <th scope="col" class="sort" data-sort="category">Category</th>
-                <th scope="col" class="sort" data-sort="description">Description</th>
-                <th scope="col" class="sort" data-sort="status">Status</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="list">
-              {% for service in page_obj %}
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="name mb-0 text-sm">{{ service.service_name }}</span>
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  <div class="text-sm">
-                    <div><strong>{{ service.facility.name }}</strong></div>
-                    <div class="text-muted">{{ service.facility.get_facility_type_display }}</div>
-                  </div>
-                </td>
-                <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-success"></i>
-                    <span class="status">{{ service.get_category_display }}</span>
-                  </span>
-                </td>
-                <td>
-                  <div class="text-sm">
-                    {% if service.description %}
-                    {{ service.description|truncatewords:10 }}
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Service Categories</p>
+                  <h5 class="font-weight-bolder mb-0">{{ total_categories }}</h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                  <i class="ni ni-bullet-list-67 text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Active Facilities</p>
+                  <h5 class="font-weight-bolder mb-0">{{ total_facilities_with_services }}</h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                  <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6">
+        <div class="card">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Avg per Facility</p>
+                  <h5 class="font-weight-bolder mb-0">
+                    {% if total_facilities_with_services > 0 %}
+                      {% widthratio total_services total_facilities_with_services 1 %}
                     {% else %}
-                    <span class="text-muted">No description available</span>
+                      0
                     {% endif %}
-                  </div>
-                </td>
-                <td>
-                  {% if service.is_available %}
-                  <span class="badge badge-success">Available</span>
-                  {% else %}
-                  <span class="badge badge-warning">Unavailable</span>
-                  {% endif %}
-                </td>
-                <td class="text-right">
-                  <div class="dropdown">
-                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="/admin/facilities/facility_services/{{ service.id }}/change/">
-                        <i class="fas fa-edit"></i> Edit
-                      </a>
-                      <a class="dropdown-item" href="/admin/facilities/facility_services/{{ service.id }}/">
-                        <i class="fas fa-eye"></i> View Details
-                      </a>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md">
+                  <i class="ni ni-chart-bar-32 text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <h6>Search & Filter Services</h6>
+          </div>
+          <div class="card-body">
+            <form method="get" class="row g-3">
+              <div class="col-md-4">
+                <label for="search" class="form-label text-sm">Search Services</label>
+                <input type="text" class="form-control" id="search" name="search" 
+                       value="{{ search }}" placeholder="Service name, description, facility...">
+              </div>
+              <div class="col-md-3">
+                <label for="category" class="form-label text-sm">Service Category</label>
+                <select class="form-control" id="category" name="category">
+                  <option value="">All Categories</option>
+                  {% for category in service_categories %}
+                  <option value="{{ category.service_category_id }}" 
+                          {% if category.service_category_id|stringformat:"s" == selected_category %}selected{% endif %}>
+                    {{ category.category_name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label for="facility" class="form-label text-sm">Facility</label>
+                <select class="form-control" id="facility" name="facility">
+                  <option value="">All Facilities</option>
+                  {% for facility in facilities_with_services %}
+                  <option value="{{ facility.facility_id }}" 
+                          {% if facility.facility_id|stringformat:"s" == selected_facility %}selected{% endif %}>
+                    {{ facility.facility_name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary btn-sm me-2">
+                  <i class="fas fa-search"></i> Search
+                </button>
+                <a href="{% url 'services' %}" class="btn btn-outline-secondary btn-sm">
+                  <i class="fas fa-times"></i> Clear
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services by Category Overview -->
+    {% if services_by_category %}
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <h6><i class="ni ni-bullet-list-67 text-primary me-2"></i>Services by Category</h6>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              {% for category_name, category_data in services_by_category.items %}
+              <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card border">
+                  <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h6 class="mb-0">{{ category_name }}</h6>
+                      <span class="badge badge-sm bg-gradient-primary">{{ category_data.service_count }}</span>
                     </div>
                   </div>
-                </td>
-              </tr>
-              {% empty %}
-              <tr>
-                <td colspan="6" class="text-center py-4">
-                  <div class="text-muted">
-                    <i class="fas fa-search fa-2x mb-3"></i>
-                    <p>No services found matching your criteria.</p>
-                    <a href="/services/" class="btn btn-sm btn-success">Clear Filters</a>
+                  <div class="card-body p-3">
+                    <div class="text-center">
+                      <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md mx-auto mb-2" style="width: 40px; height: 40px;">
+                        <i class="ni ni-settings-gear-65 text-white text-sm opacity-10"></i>
+                      </div>
+                      <p class="text-sm text-secondary mb-2">
+                        {{ category_data.service_count }} service{{ category_data.service_count|pluralize }} 
+                        from {{ category_data.facility_count }} facilit{{ category_data.facility_count|pluralize:"y,ies" }}
+                      </p>
+                      <button class="btn btn-outline-primary btn-sm" onclick="filterByCategory('{{ category_data.service_category_id }}')">
+                        View All
+                      </button>
+                    </div>
                   </div>
-                </td>
-              </tr>
+                </div>
+              </div>
               {% endfor %}
-            </tbody>
-          </table>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+    {% endif %}
 
-        <!-- Pagination -->
-        {% if page_obj.has_other_pages %}
-        <div class="card-footer py-4">
-          <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end mb-0">
-              {% if page_obj.has_previous %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility_name %}&facility_name={{ selected_facility_name }}{% endif %}">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Previous</span>
+    <!-- Services List -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <div class="row">
+              <div class="col-6">
+                <h6>Services & Programs
+                  {% if search %}
+                    <small class="text-secondary">- Search results for "{{ search }}"</small>
+                  {% endif %}
+                </h6>
+              </div>
+              <div class="col-6 text-end">
+                <a href="{% url 'add_service' %}" class="btn btn-primary btn-sm">
+                  <i class="fas fa-plus"></i> Add Service
                 </a>
-              </li>
-              {% endif %}
-
-              {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                <li class="page-item active">
-                  <span class="page-link">{{ num }}</span>
-                </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility_name %}&facility_name={{ selected_facility_name }}{% endif %}">{{ num }}</a>
-                </li>
-                {% endif %}
-              {% endfor %}
-
-              {% if page_obj.has_next %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility_name %}&facility_name={{ selected_facility_name }}{% endif %}">
-                  <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-              {% endif %}
-            </ul>
-          </nav>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Service Details</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Facility</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Location</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">GBV Focus</th>
+                    <th class="text-secondary opacity-7">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for service in page_obj %}
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">
+                            {% if service.service_category %}
+                              {{ service.service_category.category_name }}
+                            {% else %}
+                              Service
+                            {% endif %}
+                          </h6>
+                          {% if service.service_description %}
+                          <p class="text-xs text-secondary mb-0">
+                            {{ service.service_description|truncatechars:80 }}
+                          </p>
+                          {% else %}
+                          <p class="text-xs text-muted mb-0">No description provided</p>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      {% if service.service_category %}
+                      <span class="badge badge-sm bg-gradient-info">
+                        {{ service.service_category.category_name }}
+                      </span>
+                      {% else %}
+                      <span class="text-xs text-secondary">-</span>
+                      {% endif %}
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <div class="d-flex flex-column align-items-center">
+                        <a href="{% url 'facilities:facility_detail' service.facility.facility_id %}" 
+                           class="text-dark font-weight-bold text-decoration-none mb-1">
+                          {{ service.facility.facility_name|truncatechars:25 }}
+                        </a>
+                        {% if service.facility.operational_status %}
+                        <span class="badge badge-xs 
+                          {% if service.facility.operational_status.status_name == 'Operational' %}bg-gradient-success
+                          {% elif service.facility.operational_status.status_name == 'Under Construction' %}bg-gradient-warning
+                          {% else %}bg-gradient-secondary
+                          {% endif %}">
+                          {{ service.facility.operational_status.status_name }}
+                        </span>
+                        {% endif %}
+                      </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      {% if service.facility.ward %}
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="badge badge-sm bg-gradient-secondary mb-1">
+                          {{ service.facility.ward.constituency.county.county_name }}
+                        </span>
+                        <span class="text-xs text-secondary">{{ service.facility.ward.ward_name }}</span>
+                      </div>
+                      {% else %}
+                      <span class="text-xs text-secondary">-</span>
+                      {% endif %}
+                    </td>
+                    <td class="align-middle text-center">
+                      {% if service.facility.facilitygbvcategory_set.exists %}
+                      <div class="d-flex flex-column align-items-center">
+                        {% for gbv_cat in service.facility.facilitygbvcategory_set.all|slice:":2" %}
+                        <span class="badge badge-xs bg-gradient-danger mb-1">
+                          {{ gbv_cat.gbv_category.category_name }}
+                        </span>
+                        {% endfor %}
+                        {% if service.facility.facilitygbvcategory_set.count > 2 %}
+                        <span class="text-xs text-secondary">+{{ service.facility.facilitygbvcategory_set.count|add:"-2" }}</span>
+                        {% endif %}
+                      </div>
+                      {% else %}
+                      <span class="text-xs text-secondary">None</span>
+                      {% endif %}
+                    </td>
+                    <td class="align-middle">
+                      <div class="d-flex align-items-center">
+                        <a href="{% url 'facilities:facility_detail' service.facility.facility_id %}" 
+                           class="btn btn-outline-primary btn-sm me-1" title="View Facility">
+                          <i class="fas fa-building"></i>
+                        </a>
+                        {% if service.facility.facilitycontact_set.exists %}
+                        <div class="dropdown">
+                          <button class="btn btn-outline-info btn-sm dropdown-toggle me-1" type="button" 
+                                  data-bs-toggle="dropdown" title="Contact Info">
+                            <i class="fas fa-phone"></i>
+                          </button>
+                          <ul class="dropdown-menu">
+                            {% for contact in service.facility.facilitycontact_set.all|slice:":3" %}
+                            <li>
+                              <span class="dropdown-item-text">
+                                <strong>{{ contact.contact_type.type_name }}:</strong><br>
+                                {% if contact.contact_type.type_name == 'Phone' %}
+                                <a href="tel:{{ contact.contact_value }}">{{ contact.contact_value }}</a>
+                                {% elif contact.contact_type.type_name == 'Email' %}
+                                <a href="mailto:{{ contact.contact_value }}">{{ contact.contact_value }}</a>
+                                {% else %}
+                                {{ contact.contact_value }}
+                                {% endif %}
+                              </span>
+                            </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                        {% endif %}
+                        <a href="#" class="btn btn-outline-secondary btn-sm" title="Edit Service">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="6" class="text-center py-4">
+                      <div class="d-flex flex-column align-items-center">
+                        <i class="ni ni-settings-gear-65 text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-secondary mt-2 mb-0">No services found.</p>
+                        {% if search or selected_category or selected_facility %}
+                        <small class="text-secondary">Try adjusting your filters or search terms.</small>
+                        {% else %}
+                        <a href="{% url 'add_service' %}" class="btn btn-primary btn-sm mt-2">
+                          <i class="fas fa-plus"></i> Add First Service
+                        </a>
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="d-flex justify-content-center mt-4">
+              <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  {% if page_obj.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility %}&facility={{ selected_facility }}{% endif %}">Previous</a>
+                  </li>
+                  {% endif %}
+                  
+                  {% for num in page_obj.paginator.page_range %}
+                  {% if page_obj.number == num %}
+                  <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                  </li>
+                  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility %}&facility={{ selected_facility }}{% endif %}">{{ num }}</a>
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                  
+                  {% if page_obj.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility %}&facility={{ selected_facility }}{% endif %}">Next</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+            {% endif %}
+          </div>
         </div>
-        {% endif %}
       </div>
     </div>
   </div>
-</div>
-{% endblock %}
+
+  <!-- JavaScript for filtering -->
+  <script>
+    function filterByCategory(categoryId) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('category', categoryId);
+      window.location.href = url.toString();
+    }
+  </script>
+{% endblock content %}

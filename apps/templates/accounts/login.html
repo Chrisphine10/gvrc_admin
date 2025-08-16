@@ -1,80 +1,88 @@
-{% extends 'layouts/base-fullscreen.html' %}
+{% extends 'layouts/base-auth.html' %}
 
-{% block title %} Login {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block title %} Sign In {% endblock title %}
 
 {% block content %}
 
     <!-- Page content -->
-    <div class="container mt--8 pb-5">
-      <div class="row justify-content-center">
+    <div class="container" style="min-height: 80vh; display: flex; align-items: center;">
+      <div class="row justify-content-center w-100">
         <div class="col-lg-5 col-md-7">
-          <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5">
-              <div class="text-muted text-center mt-2 mb-3">
-                <strong>GVRC Admin - Sign IN</strong>
+          <div class="gvrc-auth-card">
+            <div class="card-header">
+              <div class="gvrc-logo-container">
+                <div class="gvrc-logo">
+                  <i class="fas fa-heartbeat gvrc-logo-icon"></i>
+                </div>
+                <h1 class="gvrc-brand-text">GVRC Admin</h1>
+                <p class="gvrc-brand-subtitle">Healthcare Facility Management</p>
               </div>
             </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
-
-                {% if msg %}
-                  <p class="text-danger">{{ msg }}</p>
-                {% else %}
-                  <p>
-                    Welcome back! Please sign in to your account
-                  </p>
-                {% endif %}  
-
-              </div>
+            <div class="card-body">
+              
+              {% if msg %}
+                <div class="gvrc-alert gvrc-alert-danger">
+                  {{ msg }}
+                </div>
+              {% else %}
+                <div class="text-center mb-4">
+                  <h3 class="text-dark mb-2">Welcome Back</h3>
+                  <p class="text-muted">Sign in to access your healthcare dashboard</p>
+                </div>
+              {% endif %}
 
               <form method="POST">
-
                 {% csrf_token %}
 
-                <div class="form-group mb-3">
-                  <div class="input-group input-group-alternative">
+                <div class="gvrc-form-group">
+                  <div class="gvrc-input-group input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                      <span class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                      </span>
                     </div>
-                    {{ form.username }}
+                    {{ form.email }}
                   </div>
-                  {% if form.username.errors %}
-                    <small class="text-danger">{{ form.username.errors.0 }}</small>
+                  {% if form.email.errors %}
+                    <small class="text-danger mt-1 d-block">{{ form.email.errors.0 }}</small>
                   {% endif %}
                 </div>
-                <div class="form-group">
-                  <div class="input-group input-group-alternative">
+
+                <div class="gvrc-form-group">
+                  <div class="gvrc-input-group input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      <span class="input-group-text">
+                        <i class="fas fa-lock"></i>
+                      </span>
                     </div>
                     {{ form.password }}
                   </div>
                   {% if form.password.errors %}
-                    <small class="text-danger">{{ form.password.errors.0 }}</small>
+                    <small class="text-danger mt-1 d-block">{{ form.password.errors.0 }}</small>
                   {% endif %}
                 </div>
-                <div class="custom-control custom-control-alternative custom-checkbox">
-                  <input class="custom-control-input" id="customCheckLogin" type="checkbox">
-                  <label class="custom-control-label" for="customCheckLogin">
-                    <span class="text-muted">Remember me</span>
-                  </label>
+
+                <div class="gvrc-checkbox">
+                  <input type="checkbox" id="rememberMe" name="remember_me">
+                  <label for="rememberMe">Keep me signed in</label>
                 </div>
+
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                  <button type="submit" class="gvrc-btn-primary w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard
+                  </button>
                 </div>
               </form>
             </div>
           </div>
-          <div class="row mt-3">
-            <div class="col-6">
-              <a href="{% url 'register' %}" class="text-light"><small>Create new account</small></a>
-            </div>
-            <div class="col-6 text-right">
-              <a href="{% url 'password_reset' %}" class="text-light"><small>Forgot Password?</small></a>
-            </div>
+          
+          <div class="gvrc-footer-links">
+            <a href="{% url 'register' %}">
+              <i class="fas fa-user-plus me-1"></i>Create Account
+            </a>
+            <a href="{% url 'password_reset' %}">
+              <i class="fas fa-key me-1"></i>Forgot Password?
+            </a>
           </div>
         </div>
       </div>

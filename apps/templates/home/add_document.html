@@ -1,0 +1,287 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}
+  {% if is_update %}Edit Document{% else %}Add Document{% endif %}
+{% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'documents' %}">Documents</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {% if is_update %}Edit Document{% else %}Add Document{% endif %}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <div class="row">
+              <div class="col-6">
+                <h6>
+                  {% if is_update %}
+                    <i class="ni ni-single-copy-04 text-primary me-2"></i>Edit Document
+                  {% else %}
+                    <i class="ni ni-single-copy-04 text-primary me-2"></i>Add New Document
+                  {% endif %}
+                </h6>
+              </div>
+              <div class="col-6 text-end">
+                <a href="{% url 'documents' %}" class="btn btn-outline-secondary btn-sm">
+                  <i class="fas fa-arrow-left"></i> Back to Documents
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Form -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <h6>Document Information</h6>
+          </div>
+          <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+              {% csrf_token %}
+              
+              <!-- Title Field -->
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <label for="title" class="form-label text-sm">
+                    Document Title <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" 
+                         class="form-control {% if form.errors.title %}is-invalid{% endif %}" 
+                         id="title" 
+                         name="title" 
+                         value="{% if document.title %}{{ document.title }}{% endif %}"
+                         placeholder="Enter document title"
+                         required>
+                  {% if form.errors.title %}
+                    <div class="invalid-feedback">{{ form.errors.title.0 }}</div>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- Description Field -->
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <label for="description" class="form-label text-sm">Description</label>
+                  <textarea class="form-control" 
+                            id="description" 
+                            name="description" 
+                            rows="3"
+                            placeholder="Enter document description (optional)">{% if document.description %}{{ document.description }}{% endif %}</textarea>
+                </div>
+              </div>
+
+              <!-- File URL Field -->
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <label for="file_url" class="form-label text-sm">
+                    File URL <span class="text-danger">*</span>
+                  </label>
+                  <input type="url" 
+                         class="form-control {% if form.errors.file_url %}is-invalid{% endif %}" 
+                         id="file_url" 
+                         name="file_url" 
+                         value="{% if document.file_url %}{{ document.file_url }}{% endif %}"
+                         placeholder="https://example.com/document.pdf"
+                         required>
+                  {% if form.errors.file_url %}
+                    <div class="invalid-feedback">{{ form.errors.file_url.0 }}</div>
+                  {% endif %}
+                  <small class="form-text text-muted">
+                    Enter the URL where the document file is hosted (PDF, Word, etc.)
+                  </small>
+                </div>
+              </div>
+
+              <!-- Document Type Field -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="document_type" class="form-label text-sm">
+                    Document Type <span class="text-danger">*</span>
+                  </label>
+                  <select class="form-control {% if form.errors.document_type %}is-invalid{% endif %}" 
+                          id="document_type" 
+                          name="document_type" 
+                          required>
+                    <option value="">Select Document Type</option>
+                    {% for doc_type in document_types %}
+                      <option value="{{ doc_type.document_type_id }}" 
+                              {% if document.document_type.document_type_id == doc_type.document_type_id %}selected{% endif %}>
+                        {{ doc_type.type_name }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                  {% if form.errors.document_type %}
+                    <div class="invalid-feedback">{{ form.errors.document_type.0 }}</div>
+                  {% endif %}
+                </div>
+
+                <!-- GBV Category Field -->
+                <div class="col-md-6">
+                  <label for="gbv_category" class="form-label text-sm">GBV Category</label>
+                  <select class="form-control" id="gbv_category" name="gbv_category">
+                    <option value="">Select GBV Category (Optional)</option>
+                    {% for gbv_cat in gbv_categories %}
+                      <option value="{{ gbv_cat.gbv_category_id }}" 
+                              {% if document.gbv_category.gbv_category_id == gbv_cat.gbv_category_id %}selected{% endif %}>
+                        {{ gbv_cat.category_name }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <!-- Facility Field -->
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <label for="facility" class="form-label text-sm">Associated Facility</label>
+                  <select class="form-control" id="facility" name="facility">
+                    <option value="">Select Facility (Optional)</option>
+                    {% for facility in facilities %}
+                      <option value="{{ facility.facility_id }}" 
+                              {% if document.facility.facility_id == facility.facility_id %}selected{% endif %}>
+                        {{ facility.facility_name }} - {{ facility.ward.ward_name }}, {{ facility.ward.constituency.county.county_name }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                  <small class="form-text text-muted">
+                    Leave blank if this is a general document not associated with a specific facility
+                  </small>
+                </div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <div class="d-flex justify-content-between">
+                    <a href="{% url 'documents' %}" class="btn btn-outline-secondary">
+                      <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                      {% if is_update %}
+                        <i class="fas fa-save"></i> Update Document
+                      {% else %}
+                        <i class="fas fa-plus"></i> Create Document
+                      {% endif %}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <h6><i class="ni ni-bulb-61 text-info me-2"></i>Document Management Tips</h6>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h6 class="text-sm font-weight-bold">Required Fields</h6>
+                <ul class="text-sm text-secondary">
+                  <li><strong>Title:</strong> Provide a clear, descriptive title</li>
+                  <li><strong>File URL:</strong> Must be a valid, accessible URL</li>
+                  <li><strong>Document Type:</strong> Select the appropriate category</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <h6 class="text-sm font-weight-bold">Optional Fields</h6>
+                <ul class="text-sm text-secondary">
+                  <li><strong>Description:</strong> Add context and details</li>
+                  <li><strong>GBV Category:</strong> Link to specific GBV response areas</li>
+                  <li><strong>Facility:</strong> Associate with specific locations</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Validation Script -->
+  <script>
+    // Form validation
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+
+    // Auto-save draft functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.querySelector('form');
+      const inputs = form.querySelectorAll('input, textarea, select');
+      
+      // Load saved draft on page load
+      const savedDraft = localStorage.getItem('document_draft');
+      if (savedDraft && !document.querySelector('input[name="title"]').value) {
+        try {
+          const draft = JSON.parse(savedDraft);
+          Object.keys(draft).forEach(key => {
+            const input = form.querySelector(`[name="${key}"]`);
+            if (input) {
+              input.value = draft[key];
+            }
+          });
+        } catch (e) {
+          console.log('No valid draft found');
+        }
+      }
+      
+      // Save draft on input change
+      inputs.forEach(input => {
+        input.addEventListener('input', function() {
+          const formData = {};
+          inputs.forEach(inp => {
+            if (inp.name) {
+              formData[inp.name] = inp.value;
+            }
+          });
+          localStorage.setItem('document_draft', JSON.stringify(formData));
+        });
+      });
+      
+      // Clear draft on successful submission
+      form.addEventListener('submit', function() {
+        localStorage.removeItem('document_draft');
+      });
+    });
+  </script>
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} User Analytics {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-lg-4 col-md-6">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <h6>Total Users</h6>
+            <h3 class="mb-0">{{ total_users }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <h6>Active Sessions</h6>
+            <h3 class="mb-0">{{ active_sessions }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Users by Facility</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <thead><tr><th>Facility</th><th class="text-end">Users</th></tr></thead>
+              <tbody>
+                {% for row in users_by_facility %}
+                  <tr>
+                    <td class="text-sm">{{ row.facility__facility_name }}</td>
+                    <td class="text-sm text-end">{{ row.user_count }}</td>
+                  </tr>
+                {% empty %}
+                  <tr><td colspan="2" class="text-center text-secondary">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Users by County</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <thead><tr><th>County</th><th class="text-end">Users</th></tr></thead>
+              <tbody>
+                {% for row in users_by_county %}
+                  <tr>
+                    <td class="text-sm">{{ row.facility__ward__constituency__county__county_name }}</td>
+                    <td class="text-sm text-end">{{ row.user_count }}</td>
+                  </tr>
+                {% empty %}
+                  <tr><td colspan="2" class="text-center text-secondary">No data.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0"><h6>Recent Location Captures</h6></div>
+          <div class="card-body p-0">
+            <table class="table mb-0">
+              <thead><tr><th>User</th><th>Ward</th><th>Date</th></tr></thead>
+              <tbody>
+                {% for loc in recent_locations %}
+                  <tr>
+                    <td class="text-sm">{{ loc.user.full_name }}</td>
+                    <td class="text-sm">{{ loc.ward.ward_name }} ({{ loc.ward.constituency.county.county_name }})</td>
+                    <td class="text-sm">{{ loc.captured_at }}</td>
+                  </tr>
+                {% empty %}
+                  <tr><td colspan="3" class="text-center text-secondary">No recent activity.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

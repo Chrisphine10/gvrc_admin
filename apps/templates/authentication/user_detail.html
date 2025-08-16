@@ -1,0 +1,73 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} User Detail {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">{{ user.full_name }}</h6>
+            <a href="{% url 'user_list' %}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p class="text-sm mb-1"><strong>Email:</strong> {{ user.email }}</p>
+                <p class="text-sm mb-1"><strong>Phone:</strong> {{ user.phone_number }}</p>
+                <p class="text-sm mb-1"><strong>Facility:</strong> {{ user.facility.facility_name|default:'-' }}</p>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-4"><div class="text-center"><h5 class="mb-0">{{ total_locations }}</h5><p class="text-xs text-muted">Locations</p></div></div>
+                  <div class="col-4"><div class="text-center"><h5 class="mb-0">{{ total_sessions }}</h5><p class="text-xs text-muted">Sessions</p></div></div>
+                  <div class="col-4"><div class="text-center"><h5 class="mb-0">{{ active_sessions }}</h5><p class="text-xs text-muted">Active</p></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <h6>Recent Locations</h6>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead><tr><th>Ward</th><th>Date</th></tr></thead>
+                    <tbody>
+                      {% for loc in locations %}
+                        <tr>
+                          <td class="text-sm">{{ loc.ward.ward_name }} ({{ loc.ward.constituency.county.county_name }})</td>
+                          <td class="text-sm">{{ loc.captured_at }}</td>
+                        </tr>
+                      {% empty %}
+                        <tr><td colspan="2" class="text-center text-secondary">No recent locations.</td></tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h6>Recent Sessions</h6>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead><tr><th>Created</th><th>Expires</th></tr></thead>
+                    <tbody>
+                      {% for s in sessions %}
+                        <tr>
+                          <td class="text-sm">{{ s.created_at }}</td>
+                          <td class="text-sm">{{ s.expires_at }}</td>
+                        </tr>
+                      {% empty %}
+                        <tr><td colspan="2" class="text-center text-secondary">No sessions.</td></tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

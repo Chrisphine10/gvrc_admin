@@ -15,17 +15,11 @@
             <div class="card-header bg-transparent pb-5">
 
               <div class="text-muted text-center mt-2 mb-3">
-                <strong>GVRC Admin - Error 404</strong>
+                Oups! Error 404      
               </div>
 
               <div class="text-center mb-4">
-                <div class="mb-4">
-                  <i class="ni ni-bulb-61 text-info" style="font-size: 3rem;"></i>
-                </div>
-                <h4 class="text-white">Page Not Found</h4>
-                <p class="text-light">
-                  The page you are looking for doesn't exist. Please check the URL and try again.
-                </p>
+                Page not found - <a href="/">Home</a>
               </div>
 
             </div>
@@ -35,7 +29,8 @@
               <a href="/" class="text-light"><small>Home</small></a>
             </div>
             <div class="col-6 text-right">
-              <a href="{% url 'login' %}" class="text-light"><small>Login</small></a>
+              <a target="_blank" 
+                 href="https://appseed.us/support" class="text-light"><small>Get Support</small></a>
             </div>
           </div>
         </div>
@@ -45,4 +40,4 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %} 
+{% block javascripts %}{% endblock javascripts %}

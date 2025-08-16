@@ -1,27 +1,69 @@
 version: '3.8'
+
 services:
-  appseed-app:
+  web: # Django + Gunicorn container
     container_name: appseed_app
-    restart: always
     build: .
+    restart: always
+    ports:
+      - "8000:8000"       # Django/Gunicorn app port
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DEBUG=False
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    volumes:
+      - ./logs:/app/logs
+      - ./media:/app/media
     networks:
       - db_network
       - web_network
-  nginx:
+
+  db: # PostgreSQL database
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_DB=api_project
+      - POSTGRES_USER=api_user
+      - POSTGRES_PASSWORD=your-db-password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - db_network
+
+  redis: # Redis cache
+    image: redis:alpine
+    container_name: redis_cache
+    restart: always
+    volumes:
+      - redis_data:/data
+    networks:
+      - db_network
+
+  nginx: # Nginx reverse proxy
     container_name: nginx
     restart: always
-    image: "nginx:latest"
+    image: nginx:alpine
     ports:
-      - "5085:5085"
+      - "80:80"       # Public HTTP port
+      - "5085:5085"   # Extra mapped port from first file
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d   # From first file
+      - ./nginx.conf:/etc/nginx/nginx.conf # From second file
+    depends_on:
+      - web
     networks:
       - web_network
-    depends_on: 
-      - appseed-app
+
 networks:
   db_network:
     driver: bridge
   web_network:
     driver: bridge
- 
+
+volumes:
+  postgres_data:
+  redis_data:

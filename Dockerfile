@@ -1,24 +1,43 @@
-FROM python:3.9
+# Use Python 3.11 slim image for smaller size & better performance
+FROM python:3.11-slim
 
-# set environment variables
+# Set working directory
+WORKDIR /app
+
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt .
-# install python dependencies
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        postgresql-client \
+        build-essential \
+        libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copy and install Python dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
 COPY . .
 
-# Set UP
-RUN python manage.py collectstatic --no-input
-RUN python manage.py makemigrations
-RUN python manage.py migrate
+# Create logs directory
+RUN mkdir -p logs
 
+# Django setup: collect static files, run migrations
+RUN python manage.py collectstatic --noinput \
+    && python manage.py makemigrations \
+    && python manage.py migrate
+
+# API generator placeholders
 #__API_GENERATOR__
 #__API_GENERATOR__END
 
-# Start Server
-EXPOSE 5005
-CMD ["gunicorn", "--config", "gunicorn-cfg.py", "core.wsgi"]
+# Expose port
+EXPOSE 8000
+
+# Start Gunicorn server
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "api_project.wsgi:application"]

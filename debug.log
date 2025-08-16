@@ -1,749 +1,269 @@
-Watching for file changes with StatReloader
-C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\dev.py changed, reloading.
-Watching for file changes with StatReloader
-"GET /infrastructure/ HTTP/1.1" 200 21838
-Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
-"GET /help/ HTTP/1.1" 200 4805
-Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
-"GET /help/ HTTP/1.1" 200 4805
-C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\home\views.py changed, reloading.
-Watching for file changes with StatReloader
-Watching for file changes with StatReloader
-Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
-"GET /help/ HTTP/1.1" 200 4805
-Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
-"GET /help/ HTTP/1.1" 200 4805
-Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
-"GET /help/ HTTP/1.1" 200 4805
-Error in pages view for /help/: [Errno 13] Permission denied: 'C:\\Users\\Ancient\\Documents\\GitHub\\gvrc_dmin\\apps\\templates\\home'
-"GET /help/ HTTP/1.1" 200 4805
-"GET / HTTP/1.1" 200 27414
-"GET /human-resources/ HTTP/1.1" 200 19621
-"GET /human-resources/add/ HTTP/1.1" 200 23218
-"GET /services/ HTTP/1.1" 200 19687
-"GET /facilities/ HTTP/1.1" 200 21309
-"GET /facilities/add/ HTTP/1.1" 200 27053
-"GET /infrastructure/ HTTP/1.1" 200 21838
-"GET /human-resources/ HTTP/1.1" 200 19621
-"GET /human-resources/add/ HTTP/1.1" 200 23218
-"GET /facilities/ HTTP/1.1" 200 21309
-"GET / HTTP/1.1" 200 27414
-"GET /infrastructure/ HTTP/1.1" 200 21838
-"GET /human-resources/ HTTP/1.1" 200 19621
-"GET /services/ HTTP/1.1" 200 19687
-"GET /infrastructure/ HTTP/1.1" 200 21838
-"GET /human-resources/ HTTP/1.1" 200 19621
-"GET /services/ HTTP/1.1" 200 19687
-"GET /facilities/ HTTP/1.1" 200 21309
-"GET /services/ HTTP/1.1" 200 19687
-"GET /facilities/ HTTP/1.1" 200 21309
-"GET /facilities/add/ HTTP/1.1" 200 27053
-"GET /services/ HTTP/1.1" 200 19687
-"GET /human-resources/ HTTP/1.1" 200 19621
-"GET /admin/facilities/facility/add/ HTTP/1.1" 200 23708
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /admin/ HTTP/1.1" 200 7764
-"GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
-"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
-"GET /human-resources/ HTTP/1.1" 200 21886
-"GET /facilities/ HTTP/1.1" 200 23574
-"GET /services/add/ HTTP/1.1" 200 23318
-"GET / HTTP/1.1" 200 29679
-"GET /facilities/ HTTP/1.1" 200 23574
-"GET /services/ HTTP/1.1" 200 21952
-"GET /human-resources/ HTTP/1.1" 200 21886
-"GET /infrastructure/ HTTP/1.1" 200 24103
-"GET /human-resources/ HTTP/1.1" 200 21886
-"GET / HTTP/1.1" 200 29679
-Watching for file changes with StatReloader
-"GET / HTTP/1.1" 200 29404
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 200 9015
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 200 7883
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 200 166436
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 200 57180
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 200 266315
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 200 455973
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 200 88145
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 200 173325
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 200 124734
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 200 80650
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 200 3886
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 200 13026
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 200 3552
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 200 4587
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 200 172812
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 200 21706
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 76084
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 200 8580
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 200 75936
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 200 4976
-"GET /facilities/ HTTP/1.1" 200 23299
-Not Found: /api/endpoint/
-"GET /api/endpoint/ HTTP/1.1" 404 10894
-Not Found: /api/endpoint/
-"GET /api/endpoint/ HTTP/1.1" 404 10894
-Not Found: /favicon.ico
-"GET /favicon.ico HTTP/1.1" 404 10647
-Forbidden: /api/hello/
-"GET /api/hello/ HTTP/1.1" 403 58
-Forbidden: /api/status/
-"GET /api/status/ HTTP/1.1" 403 58
-/home/user/Desktop/gvrc_admin/apps/api/urls.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/urls.py changed, reloading.
-Watching for file changes with StatReloader
-"GET / HTTP/1.1" 200 29404
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-"GET /static/assets/css/argon.css.map HTTP/1.1" 200 1117809
-"GET / HTTP/1.1" 200 29404
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-"GET /admin/ HTTP/1.1" 302 0
-"GET /admin/login/?next=/admin/ HTTP/1.1" 200 4181
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-"GET /static/admin/css/base.css HTTP/1.1" 200 21310
-"GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2929
-"GET /static/admin/css/login.css HTTP/1.1" 200 958
-"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
-"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2694
-"GET /static/admin/js/theme.js HTTP/1.1" 200 1943
-"GET /static/admin/css/responsive.css HTTP/1.1" 200 18559
-"POST /admin/login/?next=/admin/ HTTP/1.1" 200 4358
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-Watching for file changes with StatReloader
-"POST /admin/login/?next=/admin/ HTTP/1.1" 200 4358
-"GET /static/admin/css/base.css HTTP/1.1" 304 0
-"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
-"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
-"GET /static/admin/css/login.css HTTP/1.1" 304 0
-"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
-"GET /static/admin/js/theme.js HTTP/1.1" 304 0
-"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-"GET /admin/login/?next=/admin/ HTTP/1.1" 200 4181
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-"GET / HTTP/1.1" 200 29404
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10795
-"GET /api/endpoint/ HTTP/1.1" 200 84
-Forbidden: /api/hello/
-"GET /api/hello/ HTTP/1.1" 403 4925
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
-"GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
-"GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
-Forbidden: /api/hello/
-"GET /api/hello/ HTTP/1.1" 403 4925
-Forbidden: /api/hello/
-"GET /api/hello/?format=json HTTP/1.1" 403 58
-Forbidden: /api/hello/
-"GET /api/hello/ HTTP/1.1" 403 58
-Forbidden: /api/status/
-"GET /api/status/ HTTP/1.1" 403 58
-"GET /api/endpoint/ HTTP/1.1" 200 84
-Forbidden: /api/hello/
-"GET /api/hello/ HTTP/1.1" 403 58
-Forbidden: /api/status/
-"GET /api/status/ HTTP/1.1" 403 58
-"GET /api/endpoint/ HTTP/1.1" 200 84
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/home/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/home/urls.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/core/settings/base.py changed, reloading.
-Watching for file changes with StatReloader
-"GET /human-resources/add/ HTTP/1.1" 302 0
-"GET /admin/login/?next=/human-resources/add/ HTTP/1.1" 200 4209
-"GET /static/admin/css/base.css HTTP/1.1" 304 0
-"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
-"GET /static/admin/css/login.css HTTP/1.1" 304 0
-"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
-"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
-"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
-"GET /static/admin/js/theme.js HTTP/1.1" 304 0
-"POST /admin/login/?next=/human-resources/add/ HTTP/1.1" 200 4386
-"GET /admin/login/?next=/human-resources/add/ HTTP/1.1" 200 4209
-"GET / HTTP/1.1" 200 29404
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
-"GET / HTTP/1.1" 200 29404
-"GET /admin/ HTTP/1.1" 302 0
-"GET /admin/login/?next=/admin/ HTTP/1.1" 200 4181
-"POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
-"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
-"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
-"GET /admin/auth/user/ HTTP/1.1" 200 12079
-"GET /static/admin/css/changelists.css HTTP/1.1" 200 6566
-"GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 8943
-"GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
-"GET /static/admin/js/core.js HTTP/1.1" 200 5682
-"GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 292458
-"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 232381
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /static/admin/js/actions.js HTTP/1.1" 200 7872
-"GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
-"GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
-"GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
-"GET /static/admin/img/search.svg HTTP/1.1" 200 458
-"GET /static/admin/js/filters.js HTTP/1.1" 200 978
-"GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
-"GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
-"GET /admin/auth/user/add/ HTTP/1.1" 200 11658
-"GET /static/admin/css/forms.css HTTP/1.1" 200 9048
-"GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /static/admin/js/change_form.js HTTP/1.1" 200 606
-"GET /static/admin/css/widgets.css HTTP/1.1" 200 11921
-"GET /admin/auth/user/ HTTP/1.1" 200 12079
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /admin/login/?next=/admin/ HTTP/1.1" 302 0
-"GET /admin/ HTTP/1.1" 200 7762
-"GET / HTTP/1.1" 200 29679
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /static/admin/css/base.css HTTP/1.1" 304 0
-"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
-"GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
-"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
-"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
-"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
-"GET /static/admin/js/theme.js HTTP/1.1" 304 0
-"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
-"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
-"GET /admin/auth/user/add/ HTTP/1.1" 200 11658
-"GET /static/admin/css/forms.css HTTP/1.1" 304 0
-"GET /static/admin/js/core.js HTTP/1.1" 304 0
-"GET /static/admin/js/actions.js HTTP/1.1" 304 0
-"GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
-"GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
-"GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
-"GET /static/admin/css/widgets.css HTTP/1.1" 304 0
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /static/admin/js/urlify.js HTTP/1.1" 304 0
-"GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
-"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
-"GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
-"GET /static/admin/js/change_form.js HTTP/1.1" 304 0
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /admin/auth/user/ HTTP/1.1" 200 12079
-"GET /static/admin/css/changelists.css HTTP/1.1" 304 0
-"GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /static/admin/img/search.svg HTTP/1.1" 304 0
-"GET /static/admin/js/filters.js HTTP/1.1" 304 0
-"GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
-"GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /facilities/ HTTP/1.1" 200 23574
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
-"GET /human-resources/add/ HTTP/1.1" 200 25483
-"GET /admin/auth/user/ HTTP/1.1" 200 12079
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-Error in pages view for /help/: [Errno 21] Is a directory: '/home/user/Desktop/gvrc_admin/apps/templates/home'
-"GET /help/ HTTP/1.1" 200 4805
-"GET /static/assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 200 57180
-"GET / HTTP/1.1" 200 29679
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/urls.py changed, reloading.
-Watching for file changes with StatReloader
-Watching for file changes with StatReloader
-"GET /api/public/ HTTP/1.1" 200 76
-Forbidden: /api/endpoint/
-"GET /api/endpoint/ HTTP/1.1" 403 58
-Forbidden: /api/endpoint/
-"GET /api/endpoint/ HTTP/1.1" 403 58
-"GET /api/public/ HTTP/1.1" 200 76
-Forbidden: /api/endpoint/
-"GET /api/endpoint/ HTTP/1.1" 403 4940
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
-"GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
-"GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
-Not Found: /favicon.ico
-"GET /favicon.ico HTTP/1.1" 404 10822
-Forbidden: /api/endpoint/
-"GET /api/endpoint/ HTTP/1.1" 403 4940
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-"GET /api/endpoint/ HTTP/1.1" 200 5489
-"GET /api/endpoint/ HTTP/1.1" 200 5489
-"GET /api/public/ HTTP/1.1" 200 5364
-"GET /api/public/ HTTP/1.1" 200 5364
-"GET /api/hello/ HTTP/1.1" 200 5216
-"GET /api/status/ HTTP/1.1" 200 5302
-"GET /api/status/ HTTP/1.1" 200 5302
-"GET /infrastructure/ HTTP/1.1" 200 24103
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
-"GET /infrastructure/?search=&category=ambulance&facility_name=&condition=poor HTTP/1.1" 200 24119
-"GET /infrastructure/ HTTP/1.1" 200 24103
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
-"GET / HTTP/1.1" 200 29679
-"GET /api/public/ HTTP/1.1" 200 5364
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/hello/ HTTP/1.1" 200 5216
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/hello/ HTTP/1.1" 200 5216
-"GET /api/status/ HTTP/1.1" 200 5302
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/public/ HTTP/1.1" 200 5364
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/endpoint/ HTTP/1.1" 200 5489
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET / HTTP/1.1" 200 29679
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
-/home/user/Desktop/gvrc_admin/apps/authentication/__init__.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/core/settings/base.py changed, reloading.
-Watching for file changes with StatReloader
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/core/settings/base.py changed, reloading.
-Watching for file changes with StatReloader
-"GET / HTTP/1.1" 200 29679
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
-"GET /swagger/ HTTP/1.1" 200 2445
-"GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
-"GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
-"GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
-"GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
-"GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
-"GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
-"GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 15480
-"GET /swagger/?format=openapi HTTP/1.1" 200 1508
-"GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
-Watching for file changes with StatReloader
-"GET /swagger/ HTTP/1.1" 200 2445
-"GET /swagger/?format=openapi HTTP/1.1" 200 1508
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/views.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/urls.py changed, reloading.
-Watching for file changes with StatReloader
-/home/user/Desktop/gvrc_admin/apps/api/urls.py changed, reloading.
-Watching for file changes with StatReloader
-"GET / HTTP/1.1" 200 29679
-Watching for file changes with StatReloader
-"GET /api/test-runner/ HTTP/1.1" 200 5553
-Not Found: /favicon.ico
-"GET /favicon.ico HTTP/1.1" 404 10822
-"POST /api/run-tests/ HTTP/1.1" 200 7887
-"POST /api/run-tests/ HTTP/1.1" 200 7897
-"GET /api/public/ HTTP/1.1" 200 5364
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/endpoint/ HTTP/1.1" 200 5489
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/public/ HTTP/1.1" 200 5364
-"GET /api/hello/ HTTP/1.1" 200 5216
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/status/ HTTP/1.1" 200 5302
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/test-runner/ HTTP/1.1" 200 5553
-"POST /api/run-tests/ HTTP/1.1" 200 7895
-Not Found: /api/
-"GET /api/ HTTP/1.1" 404 11928
-"GET / HTTP/1.1" 200 29404
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 200 7883
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 200 9015
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 200 57180
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 200 166436
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 200 266315
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 200 124734
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 200 88145
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 200 173325
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 200 80650
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 200 455973
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 200 3886
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 200 4587
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 200 13026
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 200 172812
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 200 3552
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 200 21706
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 200 8580
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 76084
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 200 75936
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 200 4976
-"GET /api/public/ HTTP/1.1" 200 5364
-Not Found: /api/runtester
-"GET /api/runtester HTTP/1.1" 404 11965
-"GET /api/test-runner/ HTTP/1.1" 200 5553
-"POST /api/run-tests/ HTTP/1.1" 200 7895
-Not Found: /api/
-"GET /api/ HTTP/1.1" 404 11928
-Not Found: /api/admin
-"GET /api/admin HTTP/1.1" 404 11949
-Not Found: /apirun-tester
-"GET /apirun-tester HTTP/1.1" 404 10830
-Not Found: /api/run-tester
-"GET /api/run-tester HTTP/1.1" 404 11969
-"GET /api/test-runner/ HTTP/1.1" 200 5553
-"POST /api/run-tests/ HTTP/1.1" 200 7895
-Not Found: /admin
-"GET /admin HTTP/1.1" 404 10798
-Not Found: /public
-"GET /public HTTP/1.1" 404 10802
-Not Found: /public
-"GET /public HTTP/1.1" 404 10802
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
-"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
-"GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
-"GET /static/admin/css/base.css HTTP/1.1" 304 0
-"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
-"GET /static/admin/js/theme.js HTTP/1.1" 304 0
-"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
-"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
-"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
-Not Found: /favicon.ico
-"GET /favicon.ico HTTP/1.1" 404 10822
-"GET /admin/auth/user/ HTTP/1.1" 200 12079
-"GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
-"GET /static/admin/css/changelists.css HTTP/1.1" 304 0
-"GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
-"GET /static/admin/js/core.js HTTP/1.1" 304 0
-"GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
-"GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
-"GET /static/admin/js/urlify.js HTTP/1.1" 304 0
-"GET /static/admin/js/actions.js HTTP/1.1" 304 0
-"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /static/admin/img/search.svg HTTP/1.1" 304 0
-"GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
-"GET /static/admin/js/filters.js HTTP/1.1" 304 0
-"GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
-"GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
-"POST /admin/auth/user/ HTTP/1.1" 302 0
-"GET /admin/auth/user/ HTTP/1.1" 200 12272
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /static/admin/img/icon-alert.svg HTTP/1.1" 200 504
-"GET /admin/auth/user/add/ HTTP/1.1" 200 11658
-"GET /static/admin/css/forms.css HTTP/1.1" 304 0
-"GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /static/admin/js/change_form.js HTTP/1.1" 304 0
-"GET /static/admin/css/widgets.css HTTP/1.1" 304 0
-"POST /admin/auth/user/add/ HTTP/1.1" 200 11948
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"POST /admin/auth/user/add/ HTTP/1.1" 200 11832
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"POST /admin/auth/user/add/ HTTP/1.1" 200 11832
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-Not Found: /admin/public
-"GET /admin/public HTTP/1.1" 404 5053
-Not Found: /public
-"GET /public HTTP/1.1" 404 10802
-Not Found: /login
-"GET /login HTTP/1.1" 404 10798
-Not Found: /staff
-"GET /staff HTTP/1.1" 404 10798
-"GET / HTTP/1.1" 200 29679
-"GET /human-resources/add/ HTTP/1.1" 200 25483
-"GET /human-resources/ HTTP/1.1" 200 21886
-"GET /services/add/ HTTP/1.1" 200 23318
-Not Found: /landing
-"GET /landing HTTP/1.1" 404 10806
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /admin/auth/user/ HTTP/1.1" 200 12079
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-"GET /admin/auth/user/add/ HTTP/1.1" 200 11658
-"GET /admin/jsi18n/ HTTP/1.1" 200 3343
-Not Found: /a
-"GET /a HTTP/1.1" 404 10782
-"GET / HTTP/1.1" 200 29679
-"GET /facilities/ HTTP/1.1" 200 23574
-"GET /services/ HTTP/1.1" 200 21952
-"GET /human-resources/ HTTP/1.1" 200 21886
-"GET /infrastructure/ HTTP/1.1" 200 24103
-Watching for file changes with StatReloader
-Watching for file changes with StatReloader
-"GET / HTTP/1.1" 200 29679
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
-"GET /static/assets/img/brand/blue.png HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 304 0
-"GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 304 0
-"GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 304 0
-"GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.extension.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/chart.js/dist/Chart.min.js HTTP/1.1" 304 0
-"GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 304 0
-"GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
-"GET /static/assets/img/brand/favicon.png HTTP/1.1" 304 0
-"GET / HTTP/1.1" 200 29679
-"GET / HTTP/1.1" 200 29679
-"GET /admin/login/?next=/admin/ HTTP/1.1" 302 0
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /static/admin/css/base.css HTTP/1.1" 304 0
-"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
-"GET /static/admin/js/theme.js HTTP/1.1" 304 0
-"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
-"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
-"GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
-"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
-"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
-"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
-"GET / HTTP/1.1" 200 29679
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /admin/ HTTP/1.1" 200 7762
-"GET /api/endpoint/ HTTP/1.1" 200 5489
-"GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
-"GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
-"GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
-"GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
-"GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
-"GET /api/public/ HTTP/1.1" 200 5364
-"GET /api/hello/ HTTP/1.1" 200 5216
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10970
-"GET /static/assets/css/argon.css.map HTTP/1.1" 304 0
-"GET / HTTP/1.1" 200 29679
-Not Found: /.well-known/appspecific/com.chrome.devtools.json
-"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10970
+Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\home\views.py", line 186, in index
+    return HttpResponse(html_template.render(context, request))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 175, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\loader_tags.py", line 208, in render
+    return template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 177, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\defaulttags.py", line 314, in render
+    match = condition.eval(context)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\defaulttags.py", line 877, in eval
+    return self.value.resolve(context, ignore_failures=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 715, in resolve
+    obj = self.var.resolve(context)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 847, in resolve
+    value = self._resolve_lookup(context)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 880, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\utils\functional.py", line 266, in inner
+    self._setup()
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\utils\functional.py", line 419, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\middleware.py", line 25, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\middleware.py", line 11, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\__init__.py", line 198, in get_user
+    user = backend.get_user(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\backends.py", line 161, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 633, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 380, in __len__
+    self._fetch_all()
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users
+"GET / HTTP/1.1" 500 320801
+Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\home\views.py", line 186, in index
+    return HttpResponse(html_template.render(context, request))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 175, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\loader_tags.py", line 208, in render
+    return template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 177, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\defaulttags.py", line 314, in render
+    match = condition.eval(context)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\defaulttags.py", line 877, in eval
+    return self.value.resolve(context, ignore_failures=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 715, in resolve
+    obj = self.var.resolve(context)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 847, in resolve
+    value = self._resolve_lookup(context)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\template\base.py", line 880, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\utils\functional.py", line 266, in inner
+    self._setup()
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\utils\functional.py", line 419, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\middleware.py", line 25, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\middleware.py", line 11, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\__init__.py", line 198, in get_user
+    user = backend.get_user(user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\contrib\auth\backends.py", line 161, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 633, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 380, in __len__
+    self._fetch_all()
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users
+"GET / HTTP/1.1" 500 320938
+C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\migrations\0001_initial.py changed, reloading.

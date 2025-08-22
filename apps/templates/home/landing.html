@@ -1,345 +1,500 @@
 {% extends 'layouts/base-auth.html' %}
 
-{% block title %} Welcome to Hodi Management System {% endblock title %}
+{% block title %}Hodi - GBV Directory Management System{% endblock title %}
 
-<!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 <style>
-  .landing-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Override the base template's overflow restriction */
+  body.gvrc-auth-bg {
+    overflow: auto !important;
+    overflow-x: hidden;
+  }
+  
+  .main-content {
+    overflow: visible !important;
+  }
+
+  /* Ensure html and body allow scrolling */
+  html {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  /* Force scrolling to work */
+  body {
     min-height: 100vh;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ffffff;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
     position: relative;
     overflow: hidden;
   }
-  
-  .landing-hero::before {
+
+  .hero-section::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/static/assets/img/theme/kenya-pattern.png') repeat;
-    opacity: 0.1;
-    animation: float 20s ease-in-out infinite;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
   }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-  
+
   .hero-content {
     position: relative;
     z-index: 2;
-    text-align: center;
-    color: white;
+    max-width: 800px;
+    padding: 0 2rem;
   }
-  
+
+  .hero-logo {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    font-size: 2.5rem;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
   .hero-title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   }
-  
+
   .hero-subtitle {
     font-size: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     opacity: 0.9;
     font-weight: 300;
   }
-  
-  .hero-buttons {
+
+  .hero-description {
+    font-size: 1.1rem;
     margin-bottom: 3rem;
+    opacity: 0.8;
+    line-height: 1.8;
   }
-  
-  .btn-hero {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 1rem 2rem;
     border-radius: 50px;
-    margin: 0 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
     transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
   }
-  
-  .btn-hero-primary {
-    background: #fff;
-    color: #667eea;
-    border: 2px solid #fff;
-  }
-  
-  .btn-hero-primary:hover {
-    background: transparent;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  }
-  
-  .btn-hero-secondary {
-    background: transparent;
-    color: #fff;
-    border: 2px solid #fff;
-  }
-  
-  .btn-hero-secondary:hover {
-    background: #fff;
-    color: #667eea;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  }
-  
-  .stats-section {
-    background: #f8f9fa;
-    padding: 4rem 0;
-  }
-  
-  .stat-card {
-    text-align: center;
-    padding: 2rem;
+
+  .btn-primary {
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    height: 100%;
-  }
-  
-  .stat-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .stat-number {
-    font-size: 3rem;
-    font-weight: 700;
     color: #667eea;
-    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
-  
-  .stat-label {
-    font-size: 1.1rem;
-    color: #6c757d;
-    font-weight: 500;
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
   }
-  
-  .features-section {
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-secondary:hover {
+    background: white;
+    color: #667eea;
+    transform: translateY(-3px);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-indicator i {
+    font-size: 2rem;
+    color: white;
+    opacity: 0.7;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+  }
+
+  .section {
     padding: 5rem 0;
-    background: white;
   }
-  
-  .feature-card {
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    color: #2d3748;
   }
-  
+
+  .section-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #718096;
+    margin-bottom: 4rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
   .feature-icon {
-    font-size: 3rem;
-    color: #667eea;
-    margin-bottom: 1.5rem;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: white;
   }
-  
+
   .feature-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 1rem;
     color: #2d3748;
   }
-  
+
   .feature-description {
-    color: #6c757d;
+    color: #718096;
     line-height: 1.6;
   }
-  
+
+  .stats-section {
+    background: #f7fafc;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    color: #718096;
+    font-weight: 500;
+  }
+
   .cta-section {
     background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-    padding: 5rem 0;
-    text-align: center;
     color: white;
+    text-align: center;
   }
-  
+
+  .cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-description {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .footer {
     background: #1a202c;
     color: #a0aec0;
-    padding: 2rem 0;
     text-align: center;
+    padding: 3rem 0;
   }
-  
 
+  .footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 1rem;
+  }
+
+  .footer-description {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+    }
+    
+    .hero-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 {% endblock stylesheets %}
 
 {% block content %}
 
-<!-- Navigation Menu -->
-<div class="container mt-4">
-  <div class="row justify-content-end">
-    <div class="col-auto">
-      <nav class="nav">
-        <a class="nav-link text-white me-3" href="#features">Features</a>
-        <a class="nav-link text-white me-3" href="#about">About</a>
-        <a class="nav-link text-white me-3" href="{% url 'login' %}">Login</a>
-        <a class="nav-link btn btn-outline-light btn-sm px-3" href="{% url 'register' %}">Register</a>
-      </nav>
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="hero-logo">
+      <i class="fas fa-heart"></i>
+    </div>
+    <h1 class="hero-title">Hodi</h1>
+    <p class="hero-subtitle">GBV Directory Management System</p>
+    <p class="hero-description">
+      Empowering survivors through comprehensive resource management. 
+      Connecting GBV survivors with essential services across Kenya.
+    </p>
+    <div class="hero-buttons">
+      <a href="{% url 'login' %}" class="btn btn-primary">
+        <i class="fas fa-sign-in-alt me-2"></i>Access System
+      </a>
+      <a href="#features" class="btn btn-secondary">
+        <i class="fas fa-info-circle me-2"></i>Learn More
+      </a>
     </div>
   </div>
-</div>
+  <div class="scroll-indicator">
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
 
-<!-- Hero Section -->
-<section class="landing-hero">
+<!-- Features Section -->
+<section id="features" class="section">
   <div class="container">
-    <div class="hero-content">
-      <h1 class="hero-title">Hodi Management System</h1>
-      <p class="hero-subtitle">
-        Comprehensive facility and resource management for Kenya's healthcare system
-      </p>
-      <div class="hero-buttons">
-        <a href="{% url 'login' %}" class="btn btn-hero btn-hero-primary">
-          <i class="fas fa-sign-in-alt me-2"></i>Get Started
-        </a>
-        <a href="#features" class="btn btn-hero btn-hero-secondary">
-          <i class="fas fa-info-circle me-2"></i>Learn More
-        </a>
+    <h2 class="section-title">Key Features</h2>
+    <p class="section-subtitle">
+      Everything you need to manage GBV support services effectively across Kenya
+    </p>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-hospital"></i>
+        </div>
+        <h3 class="feature-title">Facility Management</h3>
+        <p class="feature-description">
+          Comprehensive tracking of GBV support facilities, their services, and operational status across all counties.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3 class="feature-title">Service Provider Directory</h3>
+        <p class="feature-description">
+          Manage and connect with healthcare professionals, counselors, and support staff across the network.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-cogs"></i>
+        </div>
+        <h3 class="feature-title">Service Management</h3>
+        <p class="feature-description">
+          Track and manage GBV support services, programs, and specialized care across the support network.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3 class="feature-title">Analytics & Reporting</h3>
+        <p class="feature-description">
+          Comprehensive analytics for service delivery, resource allocation, and survivor support tracking.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-map-marked-alt"></i>
+        </div>
+        <h3 class="feature-title">Geographic Coverage</h3>
+        <p class="feature-description">
+          Full coverage across Kenya's counties with detailed mapping of support services and facilities.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="feature-title">Secure & Confidential</h3>
+        <p class="feature-description">
+          Role-based access control and secure authentication ensuring survivor privacy and data protection.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Statistics Section -->
-<section class="stats-section" id="about">
+<section class="section stats-section">
   <div class="container">
-    <div class="row text-center mb-5">
-      <div class="col-12">
-        <h2 class="display-4 font-weight-bold text-dark mb-3">System Overview</h2>
-        <p class="lead text-muted">Managing healthcare facilities across Kenya with comprehensive data tracking</p>
-      </div>
-    </div>
+    <h2 class="section-title">System Overview</h2>
+    <p class="section-subtitle">
+      Managing GBV support services and healthcare facilities across Kenya
+    </p>
     
-    <div class="row">
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="stat-card">
-          <div class="stat-number">{{ total_facilities|default:0 }}</div>
-          <div class="stat-label">Healthcare Facilities</div>
-        </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">{{ total_facilities|default:0 }}</div>
+        <div class="stat-label">Support Facilities</div>
       </div>
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="stat-card">
-          <div class="stat-number">{{ operational_facilities|default:0 }}</div>
-          <div class="stat-label">Operational Facilities</div>
-        </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ operational_facilities|default:0 }}</div>
+        <div class="stat-label">Active Services</div>
       </div>
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="stat-card">
-          <div class="stat-number">{{ total_counties|default:0 }}</div>
-          <div class="stat-label">Counties Covered</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Features Section -->
-<section class="features-section" id="features">
-  <div class="container">
-    <div class="row text-center mb-5">
-      <div class="col-12">
-        <h2 class="display-4 font-weight-bold text-dark mb-3">Key Features</h2>
-        <p class="lead text-muted">Everything you need to manage healthcare facilities effectively</p>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-hospital"></i>
-          </div>
-          <h3 class="feature-title">Facility Management</h3>
-          <p class="feature-description">
-            Comprehensive tracking of healthcare facilities, their status, and operational details across all counties.
-          </p>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-users"></i>
-          </div>
-          <h3 class="feature-title">Human Resources</h3>
-          <p class="feature-description">
-            Manage staff, contacts, and human resources across all facilities with detailed role assignments.
-          </p>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-cogs"></i>
-          </div>
-          <h3 class="feature-title">Service Management</h3>
-          <p class="feature-description">
-            Track and manage healthcare services, programs, and infrastructure across the healthcare network.
-          </p>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-chart-line"></i>
-          </div>
-          <h3 class="feature-title">Analytics & Reporting</h3>
-          <p class="feature-description">
-            Comprehensive analytics and reporting tools for data-driven decision making and resource allocation.
-          </p>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-map-marked-alt"></i>
-          </div>
-          <h3 class="feature-title">Geographic Coverage</h3>
-          <p class="feature-description">
-            Full coverage across Kenya's counties, constituencies, and wards with detailed geographic data.
-          </p>
-        </div>
-      </div>
-      
-      <div class="col-lg-4 col-md-6">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-shield-alt"></i>
-          </div>
-          <h3 class="feature-title">Secure Access</h3>
-          <p class="feature-description">
-            Role-based access control and secure authentication system for authorized personnel only.
-          </p>
-        </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ total_counties|default:0 }}</div>
+        <div class="stat-label">Counties Covered</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Call to Action Section -->
-<section class="cta-section">
+<section class="section cta-section">
   <div class="container">
-    <h2 class="display-4 font-weight-bold mb-4">Ready to Get Started?</h2>
-    <p class="lead mb-4">
-      Join healthcare professionals across Kenya in managing facilities and resources more effectively.
+    <h2 class="cta-title">Ready to Make a Difference?</h2>
+    <p class="cta-description">
+      Join healthcare professionals and support workers across Kenya in providing better care for GBV survivors.
     </p>
     <div class="hero-buttons">
-      <a href="{% url 'login' %}" class="btn btn-hero btn-hero-primary">
-        <i class="fas fa-sign-in-alt me-2"></i>Login Now
-      </a>
-      <a href="{% url 'register' %}" class="btn btn-hero btn-hero-secondary">
-        <i class="fas fa-user-plus me-2"></i>Create Account
+      <a href="{% url 'login' %}" class="btn btn-primary">
+        <i class="fas fa-sign-in-alt me-2"></i>Access System
       </a>
     </div>
   </div>
@@ -348,20 +503,47 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <p>&copy; 2024 Hodi Management System. All rights reserved.</p>
-        <p class="mb-0">Comprehensive healthcare facility management for Kenya</p>
-      </div>
+    <div class="footer-content">
+      <div class="footer-logo">Hodi</div>
+      <p class="footer-description">
+        GBV Directory Management System powered by GVRC Gender Based Violence Recovery Center Kenya
+      </p>
+      <p class="footer-description">
+        Empowering survivors through comprehensive resource management
+      </p>
+      <p>&copy; 2024 All rights reserved.</p>
     </div>
   </div>
 </footer>
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script>
+  // Debug scrolling issues
+  console.log('Landing page loaded');
+  console.log('Body overflow:', getComputedStyle(document.body).overflow);
+  console.log('HTML overflow:', getComputedStyle(document.documentElement).overflow);
+  console.log('Main content overflow:', getComputedStyle(document.querySelector('.main-content')).overflow);
+  
+  // Force enable scrolling
+  document.body.style.overflow = 'auto';
+  document.documentElement.style.overflow = 'auto';
+  document.querySelector('.main-content').style.overflow = 'visible';
+  
+  // Ensure scrolling is enabled
+  document.addEventListener('DOMContentLoaded', function() {
+    // Force enable scrolling after page loads
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    
+    // Remove any scroll prevention
+    document.body.style.position = 'static';
+    document.documentElement.style.position = 'static';
+    
+    console.log('Scrolling should now be enabled');
+  });
+
   // Smooth scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -374,6 +556,29 @@
         });
       }
     });
+  });
+
+  // Add scroll-triggered animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  // Observe all feature cards and stat cards
+  document.querySelectorAll('.feature-card, .stat-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
   });
 </script>
 {% endblock javascripts %}

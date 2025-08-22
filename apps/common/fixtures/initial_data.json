@@ -1,174 +1,174 @@
 [
     {
-        "model": "common.operationalstatus",
+        "model": "lookups.operationalstatus",
         "pk": 1,
         "fields": {
             "status_name": "Operational"
         }
     },
     {
-        "model": "common.operationalstatus",
+        "model": "lookups.operationalstatus",
         "pk": 2,
         "fields": {
             "status_name": "Non-Operational"
         }
     },
     {
-        "model": "common.operationalstatus",
+        "model": "lookups.operationalstatus",
         "pk": 3,
         "fields": {
             "status_name": "Under Maintenance"
         }
     },
     {
-        "model": "common.operationalstatus",
+        "model": "lookups.operationalstatus",
         "pk": 4,
         "fields": {
             "status_name": "Temporarily Closed"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 1,
         "fields": {
             "type_name": "Phone"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 2,
         "fields": {
             "type_name": "Email"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 3,
         "fields": {
             "type_name": "Emergency Contact"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 4,
         "fields": {
             "type_name": "WhatsApp"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 5,
         "fields": {
             "type_name": "Primary Contact"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 6,
         "fields": {
             "type_name": "Manager"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 7,
         "fields": {
             "type_name": "Director"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 8,
         "fields": {
             "type_name": "Supervisor"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 9,
         "fields": {
             "type_name": "Staff"
         }
     },
     {
-        "model": "common.contacttype",
+        "model": "lookups.contacttype",
         "pk": 10,
         "fields": {
             "type_name": "Administrative Contact"
         }
     },
     {
-        "model": "common.servicecategory",
+        "model": "lookups.servicecategory",
         "pk": 1,
         "fields": {
             "category_name": "Health Services"
         }
     },
     {
-        "model": "common.servicecategory",
+        "model": "lookups.servicecategory",
         "pk": 2,
         "fields": {
             "category_name": "Security Services"
         }
     },
     {
-        "model": "common.servicecategory",
+        "model": "lookups.servicecategory",
         "pk": 3,
         "fields": {
             "category_name": "Legal Services"
         }
     },
     {
-        "model": "common.servicecategory",
+        "model": "lookups.servicecategory",
         "pk": 4,
         "fields": {
             "category_name": "Counseling Services"
         }
     },
     {
-        "model": "common.servicecategory",
+        "model": "lookups.servicecategory",
         "pk": 5,
         "fields": {
             "category_name": "Emergency Services"
         }
     },
     {
-        "model": "common.ownertype",
+        "model": "lookups.ownertype",
         "pk": 1,
         "fields": {
             "type_name": "Public"
         }
     },
     {
-        "model": "common.ownertype",
+        "model": "lookups.ownertype",
         "pk": 2,
         "fields": {
             "type_name": "Private"
         }
     },
     {
-        "model": "common.ownertype",
+        "model": "lookups.ownertype",
         "pk": 3,
         "fields": {
             "type_name": "Faith-Based"
         }
     },
     {
-        "model": "common.ownertype",
+        "model": "lookups.ownertype",
         "pk": 4,
         "fields": {
             "type_name": "NGO"
         }
     },
     {
-        "model": "common.ownertype",
+        "model": "lookups.ownertype",
         "pk": 5,
         "fields": {
             "type_name": "Community-Owned"
         }
     },
     {
-        "model": "common.gbvcategory",
+        "model": "lookups.gbvcategory",
         "pk": 1,
         "fields": {
             "category_name": "Physical Violence",
@@ -176,7 +176,7 @@
         }
     },
     {
-        "model": "common.gbvcategory",
+        "model": "lookups.gbvcategory",
         "pk": 2,
         "fields": {
             "category_name": "Sexual Violence",
@@ -184,7 +184,7 @@
         }
     },
     {
-        "model": "common.gbvcategory",
+        "model": "lookups.gbvcategory",
         "pk": 3,
         "fields": {
             "category_name": "Emotional/Psychological Violence",
@@ -192,7 +192,7 @@
         }
     },
     {
-        "model": "common.gbvcategory",
+        "model": "lookups.gbvcategory",
         "pk": 4,
         "fields": {
             "category_name": "Economic Violence",
@@ -200,7 +200,7 @@
         }
     },
     {
-        "model": "common.documenttype",
+        "model": "lookups.documenttype",
         "pk": 1,
         "fields": {
             "type_name": "Policy Document",
@@ -208,7 +208,7 @@
         }
     },
     {
-        "model": "common.documenttype",
+        "model": "lookups.documenttype",
         "pk": 2,
         "fields": {
             "type_name": "Training Material",
@@ -216,7 +216,7 @@
         }
     },
     {
-        "model": "common.documenttype",
+        "model": "lookups.documenttype",
         "pk": 3,
         "fields": {
             "type_name": "Report",
@@ -224,7 +224,7 @@
         }
     },
     {
-        "model": "common.documenttype",
+        "model": "lookups.documenttype",
         "pk": 4,
         "fields": {
             "type_name": "Form",
@@ -232,7 +232,7 @@
         }
     },
     {
-        "model": "common.documenttype",
+        "model": "lookups.documenttype",
         "pk": 5,
         "fields": {
             "type_name": "Reference Material",

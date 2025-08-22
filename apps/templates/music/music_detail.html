@@ -1,0 +1,307 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}{{ music.name }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+.music-detail-header {
+    background: linear-gradient(135deg, var(--gvrc-primary) 0%, #667eea 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.music-stats-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.play-button-large {
+    background: var(--gvrc-primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.play-button-large:hover {
+    background: #667eea;
+    transform: scale(1.05);
+    color: white;
+    text-decoration: none;
+}
+
+.music-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.music-info-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--gvrc-primary);
+}
+
+.music-info-label {
+    font-weight: 600;
+    color: #6c757d;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.music-info-value {
+    font-size: 1.1rem;
+    color: #495057;
+}
+
+.recent-plays-card {
+    border-left: 4px solid var(--gvrc-primary);
+}
+
+.play-count-badge {
+    background: var(--gvrc-primary);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.genre-badge {
+    background: #e9ecef;
+    color: #495057;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.duration-badge {
+    background: #28a745;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'music:music_list' %}">Music</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ music.name|truncatechars:30 }}</li>
+          </ol>
+        </nav>
+        <h1 class="h3 mb-0">{{ music.name }}</h1>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'music:music_list' %}" class="btn btn-outline-secondary me-2">
+            <i class="fas fa-arrow-left"></i> Back to Music
+          </a>
+          <a href="{% url 'music:add_music' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Add Another
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+        <!-- Music Information -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0"><i class="fas fa-info-circle text-primary"></i> Track Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="music-info-grid">
+                        <div class="music-info-item">
+                            <div class="music-info-label">Track Name</div>
+                            <div class="music-info-value">{{ music.name }}</div>
+                        </div>
+                        {% if music.artist %}
+                        <div class="music-info-item">
+                            <div class="music-info-label">Artist</div>
+                            <div class="music-info-value">{{ music.artist }}</div>
+                        </div>
+                        {% endif %}
+                        {% if music.genre %}
+                        <div class="music-info-item">
+                            <div class="music-info-label">Genre</div>
+                            <div class="music-info-value">{{ music.genre }}</div>
+                        </div>
+                        {% endif %}
+                        {% if music.duration %}
+                        <div class="music-info-item">
+                            <div class="music-info-label">Duration</div>
+                            <div class="music-info-value">{{ music.duration }}</div>
+                        </div>
+                        {% endif %}
+                        <div class="music-info-item">
+                            <div class="music-info-label">Total Listens</div>
+                            <div class="music-info-value">{{ music.total_listens }}</div>
+                        </div>
+                        <div class="music-info-item">
+                            <div class="music-info-label">Added</div>
+                            <div class="music-info-value">{{ music.created_at|date:"M d, Y" }}</div>
+                        </div>
+                        <div class="music-info-item">
+                            <div class="music-info-label">Added By</div>
+                            <div class="music-info-value">{{ music.created_by.full_name }}</div>
+                        </div>
+                        {% if music.updated_at and music.updated_at != music.created_at %}
+                        <div class="music-info-item">
+                            <div class="music-info-label">Last Updated</div>
+                            <div class="music-info-value">{{ music.updated_at|date:"M d, Y" }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if music.description %}
+                    <div class="mt-4">
+                        <h5>Description</h5>
+                        <p class="text-muted">{{ music.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <h5>Media Information</h5>
+                        {% if music.has_file %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-file-audio"></i>
+                                <strong>Uploaded File:</strong> {{ music.music_file.name|slice:"13:" }}
+                                <br><small class="text-muted">File size: {{ music.music_file.size|filesizeformat }}</small>
+                                <div class="mt-2">
+                                    <a href="{{ music.music_file.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-download"></i> Download File
+                                    </a>
+                                    <a href="{{ music.music_file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-play"></i> Play in Browser
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if music.link %}
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="{{ music.link }}" readonly>
+                                <div class="input-group-append">
+                                    <a href="{{ music.link }}" target="_blank" class="btn btn-outline-primary">
+                                        <i class="fas fa-external-link-alt"></i> Open
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Plays -->
+        <div class="col-lg-4">
+            <div class="card recent-plays-card">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-history text-primary"></i> Recent Plays</h4>
+                </div>
+                <div class="card-body">
+                    {% if recent_plays %}
+                    <div class="list-group list-group-flush">
+                        {% for play in recent_plays %}
+                        <div class="list-group-item px-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">{{ play.user.full_name }}</h6>
+                                    <small class="text-muted">{{ play.played_at|date:"M d, Y H:i" }}</small>
+                                </div>
+                                {% if play.session_duration %}
+                                <span class="badge badge-info">{{ play.session_duration }}</span>
+                                {% endif %}
+                            </div>
+                            {% if play.ip_address %}
+                            <small class="text-muted">IP: {{ play.ip_address }}</small>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-headphones fa-2x text-muted mb-3"></i>
+                        <p class="text-muted">No plays recorded yet</p>
+                        <p class="text-muted small">Plays will appear here when users listen to this track</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-cogs text-primary"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        {% if music.has_file %}
+                            <a href="{{ music.music_file.url }}" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Download Track
+                            </a>
+                        {% elif music.link %}
+                            <a href="{{ music.link }}" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-play"></i> Play Track
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'music:edit_music' music.music_id %}" class="btn btn-outline-warning">
+                            <i class="fas fa-edit"></i> Edit Track
+                        </a>
+                        <a href="{% url 'music:music_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-list"></i> View All Music
+                        </a>
+                        <a href="{% url 'music:add_music' %}" class="btn btn-outline-success">
+                            <i class="fas fa-plus"></i> Add New Track
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+// Track play when user clicks play button
+document.addEventListener('DOMContentLoaded', function() {
+    const playButtons = document.querySelectorAll('a[href*="{{ music.link }}"]');
+    
+    playButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Track the play (you can implement this with AJAX)
+            console.log('Track played: {{ music.name }}');
+        });
+    });
+});
+</script>
+{% endblock %}

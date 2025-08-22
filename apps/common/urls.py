@@ -14,6 +14,5 @@ urlpatterns = [
     path('geography/constituency/<int:constituency_id>/', views.constituency_detail, name='constituency_detail'),
     path('geography/ward/<int:ward_id>/', views.ward_detail, name='ward_detail'),
     path('lookups/', views.lookup_tables, name='lookup_tables'),
-    path('documents/', views.document_list, name='document_list'),
-    path('documents/<int:document_id>/', views.document_detail, name='document_detail'),
+
 ]

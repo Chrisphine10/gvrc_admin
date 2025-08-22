@@ -1,0 +1,228 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Help & Documentation{% endblock %}
+
+{% block stylesheets %}
+<style>
+.help-section {
+    margin-bottom: 2rem;
+}
+
+.help-card {
+    border-left: 4px solid var(--gvrc-primary);
+    margin-bottom: 1rem;
+}
+
+.feature-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.feature-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.feature-list li:last-child {
+    border-bottom: none;
+}
+
+.feature-list i {
+    color: var(--gvrc-primary);
+    margin-right: 0.5rem;
+    width: 20px;
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Help & Documentation</li>
+                </ol>
+            </nav>
+            <h1 class="h3 mb-0">Help & Documentation</h1>
+            <p class="text-muted">Complete guide to using the GVRC Management System</p>
+        </div>
+    </div>
+
+
+
+    <!-- Dashboard -->
+    <div class="help-section" id="dashboard">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-home text-primary"></i> Dashboard</h2>
+            </div>
+            <div class="card-body">
+                <p>The Dashboard is your main control center. Here you can:</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-chart-bar"></i> View system overview and key metrics</li>
+                    <li><i class="fas fa-clock"></i> See recent activities and updates</li>
+                    <li><i class="fas fa-users"></i> Access quick user management</li>
+                    <li><i class="fas fa-building"></i> Manage facilities and services</li>
+                    <li><i class="fas fa-file-alt"></i> Access documents and content</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Management -->
+    <div class="help-section" id="data-management">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-database text-primary"></i> Data Management</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-users text-primary"></i> User Management</h5>
+                        <p>Manage system users and permissions:</p>
+                        <ul class="feature-list">
+                            <li>Create new user accounts</li>
+                            <li>Set user roles and permissions</li>
+                            <li>Activate/deactivate accounts</li>
+                            <li>Reset passwords</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-building text-primary"></i> Facility Management</h5>
+                        <p>Manage facilities and their services:</p>
+                        <ul class="feature-list">
+                            <li>Add new facilities</li>
+                            <li>Set facility locations and coordinates</li>
+                            <li>Configure available services</li>
+                            <li>Manage facility contacts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Management -->
+    <div class="help-section">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-folder text-primary"></i> Content Management</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-file-alt text-primary"></i> Documents</h5>
+                        <p>Organize and manage system documents:</p>
+                        <ul class="feature-list">
+                            <li>Upload files and documents</li>
+                            <li>Organize by categories and tags</li>
+                            <li>Set access permissions</li>
+                            <li>Search and retrieve files</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-music text-primary"></i> Music Library</h5>
+                        <p>Manage audio content and playlists:</p>
+                        <ul class="feature-list">
+                            <li>Upload audio files</li>
+                            <li>Create and organize playlists</li>
+                            <li>Add metadata and descriptions</li>
+                            <li>Track usage analytics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Guide -->
+    <div class="help-section">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-compass text-primary"></i> How to Navigate</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5>Sidebar Menu</h5>
+                        <p>Use the left sidebar to navigate between different sections:</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-home"></i> <strong>Dashboard:</strong> Main overview page</li>
+                            <li><i class="fas fa-users"></i> <strong>Users:</strong> Manage user accounts</li>
+                            <li><i class="fas fa-building"></i> <strong>Facilities:</strong> Manage facilities</li>
+                            <li><i class="fas fa-file-alt"></i> <strong>Documents:</strong> File management</li>
+                            <li><i class="fas fa-music"></i> <strong>Music:</strong> Audio library</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5>Common Actions</h5>
+                        <p>Look for these buttons to perform actions:</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-plus text-success"></i> <strong>Add New:</strong> Create new records</li>
+                            <li><i class="fas fa-edit text-primary"></i> <strong>Edit:</strong> Modify existing records</li>
+                            <li><i class="fas fa-trash text-danger"></i> <strong>Delete:</strong> Remove records</li>
+                            <li><i class="fas fa-search text-info"></i> <strong>Search:</strong> Find specific records</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Getting Started -->
+    <div class="help-section">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-rocket text-primary"></i> Getting Started</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5>First Steps</h5>
+                        <ol>
+                            <li class="mb-2">Login with your credentials</li>
+                            <li class="mb-2">Explore the Dashboard overview</li>
+                            <li class="mb-2">Check your user profile and permissions</li>
+                            <li class="mb-2">Familiarize yourself with the sidebar menu</li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5>Need Help?</h5>
+                        <p>If you encounter issues:</p>
+                        <ul class="feature-list">
+                            <li>Check this help page first</li>
+                            <li>Contact your system administrator</li>
+                            <li>Look for help icons (?) on pages</li>
+                            <li>Use the search function to find features</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+$(document).ready(function() {
+    // Smooth scrolling for anchor links
+    $('a[href^="#"]').on('click', function(event) {
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+            event.preventDefault();
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top - 100
+            }, 1000);
+        }
+    });
+});
+</script>
+{% endblock %}

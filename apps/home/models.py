@@ -1,10 +1,9 @@
 # -*- encoding: utf-8 -*-
 """
-Copyright (c) 2019 - present AppSeed.us
+Home app models for GVRC Admin
 """
 
 from django.db import models
-from django.contrib.auth.models import User
 
-# Create your models here.
+# Models for home app views and functionality
 

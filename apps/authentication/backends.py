@@ -26,9 +26,8 @@ class CustomUserBackend(BaseBackend):
         
         try:
             user = User.objects.get(email=email, is_active=True)
-            password_hash = hashlib.sha256(password.encode()).hexdigest()
             
-            if user.password_hash == password_hash:
+            if user.check_password(password):
                 return user
         except User.DoesNotExist:
             return None

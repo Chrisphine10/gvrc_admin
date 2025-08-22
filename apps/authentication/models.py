@@ -4,171 +4,232 @@ Authentication and user management models
 """
 
 from django.db import models
-from apps.common.models import TimeStampedModel
-from apps.facilities.models import Facility
-from apps.common.geography import Ward
+from django.utils import timezone
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.hashers import make_password, check_password
 
 
-class User(TimeStampedModel):
+class UserManager(BaseUserManager):
+    """Custom user manager for our User model"""
+    
+    def create_user(self, email, full_name, phone_number, password=None, **extra_fields):
+        """Create and return a regular user"""
+        if not email:
+            raise ValueError('The Email field must be set')
+        if not full_name:
+            raise ValueError('The Full Name field must be set')
+        if not phone_number:
+            raise ValueError('The Phone Number field must be set')
+        
+        email = self.normalize_email(email)
+        user = self.model(
+            email=email,
+            full_name=full_name,
+            phone_number=phone_number,
+            username=email,  # Set username to email for compatibility
+            **extra_fields
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, email, full_name, phone_number, password=None, **extra_fields):
+        """Create and return a superuser"""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('verified', True)
+        
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        
+        return self.create_user(email, full_name, phone_number, password, **extra_fields)
+    
+    def get_by_natural_key(self, username):
+        """Allow login with email as username"""
+        return self.get(email=username)
+
+
+class UserRole(models.Model):
+    """Available user roles"""
+    role_id = models.AutoField(primary_key=True)
+    role_name = models.CharField(max_length=50, unique=True, null=False)
+    description = models.CharField(max_length=255, blank=True)
+    is_system_role = models.BooleanField(default=False, null=False)
+    created_at = models.DateTimeField(default=timezone.now, null=False)
+    
+    def __str__(self):
+        return self.role_name
+    
+    class Meta:
+        db_table = 'user_roles'
+
+
+class Permission(models.Model):
+    """Available permissions"""
+    permission_id = models.AutoField(primary_key=True)
+    permission_name = models.CharField(max_length=100, unique=True, null=False)
+    resource_name = models.CharField(max_length=50, null=False)
+    action_name = models.CharField(max_length=20, null=False)
+    description = models.CharField(max_length=255, blank=True)
+    
+    def __str__(self):
+        return f"{self.action_name} {self.resource_name}"
+    
+    class Meta:
+        db_table = 'permissions'
+
+
+class RolePermission(models.Model):
+    """Many-to-many relationship between roles and permissions"""
+    role = models.ForeignKey(UserRole, on_delete=models.CASCADE, db_column='role_id', null=False)
+    permission = models.ForeignKey(Permission, on_delete=models.CASCADE, db_column='permission_id', null=False)
+    granted_at = models.DateTimeField(default=timezone.now, null=False)
+    granted_by = models.ForeignKey('User', on_delete=models.CASCADE, related_name='role_permissions_granted', db_column='granted_by', null=False)
+    
+    class Meta:
+        db_table = 'role_permissions'
+        unique_together = ('role', 'permission')
+
+
+class User(AbstractBaseUser, PermissionsMixin):
     """User model for system access"""
     user_id = models.AutoField(primary_key=True)
-    full_name = models.CharField(max_length=200)
+    full_name = models.CharField(max_length=100, null=False)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=20, unique=True)
-    password_hash = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
-    facility = models.ForeignKey(Facility, on_delete=models.SET_NULL, null=True, blank=True, db_column='facility_id')
+    # password_hash field removed - Django's AbstractBaseUser provides 'password' field
+    is_active = models.BooleanField(default=True, null=False)
+    verified = models.BooleanField(default=False, null=False)
+    password_reset_token = models.CharField(max_length=255, blank=True)
+    password_changed_at = models.DateTimeField(default=timezone.now, null=False)
+    created_at = models.DateTimeField(default=timezone.now, null=False)
+    updated_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     
     # Django admin required fields
-    is_staff = models.BooleanField(default=False, help_text="Designates whether the user can log into the admin site.")
-    is_superuser = models.BooleanField(default=False, help_text="Designates that this user has all permissions without explicitly assigning them.")
-    username = models.CharField(max_length=150, unique=True, null=True, blank=True, help_text="Username for admin access")
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    username = models.CharField(max_length=150, unique=True, null=True, blank=True)
+    
+    # Django authentication required fields
+    last_login = models.DateTimeField(blank=True, null=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+    
+    objects = UserManager()
     
     def __str__(self):
         return f"{self.full_name} ({self.email})"
+    
+    def get_full_name(self):
+        """Return the full name of the user"""
+        return self.full_name
+    
+    def get_short_name(self):
+        """Return the short name of the user"""
+        return self.full_name.split()[0] if self.full_name else ""
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['full_name', 'phone_number']
     
     class Meta:
         db_table = 'users'
 
 
-class UserLocation(TimeStampedModel):
-    """User location tracking"""
-    location_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
-    ward = models.ForeignKey('common.Ward', on_delete=models.CASCADE, db_column='ward_id', null=True, blank=True)
-    captured_at = models.DateTimeField()
+class UserRoleAssignment(models.Model):
+    """Many-to-many relationship between users and roles"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id', null=False)
+    role = models.ForeignKey(UserRole, on_delete=models.CASCADE, db_column='role_id', null=False)
+    assigned_at = models.DateTimeField(default=timezone.now, null=False)
+    assigned_by = models.ForeignKey('User', on_delete=models.CASCADE, related_name='role_assignments_granted', db_column='assigned_by', null=False)
+    expires_at = models.DateTimeField(blank=True, null=True)
+    
+    class Meta:
+        db_table = 'user_role_assignments'
+        unique_together = ('user', 'role')
+
+
+class UserProfile(models.Model):
+    """Extended user profile information"""
+    profile_id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, db_column='user_id', unique=True, null=False)
+    avatar_url = models.CharField(max_length=500, blank=True)
+    bio = models.TextField(blank=True)
+    department = models.CharField(max_length=100, blank=True)
+    job_title = models.CharField(max_length=100, blank=True)
+    notification_preferences = models.JSONField(default=dict, null=False)
+    created_at = models.DateTimeField(default=timezone.now, null=False)
+    updated_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
     
     def __str__(self):
-        return f"{self.user.full_name} - {self.ward.ward_name} at {self.captured_at}"
+        return f"Profile for {self.user.full_name}"
     
     class Meta:
-        db_table = 'user_locations'
-
-
-class AuthenticationMethod(models.Model):
-    """Available authentication methods"""
-    auth_id = models.AutoField(primary_key=True)
-    method_name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    
-    def __str__(self):
-        return self.method_name
-    
-    class Meta:
-        db_table = 'authentication_methods'
-
-
-class UserAuthMethod(models.Model):
-    """Many-to-many relationship between users and authentication methods"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
-    auth_method = models.ForeignKey(AuthenticationMethod, on_delete=models.CASCADE, db_column='auth_id')
-    
-    class Meta:
-        db_table = 'user_auth_methods'
-        unique_together = ('user', 'auth_method')
-
-
-class AccessLevel(models.Model):
-    """Available access levels"""
-    access_id = models.AutoField(primary_key=True)
-    level_name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    
-    def __str__(self):
-        return self.level_name
-    
-    class Meta:
-        db_table = 'access_levels'
-
-
-class UserAccessLevel(models.Model):
-    """Many-to-many relationship between users and access levels"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
-    access_level = models.ForeignKey(AccessLevel, on_delete=models.CASCADE, db_column='access_id')
-    
-    class Meta:
-        db_table = 'user_access_levels'
-        unique_together = ('user', 'access_level')
+        db_table = 'user_profiles'
 
 
 class UserSession(models.Model):
     """User session tracking"""
-    session_id = models.CharField(max_length=255, primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    ip_address = models.GenericIPAddressField()
-    created_at = models.DateTimeField()
-    expires_at = models.DateTimeField()
+    session_id = models.CharField(max_length=128, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id', null=False)
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
+    session_data = models.JSONField(default=dict, blank=True)
+    is_active = models.BooleanField(default=True, null=False)
+    created_at = models.DateTimeField(default=timezone.now, null=False)
+    last_activity_at = models.DateTimeField(default=timezone.now, null=False)
+    expires_at = models.DateTimeField(null=False)
+    ended_at = models.DateTimeField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.user.full_name} - {self.session_id}"
     
     class Meta:
         db_table = 'user_sessions'
+        indexes = [
+            models.Index(fields=['user']),
+            models.Index(fields=['is_active']),
+            models.Index(fields=['expires_at']),
+        ]
+
+
+
 
 
 class ApiToken(models.Model):
     """API token management"""
     token_id = models.AutoField(primary_key=True)
-    session = models.ForeignKey(UserSession, on_delete=models.CASCADE, db_column='session_id')
-    token_hash = models.CharField(max_length=255)
-    created_at = models.DateTimeField()
-    expires_at = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id', null=False)
+    token_name = models.CharField(max_length=100, null=False)
+    token_hash = models.CharField(max_length=255, unique=True, null=False)
+    last_used_at = models.DateTimeField(blank=True, null=True)
+    is_active = models.BooleanField(default=True, null=False)
+    created_at = models.DateTimeField(default=timezone.now, null=False)
+    expires_at = models.DateTimeField(null=False)
     
     def __str__(self):
-        return f"Token for {self.session.user.full_name}"
+        return f"Token {self.token_name} for {self.user.full_name}"
     
     class Meta:
         db_table = 'api_tokens'
-
-
-class ResetToken(models.Model):
-    """Password reset token management"""
-    reset_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
-    token_hash = models.CharField(max_length=255)
-    created_at = models.DateTimeField()
-    expires_at = models.DateTimeField()
-    used = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return f"Reset token for {self.user.full_name}"
-    
-    class Meta:
-        db_table = 'reset_tokens'
-
-
-class ContactClick(models.Model):
-    """Contact click tracking"""
-    click_id = models.AutoField(primary_key=True)
-    session = models.ForeignKey(UserSession, on_delete=models.CASCADE, db_column='session_id', null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
-    facility = models.ForeignKey('facilities.Facility', on_delete=models.CASCADE, db_column='facility_id', null=True, blank=True)
-    contact = models.ForeignKey('facilities.FacilityContact', on_delete=models.CASCADE, db_column='contact_id', null=True, blank=True)
-    clicked_at = models.DateTimeField()
-    helpful = models.BooleanField(null=True, blank=True)
-    followup_at = models.DateTimeField(null=True, blank=True)
-    
-    def __str__(self):
-        return f"{self.user.full_name} clicked {self.contact.contact_type.type_name} at {self.facility.facility_name}"
-    
-    class Meta:
-        db_table = 'contact_clicks'
+        indexes = [
+            models.Index(fields=['user']),
+            models.Index(fields=['is_active']),
+            models.Index(fields=['expires_at']),
+        ]
 
 
 class CustomToken(models.Model):
-    """
-    Custom API token model for our custom User model
-    """
+    """Custom API token model for our custom User model"""
     key = models.CharField(max_length=40, primary_key=True)
-    user = models.OneToOneField(User, related_name='auth_token', on_delete=models.CASCADE, db_column='user_id')
+    user = models.OneToOneField(User, related_name='custom_auth_token', on_delete=models.CASCADE, db_column='user_id', null=False)
     created = models.DateTimeField(auto_now_add=True)
     
     def save(self, *args, **kwargs):
         if not self.key:
             import secrets
-            self.key = secrets.token_hex(20)  # 40 character hex token
+            self.key = secrets.token_hex(20)
         return super().save(*args, **kwargs)
     
     def __str__(self):

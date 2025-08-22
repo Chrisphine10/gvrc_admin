@@ -6,9 +6,9 @@ Views for common app
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
-from .geography import County, Constituency, Ward
-from .lookups import OperationalStatus, ContactType, ServiceCategory, OwnerType, GBVCategory, DocumentType
-from .documents import Document
+from apps.geography.models import County, Constituency, Ward
+from apps.lookups.models import OperationalStatus, ContactType, ServiceCategory, OwnerType, GBVCategory, DocumentType
+
 from apps.facilities.models import Facility
 
 
@@ -23,7 +23,7 @@ def geography_overview(request):
     # Get total counts
     total_constituencies = Constituency.objects.count()
     total_wards = Ward.objects.count()
-    total_facilities = Facility.objects.filter(active_status=True).count()
+    total_facilities = Facility.objects.filter(is_active=True).count()
     
     context = {
         'counties': counties,
@@ -46,7 +46,7 @@ def county_detail(request, county_id):
     # Get facility count for this county
     facility_count = Facility.objects.filter(
         ward__constituency__county=county,
-        active_status=True
+        is_active=True
     ).count()
     
     context = {
@@ -67,7 +67,7 @@ def constituency_detail(request, constituency_id):
     # Get facility count for this constituency
     facility_count = Facility.objects.filter(
         ward__constituency=constituency,
-        active_status=True
+        is_active=True
     ).count()
     
     context = {
@@ -83,7 +83,7 @@ def constituency_detail(request, constituency_id):
 def ward_detail(request, ward_id):
     """Show ward details with facility information"""
     ward = get_object_or_404(Ward, ward_id=ward_id)
-    facilities = ward.facility_set.filter(active_status=True).select_related(
+    facilities = ward.facility_set.filter(is_active=True).select_related(
         'operational_status'
     ).prefetch_related(
         'facilityservice_set__service_category'
@@ -113,64 +113,4 @@ def lookup_tables(request):
     return render(request, 'common/lookup_tables.html', context)
 
 
-@login_required
-def document_list(request):
-    """List all documents with comprehensive data"""
-    documents = Document.objects.select_related(
-        'facility', 'gbv_category', 'document_type', 'uploaded_by'
-    ).order_by('-uploaded_at')
-    
-    # Search functionality
-    search_query = request.GET.get('search', '')
-    if search_query:
-        documents = documents.filter(
-            Q(title__icontains=search_query) |
-            Q(description__icontains=search_query) |
-            Q(facility__facility_name__icontains=search_query)
-        )
-    
-    # Filter by document type
-    doc_type_id = request.GET.get('doc_type')
-    if doc_type_id:
-        documents = documents.filter(document_type_id=doc_type_id)
-    
-    # Filter by GBV category
-    gbv_category_id = request.GET.get('gbv_category')
-    if gbv_category_id:
-        documents = documents.filter(gbv_category_id=gbv_category_id)
-    
-    # Get filter options
-    document_types = DocumentType.objects.all().order_by('type_name')
-    gbv_categories = GBVCategory.objects.all().order_by('category_name')
-    
-    context = {
-        'documents': documents,
-        'search_query': search_query,
-        'selected_doc_type': doc_type_id,
-        'selected_gbv_category': gbv_category_id,
-        'document_types': document_types,
-        'gbv_categories': gbv_categories,
-        'total_documents': documents.count(),
-    }
-    
-    return render(request, 'common/document_list.html', context)
 
-
-@login_required
-def document_detail(request, document_id):
-    """Show document details"""
-    document = get_object_or_404(
-        Document.objects.select_related(
-            'facility__ward__constituency__county',
-            'gbv_category',
-            'document_type',
-            'uploaded_by'
-        ),
-        document_id=document_id
-    )
-    
-    context = {
-        'document': document,
-    }
-    
-    return render(request, 'common/document_detail.html', context)

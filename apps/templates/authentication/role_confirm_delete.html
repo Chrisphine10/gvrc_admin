@@ -1,0 +1,182 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Delete Role {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+  <div class="header bg-gradient-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Delete Role</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'role_list' %}">User Roles</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Delete Role</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <a href="{% url 'role_list' %}" class="btn btn-sm btn-neutral">
+              <i class="fas fa-arrow-left"></i> Back to Roles
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0 text-danger">
+              <i class="fas fa-exclamation-triangle"></i> Delete Role
+            </h3>
+          </div>
+          <div class="card-body">
+            {% if role.is_system_role %}
+              <div class="alert alert-warning">
+                <h4 class="alert-heading">System Role Protected</h4>
+                <p>The role <strong>{{ role.role_name }}</strong> is a system role and cannot be deleted.</p>
+                <hr>
+                <p class="mb-0">System roles are essential for the basic functioning of the application and are protected from deletion.</p>
+              </div>
+              
+              <div class="text-center">
+                <a href="{% url 'role_list' %}" class="btn btn-primary">
+                  <i class="fas fa-arrow-left"></i> Back to Roles
+                </a>
+              </div>
+            {% else %}
+              <div class="alert alert-danger">
+                <h4 class="alert-heading">Warning!</h4>
+                <p>You are about to delete the role: <strong>{{ role.role_name }}</strong></p>
+                <hr>
+                <p class="mb-0">This action cannot be undone and will affect all users who currently have this role.</p>
+              </div>
+
+              <div class="card bg-light mb-4">
+                <div class="card-header">
+                  <h5 class="mb-0">Role Details</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <p><strong>Role Name:</strong><br>{{ role.role_name }}</p>
+                      <p><strong>Type:</strong><br>Custom Role</p>
+                    </div>
+                    <div class="col-md-6">
+                      <p><strong>Description:</strong><br>{{ role.description|default:"No description" }}</p>
+                      <p><strong>Created:</strong><br>{{ role.created_at|date:"F d, Y H:i" }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {% if users_with_role %}
+                <div class="card bg-warning mb-4">
+                  <div class="card-header">
+                    <h5 class="mb-0 text-white">
+                      <i class="fas fa-exclamation-triangle"></i> 
+                      Users Currently Assigned This Role
+                    </h5>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-white">The following users currently have this role assigned:</p>
+                    <ul class="text-white">
+                      {% for user_assignment in users_with_role %}
+                        <li><strong>{{ user_assignment.user.full_name }}</strong> ({{ user_assignment.user.email }})</li>
+                      {% endfor %}
+                    </ul>
+                    <p class="text-white mb-0">
+                      <strong>Note:</strong> Deleting this role will remove it from all these users, 
+                      potentially affecting their access levels and permissions.
+                    </p>
+                  </div>
+                </div>
+              {% endif %}
+
+              {% if role_permissions %}
+                <div class="card bg-info mb-4">
+                  <div class="card-header">
+                    <h5 class="mb-0 text-white">
+                      <i class="fas fa-info-circle"></i> 
+                      Permissions Currently Assigned to This Role
+                    </h5>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-white">This role currently has the following permissions:</p>
+                    <ul class="text-white">
+                      {% for role_perm in role_permissions %}
+                        <li><strong>{{ role_perm.permission.permission_name }}</strong> - {{ role_perm.permission.description|default:"No description" }}</li>
+                      {% endfor %}
+                    </ul>
+                    <p class="text-white mb-0">
+                      <strong>Note:</strong> All these permission assignments will be permanently removed.
+                    </p>
+                  </div>
+                </div>
+              {% endif %}
+
+              <div class="card bg-danger">
+                <div class="card-header">
+                  <h5 class="mb-0 text-white">
+                    <i class="fas fa-info-circle"></i> 
+                    What Happens When You Delete This Role?
+                  </h5>
+                </div>
+                <div class="card-body">
+                  <ul class="text-white mb-0">
+                    <li>The role will be permanently removed from the system</li>
+                    <li>All user-role assignments for this role will be deleted</li>
+                    <li>All role-permission assignments for this role will be deleted</li>
+                    <li>Users with this role may lose access to certain features</li>
+                    <li>This action cannot be undone</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="text-center mt-4">
+                <form method="post" style="display: inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-lg">
+                    <i class="fas fa-trash"></i> Yes, Delete Role
+                  </button>
+                </form>
+                <a href="{% url 'role_list' %}" class="btn btn-secondary btn-lg ml-2">
+                  <i class="fas fa-times"></i> Cancel
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script>
+    $(document).ready(function() {
+      // Add confirmation dialog for the delete button
+      $('form').on('submit', function(e) {
+        const roleName = '{{ role.role_name }}';
+        const confirmed = confirm(
+          `Are you absolutely sure you want to delete the role "${roleName}"?\n\n` +
+          'This action cannot be undone and will affect all users with this role.'
+        );
+        
+        if (!confirmed) {
+          e.preventDefault();
+          return false;
+        }
+      });
+    });
+  </script>
+{% endblock javascripts %}

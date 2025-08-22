@@ -78,8 +78,10 @@
 
       <!-- Form Sections -->
       <div class="row">
-        <!-- Basic Information -->
+        <!-- Left Column - Basic Info & Coordinates -->
         <div class="col-lg-8">
+          
+        <!-- Basic Information -->
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6><i class="ni ni-badge text-primary me-2"></i>Basic Information</h6>
@@ -98,6 +100,20 @@
                   <div class="text-danger small">{{ facility_form.facility_name.errors }}</div>
                   {% endif %}
                 </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.facility_code.id_for_label }}" class="form-label">
+                    Facility Code
+                  </label>
+                  {{ facility_form.facility_code }}
+                  {% if facility_form.facility_code.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.facility_code.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.facility_code.errors %}
+                  <div class="text-danger small">{{ facility_form.facility_code.errors }}</div>
+                  {% endif %}
+                </div>
+                
                 <div class="col-md-6 mb-3">
                   <label for="{{ facility_form.registration_number.id_for_label }}" class="form-label">
                     Registration Number <span class="text-danger">*</span>
@@ -110,8 +126,7 @@
                   <div class="text-danger small">{{ facility_form.registration_number.errors }}</div>
                   {% endif %}
                 </div>
-              </div>
-              <div class="row">
+                
                 <div class="col-md-6 mb-3">
                   <label for="{{ facility_form.operational_status.id_for_label }}" class="form-label">
                     Operational Status <span class="text-danger">*</span>
@@ -124,6 +139,7 @@
                   <div class="text-danger small">{{ facility_form.operational_status.errors }}</div>
                   {% endif %}
                 </div>
+                
                 <div class="col-md-6 mb-3">
                   <label for="{{ facility_form.ward.id_for_label }}" class="form-label">
                     Ward <span class="text-danger">*</span>
@@ -136,19 +152,73 @@
                   <div class="text-danger small">{{ facility_form.ward.errors }}</div>
                   {% endif %}
                 </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.website_url.id_for_label }}" class="form-label">
+                    Website URL
+                  </label>
+                  {{ facility_form.website_url }}
+                  {% if facility_form.website_url.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.website_url.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.website_url.errors %}
+                  <div class="text-danger small">{{ facility_form.website_url.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-12 mb-3">
+                  <label for="{{ facility_form.address_line_1.id_for_label }}" class="form-label">
+                    Address Line 1 <span class="text-danger">*</span>
+                  </label>
+                  {{ facility_form.address_line_1 }}
+                  {% if facility_form.address_line_1.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.address_line_1.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.address_line_1.errors %}
+                  <div class="text-danger small">{{ facility_form.address_line_1.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-12 mb-3">
+                  <label for="{{ facility_form.address_line_2.id_for_label }}" class="form-label">
+                    Address Line 2
+                  </label>
+                  {{ facility_form.address_line_2 }}
+                  {% if facility_form.address_line_2.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.address_line_2.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.address_line_2.errors %}
+                  <div class="text-danger small">{{ facility_form.address_line_2.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-12 mb-3">
+                  <label for="{{ facility_form.description.id_for_label }}" class="form-label">
+                    Description
+                  </label>
+                  {{ facility_form.description }}
+                  {% if facility_form.description.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.description.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.description.errors %}
+                  <div class="text-danger small">{{ facility_form.description.errors }}</div>
+                  {% endif %}
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- GPS Coordinates -->
+          <!-- Geographic Coordinates -->
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6><i class="ni ni-pin-3 text-info me-2"></i>GPS Coordinates</h6>
+              <h6><i class="ni ni-world text-info me-2"></i>Geographic Coordinates (Optional)</h6>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label for="{{ coordinate_form.latitude.id_for_label }}" class="form-label">Latitude</label>
+                  <label for="{{ coordinate_form.latitude.id_for_label }}" class="form-label">
+                    Latitude
+                  </label>
                   {{ coordinate_form.latitude }}
                   {% if coordinate_form.latitude.help_text %}
                   <small class="form-text text-muted">{{ coordinate_form.latitude.help_text }}</small>
@@ -157,8 +227,11 @@
                   <div class="text-danger small">{{ coordinate_form.latitude.errors }}</div>
                   {% endif %}
                 </div>
+                
                 <div class="col-md-6 mb-3">
-                  <label for="{{ coordinate_form.longitude.id_for_label }}" class="form-label">Longitude</label>
+                  <label for="{{ coordinate_form.longitude.id_for_label }}" class="form-label">
+                    Longitude
+                  </label>
                   {{ coordinate_form.longitude }}
                   {% if coordinate_form.longitude.help_text %}
                   <small class="form-text text-muted">{{ coordinate_form.longitude.help_text }}</small>
@@ -167,59 +240,80 @@
                   <div class="text-danger small">{{ coordinate_form.longitude.errors }}</div>
                   {% endif %}
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4 mb-3">
-                  <label for="{{ coordinate_form.data_source.id_for_label }}" class="form-label">Data Source</label>
-                  {{ coordinate_form.data_source }}
-                </div>
-                <div class="col-md-4 mb-3">
-                  <label for="{{ coordinate_form.collection_method.id_for_label }}" class="form-label">Collection Method</label>
-                  {{ coordinate_form.collection_method }}
-                </div>
-                <div class="col-md-4 mb-3">
-                  <label for="{{ coordinate_form.collection_date.id_for_label }}" class="form-label">Collection Date</label>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.collection_date.id_for_label }}" class="form-label">
+                    Collection Date
+                  </label>
                   {{ coordinate_form.collection_date }}
+                  {% if coordinate_form.collection_date.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.collection_date.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.collection_date.errors %}
+                  <div class="text-danger small">{{ coordinate_form.collection_date.errors }}</div>
+                  {% endif %}
+              </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.data_source.id_for_label }}" class="form-label">
+                    Data Source
+                  </label>
+                  {{ coordinate_form.data_source }}
+                  {% if coordinate_form.data_source.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.data_source.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.data_source.errors %}
+                  <div class="text-danger small">{{ coordinate_form.data_source.errors }}</div>
+                  {% endif %}
                 </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.collection_method.id_for_label }}" class="form-label">
+                    Collection Method
+                  </label>
+                  {{ coordinate_form.collection_method }}
+                  {% if coordinate_form.collection_method.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.collection_method.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.collection_method.errors %}
+                  <div class="text-danger small">{{ coordinate_form.collection_method.errors }}</div>
+                  {% endif %}
               </div>
             </div>
           </div>
         </div>
 
         <!-- GBV Categories -->
-        <div class="col-lg-4">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6><i class="ni ni-support-16 text-danger me-2"></i>GBV Focus Areas</h6>
+              <h6><i class="ni ni-chart-bar-32 text-success me-2"></i>GBV Categories</h6>
             </div>
             <div class="card-body">
-              <div class="form-group">
-                {% for choice in gbv_form.gbv_categories %}
-                <div class="form-check">
-                  {{ choice.tag }}
-                  <label class="form-check-label" for="{{ choice.id_for_label }}">
-                    {{ choice.choice_label }}
-                  </label>
-                </div>
-                {% endfor %}
+              <div class="row">
+                <div class="col-12">
+                  {{ gbv_form.gbv_categories }}
                 {% if gbv_form.gbv_categories.help_text %}
                 <small class="form-text text-muted">{{ gbv_form.gbv_categories.help_text }}</small>
                 {% endif %}
-              </div>
+                  {% if gbv_form.gbv_categories.errors %}
+                  <div class="text-danger small">{{ gbv_form.gbv_categories.errors }}</div>
+                  {% endif %}
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Dynamic Formsets -->
-      <div class="row">
-        <!-- Contacts -->
+        </div>
+
+        <!-- Right Column - Related Data Formsets -->
         <div class="col-lg-4">
+          
+          <!-- Contact Information -->
           <div class="card mb-4">
             <div class="card-header pb-0">
               <div class="d-flex justify-content-between align-items-center">
-                <h6><i class="ni ni-mobile-button text-success me-2"></i>Contact Information</h6>
-                <button type="button" class="btn btn-outline-success btn-sm" onclick="addFormsetForm('contacts')">
+                <h6><i class="ni ni-mobile-button text-primary me-2"></i>Contact Information</h6>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addFormsetForm('contacts')">
                   <i class="fas fa-plus"></i> Add Contact
                 </button>
               </div>
@@ -228,41 +322,60 @@
               <div id="contacts-formset">
                 {{ contact_formset.management_form }}
                 {% for form in contact_formset %}
-                <div class="formset-form border-bottom pb-3 mb-3">
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
                   {% if form.non_field_errors %}
                   <div class="text-danger small">{{ form.non_field_errors }}</div>
                   {% endif %}
-                  <div class="row">
-                    <div class="col-12 mb-2">
-                      <label class="form-label">Contact Type</label>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Contact Type <span class="text-danger">*</span></label>
                       {{ form.contact_type }}
                       {% if form.contact_type.errors %}
                       <div class="text-danger small">{{ form.contact_type.errors }}</div>
                       {% endif %}
                     </div>
-                    <div class="col-12 mb-2">
-                      <label class="form-label">Contact Value</label>
-                                              <div class="input-group">
-                        {{ form.contact_value }}
-                        <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this contact">
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Contact Value <span class="text-danger">*</span></label>
+                      {{ form.contact_value }}
                       {% if form.contact_value.errors %}
                       <div class="text-danger small">{{ form.contact_value.errors }}</div>
                       {% endif %}
                     </div>
-                  </div>
-                  {% if form.DELETE %}{{ form.DELETE }}{% endif %}
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Contact Person Name</label>
+                      {{ form.contact_person_name }}
+                      {% if form.contact_person_name.errors %}
+                      <div class="text-danger small">{{ form.contact_person_name.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                          {{ form.is_primary }}
+                      <label class="form-check-label small" for="{{ form.is_primary.id_for_label }}">
+                            Primary Contact
+                          </label>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this contact">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                  
+                  <!-- Hidden DELETE field for existing forms -->
+                  {% if form.DELETE %}
+                  <div style="display: none;">
+                    {{ form.DELETE }}
+                    </div>
+                  {% endif %}
                 </div>
                 {% endfor %}
-              </div>
             </div>
           </div>
         </div>
 
-        <!-- Services -->
-        <div class="col-lg-4">
+          <!-- Services Offered -->
           <div class="card mb-4">
             <div class="card-header pb-0">
               <div class="d-flex justify-content-between align-items-center">
@@ -276,45 +389,109 @@
               <div id="services-formset">
                 {{ service_formset.management_form }}
                 {% for form in service_formset %}
-                <div class="formset-form border-bottom pb-3 mb-3">
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
                   {% if form.non_field_errors %}
                   <div class="text-danger small">{{ form.non_field_errors }}</div>
                   {% endif %}
-                  <div class="row">
-                    <div class="col-12 mb-2">
-                      <label class="form-label">Service Category</label>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Service Category <span class="text-danger">*</span></label>
                       {{ form.service_category }}
                       {% if form.service_category.errors %}
                       <div class="text-danger small">{{ form.service_category.errors }}</div>
                       {% endif %}
                     </div>
-                    <div class="col-12 mb-2">
-                      <label class="form-label">Description</label>
-                                              <div class="input-group">
-                        {{ form.service_description }}
-                        <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this service">
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Service Name <span class="text-danger">*</span></label>
+                      {{ form.service_name }}
+                      {% if form.service_name.errors %}
+                      <div class="text-danger small">{{ form.service_name.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Description</label>
+                      {{ form.service_description }}
                       {% if form.service_description.errors %}
                       <div class="text-danger small">{{ form.service_description.errors }}</div>
                       {% endif %}
                     </div>
-                  </div>
-                  {% if form.DELETE %}{{ form.DELETE }}{% endif %}
+                  
+                  <div class="row mb-2">
+                    <div class="col-6">
+                        <div class="form-check">
+                          {{ form.is_free }}
+                        <label class="form-check-label small" for="{{ form.is_free.id_for_label }}">
+                            Free Service
+                          </label>
+                        </div>
+                      </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                          {{ form.appointment_required }}
+                        <label class="form-check-label small" for="{{ form.appointment_required.id_for_label }}">
+                            Appointment Required
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Cost Range</label>
+                        {{ form.cost_range }}
+                    {% if form.cost_range.errors %}
+                    <div class="text-danger small">{{ form.cost_range.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Currency</label>
+                        {{ form.currency }}
+                    {% if form.currency.errors %}
+                    <div class="text-danger small">{{ form.currency.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Availability Hours</label>
+                        {{ form.availability_hours }}
+                    {% if form.availability_hours.errors %}
+                    <div class="text-danger small">{{ form.availability_hours.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Availability Days</label>
+                        {{ form.availability_days }}
+                    {% if form.availability_days.errors %}
+                    <div class="text-danger small">{{ form.availability_days.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                                     <div class="text-end">
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this service">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                   
+                   <!-- Hidden DELETE field for existing forms -->
+                   {% if form.DELETE %}
+                   <div style="display: none;">
+                     {{ form.DELETE }}
+                    </div>
+                   {% endif %}
                 </div>
                 {% endfor %}
-              </div>
             </div>
           </div>
         </div>
 
-        <!-- Owners -->
-        <div class="col-lg-4">
+          <!-- Ownership Information -->
           <div class="card mb-4">
             <div class="card-header pb-0">
               <div class="d-flex justify-content-between align-items-center">
-                <h6><i class="ni ni-single-02 text-info me-2"></i>Ownership</h6>
+                <h6><i class="ni ni-single-02 text-info me-2"></i>Ownership Information</h6>
                 <button type="button" class="btn btn-outline-info btn-sm" onclick="addFormsetForm('owners')">
                   <i class="fas fa-plus"></i> Add Owner
                 </button>
@@ -324,85 +501,176 @@
               <div id="owners-formset">
                 {{ owner_formset.management_form }}
                 {% for form in owner_formset %}
-                <div class="formset-form border-bottom pb-3 mb-3">
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
                   {% if form.non_field_errors %}
                   <div class="text-danger small">{{ form.non_field_errors }}</div>
                   {% endif %}
-                  <div class="row">
-                    <div class="col-12 mb-2">
-                      <label class="form-label">Owner Name</label>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Owner Name <span class="text-danger">*</span></label>
                       {{ form.owner_name }}
                       {% if form.owner_name.errors %}
                       <div class="text-danger small">{{ form.owner_name.errors }}</div>
                       {% endif %}
                     </div>
-                    <div class="col-12 mb-2">
-                      <label class="form-label">Owner Type</label>
-                                              <div class="input-group">
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Owner Type <span class="text-danger">*</span></label>
                         {{ form.owner_type }}
+                    {% if form.owner_type.errors %}
+                    <div class="text-danger small">{{ form.owner_type.errors }}</div>
+                    {% endif %}
+                  </div>
+                  
+                                     <div class="text-end">
                         <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this owner">
                           <i class="fas fa-trash"></i>
                         </button>
                       </div>
-                      {% if form.owner_type.errors %}
-                      <div class="text-danger small">{{ form.owner_type.errors }}</div>
+                   
+                   <!-- Hidden DELETE field for existing forms -->
+                   {% if form.DELETE %}
+                   <div style="display: none;">
+                     {{ form.DELETE }}
+                   </div>
                       {% endif %}
-                    </div>
-                  </div>
-                  {% if form.DELETE %}{{ form.DELETE }}{% endif %}
                 </div>
                 {% endfor %}
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-      <!-- Form Actions -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body text-center">
-              <a href="{% if facility %}{% url 'facilities:facility_detail' facility.facility_id %}{% else %}{% url 'facilities:facility_list' %}{% endif %}" 
-                 class="btn btn-outline-secondary btn-lg me-3">
-                <i class="fas fa-times"></i> Cancel
-              </a>
-              <button type="submit" class="btn btn-primary btn-lg">
-                <i class="fas fa-save"></i> {{ form_action }} Facility
-              </button>
+          <!-- Infrastructure -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6><i class="ni ni-building text-secondary me-2"></i>Infrastructure (Optional)</h6>
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addFormsetForm('infrastructure')">
+                  <i class="fas fa-plus"></i> Add Infrastructure
+                </button>
+              </div>
             </div>
+            <div class="card-body">
+              <div id="infrastructure-formset">
+                {{ infrastructure_formset.management_form }}
+                  {% for form in infrastructure_formset %}
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
+                    {% if form.non_field_errors %}
+                    <div class="text-danger small">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Infrastructure Type <span class="text-danger">*</span></label>
+                        {{ form.infrastructure_type }}
+                        {% if form.infrastructure_type.errors %}
+                        <div class="text-danger small">{{ form.infrastructure_type.errors }}</div>
+                        {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Condition Status <span class="text-danger">*</span></label>
+                        {{ form.condition_status }}
+                        {% if form.condition_status.errors %}
+                        <div class="text-danger small">{{ form.condition_status.errors }}</div>
+                        {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                    <div class="text-danger small">{{ form.description.errors }}</div>
+                    {% endif %}
+                    </div>
+                  
+                  <div class="row mb-2">
+                    <div class="col-6">
+                      <label class="form-label small fw-bold">Capacity</label>
+                        {{ form.capacity }}
+                        {% if form.capacity.errors %}
+                        <div class="text-danger small">{{ form.capacity.errors }}</div>
+                        {% endif %}
+                      </div>
+                    <div class="col-6">
+                      <label class="form-label small fw-bold">Current Utilization</label>
+                        {{ form.current_utilization }}
+                        {% if form.current_utilization.errors %}
+                        <div class="text-danger small">{{ form.current_utilization.errors }}</div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  
+                  <div class="mb-2">
+                          <div class="form-check">
+                            {{ form.is_available }}
+                      <label class="form-check-label small" for="{{ form.is_available.id_for_label }}">
+                        Currently Available
+                            </label>
+                          </div>
+                  </div>
+                  
+                                     <div class="text-end">
+                     <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this infrastructure">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                   
+                   <!-- Hidden DELETE field for existing forms -->
+                   {% if form.DELETE %}
+                   <div style="display: none;">
+                     {{ form.DELETE }}
+                      </div>
+                   {% endif %}
+                  </div>
+                  {% endfor %}
           </div>
+        </div>
+      </div>
+
         </div>
       </div>
     </form>
   </div>
 
-  <!-- JavaScript for Dynamic Formsets -->
   <script>
     function addFormsetForm(prefix) {
       const formsetDiv = document.getElementById(prefix + '-formset');
       const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
       const formIdx = parseInt(totalForms.value);
       
-      // Get the first form as a template
-      const firstForm = formsetDiv.querySelector('.formset-form');
-      if (!firstForm) return;
-      
       // Clone the first form
+      const firstForm = formsetDiv.querySelector('.formset-form');
+      if (!firstForm) {
+        console.error('No form found to clone');
+        return;
+      }
+      
       const newForm = firstForm.cloneNode(true);
       
       // Update form indices
       const regex = new RegExp(`${prefix}-(\\d+)-`, 'g');
       newForm.innerHTML = newForm.innerHTML.replace(regex, `${prefix}-${formIdx}-`);
       
-      // Clear the form values
+      // Clear form values and reset checkboxes
       const inputs = newForm.querySelectorAll('input, select, textarea');
       inputs.forEach(input => {
-        if (input.type !== 'hidden') {
+        if (input.type === 'checkbox') {
+          input.checked = false;
+        } else if (input.type === 'radio') {
+          input.checked = false;
+        } else if (input.type !== 'hidden') {
           input.value = '';
+          if (input.tagName === 'SELECT') {
           input.selectedIndex = 0; // Reset select elements
+          }
         }
       });
+      
+      // Remove any existing DELETE field from new forms
+      const deleteField = newForm.querySelector('input[name$="-DELETE"]');
+      if (deleteField) {
+        deleteField.remove();
+      }
       
       // Add the new form
       formsetDiv.appendChild(newForm);
@@ -424,13 +692,13 @@
         f.style.display !== 'none' && !f.querySelector('input[name$="-DELETE"]:checked')
       );
       
-      // Prevent deletion if this is the last visible form
-      if (visibleForms.length <= 1) {
-        // Show a more user-friendly message
-        const formType = prefix === 'contacts' ? 'contact' : prefix === 'services' ? 'service' : 'owner';
-        alert(`You must keep at least one ${formType} entry. Please add another ${formType} before removing this one.`);
-        return;
-      }
+              // Prevent deletion if this is the last visible form
+        // For infrastructure, allow 0 forms since it's optional
+        if (visibleForms.length <= 1 && prefix !== 'infrastructure') {
+          const formType = prefix === 'contacts' ? 'contact' : prefix === 'services' ? 'service' : 'owner';
+          alert(`You must keep at least one ${formType} entry. Please add another ${formType} before removing this one.`);
+          return;
+        }
       
       const deleteInput = form.querySelector('input[name$="-DELETE"]');
       
@@ -442,6 +710,16 @@
       } else {
         // For new forms (without DELETE field), remove completely
         form.remove();
+        // Update the total forms count
+        const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+        if (totalForms) {
+          // For infrastructure, allow going to 0
+          if (prefix === 'infrastructure') {
+            totalForms.value = Math.max(0, parseInt(totalForms.value) - 1);
+          } else {
+            totalForms.value = Math.max(1, parseInt(totalForms.value) - 1);
+          }
+        }
         updateFormsetIndices();
       }
       
@@ -459,37 +737,163 @@
       visibleForms.forEach(form => {
         const deleteButton = form.querySelector('.remove-form-btn');
         if (deleteButton) {
-          if (visibleForms.length <= 1) {
+          if (prefix === 'infrastructure') {
+            // Infrastructure can always be deleted (even to 0)
+            deleteButton.style.display = 'block';
+          } else {
+            // Other formsets must keep at least 1 form
+            if (visibleForms.length <= 1) {
             deleteButton.style.display = 'none';
           } else {
             deleteButton.style.display = 'block';
+            }
           }
         }
       });
     }
     
     function updateFormsetIndices() {
-      ['contacts', 'services', 'owners'].forEach(prefix => {
+      ['contacts', 'services', 'owners', 'infrastructure'].forEach(prefix => {
         const formsetDiv = document.getElementById(prefix + '-formset');
         const visibleForms = Array.from(formsetDiv.querySelectorAll('.formset-form')).filter(f => 
           f.style.display !== 'none'
         );
         const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
         
+        if (totalForms) {
+          // Update form indices
         visibleForms.forEach((form, index) => {
           const regex = new RegExp(`${prefix}-(\\d+)-`, 'g');
           form.innerHTML = form.innerHTML.replace(regex, `${prefix}-${index}-`);
         });
         
+          // Update total forms count
+          if (prefix === 'infrastructure') {
+            // Infrastructure can have 0 forms
         totalForms.value = visibleForms.length;
+          } else {
+            // Other formsets must have at least 1 form
+            totalForms.value = Math.max(1, visibleForms.length);
+          }
+        }
       });
     }
     
     // Initialize delete button visibility when page loads
     document.addEventListener('DOMContentLoaded', function() {
-      ['contacts', 'services', 'owners'].forEach(prefix => {
+      ['contacts', 'services', 'owners', 'infrastructure'].forEach(prefix => {
         updateDeleteButtonVisibility(prefix);
       });
+      
+      // Special handling for infrastructure - if no forms exist, create a template form
+      const infrastructureFormset = document.getElementById('infrastructure-formset');
+      if (infrastructureFormset && infrastructureFormset.querySelectorAll('.formset-form').length === 0) {
+        // Create a template form for infrastructure (hidden, used for cloning)
+        const templateForm = document.createElement('div');
+        templateForm.className = 'formset-form border rounded p-3 mb-3 bg-light';
+        templateForm.style.display = 'none';
+        templateForm.innerHTML = `
+          <div class="mb-2">
+            <label class="form-label small fw-bold">Infrastructure Type <span class="text-danger">*</span></label>
+            <select name="infrastructure-0-infrastructure_type" class="form-control" id="id_infrastructure-0-infrastructure_type">
+              <option value="">Select infrastructure type</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label small fw-bold">Condition Status <span class="text-danger">*</span></label>
+            <select name="infrastructure-0-condition_status" class="form-control" id="id_infrastructure-0-condition_status">
+              <option value="">Select condition status</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label small fw-bold">Description</label>
+            <textarea name="infrastructure-0-description" class="form-control" rows="3" placeholder="Describe the infrastructure"></textarea>
+          </div>
+          <div class="row mb-2">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Capacity</label>
+              <input type="number" name="infrastructure-0-capacity" class="form-control" placeholder="e.g., 50 people">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Current Utilization</label>
+              <input type="number" name="infrastructure-0-current_utilization" class="form-control" placeholder="e.g., 30 people">
+            </div>
+          </div>
+          <div class="mb-2">
+            <div class="form-check">
+              <input type="checkbox" name="infrastructure-0-is_available" class="form-check-input" id="id_infrastructure-0-is_available">
+              <label class="form-check-label small" for="id_infrastructure-0-is_available">
+                Currently Available
+              </label>
+            </div>
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this infrastructure">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        `;
+        infrastructureFormset.appendChild(templateForm);
+      }
+      
+      // Add form validation
+      const form = document.getElementById('facility-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          if (!validateForm()) {
+            e.preventDefault();
+            return false;
+          }
+        });
+      }
     });
+    
+    // Form validation function
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate required fields in main facility form
+      const requiredFields = form.querySelectorAll('[required]');
+      requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+          field.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          field.classList.remove('is-invalid');
+        }
+      });
+      
+      // Validate formsets
+      ['contacts', 'services', 'owners'].forEach(prefix => {
+        const formsetDiv = document.getElementById(prefix + '-formset');
+        const visibleForms = Array.from(formsetDiv.querySelectorAll('.formset-form')).filter(f => 
+          f.style.display !== 'none' && !f.querySelector('input[name$="-DELETE"]:checked')
+        );
+        
+        if (visibleForms.length === 0) {
+          alert(`${prefix.charAt(0).toUpperCase() + prefix.slice(1)} must have at least one entry.`);
+          isValid = false;
+        }
+        
+        // Validate required fields in each visible form
+        visibleForms.forEach(form => {
+          const requiredInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+          requiredInputs.forEach(input => {
+            if (!input.value.trim()) {
+              input.classList.add('is-invalid');
+              isValid = false;
+            } else {
+              input.classList.remove('is-invalid');
+            }
+          });
+      });
+    });
+      
+      if (!isValid) {
+        alert('Please fill in all required fields marked with *.');
+      }
+      
+      return isValid;
+    }
   </script>
 {% endblock content %}

@@ -5,7 +5,7 @@ API views for GVRC Admin - Mobile App Focused
 
 from rest_framework import status, generics, filters
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, BasePermission
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q, Count, Prefetch
@@ -18,25 +18,64 @@ from drf_yasg import openapi
 from .serializers import (
     FacilityListSerializer, FacilityDetailSerializer, FacilitySearchSerializer,
     FacilityMapSerializer, StatisticsSerializer, CountySerializer,
-    ConstituencySerializer, WardSerializer, OperationalStatusSerializer,
+    ConstituencySerializer, WardSerializer, ConsolidatedGeographySerializer, OperationalStatusSerializer,
     ServiceCategorySerializer, ContactTypeSerializer, OwnerTypeSerializer,
     GBVCategorySerializer, LookupDataResponseSerializer, EmergencySearchSerializer,
-    GBVServiceSearchSerializer, ReferralChainSerializer, ContactClickSerializer,
-    ReferralOutcomeSerializer, FacilityCompleteSerializer
+    GBVServiceSearchSerializer, ReferralChainSerializer,
+    ReferralOutcomeSerializer, FacilityCompleteSerializer,
+    MobileAppFacilitySerializer, MusicSerializer,
+    DocumentSerializer, MobileSessionSerializer, MobileSessionCreateSerializer,
+    MobileSessionUpdateSerializer
 )
 from apps.facilities.models import (
     Facility, FacilityContact, FacilityService, 
     FacilityOwner, FacilityCoordinate, FacilityGBVCategory
 )
-from apps.authentication.models import ContactClick, User, UserSession, CustomToken
-from apps.common.geography import County, Constituency, Ward
-from apps.common.lookups import (
+from apps.authentication.models import User, UserSession, CustomToken
+from apps.geography.models import County, Constituency, Ward
+from apps.lookups.models import (
     OperationalStatus, ContactType, ServiceCategory, 
     OwnerType, GBVCategory
 )
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 import hashlib
+from apps.analytics.models import ContactInteraction
+import time
+from django.utils import timezone
+
+
+class MobileSessionPermission(BasePermission):
+    """
+    Custom permission class for mobile API endpoints.
+    Validates device_id from request body or query parameters and checks if mobile session exists and is active.
+    """
+    
+    message = "Valid mobile session required. Please provide a valid device_id."
+    
+    def has_permission(self, request, view):
+        # For GET requests, get device_id from query parameters
+        # For POST/PUT requests, get device_id from request body
+        if request.method == 'GET':
+            device_id = request.query_params.get('device_id')
+        else:
+            device_id = request.data.get('device_id')
+        
+        if not device_id:
+            self.message = "device_id is required. For GET requests, pass as query parameter. For POST requests, include in request body."
+            return False
+        
+        # Check if mobile session exists and is active
+        from apps.mobile_sessions.models import MobileSession
+        
+        try:
+            session = MobileSession.objects.get(device_id=device_id, is_active=True)
+            # Store session in request for use in views
+            request.mobile_session = session
+            return True
+        except MobileSession.DoesNotExist:
+            self.message = f"Mobile session not found or inactive for device_id: {device_id}. Please create a valid session first."
+            return False
 
 
 class CustomPagination(PageNumberPagination):
@@ -90,11 +129,11 @@ class FacilityListView(generics.ListAPIView):
             'operational_status'
         ).prefetch_related(
             Prefetch(
-                'facilitycoordinate_set',
-                queryset=FacilityCoordinate.objects.filter(active_status=True),
+                'facilitycoordinate',
+                queryset=FacilityCoordinate.objects.filter(),
                 to_attr='active_coordinates'
             )
-        ).filter(active_status=True)
+        ).filter(is_active=True)
 
         # Apply custom filters
         county_id = self.request.query_params.get('county')
@@ -119,9 +158,8 @@ class FacilityListView(generics.ListAPIView):
 
         has_coordinates = self.request.query_params.get('has_coordinates')
         if has_coordinates == 'true':
-            queryset = queryset.filter(facilitycoordinate_set__active_status=True,
-                                     facilitycoordinate_set__latitude__isnull=False,
-                                     facilitycoordinate_set__longitude__isnull=False)
+            queryset = queryset.filter(facilitycoordinate__latitude__isnull=False,
+                                     facilitycoordinate__longitude__isnull=False)
 
         return queryset.distinct()
 
@@ -139,8 +177,8 @@ class FacilityDetailView(generics.RetrieveAPIView):
         'facilityservice_set__service_category',
         'facilityowner_set__owner_type',
         'facilitygbvcategory_set__gbv_category',
-        'facilitycoordinate_set'
-    ).filter(active_status=True)
+        'facilitycoordinate'
+    ).filter(is_active=True)
     serializer_class = FacilityDetailSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'facility_id'
@@ -188,19 +226,17 @@ class FacilityMapView(generics.ListAPIView):
             'ward__constituency__county'
         ).prefetch_related(
             Prefetch(
-                'facilitycoordinate_set',
+                'facilitycoordinate',
                 queryset=FacilityCoordinate.objects.filter(
-                    active_status=True,
                     latitude__isnull=False,
                     longitude__isnull=False
                 ),
                 to_attr='valid_coordinates'
             )
         ).filter(
-            active_status=True,
-            facilitycoordinate_set__active_status=True,
-            facilitycoordinate_set__latitude__isnull=False,
-            facilitycoordinate_set__longitude__isnull=False
+            is_active=True,
+            facilitycoordinate__latitude__isnull=False,
+            facilitycoordinate__longitude__isnull=False
         )
 
         # Apply filters
@@ -251,8 +287,8 @@ class FacilitySearchView(generics.ListAPIView):
             'operational_status'
         ).prefetch_related(
             'facilityservice_set__service_category',
-            'facilitycoordinate_set'
-        ).filter(active_status=True)
+            'facilitycoordinate'
+        ).filter(is_active=True)
 
         # Get search parameters
         search_query = self.request.data.get('search', '')
@@ -286,9 +322,8 @@ class FacilitySearchView(generics.ListAPIView):
             queryset = queryset.filter(facilityservice_set__service_category_id=service_category_id)
         if has_coordinates:
             queryset = queryset.filter(
-                facilitycoordinate_set__active_status=True,
-                facilitycoordinate_set__latitude__isnull=False,
-                facilitycoordinate_set__longitude__isnull=False
+                facilitycoordinate__latitude__isnull=False,
+                facilitycoordinate__longitude__isnull=False
             )
 
         return queryset.distinct()
@@ -312,9 +347,9 @@ class StatisticsView(generics.GenericAPIView):
     def get(self, request):
         """Get comprehensive statistics"""
         # Basic counts
-        total_facilities = Facility.objects.filter(active_status=True).count()
+        total_facilities = Facility.objects.filter(is_active=True).count()
         operational_facilities = Facility.objects.filter(
-            active_status=True,
+            is_active=True,
             operational_status__status_name='Operational'
         ).count()
         
@@ -325,22 +360,21 @@ class StatisticsView(generics.GenericAPIView):
         
         # Facilities with coordinates
         facilities_with_coordinates = Facility.objects.filter(
-            active_status=True,
-            facilitycoordinate_set__active_status=True,
-            facilitycoordinate_set__latitude__isnull=False,
-            facilitycoordinate_set__longitude__isnull=False
+            is_active=True,
+            facilitycoordinate__latitude__isnull=False,
+            facilitycoordinate__longitude__isnull=False
         ).distinct().count()
         
         # Facilities by operational status
         facilities_by_status = Facility.objects.filter(
-            active_status=True
+            is_active=True
         ).values('operational_status__status_name').annotate(
             count=Count('facility_id')
         ).order_by('-count')
         
         # Facilities by county
         facilities_by_county = Facility.objects.filter(
-            active_status=True
+            is_active=True
         ).values(
             'ward__constituency__county__county_name'
         ).annotate(
@@ -415,6 +449,29 @@ class WardListView(generics.ListAPIView):
     pagination_class = None
 
 
+class ConsolidatedGeographyView(generics.ListAPIView):
+    """
+    Consolidated geography endpoint that returns all counties with nested constituencies and wards.
+    This provides a single API call to get the complete geographic hierarchy.
+    """
+    queryset = County.objects.prefetch_related(
+        'constituency_set__ward_set'
+    ).all().order_by('county_name')
+    serializer_class = ConsolidatedGeographySerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+    
+    @swagger_auto_schema(
+        operation_description="Get complete geographic hierarchy including counties, constituencies, and wards in a single API call",
+        responses={
+            200: openapi.Response('Complete geographic hierarchy', ConsolidatedGeographySerializer(many=True)),
+            401: 'Unauthorized',
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
 @swagger_auto_schema(
     method='get',
     operation_description="API status and health check",
@@ -438,7 +495,7 @@ def api_status(request):
     return Response({
         "status": "active",
         "version": "v1.0.0",
-        "message": "GVRC Admin API is running successfully",
+        "message": "Hodi Admin API is running successfully",
         "timestamp": timezone.now().isoformat()
     })
 
@@ -459,7 +516,7 @@ def api_status(request):
 @permission_classes([AllowAny])
 def hello_world(request):
     """Simple hello world API endpoint for testing"""
-    return Response({"message": "Hello, GVRC Admin API!"})
+    return Response({"message": "Hello, Hodi Admin API!"})
 
 
 class EmergencyServicesView(generics.GenericAPIView):
@@ -502,16 +559,16 @@ class EmergencyServicesView(generics.GenericAPIView):
             'facilityservice_set__service_category',
             'facilitycontact_set__contact_type'
         ).filter(
-            active_status=True,
+            is_active=True,
             operational_status__status_name='Operational',
             facilityservice_set__service_category__category_name__in=service_types,
-            facilitycoordinate_set__active_status=True,
-            facilitycoordinate_set__latitude__isnull=False,
-            facilitycoordinate_set__longitude__isnull=False
+            facilitycoordinate__latitude__isnull=False,
+            facilitycoordinate__longitude__isnull=False
         ).annotate(
             distance=Sqrt(
-                Power(F('facilitycoordinate_set__latitude') - latitude, 2) +
-                Power(F('facilitycoordinate_set__longitude') - longitude, 2)
+                Power(F('facilitycoordinate__latitude') - latitude, 2) +
+                Power(F('facilitycoordinate__longitude') - longitude, 2),
+                output_field=FloatField()
             ) * 111.32  # Approximate conversion to km
         ).filter(
             distance__lte=radius_km
@@ -561,7 +618,7 @@ class GBVServicesView(generics.GenericAPIView):
             'facilityservice_set__service_category',
             'facilitygbvcategory_set__gbv_category'
         ).filter(
-            active_status=True,
+            is_active=True,
             operational_status__status_name='Operational',
             facilitygbvcategory_set__gbv_category__category_name__icontains=gbv_category
         )
@@ -633,7 +690,7 @@ class ReferralChainView(generics.GenericAPIView):
             facilities = Facility.objects.select_related(
                 'ward__constituency__county'
             ).filter(
-                active_status=True,
+                is_active=True,
                 operational_status__status_name='Operational',
                 facilityservice_set__service_category__category_name__icontains=need
             )
@@ -655,7 +712,7 @@ class ReferralChainView(generics.GenericAPIView):
             facilities = Facility.objects.select_related(
                 'ward__constituency__county'
             ).filter(
-                active_status=True,
+                is_active=True,
                 operational_status__status_name='Operational',
                 facilityservice_set__service_category__category_name__icontains=need
             )
@@ -703,8 +760,8 @@ class FacilityCompleteView(generics.RetrieveAPIView):
         'facilityservice_set__service_category',
         'facilityowner_set__owner_type',
         'facilitygbvcategory_set__gbv_category',
-        'facilitycoordinate_set'
-    ).filter(active_status=True)
+        'facilitycoordinate'
+    ).filter(is_active=True)
     serializer_class = FacilityCompleteSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'facility_id'
@@ -721,100 +778,93 @@ class FacilityCompleteView(generics.RetrieveAPIView):
         return super().get(request, *args, **kwargs)
 
 
-class ContactClickAnalyticsView(generics.GenericAPIView):
+class ContactInteractionAnalyticsView(generics.GenericAPIView):
     """
-    Track contact clicks for analytics and referral effectiveness.
+    Track contact interactions for analytics and referral effectiveness.
     """
     permission_classes = [IsAuthenticated]
     
     @swagger_auto_schema(
-        operation_description="Track when users contact a facility",
-        request_body=ContactClickSerializer,
+        operation_description="Track when users interact with a facility contact",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'contact_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='Contact ID'),
+                'is_helpful': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='Whether the contact was helpful'),
+                'user_latitude': openapi.Schema(type=openapi.TYPE_NUMBER, description='User latitude'),
+                'user_longitude': openapi.Schema(type=openapi.TYPE_NUMBER, description='User longitude'),
+            },
+            required=['contact_id']
+        ),
         responses={
-            201: openapi.Response('Contact click tracked successfully'),
+            201: openapi.Response('Contact interaction tracked successfully'),
             400: 'Bad Request',
             401: 'Unauthorized',
-            404: 'Facility or Contact not found',
+            404: 'Contact not found',
         }
     )
     def post(self, request):
-        """Track contact click for analytics"""
-        serializer = ContactClickSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        data = serializer.validated_data
-        
+        """Track contact interaction for analytics"""
         try:
-            # Get the facility and contact
-            facility = get_object_or_404(Facility, facility_id=data['facility_id'])
-            contact = get_object_or_404(FacilityContact, contact_id=data['contact_id'])
+            contact_id = request.data.get('contact_id')
+            if not contact_id:
+                return Response({
+                    'error': 'contact_id is required'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Get the contact
+            contact = get_object_or_404(FacilityContact, contact_id=contact_id)
             
             # Get user from request - handle both session and token authentication
             user = None
-            session = None
             
             # For session-based authentication (web)
             if hasattr(request, 'session') and 'user_id' in request.session:
                 try:
                     user = User.objects.get(user_id=request.session['user_id'], is_active=True)
-                    session_id = request.session.get('session_id')
-                    if session_id:
-                        session = UserSession.objects.filter(session_id=session_id).first()
                 except User.DoesNotExist:
                     pass
             
             # For token-based authentication (API/mobile), try to get user from request
             elif hasattr(request, 'user') and hasattr(request.user, 'user_id'):
                 user = request.user
-                # Try to get the most recent session for this user
-                session = UserSession.objects.filter(user=user).order_by('-created_at').first()
             
-            # If no user found, create anonymous tracking record
+            # If no user found, return error
             if not user:
                 return Response({
                     'error': 'User authentication required for contact tracking',
                     'message': 'Please ensure you are properly authenticated'
                 }, status=status.HTTP_401_UNAUTHORIZED)
             
-            # Create contact click record
+            # Create contact interaction record
             from django.utils import timezone
-            contact_click = ContactClick.objects.create(
-                user=user,
-                session=session,
-                facility=facility,
+            
+            interaction = ContactInteraction.objects.create(
+                device_id=f"web_{user.user_id}_{int(timezone.now().timestamp())}",
                 contact=contact,
-                clicked_at=timezone.now(),
-                helpful=data.get('helpful', True)
+                user_latitude=request.data.get('user_latitude'),
+                user_longitude=request.data.get('user_longitude'),
+                is_helpful=request.data.get('is_helpful'),
+                created_at=timezone.now()
             )
             
-            # Return success response with click details
+            # Return success response with interaction details
             return Response({
-                'message': 'Contact click tracked successfully',
-                'click_id': contact_click.click_id,
-                'facility': {
-                    'id': facility.facility_id,
-                    'name': facility.facility_name
-                },
+                'message': 'Contact interaction tracked successfully',
+                'interaction_id': interaction.interaction_id,
                 'contact': {
                     'id': contact.contact_id,
                     'type': contact.contact_type.type_name if contact.contact_type else 'Unknown',
                     'value': contact.contact_value
                 },
-                'tracked_at': contact_click.clicked_at.isoformat(),
-                'helpful': contact_click.helpful
+                'tracked_at': interaction.created_at.isoformat(),
+                'helpful': interaction.is_helpful
             }, status=status.HTTP_201_CREATED)
-            
-        except Facility.DoesNotExist:
-            return Response({
-                'error': 'Facility not found',
-                'facility_id': data['facility_id']
-            }, status=status.HTTP_404_NOT_FOUND)
             
         except FacilityContact.DoesNotExist:
             return Response({
                 'error': 'Contact not found',
-                'contact_id': data['contact_id']
+                'contact_id': contact_id
             }, status=status.HTTP_404_NOT_FOUND)
             
         except Exception as e:
@@ -903,9 +953,9 @@ def obtain_api_token(request):
     try:
         # Authenticate using custom User model
         user = User.objects.get(email=email, is_active=True)
-        password_hash = hashlib.sha256(password.encode()).hexdigest()
         
-        if user.password_hash == password_hash:
+        # Use Django's built-in password checking
+        if user.check_password(password):
             # Get or create custom token for our User model
             token, created = CustomToken.objects.get_or_create(user=user)
             
@@ -932,3 +982,588 @@ def obtain_api_token(request):
             'error': 'Authentication failed',
             'details': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# Mobile App Simplified Views
+class MobileFacilitiesView(generics.ListAPIView):
+    """
+    Simplified facilities endpoint for mobile app with pagination.
+    Returns all facility information in a single optimized request.
+    """
+    serializer_class = MobileAppFacilitySerializer
+    permission_classes = [MobileSessionPermission]
+    pagination_class = CustomPagination
+    
+    @swagger_auto_schema(
+        operation_description="Get all facilities with complete information for mobile app using mobile session authentication",
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True),
+            openapi.Parameter('page', openapi.IN_QUERY, description="Page number", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('page_size', openapi.IN_QUERY, description="Items per page (max 100)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('county', openapi.IN_QUERY, description="Filter by county ID", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('status', openapi.IN_QUERY, description="Filter by operational status ID", type=openapi.TYPE_INTEGER),
+        ],
+        responses={
+            200: openapi.Response('Paginated facilities list', MobileAppFacilitySerializer(many=True)),
+            400: 'Bad Request - Missing device_id',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        # Update mobile session activity
+        mobile_session = request.mobile_session
+        mobile_session.update_activity()
+        
+        return super().get(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        """Optimized queryset for mobile app"""
+        queryset = Facility.objects.select_related(
+            'ward__constituency__county',
+            'operational_status'
+        ).prefetch_related(
+            'facilitycontact_set__contact_type',
+            'facilityservice_set__service_category',
+            'facilitycoordinate'
+        ).filter(is_active=True)
+        
+        # Apply filters
+        county_id = self.request.query_params.get('county')
+        if county_id:
+            queryset = queryset.filter(ward__constituency__county_id=county_id)
+        
+        status_id = self.request.query_params.get('status')
+        if status_id:
+            queryset = queryset.filter(operational_status_id=status_id)
+        
+        # Add proper ordering to avoid pagination warnings
+        return queryset.order_by('facility_id').distinct()
+
+
+class MobileEmergencySOSView(generics.GenericAPIView):
+    """
+    Emergency SOS endpoint for mobile app.
+    Finds nearest emergency facilities based on mobile session location.
+    """
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_description="Emergency SOS - Find nearest emergency facilities using mobile session location",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'device_id': openapi.Schema(type=openapi.TYPE_STRING, description='Device ID from mobile session'),
+                'emergency_type': openapi.Schema(type=openapi.TYPE_STRING, description='Type of emergency (e.g., "Medical", "Security", "GBV")'),
+                'radius_km': openapi.Schema(type=openapi.TYPE_NUMBER, description='Search radius in kilometers (optional, default: 5)'),
+            },
+            required=['device_id', 'emergency_type']
+        ),
+        responses={
+            200: openapi.Response('Emergency facilities found', MobileAppFacilitySerializer(many=True)),
+            400: 'Bad Request - Missing device_id or emergency_type, or location not available in session',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def post(self, request):
+        """Handle emergency SOS request"""
+
+        
+        # Check if device_id is provided
+        device_id = request.data.get('device_id')
+        if not device_id:
+            return Response({
+                'error': 'device_id is required',
+                'message': 'Please provide your device_id to identify your mobile session'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Get data directly from request (no serializer validation needed)
+        emergency_type = request.data.get('emergency_type')
+        if not emergency_type:
+            return Response({
+                'error': 'emergency_type is required',
+                'message': 'Please specify the type of emergency (e.g., "Medical", "Security", "GBV")'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        radius_km = request.data.get('radius_km', 5)
+        
+        # Get location from mobile session
+        mobile_session = request.mobile_session
+        latitude = mobile_session.latitude
+        longitude = mobile_session.longitude
+        
+        if not latitude or not longitude:
+            return Response({
+                'error': 'Location not available in mobile session',
+                'message': 'Please enable location services in your mobile app to use emergency SOS features. Your mobile session must have valid GPS coordinates stored.',
+                'help': 'Update your mobile session with current location before using emergency SOS'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # radius_km and emergency_type already set above
+        
+        # Find facilities within radius (simplified distance calculation)
+        from django.db.models import F, FloatField
+        from django.db.models.functions import Power, Sqrt
+        
+        queryset = Facility.objects.select_related(
+            'ward__constituency__county',
+            'operational_status'
+        ).prefetch_related(
+            'facilitycontact_set__contact_type',
+            'facilityservice_set__service_category',
+            'facilitycoordinate'
+        ).filter(
+            is_active=True,
+            operational_status__status_name='Operational',
+            facilitycoordinate__latitude__isnull=False,
+            facilitycoordinate__longitude__isnull=False
+        ).annotate(
+            distance=Sqrt(
+                Power(F('facilitycoordinate__latitude') - latitude, 2) +
+                Power(F('facilitycoordinate__longitude') - longitude, 2),
+                output_field=FloatField()
+            ) * 111.32  # Approximate conversion to km
+        ).filter(
+            distance__lte=radius_km
+        ).order_by('distance')[:10]  # Top 10 nearest
+        
+        serializer = MobileAppFacilitySerializer(queryset, many=True)
+        
+        # Update mobile session activity
+        mobile_session.update_activity()
+        
+        return Response({
+            'emergency_type': emergency_type,
+            'user_location': {'latitude': latitude, 'longitude': longitude},
+            'search_radius_km': radius_km,
+            'facilities_found': len(serializer.data),
+            'facilities': serializer.data,
+            'emergency_contacts': {
+                'police': '999',
+                'ambulance': '999',
+                'gbv_hotline': '116',
+                'fire_brigade': '999'
+            },
+            'session_info': {
+                'device_id': mobile_session.device_id,
+                'location_updated_at': mobile_session.location_updated_at.isoformat() if mobile_session.location_updated_at else None,
+                'last_active': mobile_session.last_active_at.isoformat()
+            },
+            'message': f'Found {len(serializer.data)} emergency facilities within {radius_km}km'
+        })
+
+
+class MobileMusicView(generics.ListAPIView):
+    """
+    Music endpoint for mobile app with pagination.
+    Returns all available music tracks.
+    """
+    serializer_class = MusicSerializer
+    permission_classes = [MobileSessionPermission]
+    pagination_class = CustomPagination
+    
+    @swagger_auto_schema(
+        operation_description="Get all music tracks for mobile app using mobile session authentication",
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True),
+            openapi.Parameter('page', openapi.IN_QUERY, description="Page number", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('page_size', openapi.IN_QUERY, description="Items per page (max 100)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('genre', openapi.IN_QUERY, description="Filter by genre", type=openapi.TYPE_STRING),
+            openapi.Parameter('artist', openapi.IN_QUERY, description="Filter by artist", type=openapi.TYPE_STRING),
+        ],
+        responses={
+            200: openapi.Response('Paginated music list', MusicSerializer(many=True)),
+            400: 'Bad Request - Missing device_id',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        # Update mobile session activity
+        mobile_session = request.mobile_session
+        mobile_session.update_activity()
+        
+        return super().get(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        """Get music tracks with filters"""
+        from apps.music.models import Music
+        
+        queryset = Music.objects.filter(is_active=True)
+        
+        # Apply filters
+        genre = self.request.query_params.get('genre')
+        if genre:
+            queryset = queryset.filter(genre__icontains=genre)
+        
+        artist = self.request.query_params.get('artist')
+        if artist:
+            queryset = queryset.filter(artist__icontains=artist)
+        
+        # Add proper ordering to avoid pagination warnings
+        return queryset.order_by('-created_at')
+
+
+class MobileDocumentsView(generics.ListAPIView):
+    """
+    Documents endpoint for mobile app with pagination.
+    Returns all available documents.
+    """
+    serializer_class = DocumentSerializer
+    permission_classes = [MobileSessionPermission]
+    pagination_class = CustomPagination
+    
+    @swagger_auto_schema(
+        operation_description="Get all documents for mobile app using mobile session authentication",
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True),
+            openapi.Parameter('page', openapi.IN_QUERY, description="Page number", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('page_size', openapi.IN_QUERY, description="Items per page (max 100)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('document_type', openapi.IN_QUERY, description="Filter by document type ID", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('gbv_category', openapi.IN_QUERY, description="Filter by GBV category ID", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('is_public', openapi.IN_QUERY, description="Filter public documents only", type=openapi.TYPE_BOOLEAN),
+        ],
+        responses={
+            200: openapi.Response('Paginated documents list', DocumentSerializer(many=True)),
+            400: 'Bad Request - Missing device_id',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        # Update mobile session activity
+        mobile_session = request.mobile_session
+        mobile_session.update_activity()
+        
+        return super().get(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        """Get documents with filters"""
+        from apps.documents.models import Document
+        
+        queryset = Document.objects.filter(is_active=True)
+        
+        # Apply filters
+        document_type = self.request.query_params.get('document_type')
+        if document_type:
+            queryset = queryset.filter(document_type_id=document_type)
+        
+        gbv_category = self.request.query_params.get('gbv_category')
+        if gbv_category:
+            queryset = queryset.filter(gbv_category_id=gbv_category)
+        
+        is_public = self.request.query_params.get('is_public')
+        if is_public is not None:
+            queryset = queryset.filter(is_public=is_public.lower() == 'true')
+        
+        # Add proper ordering to avoid pagination warnings
+        return queryset.order_by('-uploaded_at')
+
+
+class MobileSessionView(generics.GenericAPIView):
+    """
+    Mobile session management endpoint.
+    Create, retrieve, and update mobile device sessions.
+    Anonymous access for mobile app session creation.
+    """
+    permission_classes = [AllowAny]
+    
+    @swagger_auto_schema(
+        operation_description="Create a new mobile device session",
+        request_body=MobileSessionCreateSerializer,
+        responses={
+            201: openapi.Response('Session created successfully', MobileSessionSerializer),
+            400: 'Bad Request',
+            401: 'Unauthorized',
+        }
+    )
+    def post(self, request):
+        """Create a new mobile session"""
+        serializer = MobileSessionCreateSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        data = serializer.validated_data
+        
+        # Create new mobile session
+        from apps.mobile_sessions.models import MobileSession
+        
+        session, created = MobileSession.objects.get_or_create(
+            device_id=data['device_id'],
+            defaults={
+                'notification_enabled': data.get('notification_enabled', True),
+                'dark_mode_enabled': data.get('dark_mode_enabled', False),
+                'preferred_language': data.get('preferred_language', 'en-US'),
+                'latitude': data.get('latitude'),
+                'longitude': data.get('longitude'),
+                'location_permission_granted': data.get('location_permission_granted', False),
+                'is_active': True,
+                'last_active_at': timezone.now()
+            }
+        )
+        
+        if not created:
+            # Update existing session
+            session.is_active = True
+            session.last_active_at = timezone.now()
+            session.save(update_fields=['is_active', 'last_active_at', 'updated_at'])
+        
+        serializer = MobileSessionSerializer(session)
+        return Response({
+            'message': 'Mobile session created/updated successfully',
+            'session': serializer.data
+        }, status=status.HTTP_201_CREATED)
+    
+    @swagger_auto_schema(
+        operation_description="Get mobile session information",
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description="Device identifier", type=openapi.TYPE_STRING),
+        ],
+        responses={
+            200: openapi.Response('Session information', MobileSessionSerializer),
+            404: 'Session not found',
+            401: 'Unauthorized',
+        }
+    )
+    def get(self, request):
+        """Get session information"""
+        device_id = request.query_params.get('device_id')
+        
+        if not device_id:
+            return Response({
+                'error': 'device_id is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Query the MobileSession model
+        from apps.mobile_sessions.models import MobileSession
+        
+        try:
+            session = MobileSession.objects.get(device_id=device_id)
+            serializer = MobileSessionSerializer(session)
+            
+            return Response({
+                'session': serializer.data,
+                'message': 'Session information retrieved successfully'
+            })
+            
+        except MobileSession.DoesNotExist:
+            return Response({
+                'error': 'Session not found',
+                'device_id': device_id
+            }, status=status.HTTP_404_NOT_FOUND)
+    
+    @swagger_auto_schema(
+        operation_description="Update mobile session information",
+        request_body=MobileSessionUpdateSerializer,
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description="Device identifier", type=openapi.TYPE_STRING),
+        ],
+        responses={
+            200: openapi.Response('Session updated successfully', MobileSessionSerializer),
+            400: 'Bad Request',
+            401: 'Unauthorized',
+            404: 'Session not found',
+        }
+    )
+    def put(self, request):
+        """Update session information"""
+        device_id = request.query_params.get('device_id')
+        
+        if not device_id:
+            return Response({
+                'error': 'device_id is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = MobileSessionUpdateSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Update the MobileSession model
+        from apps.mobile_sessions.models import MobileSession
+        
+        try:
+            session = MobileSession.objects.get(device_id=device_id)
+            
+            # Update fields
+            for field, value in serializer.validated_data.items():
+                if value is not None:
+                    setattr(session, field, value)
+            
+            # Update location timestamp if coordinates changed
+            if 'latitude' in serializer.validated_data or 'longitude' in serializer.validated_data:
+                session.location_updated_at = timezone.now()
+            
+            session.last_active_at = timezone.now()
+            session.updated_at = timezone.now()
+            session.save()
+            
+            response_serializer = MobileSessionSerializer(session)
+            return Response({
+                'message': 'Mobile session updated successfully',
+                'session': response_serializer.data
+            })
+            
+        except MobileSession.DoesNotExist:
+            return Response({
+                'error': 'Session not found',
+                'device_id': device_id
+            }, status=status.HTTP_404_NOT_FOUND)
+
+
+class MobileSessionEndView(generics.GenericAPIView):
+    """
+    Deactivate mobile session endpoint.
+    """
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_description="Deactivate a mobile device session using mobile session authentication",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'device_id': openapi.Schema(type=openapi.TYPE_STRING, description='Device ID from mobile session'),
+            },
+            required=['device_id']
+        ),
+        responses={
+            200: openapi.Response('Session deactivated successfully'),
+            400: 'Bad Request - Missing device_id',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def post(self, request):
+        """Deactivate a mobile session"""
+        # Get mobile session from permission class
+        mobile_session = request.mobile_session
+        device_id = mobile_session.device_id
+        
+        # Update the MobileSession model
+        from apps.mobile_sessions.models import MobileSession
+        
+        try:
+            session = MobileSession.objects.get(device_id=device_id)
+            
+            # Deactivate session
+            session.is_active = False
+            session.updated_at = timezone.now()
+            session.save(update_fields=['is_active', 'updated_at'])
+            
+            return Response({
+                'message': 'Mobile session deactivated successfully',
+                'device_id': session.device_id,
+                'deactivated_at': session.updated_at.isoformat()
+            })
+            
+        except MobileSession.DoesNotExist:
+            return Response({
+                'error': 'Session not found',
+                'device_id': device_id
+            }, status=status.HTTP_404_NOT_FOUND)
+
+
+class MobileContactInteractionView(generics.GenericAPIView):
+    """
+    Mobile-optimized contact interaction tracking endpoint.
+    Designed specifically for mobile app usage with mobile session authentication.
+    """
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_description="Track contact interactions from mobile devices using mobile session authentication",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'contact_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='Contact ID to track interaction with'),
+                'device_id': openapi.Schema(type=openapi.TYPE_STRING, description='Device ID from mobile session (required for session validation)'),
+                'is_helpful': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='Whether the contact was helpful (optional)'),
+            },
+            required=['contact_id', 'device_id']
+        ),
+        responses={
+            201: openapi.Response('Contact interaction tracked successfully'),
+            400: 'Bad Request - Missing contact_id or device_id',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+            404: 'Contact not found',
+        }
+    )
+    def post(self, request):
+        """Track contact interaction from mobile device"""
+        try:
+            contact_id = request.data.get('contact_id')
+            
+            if not contact_id:
+                return Response({
+                    'error': 'contact_id is required',
+                    'message': 'Please provide the contact_id of the facility contact you want to track'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Validate contact_id is a valid integer
+            try:
+                contact_id = int(contact_id)
+            except (ValueError, TypeError):
+                return Response({
+                    'error': 'Invalid contact_id format',
+                    'message': 'contact_id must be a valid integer',
+                    'received_value': contact_id
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Get mobile session data (already validated by permission class)
+            mobile_session = request.mobile_session
+            device_id = mobile_session.device_id
+            
+            # Get the contact
+            contact = get_object_or_404(FacilityContact, contact_id=contact_id)
+            
+            # Get location from mobile session if not provided in request
+            user_latitude = request.data.get('user_latitude') or mobile_session.latitude
+            user_longitude = request.data.get('user_longitude') or mobile_session.longitude
+            
+            # Create contact interaction record with mobile session data
+            interaction = ContactInteraction.objects.create(
+                device_id=device_id,
+                contact=contact,
+                user_latitude=user_latitude,
+                user_longitude=user_longitude,
+                is_helpful=request.data.get('is_helpful'),
+                created_at=timezone.now()
+            )
+            
+            # Update mobile session activity
+            mobile_session.update_activity()
+            
+            # Return success response optimized for mobile
+            return Response({
+                'success': True,
+                'message': 'Contact interaction tracked successfully',
+                'data': {
+                    'interaction_id': interaction.interaction_id,
+                    'contact': {
+                        'id': contact.contact_id,
+                        'type': contact.contact_type.type_name if contact.contact_type else 'Unknown',
+                        'value': contact.contact_value
+                    },
+                    'tracked_at': interaction.created_at.isoformat(),
+                    'helpful': interaction.is_helpful,
+                    'device_id': device_id,
+                    'session_info': {
+                        'device_id': mobile_session.device_id,
+                        'location': {
+                            'latitude': mobile_session.latitude,
+                            'longitude': mobile_session.longitude,
+                            'updated_at': mobile_session.location_updated_at.isoformat() if mobile_session.location_updated_at else None
+                        },
+                        'last_active': mobile_session.last_active_at.isoformat()
+                    }
+                }
+            }, status=status.HTTP_201_CREATED)
+            
+        except FacilityContact.DoesNotExist:
+            return Response({
+                'success': False,
+                'error': 'Contact not found',
+                'contact_id': contact_id
+            }, status=status.HTTP_404_NOT_FOUND)
+            
+        except Exception as e:
+            return Response({
+                'success': False,
+                'error': 'Failed to track contact interaction',
+                'details': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

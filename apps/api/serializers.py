@@ -8,8 +8,8 @@ from apps.facilities.models import (
     Facility, FacilityContact, FacilityService, 
     FacilityOwner, FacilityCoordinate, FacilityGBVCategory
 )
-from apps.common.geography import County, Constituency, Ward
-from apps.common.lookups import (
+from apps.geography.models import County, Constituency, Ward
+from apps.lookups.models import (
     OperationalStatus, ContactType, ServiceCategory, 
     OwnerType, GBVCategory
 )
@@ -38,6 +38,42 @@ class WardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ward
         fields = ['ward_id', 'ward_name', 'constituency']
+
+
+class ConsolidatedGeographySerializer(serializers.ModelSerializer):
+    """Consolidated geography serializer that includes counties with nested constituencies and wards"""
+    constituencies = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = County
+        fields = ['county_id', 'county_name', 'county_code', 'constituencies']
+    
+    def get_constituencies(self, obj):
+        """Get constituencies for this county with nested wards"""
+        constituencies = obj.constituency_set.all().prefetch_related('ward_set').order_by('constituency_name')
+        constituency_data = []
+        
+        for constituency in constituencies:
+            constituency_dict = {
+                'constituency_id': constituency.constituency_id,
+                'constituency_name': constituency.constituency_name,
+                'constituency_code': constituency.constituency_code,
+                'wards': []
+            }
+            
+            # Get wards for this constituency
+            wards = constituency.ward_set.all().order_by('ward_name')
+            for ward in wards:
+                ward_dict = {
+                    'ward_id': ward.ward_id,
+                    'ward_name': ward.ward_name,
+                    'ward_code': ward.ward_code
+                }
+                constituency_dict['wards'].append(ward_dict)
+            
+            constituency_data.append(constituency_dict)
+        
+        return constituency_data
 
 
 class OperationalStatusSerializer(serializers.ModelSerializer):
@@ -81,8 +117,7 @@ class FacilityCoordinateSerializer(serializers.ModelSerializer):
         model = FacilityCoordinate
         fields = [
             'coordinate_id', 'latitude', 'longitude', 
-            'coordinates_string', 'collection_date', 
-            'data_source', 'collection_method'
+            'collection_date', 'data_source', 'collection_method'
         ]
 
 
@@ -140,7 +175,7 @@ class FacilityListSerializer(serializers.ModelSerializer):
     
     def get_coordinates(self, obj):
         """Get facility coordinates if available"""
-        coords = obj.facilitycoordinate_set.filter(active_status=True).first()
+        coords = obj.facilitycoordinate_set.filter(is_active=True).first()
         if coords and coords.latitude and coords.longitude:
             return {
                 'latitude': float(coords.latitude),
@@ -150,11 +185,11 @@ class FacilityListSerializer(serializers.ModelSerializer):
     
     def get_services_count(self, obj):
         """Get count of active services"""
-        return obj.facilityservice_set.filter(active_status=True).count()
+        return obj.facilityservice_set.filter(is_active=True).count()
     
     def get_contacts_count(self, obj):
         """Get count of active contacts"""
-        return obj.facilitycontact_set.filter(active_status=True).count()
+        return obj.facilitycontact_set.filter(is_active=True).count()
 
 
 class FacilityDetailSerializer(serializers.ModelSerializer):
@@ -203,7 +238,7 @@ class FacilityMapSerializer(serializers.ModelSerializer):
     
     def get_coordinates(self, obj):
         """Get facility coordinates for map display"""
-        coords = obj.facilitycoordinate_set.filter(active_status=True).first()
+        coords = obj.facilitycoordinate_set.filter(is_active=True).first()
         if coords and coords.latitude and coords.longitude:
             return {
                 'latitude': float(coords.latitude),
@@ -321,3 +356,143 @@ class FacilityCompleteSerializer(serializers.ModelSerializer):
         """Get recent contact clicks for analytics"""
         # This would be implemented with ContactClick model
         return 0  # Placeholder
+
+
+class MobileAppFacilitySerializer(serializers.ModelSerializer):
+    """Simplified facility serializer for mobile app with all essential information"""
+    ward = WardSerializer(read_only=True)
+    operational_status = OperationalStatusSerializer(read_only=True)
+    coordinates = serializers.SerializerMethodField()
+    contacts = serializers.SerializerMethodField()
+    services = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Facility
+        fields = [
+            'facility_id', 'facility_name', 'registration_number',
+            'ward', 'operational_status', 'coordinates',
+            'contacts', 'services', 'address_line_1', 'address_line_2',
+            'description', 'website_url'
+        ]
+    
+    def get_coordinates(self, obj):
+        """Get facility coordinates if available"""
+        coords = obj.facilitycoordinate_set.filter().first()
+        if coords and coords.latitude and coords.longitude:
+            return {
+                'latitude': float(coords.latitude),
+                'longitude': float(coords.longitude)
+            }
+        return None
+    
+    def get_contacts(self, obj):
+        """Get all facility contacts"""
+        contacts = obj.facilitycontact_set.filter(is_active=True)
+        return FacilityContactSerializer(contacts, many=True).data
+    
+    def get_services(self, obj):
+        """Get all facility services"""
+        services = obj.facilityservice_set.filter(is_active=True)
+        return FacilityServiceSerializer(services, many=True).data
+
+
+class MusicSerializer(serializers.ModelSerializer):
+    """Music serializer for mobile app"""
+    class Meta:
+        model = None  # Will be set dynamically
+        fields = [
+            'music_id', 'name', 'description', 'link', 'music_file',
+            'artist', 'duration', 'genre', 'is_active', 'created_at'
+        ]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Import here to avoid circular imports
+        try:
+            from apps.music.models import Music
+            self.Meta.model = Music
+        except ImportError:
+            pass
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+    """Document serializer for mobile app"""
+    class Meta:
+        model = None  # Will be set dynamically
+        fields = [
+            'document_id', 'title', 'description', 'file_url', 'file_name',
+            'file_size_bytes', 'content', 'gbv_category', 'image_url',
+            'external_url', 'document_type', 'is_public', 'is_active',
+            'uploaded_at'
+        ]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Import here to avoid circular imports
+        try:
+            from apps.documents.models import Document
+            self.Meta.model = Document
+        except ImportError:
+            pass
+
+
+class MobileSessionSerializer(serializers.ModelSerializer):
+    """Mobile session serializer for device management"""
+    class Meta:
+        model = None  # Will be set dynamically
+        fields = [
+            'device_id', 'notification_enabled', 'dark_mode_enabled',
+            'preferred_language', 'latitude', 'longitude', 'location_updated_at',
+            'location_permission_granted', 'is_active', 'last_active_at',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['created_at', 'updated_at']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Import here to avoid circular imports
+        try:
+            from apps.mobile_sessions.models import MobileSession
+            self.Meta.model = MobileSession
+        except ImportError:
+            pass
+
+
+class MobileSessionCreateSerializer(serializers.Serializer):
+    """Serializer for creating new mobile sessions"""
+    device_id = serializers.CharField(max_length=128, help_text="Device UUID")
+    notification_enabled = serializers.BooleanField(default=True, help_text="Whether notifications are enabled")
+    dark_mode_enabled = serializers.BooleanField(default=False, help_text="Whether dark mode is enabled")
+    preferred_language = serializers.CharField(max_length=5, default='en-US', help_text="Preferred language code")
+    latitude = serializers.DecimalField(max_digits=10, decimal_places=8, required=False, help_text="Device latitude")
+    longitude = serializers.DecimalField(max_digits=11, decimal_places=8, required=False, help_text="Device longitude")
+    location_permission_granted = serializers.BooleanField(default=False, help_text="Whether location permission is granted")
+
+
+class MobileSessionUpdateSerializer(serializers.Serializer):
+    """Serializer for updating mobile sessions"""
+    notification_enabled = serializers.BooleanField(required=False, help_text="Whether notifications are enabled")
+    dark_mode_enabled = serializers.BooleanField(required=False, help_text="Whether dark mode is enabled")
+    preferred_language = serializers.CharField(max_length=5, required=False, help_text="Preferred language code")
+    latitude = serializers.DecimalField(max_digits=10, decimal_places=8, required=False, help_text="Device latitude")
+    longitude = serializers.DecimalField(max_digits=11, decimal_places=8, required=False, help_text="Device longitude")
+    location_permission_granted = serializers.BooleanField(required=False, help_text="Whether location permission is granted")
+
+
+class EmergencySOSSerializer(serializers.Serializer):
+    """Emergency SOS serializer for urgent situations"""
+    latitude = serializers.DecimalField(max_digits=9, decimal_places=6, required=True)
+    longitude = serializers.DecimalField(max_digits=9, decimal_places=6, required=True)
+    emergency_type = serializers.CharField(max_length=100, required=True, help_text="Type of emergency")
+    description = serializers.CharField(max_length=500, required=False, help_text="Emergency description")
+    user_id = serializers.IntegerField(required=False, help_text="User ID if available")
+    device_id = serializers.CharField(max_length=255, required=False, help_text="Device identifier")
+    radius_km = serializers.IntegerField(default=5, help_text="Search radius in kilometers")
+
+
+class PaginatedResponseSerializer(serializers.Serializer):
+    """Generic paginated response serializer"""
+    count = serializers.IntegerField(help_text="Total number of items")
+    next = serializers.CharField(allow_null=True, help_text="URL for next page")
+    previous = serializers.CharField(allow_null=True, help_text="URL for previous page")
+    results = serializers.ListField(help_text="List of items for current page")

@@ -1,17 +1,9 @@
 <!--
 =========================================================
-* Argon Dashboard - v1.2.0
+* Hodi Admin Dashboard
 =========================================================
-* Product Page: https://www.creative-tim.com/product/argon-dashboard
-
-
-* Copyright  Creative Tim (http://www.creative-tim.com)
-* Coded by www.creative-tim.com
-
-
-
+* Custom Dashboard for Hodi App Management
 =========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -19,14 +11,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="canonical" href="https://gvrc.admin.ke">
+  <link rel="canonical" href="https://hodi.admin.ke">
   
   <title>
-    GVRC Admin - {% block title %} Multi-Institutional GBV Response Platform {% endblock %} | Kenya
+    Hodi Admin - {% block title %} Hodi App Management Dashboard {% endblock %} | Kenya
   </title>
 
   <!-- Favicon - loaded as static -->
-  <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
+  <link rel="icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/static/assets/img/icons/common/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
@@ -38,6 +33,169 @@
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
+
+  <!-- Toast Notification Styles -->
+  <style>
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1050;
+      max-width: 400px;
+      min-width: 300px;
+    }
+
+    .toast {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      margin-bottom: 10px;
+      padding: 16px 20px;
+      border-left: 4px solid #007bff;
+      transition: all 0.3s ease;
+      animation: slideInRight 0.3s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toast.toast-success {
+      border-left-color: #28a745;
+    }
+
+    .toast.toast-success .toast-icon {
+      color: #28a745;
+    }
+
+    .toast.toast-error {
+      border-left-color: #dc3545;
+    }
+
+    .toast.toast-error .toast-icon {
+      color: #dc3545;
+    }
+
+    .toast.toast-warning {
+      border-left-color: #ffc107;
+    }
+
+    .toast.toast-warning .toast-icon {
+      color: #ffc107;
+    }
+
+    .toast.toast-info {
+      border-left-color: #17a2b8;
+    }
+
+    .toast.toast-info .toast-icon {
+      color: #17a2b8;
+    }
+
+    .toast-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .toast-icon {
+      font-size: 18px;
+      margin-right: 10px;
+      color: #007bff;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+      flex: 1;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 10px;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .toast-close:hover {
+      color: #666;
+    }
+
+    .toast-message {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .toast.toast-removing {
+      animation: slideOutRight 0.3s ease-in;
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    /* Progress bar for auto-dismiss */
+    .toast-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: rgba(0, 0, 0, 0.1);
+      transition: width linear;
+    }
+
+    .toast-success .toast-progress {
+      background: #28a745;
+    }
+
+    .toast-error .toast-progress {
+      background: #dc3545;
+    }
+
+    .toast-warning .toast-progress {
+      background: #ffc107;
+    }
+
+    .toast-info .toast-progress {
+      background: #17a2b8;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .toast-container {
+        right: 10px;
+        left: 10px;
+        bottom: 10px;
+        max-width: none;
+        min-width: auto;
+      }
+    }
+  </style>
 
 </head>
 
@@ -53,12 +211,160 @@
 
   </div>
 
+  <!-- Toast Container for bottom-right positioned notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
   {% include "includes/scripts.html" %}
 
   <!-- Specific JS goes HERE --> 
   {% block javascripts %}{% endblock javascripts %}
 
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>
+
+  <!-- Toast Notification JavaScript -->
+  <script>
+    // Toast notification system
+    class ToastManager {
+      constructor() {
+        this.container = document.getElementById('toast-container');
+        this.toasts = [];
+      }
+
+      show(message, type = 'info', title = null, duration = 5000) {
+        const toast = this.createToast(message, type, title, duration);
+        this.container.appendChild(toast);
+        this.toasts.push(toast);
+
+        // Auto dismiss
+        if (duration > 0) {
+          this.startProgressBar(toast, duration);
+          setTimeout(() => {
+            this.dismiss(toast);
+          }, duration);
+        }
+
+        return toast;
+      }
+
+      createToast(message, type, title, duration) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+
+        const iconMap = {
+          success: 'fas fa-check-circle',
+          error: 'fas fa-exclamation-circle',
+          warning: 'fas fa-exclamation-triangle',
+          info: 'fas fa-info-circle'
+        };
+
+        const titleMap = {
+          success: 'Success',
+          error: 'Error',
+          warning: 'Warning',
+          info: 'Information'
+        };
+
+        const toastTitle = title || titleMap[type];
+        const icon = iconMap[type];
+
+        toast.innerHTML = `
+          <div class="toast-header">
+            <i class="${icon} toast-icon"></i>
+            <h6 class="toast-title">${toastTitle}</h6>
+            <button type="button" class="toast-close" onclick="toastManager.dismiss(this.closest('.toast'))">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <p class="toast-message">${message}</p>
+          ${duration > 0 ? '<div class="toast-progress"></div>' : ''}
+        `;
+
+        // Add click to dismiss
+        toast.addEventListener('click', (e) => {
+          if (!e.target.closest('.toast-close')) {
+            this.dismiss(toast);
+          }
+        });
+
+        return toast;
+      }
+
+      startProgressBar(toast, duration) {
+        const progressBar = toast.querySelector('.toast-progress');
+        if (progressBar) {
+          progressBar.style.width = '100%';
+          progressBar.style.transition = `width ${duration}ms linear`;
+          
+          // Start the animation after a small delay to ensure the initial width is set
+          setTimeout(() => {
+            progressBar.style.width = '0%';
+          }, 10);
+        }
+      }
+
+      dismiss(toast) {
+        if (!toast || !toast.parentNode) return;
+
+        toast.classList.add('toast-removing');
+        
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+            const index = this.toasts.indexOf(toast);
+            if (index > -1) {
+              this.toasts.splice(index, 1);
+            }
+          }
+        }, 300);
+      }
+
+      clear() {
+        this.toasts.forEach(toast => this.dismiss(toast));
+      }
+
+      success(message, title = null, duration = 5000) {
+        return this.show(message, 'success', title, duration);
+      }
+
+      error(message, title = null, duration = 7000) {
+        return this.show(message, 'error', title, duration);
+      }
+
+      warning(message, title = null, duration = 6000) {
+        return this.show(message, 'warning', title, duration);
+      }
+
+      info(message, title = null, duration = 5000) {
+        return this.show(message, 'info', title, duration);
+      }
+    }
+
+    // Initialize toast manager
+    const toastManager = new ToastManager();
+
+    // Make it globally available
+    window.toastManager = toastManager;
+    window.showToast = (message, type, title, duration) => toastManager.show(message, type, title, duration);
+
+    // Auto-convert Django messages to toasts
+    document.addEventListener('DOMContentLoaded', function() {
+      // Convert existing Django messages to toasts
+      const alerts = document.querySelectorAll('.alert:not(.toast-converted)');
+      alerts.forEach(alert => {
+        const message = alert.textContent.trim();
+        if (message) {
+          let type = 'info';
+          if (alert.classList.contains('alert-success')) type = 'success';
+          else if (alert.classList.contains('alert-danger') || alert.classList.contains('alert-error')) type = 'error';
+          else if (alert.classList.contains('alert-warning')) type = 'warning';
+          
+          toastManager.show(message, type);
+          alert.style.display = 'none';
+          alert.classList.add('toast-converted');
+        }
+      });
+    });
+  </script>
 
 </body>
 

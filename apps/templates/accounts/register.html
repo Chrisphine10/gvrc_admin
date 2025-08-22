@@ -5,22 +5,21 @@
 {% block content %}
 
     <!-- Page content -->
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-        
+    <div class="container" style="min-height: 80vh; display: flex; align-items: center;">
+      <div class="row justify-content-center w-100">
+        <div class="col-lg-5 col-md-7">
           <div class="gvrc-auth-card">
             <div class="card-header">
               <div class="gvrc-logo-container">
                 <div class="gvrc-logo">
-                  <i class="fas fa-heartbeat gvrc-logo-icon"></i>
+                  <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo" class="hodi-logo" style="width: 60px; height: 60px; object-fit: contain;">
                 </div>
-                <h1 class="gvrc-brand-text">Join GVRC Admin</h1>
-                <p class="gvrc-brand-subtitle">Healthcare Professional Access</p>
+                <h1 class="gvrc-brand-text">Join Hodi Admin</h1>
+                <p class="gvrc-brand-subtitle">Hodi App Management Access</p>
               </div>
             </div>
             <div class="card-body">
-
+              
               {% if msg %}
                 {% if success %}
                   <div class="gvrc-alert gvrc-alert-success">
@@ -41,7 +40,7 @@
                   <h3 class="text-dark mb-2">Create Your Account</h3>
                   <p class="text-muted">Join our healthcare facility management system</p>
                 </div>
-              {% endif %}  
+              {% endif %}
 
               {% if not success %}
 
@@ -130,13 +129,19 @@
                       <i class="fas fa-user-plus me-2"></i>Create Healthcare Account
                     </button>
                   </div>
+                  
+                  <div class="text-center mt-3">
+                    <p class="text-muted mb-0">
+                      Already have an account? 
+                      <a href="{% url 'login' %}" class="text-primary font-weight-bold">Sign In</a>
+                    </p>
+                  </div>
                 </form>
 
-              {% endif %}  
-  
+              {% endif %}
             </div>
           </div>
-
+          
           {% if not success %}
           <div class="gvrc-footer-links">
             <a href="{% url 'login' %}">
@@ -147,7 +152,6 @@
             </a>
           </div>
           {% endif %}
-
         </div>
       </div>
     </div>

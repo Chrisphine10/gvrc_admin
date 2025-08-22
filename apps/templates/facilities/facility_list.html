@@ -6,6 +6,20 @@
 {% block content %}
   <div class="container-fluid py-4">
     
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary me-2">
+            <i class="ni ni-fat-add"></i> Add Facility
+          </a>
+          <a href="{% url 'facilities:facility_map' %}" class="btn btn-info">
+            <i class="fas fa-map"></i> View Map
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Statistics Cards -->
     <div class="row">
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -147,7 +161,7 @@
               <div class="col-6">
                 <h6>Community Facilities
                   {% if search_query %}
-                    <small class="text-secondary">- Search results for "{{ search_query }}"</small>
+                    <small class="text-dark">- Search results for "{{ search_query }}"</small>
                   {% endif %}
                 </h6>
               </div>
@@ -166,12 +180,12 @@
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Facility Details</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Location</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Services</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Contacts</th>
-                    <th class="text-secondary opacity-7">Actions</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder">Facility Details</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2">Status</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Location</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Services</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Contacts</th>
+                    <th class="text-dark">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -186,7 +200,7 @@
                               {{ facility.facility_name }}
                             </a>
                           </h6>
-                          <p class="text-xs text-secondary mb-0">
+                          <p class="text-xs text-dark mb-0">
                             Reg: {{ facility.registration_number }}
                           </p>
                           {% if facility.facilitygbvcategory_set.exists %}
@@ -238,7 +252,7 @@
                         </span>
                         <small class="text-xs text-secondary">
                           {% for service in facility.facilityservice_set.all|slice:":2" %}
-                            {{ service.service_category.category_name }}{% if not forloop.last %}, {% endif %}
+                            {{ service.service_name|default:service.service_category.category_name }}{% if not forloop.last %}, {% endif %}
                           {% endfor %}
                           {% if facility.facilityservice_set.count > 2 %}...{% endif %}
                         </small>
@@ -286,9 +300,9 @@
                     <td colspan="6" class="text-center py-4">
                       <div class="d-flex flex-column align-items-center">
                         <i class="ni ni-building text-muted" style="font-size: 3rem;"></i>
-                        <p class="text-secondary mt-2 mb-0">No facilities found.</p>
+                        <p class="text-dark mt-2 mb-0">No facilities found.</p>
                         {% if search_query or selected_county or selected_status %}
-                        <small class="text-secondary">Try adjusting your filters or search terms.</small>
+                        <small class="text-dark">Try adjusting your filters or search terms.</small>
                         {% else %}
                         <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary btn-sm mt-2">
                           <i class="fas fa-plus"></i> Add First Facility

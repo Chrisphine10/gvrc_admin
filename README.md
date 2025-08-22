@@ -73,6 +73,11 @@ python manage.py runserver
 - **API Docs**: http://localhost:8000/swagger/
 - **Admin Panel**: http://localhost:8000/admin/
 
+### API Improvements
+- **🗺️ Simplified Geography API** - Single endpoint for counties, constituencies, and wards
+- **📱 Mobile-Optimized** - Reduced API calls for better mobile app performance
+- **🔗 Consolidated Endpoints** - Streamlined data access patterns
+
 ---
 
 ## 📖 Complete Documentation
@@ -383,6 +388,117 @@ curl -X POST "http://localhost:8000/api/analytics/referral-outcome/" \
 curl "http://localhost:8000/api/statistics/" \
      -H "Authorization: Token YOUR_TOKEN"
 ```
+
+---
+
+### 📱 **Mobile API Endpoints**
+
+The system provides dedicated mobile-optimized endpoints designed specifically for mobile applications and field workers. **Mobile apps use session-based authentication - no user login required.**
+
+#### **1. Mobile Facilities** `GET /api/mobile/facilities/`
+```bash
+# Get facilities optimized for mobile consumption
+curl "http://localhost:8000/api/mobile/facilities/?device_id=mobile_device_123&page=1&page_size=20"
+```
+
+**Note**: `device_id` passed as query parameter for mobile session authentication.
+
+**Mobile Optimizations:**
+- Reduced payload size
+- Essential fields only
+- Efficient pagination
+- GPS coordinate prioritization
+
+#### **2. Mobile Emergency SOS** `POST /api/mobile/emergency-sos/`
+```bash
+# Find nearest emergency facilities using mobile session location
+curl -X POST "http://localhost:8000/api/mobile/emergency-sos/" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "device_id": "mobile_device_123",
+       "emergency_type": "Medical",
+       "radius_km": 5
+     }'
+```
+
+**Note**: Location automatically retrieved from mobile session, no need to provide coordinates.
+
+#### **3. Mobile Contact Interaction** `POST /api/mobile/contact-interaction/`
+```bash
+# Track contact interactions from mobile devices
+curl -X POST "http://localhost:8000/api/mobile/contact-interaction/" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "contact_id": 123,
+       "device_id": "mobile_device_123",
+       "is_helpful": true
+     }'
+```
+
+**Note**: `device_id` is required in request body to identify mobile session, location automatically retrieved from mobile session.
+
+**Mobile-Specific Features:**
+- Device ID tracking for mobile analytics
+- GPS coordinate capture
+- Simplified response format
+- Mobile-optimized error handling
+
+#### **4. Mobile Sessions** `POST /api/mobile/sessions/`
+```bash
+# Create mobile device sessions (no authentication required)
+curl -X POST "http://localhost:8000/api/mobile/sessions/" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "device_id": "mobile_device_abc123",
+       "device_type": "Android",
+       "app_version": "1.0.0",
+       "latitude": -1.2921,
+       "longitude": 36.8219
+     }'
+```
+
+#### **4a. End Mobile Session** `POST /api/mobile/sessions/end/`
+```bash
+# End mobile device session
+curl -X POST "http://localhost:8000/api/mobile/sessions/end/" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "device_id": "mobile_device_123"
+     }'
+```
+
+**Note**: Session end requires `device_id` in request body for validation.
+
+#### **5. Mobile Documents** `GET /api/mobile/documents/`
+```bash
+# Access documents optimized for mobile viewing
+curl "http://localhost:8000/api/mobile/documents/?device_id=mobile_device_123"
+```
+
+**Note**: `device_id` passed as query parameter for mobile session authentication.
+
+#### **6. Mobile Music** `GET /api/mobile/music/`
+```bash
+# Access music content for mobile applications
+curl "http://localhost:8000/api/mobile/music/?device_id=mobile_device_123"
+```
+
+**Note**: `device_id` passed as query parameter for mobile session authentication.
+
+**Mobile API Benefits:**
+- **Anonymous Access**: No user registration or login required
+- **Session-Based Auth**: Mobile session acts as authentication mechanism
+- **Device Tracking**: Built-in mobile device session management
+- **Location Awareness**: GPS coordinates automatically available from session
+- **Performance**: Optimized queries and response formats
+- **User Privacy**: No personal information required for basic functionality
+
+### 🔐 **Mobile Session Authentication**
+Mobile apps create anonymous sessions using device IDs and location data:
+1. **Create Session**: `POST /api/mobile/sessions/` with device_id and location
+2. **Use APIs**: All mobile endpoints automatically validate the session
+3. **No Login**: Traditional user authentication not required
+4. **Location Services**: GPS coordinates stored in session for location-based features
 
 ---
 

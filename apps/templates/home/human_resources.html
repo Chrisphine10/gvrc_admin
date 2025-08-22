@@ -12,9 +12,24 @@
         <nav aria-label="breadcrumb" class="mb-3">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
             <li class="breadcrumb-item active" aria-current="page">Human Resources</li>
           </ol>
         </nav>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'facilities:facility_list' %}" class="btn btn-primary me-2">
+            <i class="fas fa-building"></i> Manage Facilities
+          </a>
+          <a href="{% url 'facilities:facility_create' %}" class="btn btn-success">
+            <i class="ni ni-fat-add"></i> Add Facility
+          </a>
+        </div>
       </div>
     </div>
 
@@ -208,7 +223,7 @@
               <div class="col-6">
                 <h6>Human Resources Contacts
                   {% if search %}
-                    <small class="text-secondary">- Search results for "{{ search }}"</small>
+                    <small class="text-dark">- Search results for "{{ search }}"</small>
                   {% endif %}
                 </h6>
               </div>
@@ -224,12 +239,12 @@
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Contact Details</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Facility</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Location</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Services</th>
-                    <th class="text-secondary opacity-7">Actions</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder">Contact Details</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2">Type</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Facility</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Location</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Services</th>
+                    <th class="text-dark">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -250,7 +265,7 @@
                             {% endif %}
                             {{ contact.contact_value }}
                           </h6>
-                          <p class="text-xs text-secondary mb-0">
+                          <p class="text-xs text-dark mb-0">
                             {{ contact.contact_type.type_name }} for {{ contact.facility.facility_name }}
                           </p>
                         </div>
@@ -289,10 +304,10 @@
                         <span class="badge badge-sm bg-gradient-secondary mb-1">
                           {{ contact.facility.ward.constituency.county.county_name }}
                         </span>
-                        <span class="text-xs text-secondary">{{ contact.facility.ward.ward_name }}</span>
+                        <span class="text-xs text-dark">{{ contact.facility.ward.ward_name }}</span>
                       </div>
                       {% else %}
-                      <span class="text-xs text-secondary">-</span>
+                      <span class="text-xs text-dark">-</span>
                       {% endif %}
                     </td>
                     <td class="align-middle text-center">
@@ -304,11 +319,11 @@
                         </span>
                         {% endfor %}
                         {% if contact.facility.facilityservice_set.count > 2 %}
-                        <span class="text-xs text-secondary">+{{ contact.facility.facilityservice_set.count|add:"-2" }}</span>
+                        <span class="text-xs text-dark">+{{ contact.facility.facilityservice_set.count|add:"-2" }}</span>
                         {% endif %}
                       </div>
                       {% else %}
-                      <span class="text-xs text-secondary">None</span>
+                      <span class="text-xs text-dark">None</span>
                       {% endif %}
                     </td>
                     <td class="align-middle">
@@ -340,9 +355,9 @@
                     <td colspan="6" class="text-center py-4">
                       <div class="d-flex flex-column align-items-center">
                         <i class="ni ni-single-02 text-muted" style="font-size: 3rem;"></i>
-                        <p class="text-secondary mt-2 mb-0">No HR contacts found.</p>
+                        <p class="text-dark mt-2 mb-0">No HR contacts found.</p>
                         {% if search or selected_contact_type or selected_facility %}
-                        <small class="text-secondary">Try adjusting your filters or search terms.</small>
+                        <small class="text-dark">Try adjusting your filters or search terms.</small>
                         {% else %}
                         <a href="{% url 'add_staff' %}" class="btn btn-primary btn-sm mt-2">
                           <i class="fas fa-plus"></i> Add First Contact

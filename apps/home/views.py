@@ -11,50 +11,73 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.contrib import messages
+from apps.documents.models import Document
 from apps.facilities.models import Facility
 from apps.authentication.models import User
 from apps.authentication.views import custom_login_required
-from apps.common.geography import County
-from apps.common.documents import Document
+from apps.geography.models import County
 import logging
 
 logger = logging.getLogger(__name__)
 
 
+def landing_page(request):
+    """Landing page for unauthenticated users"""
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    # Get some public statistics to showcase the system
+    total_facilities = Facility.objects.filter(is_active=True).count()
+    total_counties = County.objects.count()
+    
+    # Get operational facilities count
+    operational_facilities = Facility.objects.filter(
+        is_active=True,
+        operational_status__status_name='Operational'
+    ).count()
+    
+    context = {
+        'total_facilities': total_facilities,
+        'total_counties': total_counties,
+        'operational_facilities': operational_facilities,
+    }
+    
+    return render(request, 'home/landing.html', context)
+
+
 @custom_login_required
 def index(request):
-    """Dashboard view with system overview"""
+    """Dashboard view with system overview - only for authenticated users"""
     # Get basic counts
-    total_facilities = Facility.objects.filter(active_status=True).count()
+    total_facilities = Facility.objects.filter(is_active=True).count()
     total_users = User.objects.filter(is_active=True).count()
     total_counties = County.objects.count()
-    total_documents = Document.objects.count()
     
     # Get facility statistics
     operational_facilities = Facility.objects.filter(
-        active_status=True,
+        is_active=True,
         operational_status__status_name='Operational'
     ).count()
     
     non_operational_facilities = Facility.objects.filter(
-        active_status=True
+        is_active=True
     ).exclude(
         operational_status__status_name='Operational'
     ).count()
     
     facilities_with_coordinates = Facility.objects.filter(
-        active_status=True,
+        is_active=True,
         facilitycoordinate__isnull=False
     ).distinct().count()
     
     facilities_with_services = Facility.objects.filter(
-        active_status=True,
+        is_active=True,
         facilityservice__isnull=False
     ).distinct().count()
     
     # Get recent facilities
     recent_facilities = Facility.objects.filter(
-        active_status=True
+        is_active=True
     ).select_related(
         'ward__constituency__county'
     ).order_by('-created_at')[:5]
@@ -63,7 +86,6 @@ def index(request):
         'total_facilities': total_facilities,
         'total_users': total_users,
         'total_counties': total_counties,
-        'total_documents': total_documents,
         'operational_facilities': operational_facilities,
         'non_operational_facilities': non_operational_facilities,
         'facilities_with_coordinates': facilities_with_coordinates,
@@ -82,7 +104,7 @@ def community_facilities(request):
 def services_programs(request):
     """Services & Programs List Page"""
     from apps.facilities.models import FacilityService, Facility
-    from apps.common.lookups import ServiceCategory
+    from apps.lookups.models import ServiceCategory
     
     # Get search parameters
     search = request.GET.get('search', '')
@@ -90,7 +112,7 @@ def services_programs(request):
     facility_id = request.GET.get('facility', '')
     
     # Base queryset with optimized relationships
-    services = FacilityService.objects.filter(active_status=True).select_related(
+    services = FacilityService.objects.filter(is_active=True).select_related(
         'facility', 
         'facility__ward__constituency__county',
         'facility__operational_status',
@@ -148,8 +170,8 @@ def services_programs(request):
     # Get filter options
     service_categories = ServiceCategory.objects.all().order_by('category_name')
     facilities_with_services = Facility.objects.filter(
-        active_status=True,
-        facilityservice__active_status=True
+        is_active=True,
+        facilityservice__is_active=True
     ).distinct().order_by('facility_name')
     
     context = {
@@ -180,7 +202,7 @@ def add_service(request):
 def human_resources(request):
     """Human Resources List Page - Based on Facility Contacts"""
     from apps.facilities.models import FacilityContact, Facility
-    from apps.common.lookups import ContactType
+    from apps.lookups.models import ContactType
     
     # Get search parameters
     search = request.GET.get('search', '')
@@ -197,7 +219,7 @@ def human_resources(request):
     
     # Base queryset for HR contacts with optimized relationships
     hr_contacts = FacilityContact.objects.filter(
-        active_status=True,
+        is_active=True,
         contact_type__in=hr_contact_types
     ).select_related(
         'facility', 
@@ -256,8 +278,8 @@ def human_resources(request):
     
     # Get filter options
     facilities_with_hr = Facility.objects.filter(
-        active_status=True,
-        facilitycontact__active_status=True,
+        is_active=True,
+        facilitycontact__is_active=True,
         facilitycontact__contact_type__in=hr_contact_types
     ).distinct().order_by('facility_name')
     
@@ -286,249 +308,104 @@ def add_staff(request):
     return redirect('facilities:facility_list')
 
 
-def documents(request):
-    """Documents List Page"""
-    from apps.common.lookups import DocumentType, GBVCategory
+def infrastructure(request):
+    """Infrastructure Page - displays list of all infrastructure from facilities"""
+    from apps.facilities.models import FacilityInfrastructure
+    from apps.lookups.models import InfrastructureType, ConditionStatus
     
     # Get search parameters
     search = request.GET.get('search', '')
-    document_type_id = request.GET.get('document_type', '')
+    infrastructure_type_id = request.GET.get('infrastructure_type', '')
+    condition_id = request.GET.get('condition', '')
     facility_id = request.GET.get('facility', '')
-    gbv_category_id = request.GET.get('gbv_category', '')
     
-    # Base queryset with optimized relationships
-    documents = Document.objects.select_related(
-        'document_type', 'gbv_category', 'facility',
+    # Base queryset with optimized relationships - FacilityInfrastructure doesn't have is_active
+    infrastructure_list = FacilityInfrastructure.objects.select_related(
+        'facility', 
         'facility__ward__constituency__county',
-        'facility__operational_status'
-    ).prefetch_related(
-        'facility__facilitygbvcategory_set__gbv_category'
-    )
+        'infrastructure_type',
+        'condition_status'
+    ).order_by('facility__facility_name', 'infrastructure_type__type_name')
     
     # Apply filters
     if search:
-        documents = documents.filter(
-            Q(title__icontains=search) |
+        infrastructure_list = infrastructure_list.filter(
             Q(description__icontains=search) |
-            Q(document_type__type_name__icontains=search) |
-            Q(facility__facility_name__icontains=search)
+            Q(facility__facility_name__icontains=search) |
+            Q(infrastructure_type__type_name__icontains=search)
         )
     
-    if document_type_id:
-        documents = documents.filter(document_type_id=document_type_id)
+    if infrastructure_type_id:
+        infrastructure_list = infrastructure_list.filter(infrastructure_type_id=infrastructure_type_id)
+    
+    if condition_id:
+        infrastructure_list = infrastructure_list.filter(condition_status_id=condition_id)
     
     if facility_id:
-        documents = documents.filter(facility_id=facility_id)
-    
-    if gbv_category_id:
-        documents = documents.filter(gbv_category_id=gbv_category_id)
+        infrastructure_list = infrastructure_list.filter(facility_id=facility_id)
     
     # Get statistics
-    total_documents = documents.count()
-    total_document_types = documents.values('document_type').distinct().count()
-    total_facilities_with_docs = documents.values('facility').distinct().count()
-    total_gbv_categories = documents.values('gbv_category').distinct().count()
+    total_infrastructure = infrastructure_list.count()
+    available_infrastructure = infrastructure_list.filter(is_available=True).count()
+    unavailable_infrastructure = infrastructure_list.filter(is_available=False).count()
     
-    # Group documents by type for summary
-    documents_by_type = {}
-    for doc in documents:
-        if doc.document_type:
-            type_name = doc.document_type.type_name
-            if type_name not in documents_by_type:
-                documents_by_type[type_name] = {
-                    'documents': [],
-                    'facilities': set(),
-                    'document_type_id': doc.document_type.document_type_id
-                }
-            documents_by_type[type_name]['documents'].append(doc)
-            if doc.facility:
-                documents_by_type[type_name]['facilities'].add(doc.facility.facility_id)
-    
-    # Convert sets to counts for template usage
-    for type_data in documents_by_type.values():
-        type_data['facility_count'] = len(type_data['facilities'])
-        type_data['document_count'] = len(type_data['documents'])
+    # Group by infrastructure type for summary
+    infrastructure_by_type = {}
+    for item in infrastructure_list:
+        type_name = item.infrastructure_type.type_name
+        if type_name not in infrastructure_by_type:
+            infrastructure_by_type[type_name] = {
+                'items': [],
+                'total_capacity': 0,
+                'total_utilization': 0,
+                'good_condition': 0,
+                'needs_attention': 0
+            }
+        infrastructure_by_type[type_name]['items'].append(item)
+        infrastructure_by_type[type_name]['total_capacity'] += item.capacity or 0
+        infrastructure_by_type[type_name]['total_utilization'] += item.current_utilization or 0
+        
+        # Count by condition
+        if item.condition_status.status_name in ['Good', 'Excellent']:
+            infrastructure_by_type[type_name]['good_condition'] += 1
+        else:
+            infrastructure_by_type[type_name]['needs_attention'] += 1
     
     # Pagination
-    paginator = Paginator(documents.order_by('document_type__type_name', 'title'), 20)
+    paginator = Paginator(infrastructure_list, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     # Get filter options
-    document_types = DocumentType.objects.all().order_by('type_name')
-    gbv_categories = GBVCategory.objects.all().order_by('category_name')
-    facilities_with_docs = Facility.objects.filter(
-        active_status=True,
-        document__isnull=False
-    ).distinct().order_by('facility_name')
+    infrastructure_types = InfrastructureType.objects.all().order_by('type_name')
+    condition_statuses = ConditionStatus.objects.all().order_by('status_name')
     
     context = {
-        'segment': 'documents',
-        'page_title': 'Documents',
+        'segment': 'infrastructure',
+        'page_title': 'Infrastructure Overview',
         'page_obj': page_obj,
-        'documents': documents,
-        'documents_by_type': documents_by_type,
-        'document_types': document_types,
-        'gbv_categories': gbv_categories,
-        'facilities_with_docs': facilities_with_docs,
+        'infrastructure_list': page_obj,
+        'infrastructure_by_type': infrastructure_by_type,
+        'infrastructure_types': infrastructure_types,
+        'condition_statuses': condition_statuses,
         'search': search,
-        'selected_document_type': document_type_id,
-        'selected_facility': facility_id,
-        'selected_gbv_category': gbv_category_id,
-        'total_documents': total_documents,
-        'total_document_types': total_document_types,
-        'total_facilities_with_docs': total_facilities_with_docs,
-        'total_gbv_categories': total_gbv_categories,
+        'selected_infrastructure_type': infrastructure_type_id,
+        'selected_condition': condition_id,
+        'total_infrastructure': total_infrastructure,
+        'available_infrastructure': available_infrastructure,
+        'unavailable_infrastructure': unavailable_infrastructure,
     }
     
-    return render(request, 'home/documents.html', context)
+    return render(request, 'home/infrastructure.html', context)
 
 
-def add_document(request):
-    """Add Document Page"""
-    from apps.common.lookups import DocumentType, GBVCategory
-    from django.utils import timezone
-    
-    if request.method == 'POST':
-        # Handle document creation
-        title = request.POST.get('title')
-        description = request.POST.get('description', '')
-        file_url = request.POST.get('file_url')
-        document_type_id = request.POST.get('document_type')
-        gbv_category_id = request.POST.get('gbv_category', '')
-        facility_id = request.POST.get('facility', '')
-        
-        # Basic validation
-        if not title or not file_url or not document_type_id:
-            messages.error(request, 'Title, File URL, and Document Type are required fields.')
-            return redirect('add_document')
-        
-        try:
-            # Create document
-            document = Document.objects.create(
-                title=title,
-                description=description,
-                file_url=file_url,
-                document_type_id=document_type_id,
-                gbv_category_id=gbv_category_id if gbv_category_id else None,
-                facility_id=facility_id if facility_id else None,
-                uploaded_at=timezone.now()
-            )
-            
-            messages.success(request, f'Document "{title}" created successfully!')
-            return redirect('document_detail', document_id=document.document_id)
-            
-        except Exception as e:
-            messages.error(request, f'Error creating document: {str(e)}')
-            return redirect('add_document')
-    
-    # GET request - show form
-    document_types = DocumentType.objects.all().order_by('type_name')
-    gbv_categories = GBVCategory.objects.all().order_by('category_name')
-    facilities = Facility.objects.filter(active_status=True).order_by('facility_name')
-    
+def help_page(request):
+    """Help & Documentation Page"""
     context = {
-        'segment': 'documents',
-        'page_title': 'Add New Document',
-        'document_types': document_types,
-        'gbv_categories': gbv_categories,
-        'facilities': facilities,
-        'is_update': False,
+        'segment': 'help',
+        'page_title': 'Help & Documentation'
     }
-    
-    return render(request, 'home/add_document.html', context)
-
-
-def document_detail(request, document_id):
-    """Document Detail Page"""
-    from apps.common.documents import Document
-    
-    document = get_object_or_404(Document, document_id=document_id)
-    
-    context = {
-        'segment': 'documents',
-        'page_title': f'Document - {document.title}',
-        'document': document,
-    }
-    
-    return render(request, 'home/document_detail.html', context)
-
-
-def document_update(request, document_id):
-    """Document Update Page"""
-    from apps.common.lookups import DocumentType, GBVCategory
-    from django.utils import timezone
-    
-    document = get_object_or_404(Document, document_id=document_id)
-    
-    if request.method == 'POST':
-        # Handle document update
-        title = request.POST.get('title')
-        description = request.POST.get('description', '')
-        file_url = request.POST.get('file_url')
-        document_type_id = request.POST.get('document_type')
-        gbv_category_id = request.POST.get('gbv_category', '')
-        facility_id = request.POST.get('facility', '')
-        
-        # Basic validation
-        if not title or not file_url or not document_type_id:
-            messages.error(request, 'Title, File URL, and Document Type are required fields.')
-            return redirect('document_update', document_id=document_id)
-        
-        try:
-            # Update document
-            document.title = title
-            document.description = description
-            document.file_url = file_url
-            document.document_type_id = document_type_id
-            document.gbv_category_id = gbv_category_id if gbv_category_id else None
-            document.facility_id = facility_id if facility_id else None
-            document.save()
-            
-            messages.success(request, f'Document "{title}" updated successfully!')
-            return redirect('document_detail', document_id=document.document_id)
-            
-        except Exception as e:
-            messages.error(request, f'Error updating document: {str(e)}')
-            return redirect('document_update', document_id=document_id)
-    
-    # GET request or form errors - show form
-    document_types = DocumentType.objects.all().order_by('type_name')
-    gbv_categories = GBVCategory.objects.all().order_by('category_name')
-    facilities = Facility.objects.filter(active_status=True).order_by('facility_name')
-    
-    context = {
-        'segment': 'documents',
-        'page_title': f'Edit Document - {document.title}',
-        'document': document,
-        'document_types': document_types,
-        'gbv_categories': gbv_categories,
-        'facilities': facilities,
-        'is_update': True,
-    }
-    
-    return render(request, 'home/add_document.html', context)
-
-
-def document_delete(request, document_id):
-    """Document Delete Page"""
-    from apps.common.documents import Document
-    
-    document = get_object_or_404(Document, document_id=document_id)
-    
-    if request.method == 'POST':
-        document_title = document.title
-        document.delete()
-        messages.success(request, f'Document "{document_title}" deleted successfully!')
-        return redirect('documents')
-    
-    context = {
-        'segment': 'documents',
-        'page_title': f'Delete Document - {document.title}',
-        'document': document,
-    }
-    
-    return render(request, 'home/document_delete.html', context)
+    return render(request, 'home/help.html', context)
 
 
 def pages(request):
@@ -541,18 +418,17 @@ def pages(request):
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
         
-        context['segment'] = load_template
+        # Add .html extension if not present
+        if not load_template.endswith('.html'):
+            load_template += '.html'
+        
+        context['segment'] = load_template.replace('.html', '')
         html_template = loader.get_template('home/' + load_template)
         return HttpResponse(html_template.render(context, request))
         
     except loader.TemplateDoesNotExist:
-        # Try to find the template in the accounts directory
-        try:
-            html_template = loader.get_template('accounts/' + load_template)
-            return HttpResponse(html_template.render(context, request))
-        except loader.TemplateDoesNotExist:
-            # Return a generic 404 page
-            error_html = """
+        # Return a generic 404 page
+        error_html = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -570,11 +446,11 @@ def pages(request):
 <body>
 <h1>404 - Page Not Found</h1>
     <p>The page you are looking for does not exist.</p>
-    <a href="/">Return to Home</a>
+    <a href="{% url 'landing' %}">Return to Home</a>
 </body>
 </html>
-            """
-            return HttpResponse(error_html)
+        """
+        return HttpResponse(error_html)
 
     except Exception as e:
         # Return simple 404 page without template loading
@@ -585,7 +461,7 @@ def pages(request):
 <body>
     <h1>Page Not Found</h1>
 <p>The requested page could not be found.</p>
-    <a href="/">Return to Home</a>
+    <a href="{% url 'landing' %}">Return to Home</a>
 </body>
 </html>
         """

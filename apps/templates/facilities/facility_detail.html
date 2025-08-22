@@ -139,21 +139,27 @@
           </div>
           <div class="card-body">
             <div class="row text-center">
-              <div class="col-4">
+              <div class="col-3">
                 <div class="border-end">
                   <h4 class="font-weight-bolder text-info">{{ services.count }}</h4>
                   <p class="text-sm text-secondary mb-0">Services</p>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-3">
                 <div class="border-end">
                   <h4 class="font-weight-bolder text-warning">{{ contacts.count }}</h4>
                   <p class="text-sm text-secondary mb-0">Contacts</p>
                 </div>
               </div>
-              <div class="col-4">
-                <h4 class="font-weight-bolder text-success">{{ owners.count }}</h4>
-                <p class="text-sm text-secondary mb-0">Owners</p>
+              <div class="col-3">
+                <div class="border-end">
+                  <h4 class="font-weight-bolder text-success">{{ owners.count }}</h4>
+                  <p class="text-sm text-secondary mb-0">Owners</p>
+                </div>
+              </div>
+              <div class="col-3">
+                <h4 class="font-weight-bolder text-warning">{{ infrastructure.count }}</h4>
+                <p class="text-sm text-secondary mb-0">Infrastructure</p>
               </div>
             </div>
           </div>
@@ -182,6 +188,11 @@
                   <i class="ni ni-single-02 me-1"></i>Ownership ({{ owners.count }})
                 </a>
               </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-toggle="tab" href="#infrastructure-tab" role="tab">
+                  <i class="ni ni-building me-1"></i>Infrastructure ({{ infrastructure.count }})
+                </a>
+              </li>
               {% if coordinates %}
               <li class="nav-item" role="presentation">
                 <a class="nav-link" data-bs-toggle="tab" href="#location-tab" role="tab">
@@ -207,9 +218,12 @@
                             <i class="ni ni-settings-gear-65 text-white text-sm opacity-10"></i>
                           </div>
                           <div>
-                            <h6 class="mb-0 text-sm">{{ service.service_category.category_name }}</h6>
+                            <h6 class="mb-0 text-sm">{{ service.service_name|default:service.service_category.category_name }}</h6>
                             {% if service.service_description %}
                             <p class="text-xs text-secondary mb-0">{{ service.service_description|truncatechars:60 }}</p>
+                            {% endif %}
+                            {% if not service.is_free and service.cost_range %}
+                            <small class="text-xs text-warning">Cost: {{ service.cost_range }} {{ service.currency }}</small>
                             {% endif %}
                           </div>
                         </div>
@@ -312,6 +326,54 @@
                   <p class="text-secondary mt-2 mb-0">No ownership information available</p>
                   <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-primary btn-sm mt-2">
                     <i class="fas fa-plus"></i> Add Owner
+                  </a>
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Infrastructure Tab -->
+              <div class="tab-pane fade" id="infrastructure-tab" role="tabpanel">
+                {% if infrastructure %}
+                <div class="row">
+                  {% for infra in infrastructure %}
+                  <div class="col-lg-6 col-md-12 mb-3">
+                    <div class="card border">
+                      <div class="card-body p-3">
+                        <div class="d-flex align-items-center">
+                          <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md me-3">
+                            <i class="ni ni-building text-white text-sm opacity-10"></i>
+                          </div>
+                          <div>
+                            <h6 class="mb-0 text-sm">{{ infra.infrastructure_type.type_name }}</h6>
+                            {% if infra.condition_status %}
+                            <span class="badge badge-sm 
+                              {% if infra.condition_status.status_name == 'Good' %}bg-gradient-success
+                              {% elif infra.condition_status.status_name == 'Fair' %}bg-gradient-warning
+                              {% elif infra.condition_status.status_name == 'Poor' %}bg-gradient-danger
+                              {% else %}bg-gradient-secondary
+                              {% endif %}">
+                              {{ infra.condition_status.status_name }}
+                            </span>
+                            {% endif %}
+                            {% if infra.description %}
+                            <p class="text-xs text-secondary mb-0 mt-1">{{ infra.description|truncatechars:60 }}</p>
+                            {% endif %}
+                            {% if infra.capacity %}
+                            <small class="text-xs text-info">Capacity: {{ infra.capacity }}</small>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                  <i class="ni ni-building text-muted" style="font-size: 3rem;"></i>
+                  <p class="text-secondary mt-2 mb-0">No infrastructure information available</p>
+                  <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-primary btn-sm mt-2">
+                    <i class="fas fa-plus"></i> Add Infrastructure
                   </a>
                 </div>
                 {% endif %}

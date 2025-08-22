@@ -15,7 +15,7 @@
                 {% for s in operational_statuses %}
                   <tr><td class="text-sm">{{ s.status_name }}</td></tr>
                 {% empty %}
-                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
                 {% endfor %}
               </tbody>
             </table>
@@ -31,7 +31,7 @@
                 {% for c in contact_types %}
                   <tr><td class="text-sm">{{ c.type_name }}</td></tr>
                 {% empty %}
-                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
                 {% endfor %}
               </tbody>
             </table>
@@ -50,7 +50,7 @@
                 {% for sc in service_categories %}
                   <tr><td class="text-sm">{{ sc.category_name }}</td></tr>
                 {% empty %}
-                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
                 {% endfor %}
               </tbody>
             </table>
@@ -66,7 +66,7 @@
                 {% for o in owner_types %}
                   <tr><td class="text-sm">{{ o.owner_name }}</td></tr>
                 {% empty %}
-                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
                 {% endfor %}
               </tbody>
             </table>
@@ -85,7 +85,7 @@
                 {% for g in gbv_categories %}
                   <tr><td class="text-sm">{{ g.category_name }}</td></tr>
                 {% empty %}
-                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
                 {% endfor %}
               </tbody>
             </table>
@@ -101,7 +101,7 @@
                 {% for d in document_types %}
                   <tr><td class="text-sm">{{ d.type_name }}</td></tr>
                 {% empty %}
-                  <tr><td class="text-sm text-secondary text-center">No data.</td></tr>
+                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
                 {% endfor %}
               </tbody>
             </table>

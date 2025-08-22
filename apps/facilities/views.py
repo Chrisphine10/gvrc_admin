@@ -8,14 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, Count
 from django.db import transaction
-from .models import Facility, FacilityContact, FacilityService, FacilityOwner, FacilityCoordinate, FacilityGBVCategory
+from .models import Facility, FacilityContact, FacilityService, FacilityOwner, FacilityCoordinate, FacilityGBVCategory, FacilityInfrastructure
 from .forms import (
     FacilityForm, FacilityContactForm, FacilityServiceForm, FacilityOwnerForm, 
     FacilityCoordinateForm, FacilityGBVCategoryForm, FacilityContactFormSet,
-    FacilityServiceFormSet, FacilityOwnerFormSet
+    FacilityServiceFormSet, FacilityOwnerFormSet, FacilityInfrastructureFormSet
 )
-from apps.common.geography import County
-from apps.common.lookups import OperationalStatus, ServiceCategory
+from apps.geography.models import County
+from apps.lookups.models import OperationalStatus, ServiceCategory
 
 
 @login_required
@@ -30,7 +30,7 @@ def facility_list(request):
         'facilitycontact_set__contact_type',
         'facilityowner_set__owner_type',
         'facilitygbvcategory_set__gbv_category'
-    ).filter(active_status=True)
+    ).filter(is_active=True)
     
     # Search functionality
     search_query = request.GET.get('search', '')
@@ -94,20 +94,22 @@ def facility_detail(request, facility_id):
             'facilitycoordinate_set'
         ), 
         facility_id=facility_id, 
-        active_status=True
+        is_active=True
     )
     
     # Get related data efficiently
-    contacts = facility.facilitycontact_set.filter(active_status=True)
-    services = facility.facilityservice_set.filter(active_status=True)
-    owners = facility.facilityowner_set.filter(active_status=True)
-    coordinates = facility.facilitycoordinate_set.filter(active_status=True).first()
+    contacts = facility.facilitycontact_set.filter(is_active=True)
+    services = facility.facilityservice_set.filter(is_active=True)
+    owners = facility.facilityowner_set.filter(is_active=True)
+    infrastructure = facility.facilityinfrastructure_set.filter(is_active=True)
+    coordinates = facility.facilitycoordinate_set.filter(is_active=True).first()
     
     context = {
         'facility': facility,
         'contacts': contacts,
         'services': services,
         'owners': owners,
+        'infrastructure': infrastructure,
         'coordinates': coordinates,
     }
     
@@ -118,7 +120,7 @@ def facility_detail(request, facility_id):
 def facility_map(request):
     """Show facilities on a map with coordinates"""
     facilities = Facility.objects.filter(
-        active_status=True
+        is_active=True
     ).select_related(
         'ward__constituency__county'
     ).prefetch_related(
@@ -128,7 +130,7 @@ def facility_map(request):
     # Filter facilities with coordinates
     facilities_with_coords = []
     for facility in facilities:
-        coords = facility.facilitycoordinate_set.filter(active_status=True).first()
+        coords = facility.facilitycoordinate_set.filter(is_active=True).first()
         if coords and coords.latitude and coords.longitude:
             facilities_with_coords.append({
                 'facility': facility,
@@ -154,6 +156,7 @@ def facility_create(request):
         contact_formset = FacilityContactFormSet(request.POST, prefix='contacts')
         service_formset = FacilityServiceFormSet(request.POST, prefix='services')
         owner_formset = FacilityOwnerFormSet(request.POST, prefix='owners')
+        infrastructure_formset = FacilityInfrastructureFormSet(request.POST, prefix='infrastructure')
         
         if (facility_form.is_valid() and coordinate_form.is_valid() and 
             gbv_form.is_valid() and contact_formset.is_valid() and 
@@ -210,6 +213,20 @@ def facility_create(request):
                                 owner.created_by = request.user.id
                             owner.save()
                     
+                    # Save infrastructure (optional)
+                    for infrastructure_form in infrastructure_formset:
+                        if (infrastructure_form.cleaned_data and 
+                            not infrastructure_form.cleaned_data.get('DELETE', False) and
+                            infrastructure_form.cleaned_data.get('infrastructure_type')):
+                            try:
+                                infrastructure = infrastructure_form.save(commit=False)
+                                infrastructure.facility = facility
+                                infrastructure.save()
+                            except Exception as e:
+                                # Log error but don't fail the entire operation
+                                print(f"Error saving infrastructure: {e}")
+                                continue
+                    
                     messages.success(request, f'Facility "{facility.facility_name}" created successfully!')
                     return redirect('facilities:facility_detail', facility_id=facility.facility_id)
                     
@@ -224,6 +241,7 @@ def facility_create(request):
         contact_formset = FacilityContactFormSet(prefix='contacts')
         service_formset = FacilityServiceFormSet(prefix='services')
         owner_formset = FacilityOwnerFormSet(prefix='owners')
+        infrastructure_formset = FacilityInfrastructureFormSet(prefix='infrastructure')
     
     context = {
         'facility_form': facility_form,
@@ -232,6 +250,7 @@ def facility_create(request):
         'contact_formset': contact_formset,
         'service_formset': service_formset,
         'owner_formset': owner_formset,
+        'infrastructure_formset': infrastructure_formset,
         'form_action': 'Create',
         'page_title': 'Create New Facility',
     }
@@ -242,13 +261,13 @@ def facility_create(request):
 @login_required
 def facility_update(request, facility_id):
     """Update an existing facility with all related data"""
-    facility = get_object_or_404(Facility, facility_id=facility_id, active_status=True)
+    facility = get_object_or_404(Facility, facility_id=facility_id, is_active=True)
     
     # Get existing related objects
-    existing_coordinate = facility.facilitycoordinate_set.filter(active_status=True).first()
-    existing_contacts = facility.facilitycontact_set.filter(active_status=True)
-    existing_services = facility.facilityservice_set.filter(active_status=True)
-    existing_owners = facility.facilityowner_set.filter(active_status=True)
+    existing_coordinate = facility.facilitycoordinate_set.filter(is_active=True).first()
+    existing_contacts = facility.facilitycontact_set.filter(is_active=True)
+    existing_services = facility.facilityservice_set.filter(is_active=True)
+    existing_owners = facility.facilityowner_set.filter(is_active=True)
     
     if request.method == 'POST':
         facility_form = FacilityForm(request.POST, instance=facility)
@@ -257,6 +276,7 @@ def facility_update(request, facility_id):
         contact_formset = FacilityContactFormSet(request.POST, prefix='contacts')
         service_formset = FacilityServiceFormSet(request.POST, prefix='services')
         owner_formset = FacilityOwnerFormSet(request.POST, prefix='owners')
+        infrastructure_formset = FacilityInfrastructureFormSet(request.POST, prefix='infrastructure')
         
         if (facility_form.is_valid() and coordinate_form.is_valid() and 
             gbv_form.is_valid() and contact_formset.is_valid() and 
@@ -296,9 +316,10 @@ def facility_update(request, facility_id):
                         )
                     
                     # Mark existing related objects as inactive (soft delete)
-                    existing_contacts.update(active_status=False)
-                    existing_services.update(active_status=False)
-                    existing_owners.update(active_status=False)
+                    existing_contacts.update(is_active=False)
+                    existing_services.update(is_active=False)
+                    existing_owners.update(is_active=False)
+                    existing_infrastructure.update(is_active=False)
                     
                     # Save new contacts
                     for contact_form in contact_formset:
@@ -327,6 +348,20 @@ def facility_update(request, facility_id):
                                 owner.created_by = request.user.id
                             owner.save()
                     
+                    # Save new infrastructure (optional)
+                    for infrastructure_form in infrastructure_formset:
+                        if (infrastructure_form.cleaned_data and 
+                            not infrastructure_form.cleaned_data.get('DELETE', False) and
+                            infrastructure_form.cleaned_data.get('infrastructure_type')):
+                            try:
+                                infrastructure = infrastructure_form.save(commit=False)
+                                infrastructure.facility = facility
+                                infrastructure.save()
+                            except Exception as e:
+                                # Log error but don't fail the entire operation
+                                print(f"Error saving infrastructure: {e}")
+                                continue
+                    
                     messages.success(request, f'Facility "{facility.facility_name}" updated successfully!')
                     return redirect('facilities:facility_detail', facility_id=facility.facility_id)
                     
@@ -339,23 +374,38 @@ def facility_update(request, facility_id):
         coordinate_form = FacilityCoordinateForm(instance=existing_coordinate)
         gbv_form = FacilityGBVCategoryForm(facility=facility)
         
+        # Get existing infrastructure
+        existing_infrastructure = facility.facilityinfrastructure_set.filter(is_active=True)
+        
         # Populate formsets with existing data
         contact_initial = [
-            {'contact_type': contact.contact_type, 'contact_value': contact.contact_value}
+            {'contact_type': contact.contact_type, 'contact_value': contact.contact_value, 
+             'contact_person_name': contact.contact_person_name, 'is_primary': contact.is_primary}
             for contact in existing_contacts
         ]
         service_initial = [
-            {'service_category': service.service_category, 'service_description': service.service_description}
+            {'service_category': service.service_category, 'service_name': service.service_name,
+             'service_description': service.service_description, 'is_free': service.is_free,
+             'cost_range': service.cost_range, 'currency': service.currency,
+             'availability_hours': service.availability_hours, 'availability_days': service.availability_days,
+             'appointment_required': service.appointment_required}
             for service in existing_services
         ]
         owner_initial = [
             {'owner_name': owner.owner_name, 'owner_type': owner.owner_type}
             for owner in existing_owners
         ]
+        infrastructure_initial = [
+            {'infrastructure_type': infra.infrastructure_type, 'condition_status': infra.condition_status,
+             'description': infra.description, 'capacity': infra.capacity,
+             'current_utilization': infra.current_utilization, 'is_available': infra.is_available}
+            for infra in existing_infrastructure
+        ] if existing_infrastructure.exists() else []
         
         contact_formset = FacilityContactFormSet(prefix='contacts', initial=contact_initial)
         service_formset = FacilityServiceFormSet(prefix='services', initial=service_initial)
         owner_formset = FacilityOwnerFormSet(prefix='owners', initial=owner_initial)
+        infrastructure_formset = FacilityInfrastructureFormSet(prefix='infrastructure', initial=infrastructure_initial)
     
     context = {
         'facility': facility,
@@ -365,6 +415,7 @@ def facility_update(request, facility_id):
         'contact_formset': contact_formset,
         'service_formset': service_formset,
         'owner_formset': owner_formset,
+        'infrastructure_formset': infrastructure_formset,
         'form_action': 'Update',
         'page_title': f'Edit {facility.facility_name}',
     }

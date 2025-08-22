@@ -7,6 +7,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 try:
     from rest_framework.authtoken.views import obtain_auth_token
@@ -20,10 +21,10 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="GVRC Admin API",
+        title="Hodi Admin API",
         default_version='v1',
-        description="Multi-Institutional GBV Response Platform API - Comprehensive endpoints for police, hospitals, NGOs, safe houses, legal aid centers, and all GBV response institutions",
-        contact=openapi.Contact(email="admin@gvrc.com"),
+        description="Hodi App Management Dashboard API - Comprehensive endpoints for managing the Hodi app for GVRC",
+        contact=openapi.Contact(email="admin@hodi.ke"),
         license=openapi.License(name="Internal Use Only"),
     ),
     public=True,
@@ -38,11 +39,14 @@ urlpatterns = [
     path("facilities/", include("apps.facilities.urls")), # Facilities
     path("common/", include("apps.common.urls")), # Common
     path("api/", include("apps.api.urls")),       # APIs
-    path("", include("admin_gradient.urls")),     # Admin theme
+    path("music/", include("apps.music.urls")),   # Music
+    path("documents/", include("apps.documents.urls")), # Documents
     # Swagger / ReDoc documentation
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # Favicon route for better browser compatibility
+    path('favicon.ico', RedirectView.as_view(url='/static/assets/img/icons/common/favicon.ico', permanent=True)),
 ]
 
 # Add media files serving in development

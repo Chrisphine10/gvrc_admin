@@ -8,7 +8,7 @@ from .base import *
 DEBUG = True
 
 # HOSTs List
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", APP_DOMAIN, ".deploypro.dev"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", APP_DOMAIN, ".deploypro.dev", ".ngrok-free.app", "a3f602af5f2d.ngrok-free.app"]
 
 # Add here your deployment HOSTS
 CSRF_TRUSTED_ORIGINS = [
@@ -19,6 +19,9 @@ CSRF_TRUSTED_ORIGINS = [
     f"http://{APP_DOMAIN}",
     f"https://{APP_DOMAIN}",
     "https://*.deploypro.dev",
+    "https://*.ngrok-free.app",
+    "http://a3f602af5f2d.ngrok-free.app",
+    "https://a3f602af5f2d.ngrok-free.app",
 ]
 
 # Database

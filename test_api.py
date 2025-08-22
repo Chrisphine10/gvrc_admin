@@ -81,6 +81,10 @@ def test_geography_endpoints():
     """Test geography endpoints"""
     print("\n🗺️ Testing Geography Endpoints")
     
+    # Test the new consolidated geography endpoint
+    test_api_endpoint("geography/")
+    
+    # Test individual geography endpoints
     test_api_endpoint("geography/counties/")
     test_api_endpoint("geography/constituencies/")
     test_api_endpoint("geography/wards/")
@@ -113,7 +117,7 @@ def test_with_authentication():
 
 def main():
     """Main test function"""
-    print("🚀 GVRC Admin API Test Script")
+    print("🚀 Hodi Admin API Test Script")
     print(f"Testing API at: {BASE_URL}")
     
     # Test public endpoints

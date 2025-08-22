@@ -8,8 +8,11 @@ from apps.home import views
 
 urlpatterns = [
 
-    # The home page
-    path('', views.index, name='home'),
+    # The landing page for unauthenticated users
+    path('', views.landing_page, name='landing'),
+    
+    # The home page (dashboard) for authenticated users
+    path('dashboard/', views.index, name='home'),
 
     # Main resource pages
     # NOTE: facilities/ URLs are handled by apps.facilities.urls
@@ -19,11 +22,7 @@ urlpatterns = [
     path('services/add/', views.add_service, name='add_service'),
     path('human-resources/', views.human_resources, name='human_resources'),
     path('human-resources/add/', views.add_staff, name='add_staff'),
-    path('documents/', views.documents, name='documents'),
-    path('documents/add/', views.add_document, name='add_document'),
-    path('documents/<int:document_id>/', views.document_detail, name='document_detail'),
-    path('documents/<int:document_id>/edit/', views.document_update, name='document_update'),
-    path('documents/<int:document_id>/delete/', views.document_delete, name='document_delete'),
+    path('infrastructure/', views.infrastructure, name='infrastructure'),  # Infrastructure page
 
     # Specific pages that should be handled by home app
     path('profile/', views.pages, name='profile'),
@@ -35,6 +34,6 @@ urlpatterns = [
     path('notifications/', views.pages, name='notifications'),
     path('tables/', views.pages, name='tables'),
     path('upgrade/', views.pages, name='upgrade'),
-    path('help/', views.pages, name='help'),
+    path('help/', views.help_page, name='help'),
 
 ]

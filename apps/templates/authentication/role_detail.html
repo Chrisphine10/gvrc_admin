@@ -1,0 +1,464 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Role: {{ role.role_name }} {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+  <div class="header bg-gradient-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">{{ role.role_name }}</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'role_list' %}">User Roles</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ role.role_name }}</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <a href="{% url 'role_edit' role.role_id %}" class="btn btn-sm btn-warning">
+              <i class="fas fa-edit"></i> Edit Role
+            </a>
+            <a href="{% url 'role_list' %}" class="btn btn-sm btn-neutral">
+              <i class="fas fa-arrow-left"></i> Back to Roles
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <!-- Role Information -->
+      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-3 order-lg-2">
+              <div class="card-profile-image">
+                <a href="#">
+                  <img src="/static/assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'role_edit' role.role_id %}" class="btn btn-sm btn-info mr-4">Edit</a>
+              {% if not role.is_system_role %}
+                <a href="{% url 'role_delete' role.role_id %}" class="btn btn-sm btn-danger float-right">Delete</a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="card-body pt-0 pt-md-4">
+            <div class="row">
+              <div class="col">
+                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                  <div>
+                    <span class="heading">{{ role.userroleassignment_set.count }}</span>
+                    <span class="description">Users</span>
+                  </div>
+                  <div>
+                    <span class="heading">{{ role.rolepermission_set.count }}</span>
+                    <span class="description">Permissions</span>
+                  </div>
+                  <div>
+                    <span class="heading">{{ role.created_at|date:"M d" }}</span>
+                    <span class="description">Created</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h3>{{ role.role_name }}</h3>
+              <div class="h5 font-weight-300">
+                <i class="ni location_pin mr-2"></i>{{ role.description|default:"No description provided" }}
+              </div>
+              <div class="mt-4">
+                {% if role.is_system_role %}
+                  <span class="badge badge-warning">System Role</span>
+                {% else %}
+                  <span class="badge badge-success">Custom Role</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role Details -->
+      <div class="col-xl-8 order-xl-1">
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Role Details</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Role Name</label>
+                  <input type="text" class="form-control" value="{{ role.role_name }}" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Role Type</label>
+                  <input type="text" class="form-control" value="{% if role.is_system_role %}System Role{% else %}Custom Role{% endif %}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-control-label">Description</label>
+              <textarea class="form-control" rows="3" readonly>{{ role.description|default:"No description provided" }}</textarea>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Created</label>
+                  <input type="text" class="form-control" value="{{ role.created_at|date:'F d, Y H:i' }}" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Total Users</label>
+                  <input type="text" class="form-control" value="{{ role.userroleassignment_set.count }} users" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permissions Section -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Assigned Permissions</h3>
+              </div>
+              <div class="col-4 text-right">
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addPermissionModal">
+                  <i class="fas fa-plus"></i> Add Permission
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            {% if role_permissions %}
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Permission</th>
+                      <th scope="col">Resource</th>
+                      <th scope="col">Action</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for role_perm in role_permissions %}
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">{{ role_perm.permission.permission_name }}</span>
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <span class="badge badge-info">{{ role_perm.permission.resource_name }}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">{{ role_perm.permission.action_name }}</span>
+                        </td>
+                        <td>
+                          <span class="text-sm">{{ role_perm.permission.description|default:"No description" }}</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-danger" onclick="removePermission({{ role.role_id }}, {{ role_perm.permission.permission_id }})">
+                            <i class="fas fa-trash"></i> Remove
+                          </button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <div class="text-center py-4">
+                <i class="ni ni-key-25 text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">No Permissions Assigned</h4>
+                <p class="text-muted">This role doesn't have any permissions yet. Add some to get started.</p>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addPermissionModal">
+                  <i class="fas fa-plus"></i> Add First Permission
+                </button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Users Section -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Users with this Role</h3>
+              </div>
+              <div class="col-4 text-right">
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addUserModal">
+                  <i class="fas fa-plus"></i> Assign User
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            {% if users_with_role %}
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">User</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Assigned</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for user_assignment in users_with_role %}
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">{{ user_assignment.user.full_name }}</span>
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <span class="text-sm">{{ user_assignment.user.email }}</span>
+                        </td>
+                        <td>
+                          <span class="text-sm">{{ user_assignment.assigned_at|date:"M d, Y" }}</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-danger" onclick="removeUser({{ user_assignment.user.user_id }}, {{ role.role_id }})">
+                            <i class="fas fa-user-minus"></i> Remove
+                          </button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <div class="text-center py-4">
+                <i class="ni ni-single-02 text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">No Users Assigned</h4>
+                <p class="text-muted">This role hasn't been assigned to any users yet.</p>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
+                  <i class="fas fa-plus"></i> Assign First User
+                </button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Permission Modal -->
+  <div class="modal fade" id="addPermissionModal" tabindex="-1" role="dialog" aria-labelledby="addPermissionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addPermissionModalLabel">Add Permission to Role</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% if all_permissions %}
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Permission</th>
+                    <th scope="col">Resource</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for permission in all_permissions %}
+                    <tr>
+                      <th scope="row">
+                        <span class="name mb-0 text-sm">{{ permission.permission_name }}</span>
+                      </th>
+                      <td>
+                        <span class="badge badge-info">{{ permission.resource_name }}</span>
+                      </td>
+                      <td>
+                        <span class="badge badge-success">{{ permission.action_name }}</span>
+                      </td>
+                      <td>
+                        <span class="text-sm">{{ permission.description|default:"No description" }}</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="addPermission({{ role.role_id }}, {{ permission.permission_id }})">
+                          <i class="fas fa-plus"></i> Add
+                        </button>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <div class="text-center py-4">
+              <i class="ni ni-check-bold text-success" style="font-size: 3rem;"></i>
+              <h4 class="mt-3">All Permissions Assigned</h4>
+              <p class="text-muted">This role already has all available permissions.</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addUserModalLabel">Assign Role to User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted">This modal would show a list of users who don't have this role yet. For now, you can assign roles directly from the user management pages.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script>
+    function addPermission(roleId, permissionId) {
+      fetch(`/roles/${roleId}/assign-permission/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({
+          permission_id: permissionId
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message
+          showAlert('success', data.message);
+          // Reload page to show updated permissions
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          showAlert('danger', data.error);
+        }
+      })
+      .catch(error => {
+        showAlert('danger', 'Error adding permission: ' + error.message);
+      });
+    }
+
+    function removePermission(roleId, permissionId) {
+      if (confirm('Are you sure you want to remove this permission from the role?')) {
+        fetch(`/roles/${roleId}/remove-permission/${permissionId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('success', data.message);
+            setTimeout(() => location.reload(), 1500);
+          } else {
+            showAlert('danger', data.error);
+          }
+        })
+        .catch(error => {
+          showAlert('danger', 'Error removing permission: ' + error.message);
+        });
+      }
+    }
+
+    function removeUser(userId, roleId) {
+      if (confirm('Are you sure you want to remove this role from the user?')) {
+        fetch(`/users/${userId}/remove-role/${roleId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('success', data.message);
+            setTimeout(() => location.reload(), 1500);
+          } else {
+            showAlert('danger', data.error);
+          }
+        })
+        .catch(error => {
+          showAlert('danger', 'Error removing user: ' + error.message);
+        });
+      }
+    }
+
+    function showAlert(type, message) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      `;
+      
+      // Insert at the top of the card body
+      const cardBody = document.querySelector('.card-body');
+      cardBody.insertBefore(alertDiv, cardBody.firstChild);
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 5000);
+    }
+
+    $(document).ready(function() {
+      // Initialize tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  
+  <!-- CSRF Token for AJAX requests -->
+  {% csrf_token %}
+{% endblock javascripts %}

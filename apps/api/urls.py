@@ -11,15 +11,18 @@ from .views import (
     # Specialized GBV endpoints
     EmergencyServicesView, GBVServicesView, ReferralChainView,
     # Analytics endpoints
-    ContactClickAnalyticsView, ReferralOutcomeView,
+    ContactInteractionAnalyticsView, ReferralOutcomeView,
     # Statistics and lookup data
     StatisticsView, LookupDataView,
     # Geography endpoints
-    CountyListView, ConstituencyListView, WardListView,
+    CountyListView, ConstituencyListView, WardListView, ConsolidatedGeographyView,
     # Authentication endpoints
     obtain_api_token,
     # Utility endpoints
-    api_status, hello_world
+    api_status, hello_world,
+    # Mobile app endpoints
+    MobileFacilitiesView, MobileEmergencySOSView, MobileMusicView,
+    MobileDocumentsView, MobileSessionView, MobileSessionEndView, MobileContactInteractionView
 )
 
 app_name = 'api'
@@ -38,7 +41,7 @@ urlpatterns = [
     path('facilities/referral-chain/', ReferralChainView.as_view(), name='referral-chain'),
     
     # Analytics and tracking endpoints
-    path('analytics/contact-click/', ContactClickAnalyticsView.as_view(), name='contact-click'),
+    path('analytics/contact-interaction/', ContactInteractionAnalyticsView.as_view(), name='contact-interaction'),
     path('analytics/referral-outcome/', ReferralOutcomeView.as_view(), name='referral-outcome'),
     
     # Authentication endpoints
@@ -49,6 +52,7 @@ urlpatterns = [
     path('lookups/', LookupDataView.as_view(), name='lookup-data'),
     
     # Geography endpoints
+    path('geography/', ConsolidatedGeographyView.as_view(), name='geography-consolidated'),
     path('geography/counties/', CountyListView.as_view(), name='county-list'),
     path('geography/constituencies/', ConstituencyListView.as_view(), name='constituency-list'),
     path('geography/wards/', WardListView.as_view(), name='ward-list'),
@@ -56,4 +60,13 @@ urlpatterns = [
     # Utility endpoints
     path('status/', api_status, name='api-status'),
     path('hello/', hello_world, name='hello-world'),
+    
+    # Mobile App Simplified Endpoints
+    path('mobile/facilities/', MobileFacilitiesView.as_view(), name='mobile-facilities'),
+    path('mobile/emergency-sos/', MobileEmergencySOSView.as_view(), name='mobile-emergency-sos'),
+    path('mobile/music/', MobileMusicView.as_view(), name='mobile-music'),
+    path('mobile/documents/', MobileDocumentsView.as_view(), name='mobile-documents'),
+    path('mobile/sessions/', MobileSessionView.as_view(), name='mobile-sessions'),
+    path('mobile/sessions/end/', MobileSessionEndView.as_view(), name='mobile-sessions-end'),
+    path('mobile/contact-interaction/', MobileContactInteractionView.as_view(), name='mobile-contact-interaction'),
 ]

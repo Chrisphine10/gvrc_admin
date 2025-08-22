@@ -25,7 +25,6 @@ APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
 
 # Application definition
 INSTALLED_APPS = [
-    "admin_gradient.apps.AdminGradientConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,6 +41,12 @@ INSTALLED_APPS = [
     "apps.api",
     "apps.common",
     "apps.facilities",
+    "apps.geography",
+    "apps.lookups",
+    "apps.documents",
+    "apps.analytics",
+    "apps.music",
+    "apps.mobile_sessions",
 ]
 
 MIDDLEWARE = [
@@ -51,7 +56,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "apps.authentication.middleware.CustomAuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -108,6 +112,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "apps", "static"),
 )
 
+# Media files (User uploaded content)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
@@ -117,6 +125,7 @@ LOGOUT_REDIRECT_URL = "/login/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Custom authentication settings
+AUTH_USER_MODEL = 'authentication.User'
 AUTHENTICATION_BACKENDS = [
     'apps.authentication.backends.CustomUserBackend',
     'django.contrib.auth.backends.ModelBackend',  # Keep as fallback
@@ -151,3 +160,12 @@ SWAGGER_SETTINGS = {
     'DOC_EXPANSION': 'none',
     'PERSIST_AUTH': True,
 }
+
+# Session configuration
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 86400  # 24 hours in seconds
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_SAVE_EVERY_REQUEST = True

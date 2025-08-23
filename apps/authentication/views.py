@@ -15,6 +15,12 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ValidationError, PermissionDenied
+from django.db import DatabaseError, IntegrityError
+from django.contrib.auth import authenticate, login
+import logging
+import traceback
+import json
 from .models import User, UserSession, UserRole, Permission, UserRoleAssignment, UserProfile
 from .forms import LoginForm, SignUpForm, PasswordResetRequestForm, PasswordResetConfirmForm, ProfileEditForm, PasswordChangeForm
 from .backends import create_user_session, CustomUserBackend
@@ -22,38 +28,103 @@ from apps.facilities.models import Facility
 import hashlib
 import json
 
+# Set up logger for authentication
+logger = logging.getLogger(__name__)
+
 
 def login_view(request):
     """
-    Custom login view using email-based authentication
+    Custom login view using email-based authentication with comprehensive error logging
     """
+    logger.info(f"Login attempt from IP: {request.META.get('REMOTE_ADDR', 'Unknown')}")
+    
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            if user:
-                # Create user session for tracking
-                user_session = create_user_session(user, request)
-                
-                # Use Django's built-in login function
-                from django.contrib.auth import login
-                login(request, user)
-                
-                # Set additional session data for our custom tracking
-                request.session['session_id'] = user_session.session_id
-                
-                messages.success(request, f'Welcome back, {user.full_name}!')
-                
-                # Redirect to next page or dashboard
-                next_page = request.GET.get('next', '/dashboard/')
-                return redirect(next_page)
+        try:
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                try:
+                    user = form.get_user()
+                    if user:
+                        # Log successful authentication
+                        logger.info(f"Successful login for user: {user.email} (ID: {user.user_id})")
+                        
+                        # Check if user is active
+                        if not user.is_active:
+                            logger.warning(f"Login attempt for inactive user: {user.email}")
+                            messages.error(request, 'Your account has been deactivated. Please contact an administrator.')
+                            return render(request, 'accounts/login.html', {
+                                'form': form,
+                                'msg': 'Account deactivated'
+                            })
+                        
+                        # Check if user is staff (for admin access)
+                        if not user.is_staff:
+                            logger.warning(f"Non-staff user login attempt: {user.email}")
+                            messages.warning(request, 'You do not have administrative privileges.')
+                        
+                        try:
+                            # Create user session for tracking
+                            user_session = create_user_session(user, request)
+                            logger.debug(f"User session created: {user_session.session_id}")
+                        except Exception as session_error:
+                            logger.error(f"Failed to create user session for {user.email}: {str(session_error)}")
+                            # Continue with login even if session creation fails
+                        
+                        # Use Django's built-in login function
+                        login(request, user)
+                        
+                        # Set additional session data for our custom tracking
+                        if user_session:
+                            request.session['session_id'] = user_session.session_id
+                        
+                        messages.success(request, f'Welcome back, {user.full_name}!')
+                        logger.info(f"User {user.email} successfully logged in and redirected")
+                        
+                        # Redirect to next page or dashboard
+                        next_page = request.GET.get('next', '/dashboard/')
+                        return redirect(next_page)
+                    else:
+                        logger.warning(f"Invalid credentials for email: {form.cleaned_data.get('email', 'Unknown')}")
+                        messages.error(request, 'Invalid email or password. Please try again.')
+                except Exception as auth_error:
+                    logger.error(f"Authentication error: {str(auth_error)}")
+                    logger.error(f"Traceback: {traceback.format_exc()}")
+                    messages.error(request, 'An error occurred during authentication. Please try again.')
             else:
-                messages.error(request, 'Invalid credentials')
-        else:
-            # Form has errors, they will be displayed in the template
-            pass
+                # Form validation errors
+                email = form.data.get('email', 'Unknown')
+                logger.warning(f"Form validation failed for email: {email}")
+                logger.debug(f"Form errors: {form.errors}")
+                
+                # Check for specific validation errors
+                if 'email' in form.errors:
+                    messages.error(request, 'Please enter a valid email address.')
+                elif 'password' in form.errors:
+                    messages.error(request, 'Password is required.')
+                else:
+                    messages.error(request, 'Please correct the errors below.')
+                    
+        except ValidationError as ve:
+            logger.error(f"Validation error in login form: {str(ve)}")
+            messages.error(request, 'Invalid form data. Please check your input.')
+        except DatabaseError as db_error:
+            logger.error(f"Database error during login: {str(db_error)}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            messages.error(request, 'A system error occurred. Please try again later.')
+        except IntegrityError as ie:
+            logger.error(f"Integrity error during login: {str(ie)}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            messages.error(request, 'A system error occurred. Please try again later.')
+        except PermissionDenied as pd:
+            logger.error(f"Permission denied during login: {str(pd)}")
+            messages.error(request, 'Access denied. Please contact an administrator.')
+        except Exception as e:
+            logger.error(f"Unexpected error during login: {str(e)}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            messages.error(request, 'An unexpected error occurred. Please try again later.')
     else:
         form = LoginForm()
+        logger.debug("Login page accessed")
     
     return render(request, 'accounts/login.html', {
         'form': form,

@@ -10,6 +10,11 @@ from .models import User, UserSession
 from django.utils import timezone
 from datetime import timedelta
 import secrets
+import logging
+import traceback
+
+# Set up logger for authentication backend
+logger = logging.getLogger(__name__)
 
 
 class CustomUserBackend(BaseBackend):
@@ -22,14 +27,25 @@ class CustomUserBackend(BaseBackend):
         Authenticate user using email and password
         """
         if email is None or password is None:
+            logger.debug("Authentication attempt with missing email or password")
             return None
         
         try:
+            logger.debug(f"Attempting to authenticate user with email: {email}")
             user = User.objects.get(email=email, is_active=True)
             
             if user.check_password(password):
+                logger.info(f"Password verification successful for user: {email}")
                 return user
+            else:
+                logger.warning(f"Password verification failed for user: {email}")
+                return None
+                
         except User.DoesNotExist:
+            logger.warning(f"Authentication failed - User not found or inactive: {email}")
+            return None
+        except Exception as e:
+            logger.error(f"Unexpected error during authentication for {email}: {str(e)}")
             return None
         
         return None
@@ -39,8 +55,14 @@ class CustomUserBackend(BaseBackend):
         Get user by ID
         """
         try:
-            return User.objects.get(user_id=user_id, is_active=True)
+            user = User.objects.get(user_id=user_id, is_active=True)
+            logger.debug(f"Retrieved user by ID: {user_id}")
+            return user
         except User.DoesNotExist:
+            logger.warning(f"User not found or inactive for ID: {user_id}")
+            return None
+        except Exception as e:
+            logger.error(f"Error retrieving user by ID {user_id}: {str(e)}")
             return None
 
 
@@ -105,26 +127,35 @@ def create_user_session(user, request):
     """
     Helper function to create a user session
     """
-    # Get client IP
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip_address = x_forwarded_for.split(',')[0]
-    else:
-        ip_address = request.META.get('REMOTE_ADDR', '127.0.0.1')
-    
-    # Generate session ID
-    session_id = secrets.token_urlsafe(32)
-    
-    # Create UserSession
-    user_session = UserSession.objects.create(
-        session_id=session_id,
-        user=user,
-        ip_address=ip_address,
-        created_at=timezone.now(),
-        expires_at=timezone.now() + timedelta(hours=24)
-    )
-    
-    return user_session
+    try:
+        # Get client IP
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip_address = x_forwarded_for.split(',')[0]
+        else:
+            ip_address = request.META.get('REMOTE_ADDR', '127.0.0.1')
+        
+        logger.debug(f"Creating user session for user: {user.email} from IP: {ip_address}")
+        
+        # Generate session ID
+        session_id = secrets.token_urlsafe(32)
+        
+        # Create UserSession
+        user_session = UserSession.objects.create(
+            session_id=session_id,
+            user=user,
+            ip_address=ip_address,
+            created_at=timezone.now(),
+            expires_at=timezone.now() + timedelta(hours=24)
+        )
+        
+        logger.info(f"User session created successfully: {session_id} for user: {user.email}")
+        return user_session
+        
+    except Exception as e:
+        logger.error(f"Failed to create user session for {user.email}: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        raise
 
 
 class CustomTokenAuthentication:
@@ -177,3 +208,29 @@ class CustomTokenAuthentication:
         if isinstance(auth, str):
             auth = auth.encode('iso-8859-1')
         return auth
+
+
+class AuthenticationErrorMiddleware:
+    """
+    Middleware to capture and log authentication-related errors
+    """
+    
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.logger = logging.getLogger(__name__)
+    
+    def __call__(self, request):
+        # Process the request
+        response = self.get_response(request)
+        return response
+    
+    def process_exception(self, request, exception):
+        """
+        Log authentication-related exceptions
+        """
+        if hasattr(request, 'path') and 'login' in request.path:
+            self.logger.error(f"Authentication error on {request.path}: {str(exception)}")
+            self.logger.error(f"User agent: {request.META.get('HTTP_USER_AGENT', 'Unknown')}")
+            self.logger.error(f"IP address: {request.META.get('REMOTE_ADDR', 'Unknown')}")
+        
+        return None

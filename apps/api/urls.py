@@ -21,7 +21,7 @@ from .views import (
     # Utility endpoints
     api_status, hello_world,
     # Mobile app endpoints
-    MobileFacilitiesView, MobileEmergencySOSView, MobileMusicView,
+    MobileFacilitiesView, MobileFacilityDetailView, MobileEmergencySOSView, MobileMusicView,
     MobileDocumentsView, MobileSessionView, MobileSessionEndView, MobileContactInteractionView
 )
 
@@ -63,6 +63,7 @@ urlpatterns = [
     
     # Mobile App Simplified Endpoints
     path('mobile/facilities/', MobileFacilitiesView.as_view(), name='mobile-facilities'),
+    path('mobile/facilities/<int:facility_id>/', MobileFacilityDetailView.as_view(), name='mobile-facility-detail'),
     path('mobile/emergency-sos/', MobileEmergencySOSView.as_view(), name='mobile-emergency-sos'),
     path('mobile/music/', MobileMusicView.as_view(), name='mobile-music'),
     path('mobile/documents/', MobileDocumentsView.as_view(), name='mobile-documents'),

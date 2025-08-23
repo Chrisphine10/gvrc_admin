@@ -6,7 +6,7 @@ API Serializers for GVRC Admin
 from rest_framework import serializers
 from apps.facilities.models import (
     Facility, FacilityContact, FacilityService, 
-    FacilityOwner, FacilityCoordinate, FacilityGBVCategory
+    FacilityOwner, FacilityCoordinate, FacilityGBVCategory, FacilityInfrastructure
 )
 from apps.geography.models import County, Constituency, Ward
 from apps.lookups.models import (
@@ -117,7 +117,8 @@ class FacilityCoordinateSerializer(serializers.ModelSerializer):
         model = FacilityCoordinate
         fields = [
             'coordinate_id', 'latitude', 'longitude', 
-            'collection_date', 'data_source', 'collection_method'
+            'collection_date', 'data_source', 'collection_method',
+            'created_at', 'updated_at'
         ]
 
 
@@ -127,7 +128,10 @@ class FacilityContactSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = FacilityContact
-        fields = ['contact_id', 'contact_type', 'contact_value']
+        fields = [
+            'contact_id', 'contact_type', 'contact_value', 'contact_person_name', 
+            'is_primary', 'is_active', 'created_at', 'updated_at'
+        ]
 
 
 class FacilityServiceSerializer(serializers.ModelSerializer):
@@ -136,7 +140,12 @@ class FacilityServiceSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = FacilityService
-        fields = ['service_id', 'service_category', 'service_description']
+        fields = [
+            'service_id', 'service_name', 'service_category', 'service_description',
+            'is_free', 'cost_range', 'currency', 'availability_hours', 
+            'availability_days', 'appointment_required', 'is_active',
+            'created_at', 'updated_at'
+        ]
 
 
 class FacilityOwnerSerializer(serializers.ModelSerializer):
@@ -145,7 +154,7 @@ class FacilityOwnerSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = FacilityOwner
-        fields = ['owner_id', 'owner_name', 'owner_type']
+        fields = ['owner_id', 'owner_name', 'owner_type', 'created_at', 'updated_at']
 
 
 class FacilityGBVCategorySerializer(serializers.ModelSerializer):
@@ -154,7 +163,41 @@ class FacilityGBVCategorySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = FacilityGBVCategory
-        fields = ['gbv_category']
+        fields = ['gbv_category', 'created_at']
+
+
+class FacilityInfrastructureSerializer(serializers.ModelSerializer):
+    """Facility infrastructure serializer"""
+    infrastructure_type = serializers.SerializerMethodField()
+    condition_status = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = FacilityInfrastructure
+        fields = [
+            'infrastructure_id', 'infrastructure_type', 'condition_status', 
+            'description', 'capacity', 'current_utilization', 'is_available',
+            'created_at', 'updated_at'
+        ]
+    
+    def get_infrastructure_type(self, obj):
+        """Get infrastructure type information"""
+        if obj.infrastructure_type:
+            return {
+                'type_id': obj.infrastructure_type.infrastructure_type_id,
+                'type_name': obj.infrastructure_type.type_name,
+                'description': obj.infrastructure_type.description
+            }
+        return None
+    
+    def get_condition_status(self, obj):
+        """Get condition status information"""
+        if obj.condition_status:
+            return {
+                'status_id': obj.condition_status.condition_status_id,
+                'status_name': obj.condition_status.status_name,
+                'description': obj.condition_status.description
+            }
+        return None
 
 
 class FacilityListSerializer(serializers.ModelSerializer):
@@ -162,15 +205,15 @@ class FacilityListSerializer(serializers.ModelSerializer):
     ward = WardSerializer(read_only=True)
     operational_status = OperationalStatusSerializer(read_only=True)
     coordinates = serializers.SerializerMethodField()
-    services_count = serializers.SerializerMethodField()
-    contacts_count = serializers.SerializerMethodField()
+    services = serializers.SerializerMethodField()
+    contacts = serializers.SerializerMethodField()
     
     class Meta:
         model = Facility
         fields = [
             'facility_id', 'facility_name', 'registration_number',
             'ward', 'operational_status', 'coordinates',
-            'services_count', 'contacts_count'
+            'services', 'contacts'
         ]
     
     def get_coordinates(self, obj):
@@ -183,13 +226,25 @@ class FacilityListSerializer(serializers.ModelSerializer):
             }
         return None
     
-    def get_services_count(self, obj):
-        """Get count of active services"""
-        return obj.facilityservice_set.filter(is_active=True).count()
+    def get_services(self, obj):
+        """Get active facility services using prefetched queryset"""
+        # Use prefetched queryset if available, otherwise fallback to regular queryset
+        if hasattr(obj, 'active_services'):
+            services = obj.active_services
+        else:
+            services = obj.facilityservice_set.filter(is_active=True).select_related('service_category')
+        
+        return FacilityServiceSerializer(services, many=True).data
     
-    def get_contacts_count(self, obj):
-        """Get count of active contacts"""
-        return obj.facilitycontact_set.filter(is_active=True).count()
+    def get_contacts(self, obj):
+        """Get active facility contacts using prefetched queryset"""
+        # Use prefetched queryset if available, otherwise fallback to regular queryset
+        if hasattr(obj, 'active_contacts'):
+            contacts = obj.active_contacts
+        else:
+            contacts = obj.facilitycontact_set.filter(is_active=True).select_related('contact_type')
+        
+        return FacilityContactSerializer(contacts, many=True).data
 
 
 class FacilityDetailSerializer(serializers.ModelSerializer):
@@ -362,38 +417,53 @@ class MobileAppFacilitySerializer(serializers.ModelSerializer):
     """Simplified facility serializer for mobile app with all essential information"""
     ward = WardSerializer(read_only=True)
     operational_status = OperationalStatusSerializer(read_only=True)
-    coordinates = serializers.SerializerMethodField()
-    contacts = serializers.SerializerMethodField()
-    services = serializers.SerializerMethodField()
+    coordinates = FacilityCoordinateSerializer(source='facilitycoordinate_set.first', read_only=True)
+    contacts = FacilityContactSerializer(source='facilitycontact_set', many=True, read_only=True)
+    services = FacilityServiceSerializer(source='facilityservice_set', many=True, read_only=True)
+    owners = FacilityOwnerSerializer(source='facilityowner_set', many=True, read_only=True)
+    gbv_categories = FacilityGBVCategorySerializer(source='facilitygbvcategory_set', many=True, read_only=True)
+    infrastructure = FacilityInfrastructureSerializer(source='facilityinfrastructure_set', many=True, read_only=True)
     
     class Meta:
         model = Facility
         fields = [
-            'facility_id', 'facility_name', 'registration_number',
-            'ward', 'operational_status', 'coordinates',
-            'contacts', 'services', 'address_line_1', 'address_line_2',
-            'description', 'website_url'
+            'facility_id', 'facility_name', 'facility_code', 'registration_number',
+            'ward', 'operational_status', 'coordinates', 'contacts', 'services',
+            'owners', 'gbv_categories', 'infrastructure', 'address_line_1', 
+            'address_line_2', 'description', 'website_url', 'is_active',
+            'created_at', 'updated_at'
         ]
     
-    def get_coordinates(self, obj):
-        """Get facility coordinates if available"""
-        coords = obj.facilitycoordinate_set.filter().first()
-        if coords and coords.latitude and coords.longitude:
-            return {
-                'latitude': float(coords.latitude),
-                'longitude': float(coords.longitude)
-            }
-        return None
+    def to_representation(self, instance):
+        """Custom representation to filter active items and handle coordinates"""
+        data = super().to_representation(instance)
+        
+        # Filter active contacts
+        if data.get('contacts'):
+            data['contacts'] = [contact for contact in data['contacts'] if contact.get('is_active', True)]
+        
+        # Filter active services
+        if data.get('services'):
+            data['services'] = [service for service in data['services'] if service.get('is_active', True)]
+        
+        # Filter active infrastructure
+        if data.get('infrastructure'):
+            data['infrastructure'] = [infra for infra in data['infrastructure'] if infra.get('is_available', True)]
+        
+        # Handle coordinates - get the first valid coordinate
+        if data.get('coordinates') is None:
+            coords = instance.facilitycoordinate_set.filter(
+                latitude__isnull=False, 
+                longitude__isnull=False
+            ).first()
+            if coords:
+                data['coordinates'] = FacilityCoordinateSerializer(coords).data
+        
+        return data
     
-    def get_contacts(self, obj):
-        """Get all facility contacts"""
-        contacts = obj.facilitycontact_set.filter(is_active=True)
-        return FacilityContactSerializer(contacts, many=True).data
+
     
-    def get_services(self, obj):
-        """Get all facility services"""
-        services = obj.facilityservice_set.filter(is_active=True)
-        return FacilityServiceSerializer(services, many=True).data
+
 
 
 class MusicSerializer(serializers.ModelSerializer):

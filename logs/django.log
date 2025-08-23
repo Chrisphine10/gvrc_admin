@@ -1,0 +1,1035 @@
+INFO 2025-08-23 17:47:17,588 autoreload 24992 12112 Watching for file changes with StatReloader
+INFO 2025-08-23 17:47:38,355 autoreload 24992 12112 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-08-23 17:47:43,549 autoreload 27984 26688 Watching for file changes with StatReloader
+INFO 2025-08-23 17:48:00,816 autoreload 27984 26688 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\forms.py changed, reloading.
+INFO 2025-08-23 17:48:04,272 autoreload 5328 19544 Watching for file changes with StatReloader
+INFO 2025-08-23 17:48:17,876 autoreload 5328 19544 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\backends.py changed, reloading.
+INFO 2025-08-23 17:48:19,769 autoreload 21088 17744 Watching for file changes with StatReloader
+INFO 2025-08-23 17:48:36,927 views 21088 9608 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:48:37,125 forms 21088 9608 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:48:37,189 backends 21088 9608 Attempting to authenticate user with email: admin@hodi.ke
+WARNING 2025-08-23 17:48:37,246 backends 21088 9608 Authentication failed - User not found or inactive: admin@hodi.ke
+INFO 2025-08-23 17:48:39,947 autoreload 21088 17744 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\backends.py changed, reloading.
+INFO 2025-08-23 17:48:42,787 autoreload 18672 18804 Watching for file changes with StatReloader
+INFO 2025-08-23 17:48:52,095 views 18672 23840 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:48:52,139 forms 18672 23840 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:48:52,140 backends 18672 23840 Attempting to authenticate user with email: admin@hodi.ke
+WARNING 2025-08-23 17:48:52,143 backends 18672 23840 Authentication failed - User not found or inactive: admin@hodi.ke
+WARNING 2025-08-23 17:48:53,378 forms 18672 23840 Authentication failed for email: admin@hodi.ke - Invalid credentials
+WARNING 2025-08-23 17:48:53,379 views 18672 23840 Form validation failed for email: admin@hodi.ke
+DEBUG 2025-08-23 17:48:53,446 views 18672 23840 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:48:53,522 basehttp 18672 23840 "POST /login/ HTTP/1.1" 200 6424
+INFO 2025-08-23 17:48:58,690 basehttp 18672 23840 "GET / HTTP/1.1" 200 20351
+INFO 2025-08-23 17:49:01,174 views 18672 4516 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:01,213 views 18672 4516 Login page accessed
+INFO 2025-08-23 17:49:01,429 basehttp 18672 4516 "GET /login/ HTTP/1.1" 200 6402
+INFO 2025-08-23 17:49:05,404 views 18672 4516 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:05,406 forms 18672 4516 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:05,410 backends 18672 4516 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:07,199 backends 18672 4516 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:49:08,467 forms 18672 4516 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:49:08,468 views 18672 4516 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:08,468 views 18672 4516 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:49:08,482 basehttp 18672 4516 "POST /login/ HTTP/1.1" 200 6425
+INFO 2025-08-23 17:49:23,288 views 18672 22088 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:23,384 forms 18672 22088 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:23,482 backends 18672 22088 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:27,369 backends 18672 22088 Password verification failed for user: admin@gvrc.com
+INFO 2025-08-23 17:49:29,850 autoreload 18672 18804 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\backends.py changed, reloading.
+INFO 2025-08-23 17:49:32,821 autoreload 28592 1148 Watching for file changes with StatReloader
+INFO 2025-08-23 17:49:42,199 autoreload 28592 1148 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-23 17:49:43,894 autoreload 11424 23124 Watching for file changes with StatReloader
+INFO 2025-08-23 17:49:46,086 views 11424 9488 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:46,157 forms 11424 9488 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:46,158 backends 11424 9488 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:47,233 backends 11424 9488 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:49:48,259 forms 11424 9488 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:49:48,260 views 11424 9488 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:48,270 views 11424 9488 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:49:48,316 basehttp 11424 9488 "POST /login/ HTTP/1.1" 200 10615
+INFO 2025-08-23 17:49:51,808 views 11424 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:51,814 forms 11424 1148 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:51,816 backends 11424 1148 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:53,590 backends 11424 1148 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:49:54,715 forms 11424 1148 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:49:54,715 views 11424 1148 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:54,716 views 11424 1148 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:49:54,719 basehttp 11424 1148 "POST /login/ HTTP/1.1" 200 9085
+INFO 2025-08-23 17:49:58,078 views 11424 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:58,088 forms 11424 1148 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:58,090 backends 11424 1148 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:50:01,327 backends 11424 1148 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:50:04,596 forms 11424 1148 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:50:04,612 views 11424 1148 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:50:04,770 views 11424 1148 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:50:04,938 basehttp 11424 1148 "POST /login/ HTTP/1.1" 200 9085
+DEBUG 2025-08-23 17:50:36,977 test_login_logging 26688 21372 This is a debug message
+INFO 2025-08-23 17:50:37,044 test_login_logging 26688 21372 This is an info message
+WARNING 2025-08-23 17:50:37,126 test_login_logging 26688 21372 This is a warning message
+ERROR 2025-08-23 17:50:37,160 test_login_logging 26688 21372 This is an error message
+INFO 2025-08-23 17:50:57,242 views 11424 21928 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:50:57,262 forms 11424 21928 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:50:57,264 backends 11424 21928 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 17:51:00,003 backends 11424 21928 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 17:51:00,072 forms 11424 21928 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 17:51:00,182 forms 11424 21928 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 17:51:00,233 views 11424 21928 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 17:51:00,242 views 11424 21928 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 17:51:00,262 basehttp 11424 21928 "POST /login/ HTTP/1.1" 200 9110
+INFO 2025-08-23 17:51:10,471 autoreload 11424 23124 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\backends.py changed, reloading.
+INFO 2025-08-23 17:51:13,568 autoreload 28568 25544 Watching for file changes with StatReloader
+INFO 2025-08-23 17:51:21,679 views 28568 18952 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:51:21,728 forms 28568 18952 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:51:21,728 backends 28568 18952 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 17:51:22,787 backends 28568 18952 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 17:51:22,787 forms 28568 18952 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 17:51:22,787 forms 28568 18952 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 17:51:22,787 views 28568 18952 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 17:51:22,789 views 28568 18952 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 17:51:22,839 basehttp 28568 18952 "POST /login/ HTTP/1.1" 200 9110
+INFO 2025-08-23 17:52:51,138 views 28568 13032 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:52:51,162 forms 28568 13032 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:52:51,185 backends 28568 13032 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 17:52:54,277 backends 28568 13032 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 17:52:54,283 forms 28568 13032 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 17:52:54,294 forms 28568 13032 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 17:52:54,303 views 28568 13032 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 17:52:54,311 views 28568 13032 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 17:52:54,322 basehttp 28568 13032 "POST /login/ HTTP/1.1" 200 9110
+INFO 2025-08-23 17:53:05,196 views 28568 22324 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:53:05,218 forms 28568 22324 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:53:05,235 backends 28568 22324 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:53:07,753 backends 28568 22324 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:53:10,020 forms 28568 22324 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:53:10,032 views 28568 22324 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:53:10,121 views 28568 22324 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:53:10,147 basehttp 28568 22324 "POST /login/ HTTP/1.1" 200 9085
+INFO 2025-08-23 17:56:07,523 autoreload 27096 26972 Watching for file changes with StatReloader
+INFO 2025-08-23 18:04:44,101 views 28568 19428 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:04:44,105 forms 28568 19428 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:44,106 backends 28568 19428 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:04:45,603 backends 28568 19428 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:04:46,917 forms 28568 19428 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:04:46,919 views 28568 19428 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:46,924 views 28568 19428 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:04:46,933 basehttp 28568 19428 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:04:51,032 views 28568 19428 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:04:51,033 forms 28568 19428 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:51,034 backends 28568 19428 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:04:52,053 backends 28568 19428 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:04:53,108 forms 28568 19428 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:04:53,109 views 28568 19428 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:53,111 views 28568 19428 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:04:53,114 basehttp 28568 19428 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:04:58,481 views 28568 19428 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:04:58,482 forms 28568 19428 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:58,483 backends 28568 19428 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:04:59,483 backends 28568 19428 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:05:00,435 forms 28568 19428 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:05:00,435 views 28568 19428 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:05:00,436 views 28568 19428 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:05:00,437 basehttp 28568 19428 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:05:26,147 views 28568 26144 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:05:26,148 forms 28568 26144 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:05:26,149 backends 28568 26144 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:05:27,122 backends 28568 26144 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:05:28,065 forms 28568 26144 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:05:28,066 views 28568 26144 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:05:28,066 views 28568 26144 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:05:28,069 basehttp 28568 26144 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:06:18,170 views 28568 15468 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:06:18,178 forms 28568 15468 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:06:18,179 backends 28568 15468 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:06:19,362 backends 28568 15468 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:06:20,465 forms 28568 15468 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:06:20,466 views 28568 15468 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:06:20,467 views 28568 15468 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:06:20,469 basehttp 28568 15468 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:06:24,543 basehttp 28568 11580 "GET / HTTP/1.1" 200 27386
+INFO 2025-08-23 18:06:31,106 views 28568 11580 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:06:31,115 views 28568 11580 Login page accessed
+INFO 2025-08-23 18:06:31,121 basehttp 28568 11580 "GET /login/ HTTP/1.1" 200 16058
+INFO 2025-08-23 18:08:54,455 views 28568 23068 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:08:54,456 forms 28568 23068 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:08:54,458 backends 28568 23068 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:08:55,700 backends 28568 23068 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:08:56,776 forms 28568 23068 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:08:56,778 views 28568 23068 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:08:56,779 views 28568 23068 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:08:56,780 basehttp 28568 23068 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:09:26,050 views 28568 7824 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:09:26,058 forms 28568 7824 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:26,058 backends 28568 7824 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:09:27,246 backends 28568 7824 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:09:28,396 forms 28568 7824 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:09:28,397 views 28568 7824 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:28,398 views 28568 7824 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:09:28,405 basehttp 28568 7824 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:09:41,175 views 28568 17136 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:09:41,177 forms 28568 17136 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:41,178 backends 28568 17136 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:09:42,348 backends 28568 17136 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:09:43,782 forms 28568 17136 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:09:43,782 views 28568 17136 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:43,783 views 28568 17136 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:09:43,792 basehttp 28568 17136 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:09:49,856 views 28568 17136 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:09:49,857 forms 28568 17136 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:09:49,858 backends 28568 17136 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:09:50,910 backends 28568 17136 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:09:50,911 forms 28568 17136 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:09:50,912 forms 28568 17136 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:09:50,912 views 28568 17136 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:09:50,916 views 28568 17136 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:09:50,918 basehttp 28568 17136 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:10:04,568 views 28568 28232 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:10:04,569 forms 28568 28232 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:10:04,569 backends 28568 28232 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:10:05,590 backends 28568 28232 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:10:05,590 forms 28568 28232 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:10:05,591 forms 28568 28232 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:10:05,591 views 28568 28232 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:10:05,592 views 28568 28232 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:10:05,594 basehttp 28568 28232 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:10:16,656 views 28568 1300 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:10:16,657 forms 28568 1300 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:10:16,658 backends 28568 1300 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:10:17,640 backends 28568 1300 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:10:17,640 forms 28568 1300 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:10:17,640 forms 28568 1300 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:10:17,641 views 28568 1300 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:10:17,641 views 28568 1300 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:10:17,643 basehttp 28568 1300 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:10:58,415 views 28568 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:10:58,417 forms 28568 1148 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:10:58,420 backends 28568 1148 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:10:59,453 backends 28568 1148 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:10:59,453 forms 28568 1148 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:10:59,454 forms 28568 1148 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:10:59,454 views 28568 1148 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:10:59,455 views 28568 1148 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:10:59,458 basehttp 28568 1148 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:11:16,337 views 28568 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:11:16,339 forms 28568 1148 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:11:16,340 backends 28568 1148 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:11:17,235 backends 28568 1148 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:11:17,235 forms 28568 1148 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:11:17,235 forms 28568 1148 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:11:17,236 views 28568 1148 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:11:17,237 views 28568 1148 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:11:17,238 basehttp 28568 1148 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:18:28,531 views 28568 1104 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:28,535 forms 28568 1104 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:18:28,536 backends 28568 1104 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:18:29,678 backends 28568 1104 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:18:29,679 forms 28568 1104 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:18:29,679 forms 28568 1104 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:18:29,679 views 28568 1104 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:18:29,680 views 28568 1104 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:18:29,686 basehttp 28568 1104 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:18:35,782 views 28568 22664 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:35,783 forms 28568 22664 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:18:35,783 backends 28568 22664 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:18:36,781 backends 28568 22664 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:18:36,781 forms 28568 22664 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:18:36,782 forms 28568 22664 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:18:36,782 views 28568 22664 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:18:36,783 views 28568 22664 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:18:36,785 basehttp 28568 22664 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:18:45,536 views 28568 2464 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:45,539 forms 28568 2464 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:45,545 backends 28568 2464 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:18:46,531 backends 28568 2464 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:18:47,437 forms 28568 2464 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:18:47,438 views 28568 2464 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:47,443 views 28568 2464 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:18:47,446 basehttp 28568 2464 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:18:55,972 views 28568 26156 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:55,972 forms 28568 26156 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:55,973 backends 28568 26156 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:18:56,991 backends 28568 26156 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:18:57,992 forms 28568 26156 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:18:57,992 views 28568 26156 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:57,993 views 28568 26156 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:18:57,994 basehttp 28568 26156 "POST /login/ HTTP/1.1" 200 16569
+WARNING 2025-08-23 18:19:07,071 log 28568 17688 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-23 18:19:07,072 basehttp 28568 17688 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 15660
+INFO 2025-08-23 18:19:10,900 views 28568 25300 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:10,901 forms 28568 25300 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:10,903 backends 28568 25300 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:11,893 backends 28568 25300 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:12,864 forms 28568 25300 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:12,865 views 28568 25300 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:12,865 views 28568 25300 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:12,867 basehttp 28568 25300 "POST /login/ HTTP/1.1" 200 16569
+WARNING 2025-08-23 18:19:12,929 log 28568 25300 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-23 18:19:12,936 basehttp 28568 25300 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 15660
+INFO 2025-08-23 18:19:16,301 views 28568 25300 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:16,302 forms 28568 25300 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:16,302 backends 28568 25300 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:17,350 backends 28568 25300 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:18,576 forms 28568 25300 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:18,576 views 28568 25300 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:18,578 views 28568 25300 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:18,581 basehttp 28568 25300 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:19:29,168 views 28568 4548 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:29,168 forms 28568 4548 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:29,169 backends 28568 4548 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:30,151 backends 28568 4548 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:31,130 forms 28568 4548 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:31,131 views 28568 4548 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:31,132 views 28568 4548 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:31,135 basehttp 28568 4548 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:19:44,057 views 28568 15976 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:44,060 forms 28568 15976 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:44,061 backends 28568 15976 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:45,197 backends 28568 15976 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:46,224 forms 28568 15976 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:46,225 views 28568 15976 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:46,226 views 28568 15976 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:46,228 basehttp 28568 15976 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:19:58,759 views 28568 20628 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:58,763 forms 28568 20628 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:58,765 backends 28568 20628 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:59,926 backends 28568 20628 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:01,415 forms 28568 20628 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:01,415 views 28568 20628 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:01,416 views 28568 20628 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:01,418 basehttp 28568 20628 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:20:12,946 views 28568 19780 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:12,947 forms 28568 19780 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:20:12,947 backends 28568 19780 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:20:13,896 backends 28568 19780 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:20:13,897 forms 28568 19780 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:20:13,898 forms 28568 19780 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:20:13,898 views 28568 19780 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:20:13,899 views 28568 19780 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:20:13,901 basehttp 28568 19780 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:20:26,619 views 28568 5464 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:26,623 forms 28568 5464 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:26,623 backends 28568 5464 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:27,732 backends 28568 5464 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:28,849 forms 28568 5464 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:28,850 views 28568 5464 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:28,851 views 28568 5464 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:28,853 basehttp 28568 5464 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:20:34,551 views 28568 11960 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:34,552 forms 28568 11960 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:34,557 backends 28568 11960 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:35,850 backends 28568 11960 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:36,775 forms 28568 11960 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:36,775 views 28568 11960 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:36,776 views 28568 11960 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:36,777 basehttp 28568 11960 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:20:48,262 views 28568 21984 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:48,262 forms 28568 21984 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:48,263 backends 28568 21984 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:49,346 backends 28568 21984 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:50,360 forms 28568 21984 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:50,361 views 28568 21984 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:50,362 views 28568 21984 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:50,365 basehttp 28568 21984 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:20:57,401 views 28568 6228 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:57,402 forms 28568 6228 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:57,403 backends 28568 6228 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:58,510 backends 28568 6228 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:59,573 forms 28568 6228 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:59,573 views 28568 6228 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:59,575 views 28568 6228 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:59,579 basehttp 28568 6228 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:21:22,529 views 28568 11960 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:21:22,534 forms 28568 11960 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:22,535 backends 28568 11960 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:21:23,877 backends 28568 11960 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:21:25,102 forms 28568 11960 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:21:25,103 views 28568 11960 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:25,105 views 28568 11960 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:21:25,109 basehttp 28568 11960 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:21:36,755 views 28568 18168 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:21:36,756 forms 28568 18168 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:36,757 backends 28568 18168 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:21:38,082 backends 28568 18168 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:21:39,087 forms 28568 18168 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:21:39,088 views 28568 18168 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:39,089 views 28568 18168 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:21:39,101 basehttp 28568 18168 "POST /login/ HTTP/1.1" 200 16569
+WARNING 2025-08-23 18:21:44,270 log 28568 18168 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-23 18:21:44,271 basehttp 28568 18168 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 15660
+INFO 2025-08-23 18:24:08,400 views 28568 4348 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:24:08,401 forms 28568 4348 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:24:08,401 backends 28568 4348 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:24:09,879 backends 28568 4348 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:24:11,542 forms 28568 4348 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:24:11,543 views 28568 4348 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:24:11,544 views 28568 4348 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:24:11,551 basehttp 28568 4348 "POST /login/ HTTP/1.1" 200 16569
+WARNING 2025-08-23 18:24:11,673 log 28568 4348 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-23 18:24:11,728 basehttp 28568 4348 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 15660
+INFO 2025-08-23 18:27:17,433 views 28568 25060 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:27:17,439 forms 28568 25060 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:17,446 backends 28568 25060 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:27:18,952 backends 28568 25060 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:27:20,075 forms 28568 25060 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:27:20,080 views 28568 25060 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:20,081 views 28568 25060 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:27:20,088 basehttp 28568 25060 "POST /login/ HTTP/1.1" 200 16569
+WARNING 2025-08-23 18:27:20,156 log 28568 25060 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-23 18:27:20,178 basehttp 28568 25060 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 15660
+INFO 2025-08-23 18:27:27,592 views 28568 25060 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:27:27,593 forms 28568 25060 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:27,593 backends 28568 25060 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:27:29,207 backends 28568 25060 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:27:30,783 forms 28568 25060 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:27:30,784 views 28568 25060 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:30,784 views 28568 25060 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:27:30,789 basehttp 28568 25060 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:28:40,019 views 28568 25060 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:28:40,124 forms 28568 25060 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:28:40,200 backends 28568 25060 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:28:42,079 backends 28568 25060 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:28:43,298 forms 28568 25060 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:28:43,299 views 28568 25060 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:28:43,300 views 28568 25060 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:28:43,303 basehttp 28568 25060 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:36:00,035 views 28568 20296 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:36:00,097 forms 28568 20296 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:00,195 backends 28568 20296 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:36:02,384 backends 28568 20296 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:36:04,474 forms 28568 20296 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:36:04,482 views 28568 20296 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:04,498 views 28568 20296 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:36:04,511 basehttp 28568 20296 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:36:36,718 views 28568 29296 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:36:36,719 forms 28568 29296 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:36,720 backends 28568 29296 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:36:38,736 backends 28568 29296 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:36:40,454 forms 28568 29296 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:36:40,454 views 28568 29296 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:40,456 views 28568 29296 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:36:40,476 basehttp 28568 29296 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:36:48,680 views 28568 28928 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:36:48,681 forms 28568 28928 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:36:48,682 backends 28568 28928 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:36:50,551 backends 28568 28928 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:36:50,552 forms 28568 28928 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:36:50,552 forms 28568 28928 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:36:50,552 views 28568 28928 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:36:50,554 views 28568 28928 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:36:50,564 basehttp 28568 28928 "POST /login/ HTTP/1.1" 200 16594
+INFO 2025-08-23 18:55:05,946 autoreload 28568 25544 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-08-23 18:55:05,962 autoreload 27096 26972 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-08-23 18:55:07,317 autoreload 2272 2056 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:07,318 autoreload 24996 15516 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:17,083 autoreload 24996 15516 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:17,091 autoreload 2272 2056 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:18,324 autoreload 5944 29316 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:18,346 autoreload 16956 4456 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:28,844 autoreload 5944 29316 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:29,017 autoreload 16956 4456 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:29,854 autoreload 4516 2984 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:29,939 autoreload 28256 27544 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:40,984 views 4516 2840 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:41,031 forms 4516 2840 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:55:41,031 backends 4516 2840 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:55:42,178 backends 4516 2840 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:55:42,180 forms 4516 2840 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:55:42,180 forms 4516 2840 Authentication successful for email: admin@hodi.ke
+INFO 2025-08-23 18:55:42,180 views 4516 2840 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-08-23 18:55:42,181 views 4516 2840 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-08-23 18:55:42,181 backends 4516 2840 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-08-23 18:55:42,200 backends 4516 2840 User session created successfully: -9Trl1EBo2P3qBmXPj-2qBjfibc3D8rnkDdH-GOryZc for user: admin@hodi.ke
+DEBUG 2025-08-23 18:55:42,200 views 4516 2840 User session created: -9Trl1EBo2P3qBmXPj-2qBjfibc3D8rnkDdH-GOryZc
+INFO 2025-08-23 18:55:42,218 views 4516 2840 User admin@hodi.ke successfully logged in and redirected
+INFO 2025-08-23 18:55:42,267 basehttp 4516 2840 "POST /login/ HTTP/1.1" 302 0
+DEBUG 2025-08-23 18:55:42,283 backends 4516 2840 Retrieved user by ID: 2
+INFO 2025-08-23 18:55:42,353 basehttp 4516 2840 "GET /dashboard/ HTTP/1.1" 200 40910
+INFO 2025-08-23 18:55:42,918 basehttp 4516 2840 "GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 200 166436
+INFO 2025-08-23 18:55:42,912 autoreload 28256 27544 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:42,963 basehttp 4516 2840 "GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 200 8580
+INFO 2025-08-23 18:55:42,998 basehttp 4516 2840 "GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 200 21706
+INFO 2025-08-23 18:55:43,051 basehttp 4516 2840 "GET /static/assets/img/theme/team-5.jpg HTTP/1.1" 200 166436
+INFO 2025-08-23 18:55:43,115 basehttp 4516 26396 "GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 200 266315
+INFO 2025-08-23 18:55:43,188 basehttp 4516 10884 "GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 200 3886
+INFO 2025-08-23 18:55:43,210 basehttp 4516 21740 "GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 200 13026
+INFO 2025-08-23 18:55:43,437 basehttp 4516 21200 "GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 200 173325
+INFO 2025-08-23 18:55:43,474 basehttp 4516 21088 "GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 200 124734
+INFO 2025-08-23 18:55:44,176 autoreload 4516 2984 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:45,111 autoreload 23676 28808 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:45,447 autoreload 23924 28332 Watching for file changes with StatReloader
+DEBUG 2025-08-23 18:55:46,470 backends 23676 22748 Retrieved user by ID: 2
+INFO 2025-08-23 18:55:46,527 basehttp 23676 22748 "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-08-23 18:55:46,568 basehttp 23676 22748 "GET / HTTP/1.1" 200 27386
+INFO 2025-08-23 18:55:48,159 views 23676 22748 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:48,160 views 23676 22748 Login page accessed
+INFO 2025-08-23 18:55:48,173 basehttp 23676 22748 "GET /login/ HTTP/1.1" 200 17327
+INFO 2025-08-23 18:55:50,958 views 23676 22748 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:50,959 views 23676 22748 Login page accessed
+INFO 2025-08-23 18:55:50,960 basehttp 23676 22748 "GET /login/ HTTP/1.1" 200 16058
+INFO 2025-08-23 18:55:52,358 autoreload 23676 28808 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:52,551 autoreload 23924 28332 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:55:54,061 autoreload 27708 11652 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:54,257 autoreload 8400 6220 Watching for file changes with StatReloader
+INFO 2025-08-23 18:55:54,527 views 27708 6056 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:54,583 forms 27708 6056 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:55:54,583 backends 27708 6056 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:55:55,560 backends 27708 6056 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:55:56,756 forms 27708 6056 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:55:56,757 views 27708 6056 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:55:56,771 views 27708 6056 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:55:56,873 basehttp 27708 6056 "POST /login/ HTTP/1.1" 200 16569
+INFO 2025-08-23 18:56:02,054 autoreload 8400 6220 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:02,506 autoreload 27708 11652 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:04,427 autoreload 25352 28804 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:04,510 autoreload 27984 23784 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:05,649 basehttp 25352 27988 "GET /register/ HTTP/1.1" 200 18487
+INFO 2025-08-23 18:56:07,864 views 25352 27988 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:56:07,866 views 25352 27988 Login page accessed
+INFO 2025-08-23 18:56:07,873 basehttp 25352 27988 "GET /login/ HTTP/1.1" 200 16058
+INFO 2025-08-23 18:56:09,463 autoreload 25352 28804 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:09,736 autoreload 27984 23784 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:11,538 autoreload 7804 19220 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:11,668 autoreload 23308 29640 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:14,558 views 7804 22708 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:56:14,651 forms 7804 22708 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:56:14,652 backends 7804 22708 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:56:15,856 backends 7804 22708 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:56:15,857 forms 7804 22708 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:56:15,858 forms 7804 22708 Authentication successful for email: admin@hodi.ke
+INFO 2025-08-23 18:56:15,858 views 7804 22708 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-08-23 18:56:15,859 views 7804 22708 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-08-23 18:56:15,859 backends 7804 22708 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-08-23 18:56:15,877 backends 7804 22708 User session created successfully: u4KaxI73S5LYeWX_22YBDqOUAVrOAF_qoHJ_4EoZOOw for user: admin@hodi.ke
+DEBUG 2025-08-23 18:56:15,877 views 7804 22708 User session created: u4KaxI73S5LYeWX_22YBDqOUAVrOAF_qoHJ_4EoZOOw
+INFO 2025-08-23 18:56:15,902 views 7804 22708 User admin@hodi.ke successfully logged in and redirected
+INFO 2025-08-23 18:56:16,000 basehttp 7804 22708 "POST /login/ HTTP/1.1" 302 0
+DEBUG 2025-08-23 18:56:16,018 backends 7804 22708 Retrieved user by ID: 2
+INFO 2025-08-23 18:56:16,103 basehttp 7804 22708 "GET /dashboard/ HTTP/1.1" 200 40910
+INFO 2025-08-23 18:56:19,683 autoreload 7804 19220 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:20,008 autoreload 23308 29640 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:20,635 autoreload 3188 19400 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:20,928 autoreload 19280 22524 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:26,015 autoreload 3188 19400 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:26,455 autoreload 19280 22524 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:28,227 autoreload 2984 23440 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:28,308 autoreload 28128 29456 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:30,603 autoreload 2984 23440 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:30,624 autoreload 28128 29456 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:31,802 autoreload 29620 22688 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:31,821 autoreload 24580 29388 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:34,219 basehttp 29620 2520 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 18:56:35,002 basehttp 29620 1752 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
+INFO 2025-08-23 18:56:35,071 basehttp 29620 2520 "GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
+INFO 2025-08-23 18:56:35,124 basehttp 29620 1752 "GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 15480
+INFO 2025-08-23 18:56:35,216 basehttp 29620 21192 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
+INFO 2025-08-23 18:56:35,364 basehttp 29620 5064 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
+INFO 2025-08-23 18:56:35,448 basehttp 29620 11208 "GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
+INFO 2025-08-23 18:56:35,456 basehttp 29620 26612 "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
+INFO 2025-08-23 18:56:36,211 basehttp 29620 11208 "GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
+INFO 2025-08-23 18:56:36,422 basehttp 29620 26612 "GET /swagger/?format=openapi HTTP/1.1" 200 39981
+INFO 2025-08-23 18:56:37,511 autoreload 29620 22688 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:37,970 autoreload 24580 29388 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:38,476 autoreload 12724 5116 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:38,835 autoreload 29456 21028 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:45,808 autoreload 12724 5116 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:46,015 autoreload 29456 21028 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:46,754 autoreload 22008 29400 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:46,882 autoreload 19300 19172 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:55,168 autoreload 22008 29400 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:55,177 autoreload 19300 19172 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 18:56:56,014 autoreload 21192 5064 Watching for file changes with StatReloader
+INFO 2025-08-23 18:56:56,018 autoreload 28776 2520 Watching for file changes with StatReloader
+DEBUG 2025-08-23 18:57:37,342 backends 27336 12860 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:57:38,328 backends 27336 12860 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:58:00,755 autoreload 25676 8360 Watching for file changes with StatReloader
+INFO 2025-08-23 19:06:37,507 autoreload 25676 8360 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 19:06:37,582 autoreload 28776 2520 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 19:06:37,586 autoreload 21192 5064 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 19:06:40,056 autoreload 16080 28916 Watching for file changes with StatReloader
+INFO 2025-08-23 19:06:40,242 autoreload 23068 12192 Watching for file changes with StatReloader
+INFO 2025-08-23 19:06:40,270 autoreload 11692 23784 Watching for file changes with StatReloader
+INFO 2025-08-23 19:06:48,328 autoreload 16080 28916 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-08-23 19:06:48,370 autoreload 11692 23784 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 19:06:48,387 autoreload 23068 12192 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-23 19:06:49,665 autoreload 4732 4344 Watching for file changes with StatReloader
+INFO 2025-08-23 19:06:49,688 autoreload 23888 5396 Watching for file changes with StatReloader
+INFO 2025-08-23 19:06:49,746 autoreload 19428 11388 Watching for file changes with StatReloader
+INFO 2025-08-23 19:12:32,699 autoreload 4732 4344 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:32,708 autoreload 23888 5396 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:32,725 autoreload 19428 11388 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:33,816 autoreload 24100 22424 Watching for file changes with StatReloader
+INFO 2025-08-23 19:12:33,822 autoreload 2328 4632 Watching for file changes with StatReloader
+INFO 2025-08-23 19:12:33,826 autoreload 2036 4052 Watching for file changes with StatReloader
+INFO 2025-08-23 19:12:48,012 autoreload 2328 4632 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:48,968 autoreload 3756 15324 Watching for file changes with StatReloader
+INFO 2025-08-23 19:12:49,102 autoreload 24100 22424 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:49,150 autoreload 2036 4052 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:50,138 autoreload 19920 29056 Watching for file changes with StatReloader
+INFO 2025-08-23 19:12:50,185 autoreload 15612 9272 Watching for file changes with StatReloader
+INFO 2025-08-23 19:12:59,321 autoreload 19920 29056 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:59,358 autoreload 15612 9272 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:12:59,621 autoreload 3756 15324 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:13:00,262 autoreload 3480 28408 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:00,293 autoreload 22136 18076 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:00,490 autoreload 12052 19544 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:17,840 autoreload 3480 28408 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:17,864 autoreload 22136 18076 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:17,877 autoreload 12052 19544 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:19,479 autoreload 872 28848 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:19,483 autoreload 15612 16080 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:19,501 autoreload 28372 28724 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:27,305 autoreload 872 28848 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\urls.py changed, reloading.
+INFO 2025-08-23 19:13:27,315 autoreload 15612 16080 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\urls.py changed, reloading.
+INFO 2025-08-23 19:13:27,326 autoreload 28372 28724 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\urls.py changed, reloading.
+INFO 2025-08-23 19:13:28,309 autoreload 10756 4292 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:28,340 autoreload 29680 27788 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:28,351 autoreload 23472 22820 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:38,389 autoreload 23472 22820 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:38,395 autoreload 29680 27788 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:38,435 autoreload 10756 4292 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:39,300 autoreload 13444 21904 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:39,318 autoreload 27772 2276 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:39,355 autoreload 2744 28820 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:49,065 autoreload 27772 2276 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:49,086 autoreload 13444 21904 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:49,107 autoreload 2744 28820 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:13:50,766 autoreload 9272 16956 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:50,787 autoreload 26968 19100 Watching for file changes with StatReloader
+INFO 2025-08-23 19:13:50,807 autoreload 2584 24760 Watching for file changes with StatReloader
+INFO 2025-08-23 19:14:33,277 autoreload 2584 24760 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:14:33,994 autoreload 9272 16956 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\urls.py changed, reloading.
+INFO 2025-08-23 19:14:34,201 autoreload 4548 25144 Watching for file changes with StatReloader
+INFO 2025-08-23 19:14:34,228 autoreload 26968 19100 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:14:35,049 autoreload 7328 3192 Watching for file changes with StatReloader
+INFO 2025-08-23 19:14:35,410 autoreload 24248 28896 Watching for file changes with StatReloader
+INFO 2025-08-23 19:14:35,592 basehttp 4548 20596 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:14:36,659 basehttp 4548 20596 "GET /swagger/?format=openapi HTTP/1.1" 200 42507
+INFO 2025-08-23 19:15:42,140 autoreload 4548 25144 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:15:42,145 autoreload 7328 3192 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:15:42,150 autoreload 24248 28896 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:15:43,073 autoreload 24992 26184 Watching for file changes with StatReloader
+INFO 2025-08-23 19:15:43,075 autoreload 24948 28736 Watching for file changes with StatReloader
+INFO 2025-08-23 19:15:43,076 autoreload 19008 3480 Watching for file changes with StatReloader
+INFO 2025-08-23 19:15:54,397 autoreload 19008 3480 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:15:54,398 autoreload 24948 28736 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:15:54,409 autoreload 24992 26184 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:15:55,786 autoreload 22652 15772 Watching for file changes with StatReloader
+INFO 2025-08-23 19:15:55,879 autoreload 11552 21828 Watching for file changes with StatReloader
+INFO 2025-08-23 19:15:55,894 autoreload 4548 27132 Watching for file changes with StatReloader
+INFO 2025-08-23 19:15:59,254 basehttp 22652 3688 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:16:00,218 basehttp 22652 3688 "GET /swagger/?format=openapi HTTP/1.1" 200 42147
+INFO 2025-08-23 19:16:14,557 autoreload 4548 27132 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:14,568 autoreload 11552 21828 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:14,620 autoreload 22652 15772 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:15,523 autoreload 3880 25520 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:15,534 autoreload 11376 28684 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:15,628 autoreload 29404 18708 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:36,200 autoreload 3880 25520 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:36,584 autoreload 11376 28684 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:36,645 autoreload 29404 18708 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:37,080 autoreload 26444 28712 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:37,524 autoreload 27916 28720 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:37,604 autoreload 29576 16264 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:46,399 autoreload 29576 16264 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:46,670 autoreload 26444 28712 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:47,341 autoreload 5588 13324 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:47,373 autoreload 27916 28720 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:16:47,624 autoreload 25584 29640 Watching for file changes with StatReloader
+INFO 2025-08-23 19:16:48,296 autoreload 22924 24760 Watching for file changes with StatReloader
+INFO 2025-08-23 19:17:15,637 autoreload 25584 29640 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:17:16,173 autoreload 22924 24760 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:17:16,428 autoreload 5588 13324 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:17:16,605 autoreload 27772 10712 Watching for file changes with StatReloader
+INFO 2025-08-23 19:17:17,206 autoreload 22264 29404 Watching for file changes with StatReloader
+INFO 2025-08-23 19:17:17,454 autoreload 28180 29272 Watching for file changes with StatReloader
+INFO 2025-08-23 19:17:24,797 basehttp 27772 28988 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:17:25,197 basehttp 27772 28988 "GET /swagger/?format=openapi HTTP/1.1" 200 42147
+INFO 2025-08-23 19:18:56,256 autoreload 22264 29404 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:18:57,357 autoreload 27772 10712 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:18:57,371 autoreload 28180 29272 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:18:58,264 autoreload 11492 5944 Watching for file changes with StatReloader
+INFO 2025-08-23 19:18:59,148 autoreload 18556 27312 Watching for file changes with StatReloader
+INFO 2025-08-23 19:18:59,176 autoreload 22708 28644 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:17,811 autoreload 18556 27312 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:17,814 autoreload 22708 28644 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:18,117 autoreload 11492 5944 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:19,272 autoreload 1148 10436 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:19,284 autoreload 29592 29532 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:19,533 autoreload 16960 2276 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:24,869 autoreload 1148 10436 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:24,893 autoreload 29592 29532 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:25,098 autoreload 16960 2276 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:26,301 autoreload 18436 29436 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:26,335 autoreload 24936 8068 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:26,423 autoreload 4456 14148 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:30,829 autoreload 18436 29436 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:30,851 autoreload 24936 8068 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:31,068 autoreload 4456 14148 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:32,495 autoreload 28808 29592 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:32,513 autoreload 16004 29556 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:32,721 autoreload 25672 29188 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:39,336 autoreload 28808 29592 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:39,423 autoreload 16004 29556 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:39,516 autoreload 25672 29188 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:40,923 autoreload 24484 28660 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:40,941 autoreload 26496 10956 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:40,990 autoreload 10756 23248 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:44,214 autoreload 24484 28660 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:44,268 autoreload 26496 10956 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:44,347 autoreload 10756 23248 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:19:46,541 autoreload 19288 24916 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:46,542 autoreload 2464 24584 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:46,542 autoreload 2428 12932 Watching for file changes with StatReloader
+INFO 2025-08-23 19:19:47,941 basehttp 2428 29392 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:19:48,957 basehttp 2428 29392 "GET /swagger/?format=openapi HTTP/1.1" 200 42587
+INFO 2025-08-23 19:20:09,964 autoreload 19288 24916 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:20:10,141 autoreload 2428 12932 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:20:10,203 autoreload 2464 24584 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:20:12,055 autoreload 9592 19020 Watching for file changes with StatReloader
+INFO 2025-08-23 19:20:12,155 autoreload 29328 29664 Watching for file changes with StatReloader
+INFO 2025-08-23 19:20:12,169 autoreload 9060 22664 Watching for file changes with StatReloader
+INFO 2025-08-23 19:20:16,600 autoreload 9592 19020 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:20:16,706 autoreload 29328 29664 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:20:16,759 autoreload 9060 22664 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:20:18,238 autoreload 16376 23276 Watching for file changes with StatReloader
+INFO 2025-08-23 19:20:18,315 autoreload 13324 21544 Watching for file changes with StatReloader
+INFO 2025-08-23 19:20:18,361 autoreload 28820 27536 Watching for file changes with StatReloader
+INFO 2025-08-23 19:20:23,188 basehttp 13324 22564 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:20:23,848 basehttp 13324 22564 "GET /swagger/?format=openapi HTTP/1.1" 200 42947
+INFO 2025-08-23 19:20:35,535 basehttp 13324 22564 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:20:36,028 basehttp 13324 22564 "GET /swagger/?format=openapi HTTP/1.1" 200 42947
+INFO 2025-08-23 19:21:05,219 autoreload 28820 27536 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:05,251 autoreload 16376 23276 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:05,405 autoreload 13324 21544 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:06,709 autoreload 22212 29164 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:06,763 autoreload 19656 12780 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:06,836 autoreload 27772 12052 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:12,322 basehttp 22212 29548 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:21:12,638 basehttp 22212 29548 "GET /swagger/?format=openapi HTTP/1.1" 200 42947
+INFO 2025-08-23 19:21:37,340 autoreload 27772 12052 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:37,343 autoreload 19656 12780 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:37,357 autoreload 22212 29164 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:38,691 autoreload 28244 23784 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:38,701 autoreload 20396 25620 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:38,744 autoreload 27300 7672 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:52,928 autoreload 28244 23784 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:52,962 autoreload 27300 7672 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:52,995 autoreload 20396 25620 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:21:54,682 autoreload 23544 400 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:54,721 autoreload 24936 19416 Watching for file changes with StatReloader
+INFO 2025-08-23 19:21:54,771 autoreload 29412 18640 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:09,040 autoreload 23544 400 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:09,079 autoreload 29412 18640 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:09,101 autoreload 24936 19416 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:10,981 autoreload 27368 28948 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:11,007 autoreload 29344 28860 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:11,020 autoreload 22704 28676 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:15,543 autoreload 27368 28948 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:15,547 autoreload 22704 28676 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:15,574 autoreload 29344 28860 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:17,684 autoreload 29240 23308 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:17,687 autoreload 19532 25620 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:17,733 autoreload 4468 29048 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:21,137 autoreload 19532 25620 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:21,137 autoreload 29240 23308 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:21,186 autoreload 4468 29048 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:22,867 autoreload 29460 11964 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:22,885 autoreload 26444 18996 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:22,951 autoreload 24936 26544 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:26,235 autoreload 29460 11964 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:26,281 autoreload 26444 18996 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:26,286 autoreload 24936 26544 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:28,000 autoreload 8384 4468 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:28,003 autoreload 28908 8936 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:28,005 autoreload 8520 24740 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:33,596 autoreload 28908 8936 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:33,614 autoreload 8520 24740 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:33,652 autoreload 8384 4468 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:35,138 autoreload 2276 29676 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:35,158 autoreload 13992 2428 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:35,167 autoreload 3956 8340 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:42,373 autoreload 13992 2428 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:42,408 autoreload 3956 8340 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:42,415 autoreload 2276 29676 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:22:44,167 autoreload 23924 18884 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:44,198 autoreload 28656 20640 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:44,230 autoreload 23248 23860 Watching for file changes with StatReloader
+INFO 2025-08-23 19:22:47,937 basehttp 23924 21860 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:22:48,695 basehttp 23924 21860 "GET /swagger/?format=openapi HTTP/1.1" 200 44315
+INFO 2025-08-23 19:23:14,258 basehttp 23924 26140 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:23:14,659 basehttp 23924 26140 "GET /swagger/?format=openapi HTTP/1.1" 200 44315
+INFO 2025-08-23 19:23:17,752 autoreload 23248 23860 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:23:17,800 autoreload 28656 20640 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:23:17,919 autoreload 23924 18884 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:23:19,754 autoreload 29132 12860 Watching for file changes with StatReloader
+INFO 2025-08-23 19:23:19,778 autoreload 8340 19076 Watching for file changes with StatReloader
+INFO 2025-08-23 19:23:19,809 autoreload 28756 27884 Watching for file changes with StatReloader
+INFO 2025-08-23 19:24:30,490 autoreload 28756 27884 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:24:30,532 autoreload 29132 12860 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:24:30,537 autoreload 8340 19076 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:24:32,377 autoreload 1296 8320 Watching for file changes with StatReloader
+INFO 2025-08-23 19:24:32,377 autoreload 24252 24356 Watching for file changes with StatReloader
+INFO 2025-08-23 19:24:48,137 autoreload 1296 8320 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:24:48,140 autoreload 24252 24356 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:24:48,161 autoreload 22540 8992 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:24:49,340 autoreload 23780 26132 Watching for file changes with StatReloader
+INFO 2025-08-23 19:24:49,341 autoreload 22508 24124 Watching for file changes with StatReloader
+INFO 2025-08-23 19:24:49,377 autoreload 21860 10752 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:00,555 autoreload 23780 26132 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:00,561 autoreload 22508 24124 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:00,597 autoreload 21860 10752 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:02,476 autoreload 25672 26500 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:02,525 autoreload 8068 1360 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:02,536 autoreload 29348 11416 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:17,942 autoreload 8068 1360 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:17,949 autoreload 29348 11416 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:17,972 autoreload 25672 26500 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:19,592 autoreload 28988 5744 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:19,620 autoreload 12428 29616 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:19,644 autoreload 21592 15480 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:29,567 autoreload 28988 5744 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:29,569 autoreload 12428 29616 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:29,778 autoreload 21592 15480 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:30,988 autoreload 29688 22592 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:30,990 autoreload 23500 8712 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:31,292 autoreload 8504 11652 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:43,781 autoreload 29688 22592 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:43,789 autoreload 23500 8712 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:43,866 autoreload 8504 11652 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:25:45,076 autoreload 10524 22856 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:45,101 autoreload 23836 29360 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:45,167 autoreload 16696 29048 Watching for file changes with StatReloader
+INFO 2025-08-23 19:25:48,001 basehttp 10524 9464 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:25:48,634 basehttp 10524 9464 "GET /swagger/?format=openapi HTTP/1.1" 200 43266
+INFO 2025-08-23 19:26:01,546 basehttp 10524 1076 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:26:02,287 basehttp 10524 1076 "GET /swagger/?format=openapi HTTP/1.1" 200 43266
+INFO 2025-08-23 19:26:21,033 autoreload 16696 29048 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:26:21,206 autoreload 10524 22856 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:26:21,630 autoreload 23836 29360 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:26:22,787 autoreload 29616 10036 Watching for file changes with StatReloader
+INFO 2025-08-23 19:26:22,833 autoreload 28724 26396 Watching for file changes with StatReloader
+INFO 2025-08-23 19:26:22,877 autoreload 2036 19912 Watching for file changes with StatReloader
+INFO 2025-08-23 19:26:50,908 autoreload 28724 26396 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:26:50,921 autoreload 2036 19912 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:26:50,928 autoreload 29616 10036 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:26:53,075 autoreload 23060 28624 Watching for file changes with StatReloader
+INFO 2025-08-23 19:26:53,079 autoreload 25664 27916 Watching for file changes with StatReloader
+INFO 2025-08-23 19:26:53,239 autoreload 12192 25320 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:17,626 autoreload 12192 25320 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:17,939 autoreload 23060 28624 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:18,007 autoreload 25664 27916 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:18,853 autoreload 28972 22204 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:19,339 autoreload 12764 9272 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:19,405 autoreload 22212 22224 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:23,526 autoreload 12764 9272 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:27:23,554 autoreload 22212 22224 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:23,612 autoreload 28972 22204 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:27:24,909 autoreload 24484 18640 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:24,939 autoreload 25436 27792 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:24,980 autoreload 28700 4904 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:38,095 autoreload 28700 4904 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:38,118 autoreload 25436 27792 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:38,122 autoreload 24484 18640 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:39,296 autoreload 22664 29488 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:39,307 autoreload 21556 400 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:39,316 autoreload 29336 13104 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:51,940 autoreload 21556 400 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:52,315 autoreload 22664 29488 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:52,378 autoreload 29336 13104 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:27:54,561 autoreload 12764 23624 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:54,642 autoreload 9976 29596 Watching for file changes with StatReloader
+INFO 2025-08-23 19:27:54,705 autoreload 23492 21884 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:00,991 autoreload 12764 23624 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:01,948 autoreload 23492 21884 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:01,963 autoreload 9976 29596 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:03,541 autoreload 26928 18884 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:04,027 autoreload 11208 23740 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:04,085 autoreload 9876 6228 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:17,767 autoreload 26928 18884 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:17,851 autoreload 11208 23740 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:17,863 autoreload 9876 6228 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:19,933 autoreload 18636 9552 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:19,937 autoreload 13292 28832 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:20,104 autoreload 19020 3192 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:22,248 autoreload 18636 9552 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:22,416 autoreload 19020 3192 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:23,914 autoreload 2276 27240 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:24,130 autoreload 28460 5552 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:31,682 autoreload 28460 5552 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:32,158 autoreload 13292 28832 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:32,267 autoreload 2276 27240 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:33,259 autoreload 20724 23532 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:33,726 autoreload 18804 27732 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:33,767 autoreload 28468 28760 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:39,681 autoreload 20724 23532 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:39,778 autoreload 18804 27732 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:39,788 autoreload 28468 28760 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:41,073 autoreload 8384 19160 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:41,104 autoreload 28912 6168 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:41,119 autoreload 19896 23508 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:46,071 autoreload 28912 6168 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:46,095 autoreload 19896 23508 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:47,153 autoreload 8384 19160 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:48,009 autoreload 23448 10084 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:48,024 autoreload 26416 28196 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:48,411 autoreload 5116 400 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:51,792 autoreload 26416 28196 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:52,035 autoreload 23448 10084 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:52,148 autoreload 5116 400 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:28:53,018 autoreload 29448 19116 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:53,064 autoreload 10716 14892 Watching for file changes with StatReloader
+INFO 2025-08-23 19:28:53,123 autoreload 27708 28776 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:02,476 autoreload 29448 19116 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:03,312 autoreload 10716 14892 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:03,316 autoreload 27708 28776 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:03,559 autoreload 28740 26132 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:04,226 autoreload 23760 5588 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:04,240 autoreload 28912 6344 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:28,183 autoreload 28740 26132 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:28,851 autoreload 23760 5588 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:28,852 autoreload 28912 6344 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:29,421 autoreload 29280 17160 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:29,993 autoreload 1192 8712 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:30,002 autoreload 21732 21028 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:35,779 autoreload 29280 17160 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:36,162 autoreload 21732 21028 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:36,167 autoreload 1192 8712 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-23 19:29:36,879 autoreload 13104 19020 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:37,418 autoreload 26248 29488 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:37,461 autoreload 26928 29608 Watching for file changes with StatReloader
+INFO 2025-08-23 19:29:38,427 basehttp 13104 27240 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:29:39,232 basehttp 13104 27240 "GET /swagger/?format=openapi HTTP/1.1" 200 48449
+INFO 2025-08-23 19:30:30,733 autoreload 26928 29608 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:30,771 autoreload 26248 29488 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:31,407 autoreload 13104 19020 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:32,454 autoreload 12932 26204 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:32,508 autoreload 9624 6168 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:32,978 autoreload 15732 25636 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:43,400 autoreload 9624 6168 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:43,420 autoreload 12932 26204 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:43,727 autoreload 15732 25636 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:45,177 autoreload 29488 25620 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:45,187 autoreload 23068 22656 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:45,309 autoreload 25804 23620 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:56,001 autoreload 25804 23620 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:56,001 autoreload 23068 22656 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:56,010 autoreload 29488 25620 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:30:57,479 autoreload 18684 9464 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:57,486 autoreload 5552 19876 Watching for file changes with StatReloader
+INFO 2025-08-23 19:30:57,509 autoreload 18804 22616 Watching for file changes with StatReloader
+INFO 2025-08-23 19:31:13,848 autoreload 5552 19876 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:31:13,846 autoreload 18804 22616 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:31:13,857 autoreload 18684 9464 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:31:15,653 autoreload 2520 2840 Watching for file changes with StatReloader
+INFO 2025-08-23 19:31:15,700 autoreload 23792 19756 Watching for file changes with StatReloader
+INFO 2025-08-23 19:31:15,701 autoreload 26928 9976 Watching for file changes with StatReloader
+INFO 2025-08-23 19:31:49,176 autoreload 2520 2840 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:31:49,503 autoreload 26928 9976 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:31:49,532 autoreload 23792 19756 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-08-23 19:31:50,388 autoreload 25804 22516 Watching for file changes with StatReloader
+INFO 2025-08-23 19:31:50,643 autoreload 17316 8340 Watching for file changes with StatReloader
+INFO 2025-08-23 19:31:50,668 autoreload 8992 24252 Watching for file changes with StatReloader
+INFO 2025-08-23 19:32:06,626 basehttp 25804 28372 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:32:07,179 basehttp 25804 28372 "GET /swagger/?format=openapi HTTP/1.1" 200 49196
+INFO 2025-08-23 19:32:28,468 autoreload 13684 28712 Watching for file changes with StatReloader
+INFO 2025-08-23 19:32:30,136 basehttp 25804 4732 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-23 19:32:30,598 basehttp 25804 4732 "GET /swagger/?format=openapi HTTP/1.1" 200 49196
+DEBUG 2025-08-23 19:50:24,636 backends 25804 16200 Retrieved user by ID: 2
+WARNING 2025-08-23 19:50:24,657 log 25804 16200 Forbidden: /api/mobile/facilities/
+WARNING 2025-08-23 19:50:24,657 basehttp 25804 16200 "GET /api/mobile/facilities/?device_id=345678 HTTP/1.1" 403 109
+DEBUG 2025-08-23 19:50:42,702 backends 25804 16200 Retrieved user by ID: 2
+WARNING 2025-08-23 19:50:42,720 log 25804 16200 Bad Request: /api/mobile/sessions/
+WARNING 2025-08-23 19:50:42,722 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 400 88
+DEBUG 2025-08-23 19:50:51,876 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:50:52,020 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 201 458
+DEBUG 2025-08-23 19:50:57,481 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:50:57,525 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 201 458
+DEBUG 2025-08-23 19:51:00,475 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:00,500 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 201 458
+DEBUG 2025-08-23 19:51:01,354 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:01,379 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 201 458
+DEBUG 2025-08-23 19:51:02,116 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:02,148 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 201 458
+DEBUG 2025-08-23 19:51:03,108 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:03,127 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 201 458
+DEBUG 2025-08-23 19:51:04,947 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:04,964 basehttp 25804 16200 "POST /api/mobile/sessions/ HTTP/1.1" 201 458
+DEBUG 2025-08-23 19:51:12,829 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:12,858 basehttp 25804 16200 "GET /api/mobile/sessions/?device_id=string HTTP/1.1" 200 457
+DEBUG 2025-08-23 19:51:13,109 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:13,120 basehttp 25804 16200 "GET /api/mobile/sessions/?device_id=string HTTP/1.1" 200 457
+DEBUG 2025-08-23 19:51:16,040 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:16,050 basehttp 25804 16200 "GET /api/mobile/sessions/?device_id=string HTTP/1.1" 200 457
+DEBUG 2025-08-23 19:51:45,241 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:45,265 basehttp 25804 16200 "GET /api/mobile/facilities/?device_id=string HTTP/1.1" 200 52
+DEBUG 2025-08-23 19:51:47,593 backends 25804 16200 Retrieved user by ID: 2
+INFO 2025-08-23 19:51:47,612 basehttp 25804 16200 "GET /api/mobile/facilities/?device_id=string HTTP/1.1" 200 52
+DEBUG 2025-08-23 19:53:04,174 backends 25804 29488 Retrieved user by ID: 2
+INFO 2025-08-23 19:53:04,194 basehttp 25804 29488 "GET /api/mobile/facilities/?device_id=string HTTP/1.1" 200 52
+DEBUG 2025-08-23 19:53:35,621 backends 25804 29488 Retrieved user by ID: 2
+INFO 2025-08-23 19:53:35,652 basehttp 25804 29488 "GET /api/mobile/music/?device_id=string HTTP/1.1" 200 310
+DEBUG 2025-08-23 19:53:38,998 backends 25804 29488 Retrieved user by ID: 2
+INFO 2025-08-23 19:53:39,015 basehttp 25804 29488 "GET /api/mobile/music/?device_id=string HTTP/1.1" 200 310
+DEBUG 2025-08-23 19:53:50,661 backends 25804 29488 Retrieved user by ID: 2
+INFO 2025-08-23 19:53:50,693 basehttp 25804 29488 "POST /api/mobile/emergency-sos/ HTTP/1.1" 200 427
+DEBUG 2025-08-23 19:54:44,499 backends 25804 29488 Retrieved user by ID: 2
+INFO 2025-08-23 19:54:44,519 basehttp 25804 29488 "POST /api/mobile/emergency-sos/ HTTP/1.1" 200 427

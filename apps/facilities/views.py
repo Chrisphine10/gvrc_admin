@@ -167,7 +167,7 @@ def facility_create(request):
                     # Create facility
                     facility = facility_form.save(commit=False)
                     if request.user.is_authenticated:
-                        facility.created_by = request.user.id
+                        facility.created_by = request.user.user_id
                     facility.save()
                     
                     # Save coordinates if provided
@@ -175,7 +175,7 @@ def facility_create(request):
                         coordinate = coordinate_form.save(commit=False)
                         coordinate.facility = facility
                         if request.user.is_authenticated:
-                            coordinate.created_by = request.user.id
+                            coordinate.created_by = request.user.user_id
                         coordinate.save()
                     
                     # Save GBV categories
@@ -192,7 +192,7 @@ def facility_create(request):
                             contact = contact_form.save(commit=False)
                             contact.facility = facility
                             if request.user.is_authenticated:
-                                contact.created_by = request.user.id
+                                contact.created_by = request.user.user_id
                             contact.save()
                     
                     # Save services
@@ -201,7 +201,7 @@ def facility_create(request):
                             service = service_form.save(commit=False)
                             service.facility = facility
                             if request.user.is_authenticated:
-                                service.created_by = request.user.id
+                                service.created_by = request.user.user_id
                             service.save()
                     
                     # Save owners
@@ -210,7 +210,7 @@ def facility_create(request):
                             owner = owner_form.save(commit=False)
                             owner.facility = facility
                             if request.user.is_authenticated:
-                                owner.created_by = request.user.id
+                                owner.created_by = request.user.user_id
                             owner.save()
                     
                     # Save infrastructure (optional)
@@ -287,7 +287,7 @@ def facility_update(request, facility_id):
                     # Update facility
                     facility = facility_form.save(commit=False)
                     if request.user.is_authenticated:
-                        facility.updated_by = request.user.id
+                        facility.updated_by = request.user.user_id
                     facility.save()
                     
                     # Update or create coordinates
@@ -295,13 +295,13 @@ def facility_update(request, facility_id):
                         if existing_coordinate:
                             coordinate = coordinate_form.save(commit=False)
                             if request.user.is_authenticated:
-                                coordinate.updated_by = request.user.id
+                                coordinate.updated_by = request.user.user_id
                             coordinate.save()
                         else:
                             coordinate = coordinate_form.save(commit=False)
                             coordinate.facility = facility
                             if request.user.is_authenticated:
-                                coordinate.created_by = request.user.id
+                                coordinate.created_by = request.user.user_id
                             coordinate.save()
                     
                     # Update GBV categories
@@ -327,7 +327,7 @@ def facility_update(request, facility_id):
                             contact = contact_form.save(commit=False)
                             contact.facility = facility
                             if request.user.is_authenticated:
-                                contact.created_by = request.user.id
+                                contact.created_by = request.user.user_id
                             contact.save()
                     
                     # Save new services
@@ -336,7 +336,7 @@ def facility_update(request, facility_id):
                             service = service_form.save(commit=False)
                             service.facility = facility
                             if request.user.is_authenticated:
-                                service.created_by = request.user.id
+                                service.created_by = request.user.user_id
                             service.save()
                     
                     # Save new owners
@@ -345,7 +345,7 @@ def facility_update(request, facility_id):
                             owner = owner_form.save(commit=False)
                             owner.facility = facility
                             if request.user.is_authenticated:
-                                owner.created_by = request.user.id
+                                owner.created_by = request.user.user_id
                             owner.save()
                     
                     # Save new infrastructure (optional)

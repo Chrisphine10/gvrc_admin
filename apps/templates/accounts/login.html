@@ -21,7 +21,7 @@
             <div class="card-body">
               
               {% if msg %}
-                <div class="gvrc-alert gvrc-alert-danger">
+                <div class="gvrc-alert gvrc-alert-danger" id="login-error-msg">
                   {{ msg }}
                 </div>
               {% else %}
@@ -31,7 +31,20 @@
                 </div>
               {% endif %}
 
-              <form method="POST">
+              <!-- Django Messages Display -->
+              {% if messages %}
+                <div id="django-messages">
+                  {% for message in messages %}
+                    <div class="gvrc-alert gvrc-alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                      <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
+                      {{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              <form method="POST" id="login-form">
                 {% csrf_token %}
 
                 <div class="gvrc-form-group">
@@ -68,7 +81,7 @@
                 </div>
 
                 <div class="text-center">
-                  <button type="submit" class="gvrc-btn-primary w-100">
+                  <button type="submit" class="gvrc-btn-primary w-100" id="login-submit-btn">
                     <i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard
                   </button>
                 </div>
@@ -91,4 +104,65 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Convert Django messages to toasts using the new auth toast system
+    const messages = document.querySelectorAll('#django-messages .gvrc-alert');
+    messages.forEach(function(message) {
+        const messageText = message.textContent.trim();
+        const messageType = message.classList.contains('gvrc-alert-danger') ? 'error' : 
+                           message.classList.contains('gvrc-alert-warning') ? 'warning' : 
+                           message.classList.contains('gvrc-alert-success') ? 'success' : 'info';
+        
+        // Show toast notification using the new auth toast system
+        if (window.authToastManager) {
+            window.authToastManager.show(messageText, messageType);
+        }
+        
+        // Hide the original message after a short delay
+        setTimeout(function() {
+            message.style.display = 'none';
+        }, 1000);
+    });
+    
+    // Handle form submission with loading state
+    const loginForm = document.getElementById('login-form');
+    const submitBtn = document.getElementById('login-submit-btn');
+    
+    if (loginForm && submitBtn) {
+        loginForm.addEventListener('submit', function() {
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing In...';
+            submitBtn.disabled = true;
+            
+            // Re-enable button after 5 seconds as fallback
+            setTimeout(function() {
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard';
+                submitBtn.disabled = false;
+            }, 5000);
+        });
+    }
+    
+    // Handle specific error messages from the msg variable
+    const errorMsg = document.getElementById('login-error-msg');
+    if (errorMsg && window.authToastManager) {
+        const errorText = errorMsg.textContent.trim();
+        window.authToastManager.error(errorText, 'Login Error');
+        
+        // Hide the error message after showing toast
+        setTimeout(function() {
+            errorMsg.style.display = 'none';
+        }, 1000);
+    }
+    
+    // Handle form validation errors and show them as toasts
+    const formErrors = document.querySelectorAll('.text-danger');
+    formErrors.forEach(function(error) {
+        if (error.textContent.trim() && window.authToastManager) {
+            window.authToastManager.error(error.textContent.trim(), 'Validation Error');
+        }
+    });
+});
+</script>
+{% endblock javascripts %}

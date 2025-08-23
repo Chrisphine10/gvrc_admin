@@ -10,6 +10,10 @@ from django.core.exceptions import ValidationError
 from .models import User, UserProfile
 from django.utils import timezone
 from datetime import timedelta
+import logging
+
+# Set up logger for forms
+logger = logging.getLogger(__name__)
 
 
 class LoginForm(forms.Form):
@@ -35,11 +39,35 @@ class LoginForm(forms.Form):
         password = cleaned_data.get('password')
         
         if email and password:
-            # Use Django's authenticate function with our custom backend
-            user = authenticate(email=email, password=password)
-            if user is None:
-                raise ValidationError("Invalid email or password.")
-            self.user = user
+            try:
+                # Log authentication attempt
+                logger.debug(f"Attempting authentication for email: {email}")
+                
+                # Use Django's authenticate function with our custom backend
+                user = authenticate(email=email, password=password)
+                
+                if user is None:
+                    logger.warning(f"Authentication failed for email: {email} - Invalid credentials")
+                    raise ValidationError("Invalid email or password.")
+                
+                # Check if user is active
+                if not user.is_active:
+                    logger.warning(f"Authentication failed for email: {email} - Account inactive")
+                    raise ValidationError("Your account has been deactivated. Please contact an administrator.")
+                
+                # Check if user is staff (for admin access)
+                if not user.is_staff:
+                    logger.info(f"Non-staff user authenticated: {email}")
+                
+                logger.info(f"Authentication successful for email: {email}")
+                self.user = user
+                
+            except ValidationError:
+                # Re-raise validation errors
+                raise
+            except Exception as e:
+                logger.error(f"Unexpected error during authentication for {email}: {str(e)}")
+                raise ValidationError("An error occurred during authentication. Please try again.")
         
         return cleaned_data
     

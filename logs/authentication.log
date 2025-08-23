@@ -1,0 +1,464 @@
+INFO 2025-08-23 17:48:36,927 views 21088 9608 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:48:37,125 forms 21088 9608 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:48:37,189 backends 21088 9608 Attempting to authenticate user with email: admin@hodi.ke
+WARNING 2025-08-23 17:48:37,246 backends 21088 9608 Authentication failed - User not found or inactive: admin@hodi.ke
+INFO 2025-08-23 17:48:52,095 views 18672 23840 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:48:52,139 forms 18672 23840 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:48:52,140 backends 18672 23840 Attempting to authenticate user with email: admin@hodi.ke
+WARNING 2025-08-23 17:48:52,143 backends 18672 23840 Authentication failed - User not found or inactive: admin@hodi.ke
+WARNING 2025-08-23 17:48:53,378 forms 18672 23840 Authentication failed for email: admin@hodi.ke - Invalid credentials
+WARNING 2025-08-23 17:48:53,379 views 18672 23840 Form validation failed for email: admin@hodi.ke
+DEBUG 2025-08-23 17:48:53,446 views 18672 23840 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:49:01,174 views 18672 4516 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:01,213 views 18672 4516 Login page accessed
+INFO 2025-08-23 17:49:05,404 views 18672 4516 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:05,406 forms 18672 4516 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:05,410 backends 18672 4516 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:07,199 backends 18672 4516 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:49:08,467 forms 18672 4516 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:49:08,468 views 18672 4516 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:08,468 views 18672 4516 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:49:23,288 views 18672 22088 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:23,384 forms 18672 22088 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:23,482 backends 18672 22088 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:27,369 backends 18672 22088 Password verification failed for user: admin@gvrc.com
+INFO 2025-08-23 17:49:46,086 views 11424 9488 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:46,157 forms 11424 9488 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:46,158 backends 11424 9488 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:47,233 backends 11424 9488 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:49:48,259 forms 11424 9488 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:49:48,260 views 11424 9488 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:48,270 views 11424 9488 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:49:51,808 views 11424 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:51,814 forms 11424 1148 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:51,816 backends 11424 1148 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:49:53,590 backends 11424 1148 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:49:54,715 forms 11424 1148 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:49:54,715 views 11424 1148 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:54,716 views 11424 1148 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 17:49:58,078 views 11424 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:49:58,088 forms 11424 1148 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:49:58,090 backends 11424 1148 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:50:01,327 backends 11424 1148 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:50:04,596 forms 11424 1148 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:50:04,612 views 11424 1148 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:50:04,770 views 11424 1148 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+DEBUG 2025-08-23 17:50:36,977 test_login_logging 26688 21372 This is a debug message
+INFO 2025-08-23 17:50:37,044 test_login_logging 26688 21372 This is an info message
+WARNING 2025-08-23 17:50:37,126 test_login_logging 26688 21372 This is a warning message
+ERROR 2025-08-23 17:50:37,160 test_login_logging 26688 21372 This is an error message
+INFO 2025-08-23 17:50:57,242 views 11424 21928 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:50:57,262 forms 11424 21928 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:50:57,264 backends 11424 21928 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 17:51:00,003 backends 11424 21928 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 17:51:00,072 forms 11424 21928 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 17:51:00,182 forms 11424 21928 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 17:51:00,233 views 11424 21928 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 17:51:00,242 views 11424 21928 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 17:51:21,679 views 28568 18952 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:51:21,728 forms 28568 18952 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:51:21,728 backends 28568 18952 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 17:51:22,787 backends 28568 18952 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 17:51:22,787 forms 28568 18952 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 17:51:22,787 forms 28568 18952 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 17:51:22,787 views 28568 18952 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 17:51:22,789 views 28568 18952 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 17:52:51,138 views 28568 13032 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:52:51,162 forms 28568 13032 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 17:52:51,185 backends 28568 13032 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 17:52:54,277 backends 28568 13032 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 17:52:54,283 forms 28568 13032 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 17:52:54,294 forms 28568 13032 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 17:52:54,303 views 28568 13032 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 17:52:54,311 views 28568 13032 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 17:53:05,196 views 28568 22324 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 17:53:05,218 forms 28568 22324 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 17:53:05,235 backends 28568 22324 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 17:53:07,753 backends 28568 22324 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 17:53:10,020 forms 28568 22324 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 17:53:10,032 views 28568 22324 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 17:53:10,121 views 28568 22324 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:04:44,101 views 28568 19428 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:04:44,105 forms 28568 19428 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:44,106 backends 28568 19428 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:04:45,603 backends 28568 19428 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:04:46,917 forms 28568 19428 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:04:46,919 views 28568 19428 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:46,924 views 28568 19428 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:04:51,032 views 28568 19428 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:04:51,033 forms 28568 19428 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:51,034 backends 28568 19428 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:04:52,053 backends 28568 19428 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:04:53,108 forms 28568 19428 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:04:53,109 views 28568 19428 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:53,111 views 28568 19428 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:04:58,481 views 28568 19428 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:04:58,482 forms 28568 19428 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:04:58,483 backends 28568 19428 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:04:59,483 backends 28568 19428 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:05:00,435 forms 28568 19428 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:05:00,435 views 28568 19428 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:05:00,436 views 28568 19428 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:05:26,147 views 28568 26144 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:05:26,148 forms 28568 26144 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:05:26,149 backends 28568 26144 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:05:27,122 backends 28568 26144 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:05:28,065 forms 28568 26144 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:05:28,066 views 28568 26144 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:05:28,066 views 28568 26144 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:06:18,170 views 28568 15468 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:06:18,178 forms 28568 15468 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:06:18,179 backends 28568 15468 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:06:19,362 backends 28568 15468 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:06:20,465 forms 28568 15468 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:06:20,466 views 28568 15468 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:06:20,467 views 28568 15468 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:06:31,106 views 28568 11580 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:06:31,115 views 28568 11580 Login page accessed
+INFO 2025-08-23 18:08:54,455 views 28568 23068 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:08:54,456 forms 28568 23068 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:08:54,458 backends 28568 23068 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:08:55,700 backends 28568 23068 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:08:56,776 forms 28568 23068 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:08:56,778 views 28568 23068 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:08:56,779 views 28568 23068 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:09:26,050 views 28568 7824 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:09:26,058 forms 28568 7824 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:26,058 backends 28568 7824 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:09:27,246 backends 28568 7824 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:09:28,396 forms 28568 7824 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:09:28,397 views 28568 7824 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:28,398 views 28568 7824 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:09:41,175 views 28568 17136 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:09:41,177 forms 28568 17136 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:41,178 backends 28568 17136 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:09:42,348 backends 28568 17136 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:09:43,782 forms 28568 17136 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:09:43,782 views 28568 17136 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:09:43,783 views 28568 17136 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:09:49,856 views 28568 17136 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:09:49,857 forms 28568 17136 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:09:49,858 backends 28568 17136 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:09:50,910 backends 28568 17136 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:09:50,911 forms 28568 17136 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:09:50,912 forms 28568 17136 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:09:50,912 views 28568 17136 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:09:50,916 views 28568 17136 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:10:04,568 views 28568 28232 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:10:04,569 forms 28568 28232 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:10:04,569 backends 28568 28232 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:10:05,590 backends 28568 28232 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:10:05,590 forms 28568 28232 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:10:05,591 forms 28568 28232 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:10:05,591 views 28568 28232 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:10:05,592 views 28568 28232 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:10:16,656 views 28568 1300 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:10:16,657 forms 28568 1300 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:10:16,658 backends 28568 1300 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:10:17,640 backends 28568 1300 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:10:17,640 forms 28568 1300 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:10:17,640 forms 28568 1300 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:10:17,641 views 28568 1300 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:10:17,641 views 28568 1300 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:10:58,415 views 28568 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:10:58,417 forms 28568 1148 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:10:58,420 backends 28568 1148 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:10:59,453 backends 28568 1148 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:10:59,453 forms 28568 1148 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:10:59,454 forms 28568 1148 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:10:59,454 views 28568 1148 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:10:59,455 views 28568 1148 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:11:16,337 views 28568 1148 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:11:16,339 forms 28568 1148 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:11:16,340 backends 28568 1148 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:11:17,235 backends 28568 1148 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:11:17,235 forms 28568 1148 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:11:17,235 forms 28568 1148 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:11:17,236 views 28568 1148 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:11:17,237 views 28568 1148 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:18:28,531 views 28568 1104 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:28,535 forms 28568 1104 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:18:28,536 backends 28568 1104 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:18:29,678 backends 28568 1104 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:18:29,679 forms 28568 1104 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:18:29,679 forms 28568 1104 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:18:29,679 views 28568 1104 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:18:29,680 views 28568 1104 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:18:35,782 views 28568 22664 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:35,783 forms 28568 22664 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:18:35,783 backends 28568 22664 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:18:36,781 backends 28568 22664 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:18:36,781 forms 28568 22664 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:18:36,782 forms 28568 22664 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:18:36,782 views 28568 22664 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:18:36,783 views 28568 22664 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:18:45,536 views 28568 2464 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:45,539 forms 28568 2464 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:45,545 backends 28568 2464 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:18:46,531 backends 28568 2464 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:18:47,437 forms 28568 2464 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:18:47,438 views 28568 2464 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:47,443 views 28568 2464 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:18:55,972 views 28568 26156 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:18:55,972 forms 28568 26156 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:55,973 backends 28568 26156 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:18:56,991 backends 28568 26156 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:18:57,992 forms 28568 26156 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:18:57,992 views 28568 26156 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:18:57,993 views 28568 26156 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:10,900 views 28568 25300 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:10,901 forms 28568 25300 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:10,903 backends 28568 25300 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:11,893 backends 28568 25300 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:12,864 forms 28568 25300 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:12,865 views 28568 25300 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:12,865 views 28568 25300 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:16,301 views 28568 25300 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:16,302 forms 28568 25300 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:16,302 backends 28568 25300 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:17,350 backends 28568 25300 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:18,576 forms 28568 25300 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:18,576 views 28568 25300 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:18,578 views 28568 25300 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:29,168 views 28568 4548 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:29,168 forms 28568 4548 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:29,169 backends 28568 4548 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:30,151 backends 28568 4548 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:31,130 forms 28568 4548 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:31,131 views 28568 4548 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:31,132 views 28568 4548 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:44,057 views 28568 15976 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:44,060 forms 28568 15976 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:44,061 backends 28568 15976 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:45,197 backends 28568 15976 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:19:46,224 forms 28568 15976 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:19:46,225 views 28568 15976 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:46,226 views 28568 15976 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:19:58,759 views 28568 20628 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:19:58,763 forms 28568 20628 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:19:58,765 backends 28568 20628 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:19:59,926 backends 28568 20628 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:01,415 forms 28568 20628 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:01,415 views 28568 20628 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:01,416 views 28568 20628 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:12,946 views 28568 19780 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:12,947 forms 28568 19780 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:20:12,947 backends 28568 19780 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:20:13,896 backends 28568 19780 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:20:13,897 forms 28568 19780 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:20:13,898 forms 28568 19780 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:20:13,898 views 28568 19780 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:20:13,899 views 28568 19780 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:20:26,619 views 28568 5464 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:26,623 forms 28568 5464 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:26,623 backends 28568 5464 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:27,732 backends 28568 5464 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:28,849 forms 28568 5464 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:28,850 views 28568 5464 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:28,851 views 28568 5464 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:34,551 views 28568 11960 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:34,552 forms 28568 11960 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:34,557 backends 28568 11960 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:35,850 backends 28568 11960 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:36,775 forms 28568 11960 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:36,775 views 28568 11960 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:36,776 views 28568 11960 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:48,262 views 28568 21984 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:48,262 forms 28568 21984 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:48,263 backends 28568 21984 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:49,346 backends 28568 21984 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:50,360 forms 28568 21984 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:50,361 views 28568 21984 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:50,362 views 28568 21984 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:20:57,401 views 28568 6228 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:20:57,402 forms 28568 6228 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:57,403 backends 28568 6228 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:20:58,510 backends 28568 6228 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:20:59,573 forms 28568 6228 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:20:59,573 views 28568 6228 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:20:59,575 views 28568 6228 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:21:22,529 views 28568 11960 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:21:22,534 forms 28568 11960 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:22,535 backends 28568 11960 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:21:23,877 backends 28568 11960 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:21:25,102 forms 28568 11960 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:21:25,103 views 28568 11960 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:25,105 views 28568 11960 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:21:36,755 views 28568 18168 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:21:36,756 forms 28568 18168 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:36,757 backends 28568 18168 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:21:38,082 backends 28568 18168 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:21:39,087 forms 28568 18168 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:21:39,088 views 28568 18168 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:21:39,089 views 28568 18168 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:24:08,400 views 28568 4348 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:24:08,401 forms 28568 4348 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:24:08,401 backends 28568 4348 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:24:09,879 backends 28568 4348 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:24:11,542 forms 28568 4348 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:24:11,543 views 28568 4348 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:24:11,544 views 28568 4348 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:27:17,433 views 28568 25060 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:27:17,439 forms 28568 25060 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:17,446 backends 28568 25060 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:27:18,952 backends 28568 25060 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:27:20,075 forms 28568 25060 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:27:20,080 views 28568 25060 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:20,081 views 28568 25060 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:27:27,592 views 28568 25060 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:27:27,593 forms 28568 25060 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:27,593 backends 28568 25060 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:27:29,207 backends 28568 25060 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:27:30,783 forms 28568 25060 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:27:30,784 views 28568 25060 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:27:30,784 views 28568 25060 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:28:40,019 views 28568 25060 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:28:40,124 forms 28568 25060 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:28:40,200 backends 28568 25060 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:28:42,079 backends 28568 25060 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:28:43,298 forms 28568 25060 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:28:43,299 views 28568 25060 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:28:43,300 views 28568 25060 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:36:00,035 views 28568 20296 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:36:00,097 forms 28568 20296 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:00,195 backends 28568 20296 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:36:02,384 backends 28568 20296 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:36:04,474 forms 28568 20296 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:36:04,482 views 28568 20296 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:04,498 views 28568 20296 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:36:36,718 views 28568 29296 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:36:36,719 forms 28568 29296 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:36,720 backends 28568 29296 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:36:38,736 backends 28568 29296 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:36:40,454 forms 28568 29296 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:36:40,454 views 28568 29296 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:36:40,456 views 28568 29296 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:36:48,680 views 28568 28928 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:36:48,681 forms 28568 28928 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:36:48,682 backends 28568 28928 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:36:50,551 backends 28568 28928 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:36:50,552 forms 28568 28928 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:36:50,552 forms 28568 28928 Authentication successful for email: admin@hodi.ke
+ERROR 2025-08-23 18:36:50,552 views 28568 28928 Authentication error: 'User' object has no attribute 'id'
+ERROR 2025-08-23 18:36:50,554 views 28568 28928 Traceback: Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 49, in login_view
+    logger.info(f"Successful login for user: {user.email} (ID: {user.id})")
+                                                                ^^^^^^^
+AttributeError: 'User' object has no attribute 'id'
+
+INFO 2025-08-23 18:55:40,984 views 4516 2840 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:41,031 forms 4516 2840 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:55:41,031 backends 4516 2840 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:55:42,178 backends 4516 2840 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:55:42,180 forms 4516 2840 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:55:42,180 forms 4516 2840 Authentication successful for email: admin@hodi.ke
+INFO 2025-08-23 18:55:42,180 views 4516 2840 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-08-23 18:55:42,181 views 4516 2840 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-08-23 18:55:42,181 backends 4516 2840 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-08-23 18:55:42,200 backends 4516 2840 User session created successfully: -9Trl1EBo2P3qBmXPj-2qBjfibc3D8rnkDdH-GOryZc for user: admin@hodi.ke
+DEBUG 2025-08-23 18:55:42,200 views 4516 2840 User session created: -9Trl1EBo2P3qBmXPj-2qBjfibc3D8rnkDdH-GOryZc
+INFO 2025-08-23 18:55:42,218 views 4516 2840 User admin@hodi.ke successfully logged in and redirected
+DEBUG 2025-08-23 18:55:42,283 backends 4516 2840 Retrieved user by ID: 2
+DEBUG 2025-08-23 18:55:46,470 backends 23676 22748 Retrieved user by ID: 2
+INFO 2025-08-23 18:55:48,159 views 23676 22748 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:48,160 views 23676 22748 Login page accessed
+INFO 2025-08-23 18:55:50,958 views 23676 22748 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:50,959 views 23676 22748 Login page accessed
+INFO 2025-08-23 18:55:54,527 views 27708 6056 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:55:54,583 forms 27708 6056 Attempting authentication for email: admin@gvrc.com
+DEBUG 2025-08-23 18:55:54,583 backends 27708 6056 Attempting to authenticate user with email: admin@gvrc.com
+WARNING 2025-08-23 18:55:55,560 backends 27708 6056 Password verification failed for user: admin@gvrc.com
+WARNING 2025-08-23 18:55:56,756 forms 27708 6056 Authentication failed for email: admin@gvrc.com - Invalid credentials
+WARNING 2025-08-23 18:55:56,757 views 27708 6056 Form validation failed for email: admin@gvrc.com
+DEBUG 2025-08-23 18:55:56,771 views 27708 6056 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-08-23 18:56:07,864 views 25352 27988 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:56:07,866 views 25352 27988 Login page accessed
+INFO 2025-08-23 18:56:14,558 views 7804 22708 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-23 18:56:14,651 forms 7804 22708 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-23 18:56:14,652 backends 7804 22708 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:56:15,856 backends 7804 22708 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-23 18:56:15,857 forms 7804 22708 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-23 18:56:15,858 forms 7804 22708 Authentication successful for email: admin@hodi.ke
+INFO 2025-08-23 18:56:15,858 views 7804 22708 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-08-23 18:56:15,859 views 7804 22708 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-08-23 18:56:15,859 backends 7804 22708 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-08-23 18:56:15,877 backends 7804 22708 User session created successfully: u4KaxI73S5LYeWX_22YBDqOUAVrOAF_qoHJ_4EoZOOw for user: admin@hodi.ke
+DEBUG 2025-08-23 18:56:15,877 views 7804 22708 User session created: u4KaxI73S5LYeWX_22YBDqOUAVrOAF_qoHJ_4EoZOOw
+INFO 2025-08-23 18:56:15,902 views 7804 22708 User admin@hodi.ke successfully logged in and redirected
+DEBUG 2025-08-23 18:56:16,018 backends 7804 22708 Retrieved user by ID: 2
+DEBUG 2025-08-23 18:57:37,342 backends 27336 12860 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-23 18:57:38,328 backends 27336 12860 Password verification successful for user: admin@hodi.ke
+DEBUG 2025-08-23 19:50:24,636 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:50:42,702 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:50:51,876 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:50:57,481 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:00,475 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:01,354 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:02,116 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:03,108 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:04,947 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:12,829 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:13,109 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:16,040 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:45,241 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:51:47,593 backends 25804 16200 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:53:04,174 backends 25804 29488 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:53:35,621 backends 25804 29488 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:53:38,998 backends 25804 29488 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:53:50,661 backends 25804 29488 Retrieved user by ID: 2
+DEBUG 2025-08-23 19:54:44,499 backends 25804 29488 Retrieved user by ID: 2

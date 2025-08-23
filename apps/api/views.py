@@ -101,7 +101,7 @@ class FacilityListView(generics.ListAPIView):
     ordering = ['facility_name']
 
     @swagger_auto_schema(
-        operation_description="Get a paginated list of facilities with advanced filtering",
+        operation_description="Get a paginated list of facilities with advanced filtering. Each facility includes lists of services and contacts.",
         manual_parameters=[
             openapi.Parameter('search', openapi.IN_QUERY, description="Search facilities by name, registration number, or location", type=openapi.TYPE_STRING),
             openapi.Parameter('county', openapi.IN_QUERY, description="Filter by county ID", type=openapi.TYPE_INTEGER),
@@ -114,7 +114,7 @@ class FacilityListView(generics.ListAPIView):
             openapi.Parameter('page_size', openapi.IN_QUERY, description="Items per page (max 100)", type=openapi.TYPE_INTEGER),
         ],
         responses={
-            200: openapi.Response('List of facilities', FacilityListSerializer(many=True)),
+            200: openapi.Response('List of facilities with services and contacts', FacilityListSerializer(many=True)),
             400: 'Bad Request',
             401: 'Unauthorized',
         }
@@ -132,6 +132,16 @@ class FacilityListView(generics.ListAPIView):
                 'facilitycoordinate',
                 queryset=FacilityCoordinate.objects.filter(),
                 to_attr='active_coordinates'
+            ),
+            Prefetch(
+                'facilityservice_set',
+                queryset=FacilityService.objects.filter(is_active=True).select_related('service_category'),
+                to_attr='active_services'
+            ),
+            Prefetch(
+                'facilitycontact_set',
+                queryset=FacilityContact.objects.filter(is_active=True).select_related('contact_type'),
+                to_attr='active_contacts'
             )
         ).filter(is_active=True)
 
@@ -1004,7 +1014,136 @@ class MobileFacilitiesView(generics.ListAPIView):
             openapi.Parameter('status', openapi.IN_QUERY, description="Filter by operational status ID", type=openapi.TYPE_INTEGER),
         ],
         responses={
-            200: openapi.Response('Paginated facilities list', MobileAppFacilitySerializer(many=True)),
+            200: openapi.Response(
+                'Paginated facilities list', 
+                MobileAppFacilitySerializer(many=True),
+                examples={
+                    "application/json": {
+                        "count": 1,
+                        "next": None,
+                        "previous": None,
+                        "results": [
+                            {
+                                "facility_id": 1,
+                                "facility_name": "Example Health Center",
+                                "facility_code": "EHC001",
+                                "registration_number": "REG123456",
+                                "ward": {
+                                    "ward_id": 1,
+                                    "ward_name": "Example Ward",
+                                    "constituency": {
+                                        "constituency_id": 1,
+                                        "constituency_name": "Example Constituency",
+                                        "county": {
+                                            "county_id": 1,
+                                            "county_name": "Example County"
+                                        }
+                                    }
+                                },
+                                "operational_status": {
+                                    "operational_status_id": 1,
+                                    "status_name": "Operational"
+                                },
+                                "coordinates": {
+                                    "coordinate_id": 1,
+                                    "latitude": -1.123456,
+                                    "longitude": 36.789012,
+                                    "collection_date": "2024-01-01",
+                                    "data_source": "GPS",
+                                    "collection_method": "Manual",
+                                    "created_at": "2024-01-01T10:00:00Z",
+                                    "updated_at": "2024-01-01T10:00:00Z"
+                                },
+                                "contacts": [
+                                    {
+                                        "contact_id": 1,
+                                        "contact_type": {
+                                            "contact_type_id": 1,
+                                            "type_name": "Phone"
+                                        },
+                                        "contact_value": "+254700000000",
+                                        "contact_person_name": "John Doe",
+                                                                        "is_primary": True,
+                                "is_active": True,
+                                        "created_at": "2024-01-01T10:00:00Z",
+                                        "updated_at": "2024-01-01T10:00:00Z"
+                                    }
+                                ],
+                                "services": [
+                                    {
+                                        "service_id": 1,
+                                        "service_name": "HIV Testing",
+                                        "service_category": {
+                                            "service_category_id": 1,
+                                            "category_name": "Health Services"
+                                        },
+                                        "service_description": "Free HIV testing and counseling",
+                                        "is_free": True,
+                                        "cost_range": "",
+                                        "currency": "KES",
+                                        "availability_hours": "8:00 AM - 5:00 PM",
+                                        "availability_days": "Monday to Friday",
+                                        "appointment_required": False,
+                                        "is_active": True,
+                                        "created_at": "2024-01-01T10:00:00Z",
+                                        "updated_at": "2024-01-01T10:00:00Z"
+                                    }
+                                ],
+                                "owners": [
+                                    {
+                                        "owner_id": 1,
+                                        "owner_name": "Ministry of Health",
+                                        "owner_type": {
+                                            "owner_type_id": 1,
+                                            "type_name": "Government"
+                                        },
+                                        "created_at": "2024-01-01T10:00:00Z",
+                                        "updated_at": "2024-01-01T10:00:00Z"
+                                    }
+                                ],
+                                "gbv_categories": [
+                                    {
+                                        "gbv_category": {
+                                            "gbv_category_id": 1,
+                                            "category_name": "Domestic Violence",
+                                            "description": "Support for domestic violence cases"
+                                        },
+                                        "created_at": "2024-01-01T10:00:00Z"
+                                    }
+                                ],
+                                "infrastructure": [
+                                    {
+                                        "infrastructure_id": 1,
+                                        "infrastructure_type": {
+                                            "type_id": 1,
+                                            "type_name": "Consultation Room",
+                                            "description": "Private room for patient consultations"
+                                        },
+                                        "condition_status": {
+                                            "status_id": 1,
+                                            "status_name": "Good",
+                                            "description": "In good working condition"
+                                        },
+                                        "description": "Standard consultation room",
+                                        "capacity": 1,
+                                        "current_utilization": 1,
+                                        "is_available": True,
+                                        "created_at": "2024-01-01T10:00:00Z",
+                                        "updated_at": "2024-01-01T10:00:00Z"
+                                    }
+                                ],
+                                "address_line_1": "123 Health Street",
+                                "address_line_2": "Building A",
+                                "description": "Primary health center serving the community",
+                                "website_url": "https://example.com",
+                                "is_active": True,
+                                "created_at": "2024-01-01T10:00:00Z",
+                                "updated_at": "2024-01-01T10:00:00Z"
+                            }
+                        ]
+                    }
+                }
+            ),
             400: 'Bad Request - Missing device_id',
             401: 'Unauthorized - Invalid or inactive mobile session',
         }
@@ -1024,7 +1163,11 @@ class MobileFacilitiesView(generics.ListAPIView):
         ).prefetch_related(
             'facilitycontact_set__contact_type',
             'facilityservice_set__service_category',
-            'facilitycoordinate'
+            'facilityowner_set__owner_type',
+            'facilitygbvcategory_set__gbv_category',
+            'facilitycoordinate',
+            'facilityinfrastructure_set__infrastructure_type',
+            'facilityinfrastructure_set__condition_status'
         ).filter(is_active=True)
         
         # Apply filters
@@ -1038,6 +1181,172 @@ class MobileFacilitiesView(generics.ListAPIView):
         
         # Add proper ordering to avoid pagination warnings
         return queryset.order_by('facility_id').distinct()
+
+
+class MobileFacilityDetailView(generics.RetrieveAPIView):
+    """
+    Mobile facility detail endpoint.
+    Returns comprehensive facility information including all linked data like services, contacts, owners, GBV categories, and infrastructure.
+    """
+    serializer_class = MobileAppFacilitySerializer
+    permission_classes = [MobileSessionPermission]
+    lookup_field = 'facility_id'
+    
+    @swagger_auto_schema(
+        operation_description="Get comprehensive facility details for mobile app using mobile session authentication",
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True),
+        ],
+        responses={
+            200: openapi.Response(
+                'Facility details with all linked data', 
+                MobileAppFacilitySerializer,
+                examples={
+                    "application/json": {
+                        "facility_id": 1,
+                        "facility_name": "Example Health Center",
+                        "facility_code": "EHC001",
+                        "registration_number": "REG123456",
+                        "ward": {
+                            "ward_id": 1,
+                            "ward_name": "Example Ward",
+                            "constituency": {
+                                "constituency_id": 1,
+                                "constituency_name": "Example Constituency",
+                                "county": {
+                                    "county_id": 1,
+                                    "county_name": "Example County"
+                                }
+                            }
+                        },
+                        "operational_status": {
+                            "operational_status_id": 1,
+                            "status_name": "Operational"
+                        },
+                        "coordinates": {
+                            "coordinate_id": 1,
+                            "latitude": -1.123456,
+                            "longitude": 36.789012,
+                            "collection_date": "2024-01-01",
+                            "data_source": "GPS",
+                            "collection_method": "Manual",
+                            "created_at": "2024-01-01T10:00:00Z",
+                            "updated_at": "2024-01-01T10:00:00Z"
+                        },
+                        "contacts": [
+                            {
+                                "contact_id": 1,
+                                "contact_type": {
+                                    "contact_type_id": 1,
+                                    "type_name": "Phone"
+                                },
+                                "contact_value": "+254700000000",
+                                "contact_person_name": "John Doe",
+                                "is_primary": True,
+                                "is_active": True,
+                                "created_at": "2024-01-01T10:00:00Z",
+                                "updated_at": "2024-01-01T10:00:00Z"
+                            }
+                        ],
+                        "services": [
+                            {
+                                "service_id": 1,
+                                "service_name": "HIV Testing",
+                                "service_category": {
+                                    "service_category_id": 1,
+                                    "category_name": "Health Services"
+                                },
+                                "service_description": "Free HIV testing and counseling",
+                                "is_free": True,
+                                "cost_range": "",
+                                "currency": "KES",
+                                "availability_hours": "8:00 AM - 5:00 PM",
+                                "availability_days": "Monday to Friday",
+                                "appointment_required": False,
+                                "is_active": True,
+                                "created_at": "2024-01-01T10:00:00Z",
+                                "updated_at": "2024-01-01T10:00:00Z"
+                            }
+                        ],
+                        "owners": [
+                            {
+                                "owner_id": 1,
+                                "owner_name": "Ministry of Health",
+                                "owner_type": {
+                                    "owner_type_id": 1,
+                                    "type_name": "Government"
+                                },
+                                "created_at": "2024-01-01T10:00:00Z",
+                                "updated_at": "2024-01-01T10:00:00Z"
+                            }
+                        ],
+                        "gbv_categories": [
+                            {
+                                "gbv_category": {
+                                    "gbv_category_id": 1,
+                                    "category_name": "Domestic Violence",
+                                    "description": "Support for domestic violence cases"
+                                },
+                                "created_at": "2024-01-01T10:00:00Z"
+                            }
+                        ],
+                        "infrastructure": [
+                            {
+                                "infrastructure_id": 1,
+                                "infrastructure_type": {
+                                    "type_id": 1,
+                                    "type_name": "Consultation Room",
+                                    "description": "Private room for patient consultations"
+                                },
+                                "condition_status": {
+                                    "status_id": 1,
+                                    "status_name": "Good",
+                                    "description": "In good working condition"
+                                },
+                                "description": "Standard consultation room",
+                                "capacity": 1,
+                                "current_utilization": 1,
+                                "is_available": True,
+                                "created_at": "2024-01-01T10:00:00Z",
+                                "updated_at": "2024-01-01T10:00:00Z"
+                            }
+                        ],
+                        "address_line_1": "123 Health Street",
+                        "address_line_2": "Building A",
+                        "description": "Primary health center serving the community",
+                        "website_url": "https://example.com",
+                        "is_active": True,
+                        "created_at": "2024-01-01T10:00:00Z",
+                        "updated_at": "2024-01-01T10:00:00Z"
+                    }
+                }
+            ),
+            404: 'Facility not found',
+            400: 'Bad Request - Missing device_id',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def get(self, request, *args, **kwargs):
+        # Update mobile session activity
+        mobile_session = request.mobile_session
+        mobile_session.update_activity()
+        
+        return super().get(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        """Optimized queryset for mobile facility detail with all related data"""
+        return Facility.objects.select_related(
+            'ward__constituency__county',
+            'operational_status'
+        ).prefetch_related(
+            'facilitycontact_set__contact_type',
+            'facilityservice_set__service_category',
+            'facilityowner_set__owner_type',
+            'facilitygbvcategory_set__gbv_category',
+            'facilitycoordinate',
+            'facilityinfrastructure_set__infrastructure_type',
+            'facilityinfrastructure_set__condition_status'
+        ).filter(is_active=True)
 
 
 class MobileEmergencySOSView(generics.GenericAPIView):
@@ -1110,7 +1419,11 @@ class MobileEmergencySOSView(generics.GenericAPIView):
         ).prefetch_related(
             'facilitycontact_set__contact_type',
             'facilityservice_set__service_category',
-            'facilitycoordinate'
+            'facilityowner_set__owner_type',
+            'facilitygbvcategory_set__gbv_category',
+            'facilitycoordinate',
+            'facilityinfrastructure_set__infrastructure_type',
+            'facilityinfrastructure_set__condition_status'
         ).filter(
             is_active=True,
             operational_status__status_name='Operational',

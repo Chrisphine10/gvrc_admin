@@ -1,0 +1,1261 @@
+# -*- encoding: utf-8 -*-
+"""
+Mobile App API Views - Consolidated from all apps
+"""
+
+from rest_framework import viewsets, status, generics
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import BasePermission
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.utils import timezone
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+# Import models from different apps
+from apps.chat.models import Conversation, Message
+from apps.facilities.models import Facility, FacilityContact, FacilityService
+from apps.mobile_sessions.models import MobileSession
+from apps.music.models import Music
+from apps.documents.models import Document
+from apps.lookups.models import (
+    ServiceCategory, GBVCategory, ContactType, OwnerType,
+    InfrastructureType, ConditionStatus, DocumentType
+)
+from apps.analytics.models import ContactInteraction
+
+# Import serializers
+from apps.chat.serializers import (
+    ConversationSerializer, ConversationDetailSerializer, MessageSerializer,
+    CreateConversationSerializer, CreateMessageSerializer, UpdateMessageStatusSerializer,
+    MobileConversationListSerializer
+)
+from apps.api.serializers import (
+    MobileAppFacilitySerializer, MusicSerializer, DocumentSerializer,
+    MobileSessionSerializer, MobileSessionCreateSerializer, MobileSessionUpdateSerializer, MobileSessionEndSerializer
+)
+
+# Import services
+from apps.chat.services import ConversationService, MessageService
+from apps.mobile_sessions.services import MobileSessionService
+
+
+class MobileSessionPermission(BasePermission):
+    """
+    Custom permission class for mobile API endpoints.
+    Validates device_id and checks if mobile session exists and is active.
+    Allows superadmin users to bypass mobile session requirement for chat actions.
+    """
+    
+    message = "Valid mobile session required. Please provide a valid device_id."
+    
+    def has_permission(self, request, view):
+        # Allow superadmin users to bypass mobile session requirement for chat actions
+        if (request.user and request.user.is_authenticated and request.user.is_superuser and 
+            hasattr(view, 'action') and view.action in ['list_conversations', 'admin_list_conversations', 'get_conversation_detail', 'send_message', 'update_message_status']):
+            return True
+        
+        # For GET requests, get device_id from query parameters
+        # For POST/PUT requests, check both query parameters and request body
+        if request.method == 'GET':
+            device_id = request.query_params.get('device_id')
+        else:
+            # For POST requests, check query params first, then request body
+            device_id = request.query_params.get('device_id') or request.data.get('device_id')
+        
+        if not device_id:
+            self.message = "device_id is required. For GET requests, pass as query parameter. For POST requests, include in query parameters or request body."
+            return False
+        
+        # Check if mobile session exists and is active
+        try:
+            session = MobileSession.objects.get(device_id=device_id, is_active=True)
+            # Store session in request for use in views
+            request.mobile_session = session
+            return True
+        except MobileSession.DoesNotExist:
+            self.message = f"Mobile session not found or inactive for device_id: {device_id}. Please create a valid session first."
+            return False
+
+
+class MobileChatViewSet(viewsets.ViewSet):
+    """
+    Mobile Chat API endpoints
+    
+    Mobile users can:
+    - Start/retrieve conversations (requires device_id in URL or query params)
+    - Send messages (requires device_id in URL or query params)
+    - Update message status (requires device_id in URL or query params)
+    - View conversation history (requires device_id in URL or query params)
+    
+    Superadmin users can:
+    - Access all conversations without mobile session (device_id optional)
+    - Send messages to any conversation (device_id optional)
+    - Update any message status (device_id optional)
+    - View any conversation detail (device_id optional)
+    """
+    
+    permission_classes = []  # No authentication required - only device_id validation
+    
+    def _get_device_id_from_request(self, request, pk=None):
+        """
+        Extract device_id from request. Priority order:
+        1. URL path parameter (pk) - for endpoints like /mobile/chat/{device_id}/detail/
+        2. Query parameter (device_id)
+        3. Request body (device_id)
+        """
+        # First, check if pk in URL is a device_id (for endpoints like /mobile/chat/{device_id}/detail/)
+        if pk and pk != 'string' and len(pk) > 10:  # device_id is typically a hash, not a number
+            # Check if this looks like a device_id (hash-like string)
+            try:
+                int(pk)  # If pk is a number, it's probably a conversation_id, not device_id
+                device_id = None
+            except ValueError:
+                # pk is not a number, might be a device_id
+                device_id = pk
+        
+        # If no device_id from URL, check query parameters
+        if not device_id:
+            device_id = request.query_params.get('device_id')
+        
+        # If still no device_id, check request body
+        if not device_id and request.data:
+            device_id = request.data.get('device_id')
+        
+        return device_id
+    
+    def _validate_mobile_session(self, device_id):
+        """
+        Validate device_id and return mobile session if valid
+        """
+        if not device_id:
+            return None, "device_id is required"
+        
+        try:
+            session = MobileSession.objects.get(device_id=device_id, is_active=True)
+            return session, None
+        except MobileSession.DoesNotExist:
+            return None, f"Mobile session not found or inactive for device_id: {device_id}"
+    
+    def _check_conversation_access(self, conversation, mobile_session):
+        """
+        Check if mobile session has access to the conversation
+        """
+        if not mobile_session:
+            return False, "Mobile session required for mobile users"
+        
+        if conversation.mobile_session != mobile_session:
+            return False, "Access denied to this conversation"
+        
+        return True, None
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_start",
+        operation_description="Start a new conversation or retrieve existing one",
+        request_body=CreateConversationSerializer,
+        responses={
+            200: openapi.Response('Conversation data', ConversationSerializer),
+            201: openapi.Response('Conversation created', ConversationSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['post'], url_path='start')
+    def start_conversation(self, request):
+        """Start a new conversation or retrieve existing one"""
+        serializer = CreateConversationSerializer(data=request.data)
+        if serializer.is_valid():
+            device_id = serializer.validated_data.get('device_id')
+            subject = serializer.validated_data.get('subject', '')
+            
+            # For superadmin users, device_id is optional
+            if not device_id and (request.user and request.user.is_authenticated and request.user.is_superuser):
+                # Superadmin users can access existing conversations but need device_id to create new ones
+                return Response(
+                    {'error': 'device_id is required even for superadmin users to create new conversations'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # For mobile users, device_id is required
+            if not device_id:
+                return Response(
+                    {'error': 'device_id is required for mobile users'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            try:
+                mobile_session = MobileSession.objects.get(device_id=device_id, is_active=True)
+                
+                # Check if there's already an open conversation for this device
+                existing_conversation = Conversation.objects.filter(
+                    mobile_session=mobile_session,
+                    status__in=['new', 'active']  # Only consider new or active conversations as "open"
+                ).order_by('-created_at').first()
+                
+                if existing_conversation:
+                    # Return existing open conversation
+                    response_serializer = ConversationSerializer(existing_conversation, context={'request': request})
+                    return Response(response_serializer.data, status=status.HTTP_200_OK)
+                
+                # No open conversation exists, create a new one
+                conversation = ConversationService.get_or_create_conversation(mobile_session, subject)
+                
+                # If new conversation, auto-assign admin
+                if conversation.status == 'new':
+                    ConversationService.auto_assign_conversation(conversation)
+                
+                response_serializer = ConversationSerializer(conversation, context={'request': request})
+                
+                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                    
+            except MobileSession.DoesNotExist:
+                return Response(
+                    {'error': 'Invalid or inactive device ID'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_list",
+        operation_description="List conversations for a mobile device or all conversations for superadmin users (device_id optional for superadmin)",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID - required for mobile users, optional for superadmin", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation list', MobileConversationListSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['get'], url_path='list')
+    def list_conversations(self, request):
+        """List conversations for a mobile device or all conversations for superadmin"""
+        # If superadmin, return all conversations without requiring device_id
+        if request.user and request.user.is_authenticated and request.user.is_superuser:
+            conversations = Conversation.objects.all().order_by('-last_message_at')
+            serializer = MobileConversationListSerializer(conversations, many=True, context={'request': request})
+            return Response(serializer.data)
+        
+        # For mobile users, require device_id
+        device_id = request.query_params.get('device_id')
+        if not device_id:
+            return Response(
+                {'error': 'device_id parameter is required for mobile users'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            mobile_session = MobileSession.objects.get(device_id=device_id, is_active=True)
+            
+            # Get conversations for this device, prioritizing open ones first
+            conversations = Conversation.objects.filter(mobile_session=mobile_session).order_by(
+                # Order by: open conversations first (new, active), then by last message time
+                'status__in', '-last_message_at'
+            )
+            
+            # Custom ordering to ensure open conversations appear first
+            open_conversations = []
+            closed_conversations = []
+            
+            for conv in conversations:
+                if conv.status in ['new', 'active']:
+                    open_conversations.append(conv)
+                else:
+                    closed_conversations.append(conv)
+            
+            # Sort open conversations by last message time (newest first)
+            open_conversations.sort(key=lambda x: x.last_message_at or x.created_at, reverse=True)
+            # Sort closed conversations by last message time (newest first)
+            closed_conversations.sort(key=lambda x: x.last_message_at or x.created_at, reverse=True)
+            
+            # Combine: open conversations first, then closed ones
+            ordered_conversations = open_conversations + closed_conversations
+            
+            serializer = MobileConversationListSerializer(ordered_conversations, many=True, context={'request': request})
+            return Response(serializer.data)
+            
+        except MobileSession.DoesNotExist:
+            return Response(
+                {'error': 'Invalid or inactive device ID'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_admin_list",
+        operation_description="List all conversations for superadmin users - NO device_id required, superadmin only",
+        responses={
+            200: openapi.Response('All conversations list', MobileConversationListSerializer),
+            403: openapi.Response('Forbidden - Superadmin access required', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['get'], url_path='admin/list')
+    def admin_list_conversations(self, request):
+        """List all conversations for superadmin users"""
+        # Check if user is superadmin
+        if not (request.user and request.user.is_authenticated and request.user.is_superuser):
+            return Response(
+                {'error': 'Superadmin access required'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Return all conversations for superadmin (no device_id required)
+        conversations = Conversation.objects.all().order_by('-last_message_at')
+        serializer = MobileConversationListSerializer(conversations, many=True, context={'request': request})
+        return Response(serializer.data)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_get_conversation_detail",
+        operation_description="Get conversation details with messages. Requires device_id in query params or URL path.",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID - required for mobile users", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'conversation_id', openapi.IN_QUERY, description="Conversation ID to retrieve", type=openapi.TYPE_INTEGER, required=True
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation details', ConversationDetailSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['get'], url_path='detail')
+    def get_conversation_detail(self, request):
+        """Get conversation details with messages"""
+        # Get device_id from query parameters
+        device_id = request.query_params.get('device_id')
+        conversation_id = request.query_params.get('conversation_id')
+        
+        if not device_id:
+            return Response(
+                {'error': 'device_id is required in query parameters'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not conversation_id:
+            return Response(
+                {'error': 'conversation_id is required in query parameters'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Validate mobile session
+        session, error_message = self._validate_mobile_session(device_id)
+        if not session:
+            return Response(
+                {'error': error_message}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Get conversation
+        try:
+            conversation = Conversation.objects.get(conversation_id=conversation_id)
+        except Conversation.DoesNotExist:
+            return Response(
+                {'error': 'Conversation not found'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        # For superadmin users, allow access to any conversation
+        if request.user and request.user.is_authenticated and request.user.is_superuser:
+            serializer = ConversationDetailSerializer(conversation, context={'request': request})
+            return Response(serializer.data)
+        
+        # For mobile users, check if they have access to this conversation
+        access_ok, error_msg = self._check_conversation_access(conversation, session)
+        if not access_ok:
+            return Response(
+                {'error': error_msg}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        serializer = ConversationDetailSerializer(conversation, context={'request': request})
+        return Response(serializer.data)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_send_message",
+        operation_description="Send a message in a conversation. Requires device_id in query parameters.",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID - required for mobile users", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'conversation_id', openapi.IN_QUERY, description="Conversation ID to send message to", type=openapi.TYPE_INTEGER, required=True
+            )
+        ],
+        request_body=CreateMessageSerializer,
+        responses={
+            201: MessageSerializer,
+            400: "Bad Request",
+            403: "Forbidden",
+            404: "Not Found"
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['post'], url_path='send-message')
+    def send_message(self, request):
+        """Send a message in a conversation"""
+        # Get device_id and conversation_id from query parameters
+        device_id = request.query_params.get('device_id')
+        conversation_id = request.query_params.get('conversation_id')
+        
+        if not device_id:
+            return Response(
+                {'error': 'device_id is required in query parameters'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not conversation_id:
+            return Response(
+                {'error': 'conversation_id is required in query parameters'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Validate mobile session
+        session, error_message = self._validate_mobile_session(device_id)
+        if not session:
+            return Response(
+                {'error': error_message}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Get conversation
+        try:
+            conversation = Conversation.objects.get(conversation_id=conversation_id)
+        except Conversation.DoesNotExist:
+            return Response(
+                {'error': 'Conversation not found'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        # For superadmin users, allow sending messages to any conversation
+        if request.user and request.user.is_authenticated and request.user.is_superuser:
+            # Handle both form data (file uploads) and JSON data
+            if request.content_type and 'multipart/form-data' in request.content_type:
+                serializer = CreateMessageSerializer(data=request.data)
+            else:
+                serializer = CreateMessageSerializer(data=request.data)
+                
+            if serializer.is_valid():
+                # Get validated data
+                content = serializer.validated_data.get('content', '')
+                message_type = serializer.validated_data.get('message_type', 'text')
+                media_file = serializer.validated_data.get('media_file')
+                media_url = serializer.validated_data.get('media_url', '')
+                is_urgent = serializer.validated_data.get('is_urgent', False)
+                metadata = serializer.validated_data.get('metadata', {})
+                
+                # Determine message type based on file if not specified or if it's still 'text'
+                if media_file:
+                    # Always determine message type from file content type, regardless of current message_type
+                    if media_file.content_type.startswith('image/'):
+                        message_type = 'image'
+                    elif media_file.content_type.startswith('video/'):
+                        message_type = 'file'  # We'll use 'file' for videos
+                    elif media_file.content_type.startswith('audio/'):
+                        message_type = 'voice'
+                    else:
+                        message_type = 'file'
+                    
+                    # If no content was provided, use a default caption
+                    if not content:
+                        content = f"Uploaded {message_type}"
+                
+                # Use admin message creation for superadmin users
+                message = MessageService.create_admin_message(
+                    conversation=conversation,
+                    content=content,
+                    admin_user=request.user,
+                    message_type=message_type,
+                    media_file=media_file,
+                    media_url=media_url,
+                    is_urgent=is_urgent,
+                    metadata=metadata
+                )
+                
+                response_serializer = MessageSerializer(message, context={'request': request})
+                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+            
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # For mobile users, check access and use mobile message creation
+        access_ok, error_msg = self._check_conversation_access(conversation, session)
+        if not access_ok:
+            return Response(
+                {'error': error_msg}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Handle both form data (file uploads) and JSON data
+        if request.content_type and 'multipart/form-data' in request.content_type:
+            serializer = CreateMessageSerializer(data=request.data)
+        else:
+            serializer = CreateMessageSerializer(data=request.data)
+            
+        if serializer.is_valid():
+            # Get validated data
+            content = serializer.validated_data.get('content', '')
+            message_type = serializer.validated_data.get('message_type', 'text')
+            media_file = serializer.validated_data.get('media_file')
+            media_url = serializer.validated_data.get('media_url', '')
+            is_urgent = serializer.validated_data.get('is_urgent', False)
+            metadata = serializer.validated_data.get('metadata', {})
+            
+            # Determine message type based on file if not specified or if it's still 'text'
+            if media_file:
+                # Always determine message type from file content type, regardless of current message_type
+                if media_file.content_type.startswith('image/'):
+                    message_type = 'image'
+                elif media_file.content_type.startswith('video/'):
+                    message_type = 'file'  # We'll use 'file' for videos
+                elif media_file.content_type.startswith('audio/'):
+                    message_type = 'voice'
+                else:
+                    message_type = 'file'
+                
+                # If no content was provided, use a default caption
+                if not content:
+                    content = f"Uploaded {message_type}"
+            
+            message = MessageService.create_mobile_message(
+                conversation=conversation,
+                content=content,
+                message_type=message_type,
+                media_file=media_file,
+                media_url=media_url,
+                is_urgent=is_urgent,
+                metadata=metadata
+            )
+            
+            response_serializer = MessageSerializer(message, context={'request': request})
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_update_status",
+        operation_description="Update message delivery status",
+        request_body=UpdateMessageStatusSerializer,
+        responses={
+            200: openapi.Response('Message updated', MessageSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['put'], url_path='messages/(?P<message_id>[^/.]+)/status')
+    def update_message_status(self, request, message_id=None):
+        """Update message delivery status"""
+        message = get_object_or_404(Message, message_id=message_id)
+        
+        # For superadmin users, allow updating any message status
+        if request.user and request.user.is_authenticated and request.user.is_superuser:
+            serializer = UpdateMessageStatusSerializer(data=request.data)
+            if serializer.is_valid():
+                new_status = serializer.validated_data['status']
+                
+                if new_status == 'delivered':
+                    MessageService.mark_message_delivered(message)
+                elif new_status == 'read':
+                    MessageService.mark_message_read(message)
+                
+                response_serializer = MessageSerializer(message, context={'request': request})
+                return Response(response_serializer.data)
+            
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # For mobile users, check if they have access to this message
+        device_id = request.query_params.get('device_id') # Assuming device_id is in query params for this endpoint
+        if not device_id:
+            return Response(
+                {'error': 'device_id is required for this endpoint'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        session, error_message = self._validate_mobile_session(device_id)
+        if session:
+            access_ok, error_msg = self._check_conversation_access(message.conversation, session)
+            if not access_ok:
+                return Response(
+                    {'error': error_msg}, 
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        else:
+            return Response(
+                {'error': error_message}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        serializer = UpdateMessageStatusSerializer(data=request.data)
+        if serializer.is_valid():
+            new_status = serializer.validated_data['status']
+            
+            if new_status == 'delivered':
+                MessageService.mark_message_delivered(message)
+            elif new_status == 'read':
+                MessageService.mark_message_read(message)
+            
+            response_serializer = MessageSerializer(message, context={'request': request})
+            return Response(response_serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(
+        operation_id="mobile_chat_check_status",
+        operation_description="Check if device has an open conversation",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID to check", type=openapi.TYPE_STRING, required=True
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation status', openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                'has_open_conversation': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                'conversation': openapi.Schema(type=openapi.TYPE_OBJECT),
+                'message': openapi.Schema(type=openapi.TYPE_STRING)
+            })),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['get'], url_path='check-status')
+    def check_conversation_status(self, request):
+        """Check if device has an open conversation"""
+        device_id = request.query_params.get('device_id')
+        
+        if not device_id:
+            return Response(
+                {'error': 'device_id is required in query parameters'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            mobile_session = MobileSession.objects.get(device_id=device_id, is_active=True)
+            
+            # Check if there's an open conversation for this device
+            existing_conversation = Conversation.objects.filter(
+                mobile_session=mobile_session,
+                status__in=['new', 'active']  # Only consider new or active conversations as "open"
+            ).order_by('-created_at').first()
+            
+            if existing_conversation:
+                response_serializer = ConversationSerializer(existing_conversation, context={'request': request})
+                return Response({
+                    'has_open_conversation': True,
+                    'conversation': response_serializer.data,
+                    'message': 'Device has an open conversation'
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    'has_open_conversation': False,
+                    'conversation': None,
+                    'message': 'No open conversation found for this device'
+                }, status=status.HTTP_200_OK)
+                
+        except MobileSession.DoesNotExist:
+            return Response(
+                {'error': 'Invalid or inactive device ID'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    @swagger_auto_schema(
+        operation_id="mobile_chat_close_conversation",
+        operation_description="Close a conversation for a mobile device",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID - required for mobile users", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'conversation_id', openapi.IN_QUERY, description="Conversation ID to close", type=openapi.TYPE_INTEGER, required=True
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation closed', openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                'message': openapi.Schema(type=openapi.TYPE_STRING),
+                'conversation': openapi.Schema(type=openapi.TYPE_OBJECT)
+            })),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['post'], url_path='close')
+    def close_conversation(self, request):
+        """Close a conversation for a mobile device"""
+        # Get device_id and conversation_id from query parameters
+        device_id = request.query_params.get('device_id')
+        conversation_id = request.query_params.get('conversation_id')
+        
+        if not device_id:
+            return Response(
+                {'error': 'device_id is required in query parameters'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if not conversation_id:
+            return Response(
+                {'error': 'conversation_id is required in query parameters'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Validate mobile session
+        session, error_message = self._validate_mobile_session(device_id)
+        if not session:
+            return Response(
+                {'error': error_message}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Get conversation
+        try:
+            conversation = Conversation.objects.get(conversation_id=conversation_id)
+        except Conversation.DoesNotExist:
+            return Response(
+                {'error': 'Conversation not found'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        # For superadmin users, allow closing any conversation
+        if request.user and request.user.is_authenticated and request.user.is_superuser:
+            conversation.status = 'closed'
+            conversation.save()
+            
+            response_serializer = ConversationSerializer(conversation, context={'request': request})
+            return Response({
+                'message': 'Conversation closed by admin',
+                'conversation': response_serializer.data
+            }, status=status.HTTP_200_OK)
+        
+        # For mobile users, check if they have access to this conversation
+        access_ok, error_msg = self._check_conversation_access(conversation, session)
+        if not access_ok:
+            return Response(
+                {'error': error_msg}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Check if conversation is already closed
+        if conversation.status == 'closed':
+            return Response({
+                'message': 'Conversation is already closed',
+                'conversation': ConversationSerializer(conversation, context={'request': request}).data
+            }, status=status.HTTP_200_OK)
+        
+        # Close the conversation
+        conversation.status = 'closed'
+        conversation.save()
+        
+        response_serializer = ConversationSerializer(conversation, context={'request': request})
+        return Response({
+            'message': 'Conversation closed successfully',
+            'conversation': response_serializer.data
+        }, status=status.HTTP_200_OK)
+
+
+class MobileFacilityViewSet(viewsets.ViewSet):
+    """
+    Mobile Facility API endpoints
+    """
+    
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_id="mobile_facilities_list",
+        operation_description="List facilities optimized for mobile app",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'search', openapi.IN_QUERY, description="Search term", type=openapi.TYPE_STRING, required=False
+            ),
+            openapi.Parameter(
+                'service_category', openapi.IN_QUERY, description="Service category filter", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Facilities list', MobileAppFacilitySerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Facility API"]
+    )
+    @action(detail=False, methods=['get'], url_path='list')
+    def list_facilities(self, request):
+        """List facilities optimized for mobile app"""
+        search_query = request.query_params.get('search', '')
+        service_category = request.query_params.get('service_category', '')
+        
+        queryset = Facility.objects.filter(is_active=True)
+        
+        if search_query:
+            queryset = queryset.filter(
+                Q(facility_name__icontains=search_query) |
+                Q(ward__ward_name__icontains=search_query) |
+                Q(ward__constituency__constituency_name__icontains=search_query)
+            )
+        
+        if service_category:
+            queryset = queryset.filter(
+                facilityservice__service_category__category_name__icontains=service_category
+            )
+        
+        # Optimize for mobile with select_related and prefetch_related
+        queryset = queryset.select_related(
+            'ward', 'ward__constituency', 'ward__constituency__county'
+        ).prefetch_related(
+            'facilityservice_set__service_category',
+            'facilitycontact_set__contact_type'
+        )[:50]  # Limit results for mobile
+        
+        serializer = MobileAppFacilitySerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_facility_detail",
+        operation_description="Get facility details optimized for mobile app",
+        responses={
+            200: openapi.Response('Facility details', MobileAppFacilitySerializer),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Facility API"]
+    )
+    @action(detail=True, methods=['get'], url_path='detail')
+    def get_facility_detail(self, request, pk=None):
+        """Get facility details optimized for mobile app"""
+        facility = get_object_or_404(Facility, facility_id=pk, is_active=True)
+        serializer = MobileAppFacilitySerializer(facility, context={'request': request})
+        return Response(serializer.data)
+
+
+class MobileSessionViewSet(viewsets.ViewSet):
+    """
+    Mobile Session API endpoints
+    """
+    
+    permission_classes = []  # No authentication required for session creation
+    
+    @swagger_auto_schema(
+        operation_id="mobile_session_create",
+        operation_description="Create a new mobile session or retrieve existing one",
+        request_body=MobileSessionCreateSerializer,
+        responses={
+            200: openapi.Response('Existing session retrieved', MobileSessionSerializer),
+            201: openapi.Response('New session created', MobileSessionSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Session API"]
+    )
+    @action(detail=False, methods=['post'], url_path='create')
+    def create_session(self, request):
+        """Create a new mobile session or retrieve existing one"""
+        serializer = MobileSessionCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            device_id = serializer.validated_data['device_id']
+            
+            # Check if session already exists for this device
+            try:
+                existing_session = MobileSession.objects.get(device_id=device_id)
+                
+                # If session exists but is inactive, reactivate it
+                if not existing_session.is_active:
+                    existing_session.is_active = True
+                    existing_session.last_active_at = timezone.now()
+                    existing_session.save(update_fields=['is_active', 'last_active_at', 'updated_at'])
+                
+                # Update session properties if provided
+                update_fields = ['updated_at']
+                if serializer.validated_data.get('notification_enabled') is not None:
+                    existing_session.notification_enabled = serializer.validated_data['notification_enabled']
+                    update_fields.append('notification_enabled')
+                if serializer.validated_data.get('dark_mode_enabled') is not None:
+                    existing_session.dark_mode_enabled = serializer.validated_data['dark_mode_enabled']
+                    update_fields.append('dark_mode_enabled')
+                if serializer.validated_data.get('preferred_language'):
+                    existing_session.preferred_language = serializer.validated_data['preferred_language']
+                    update_fields.append('preferred_language')
+                if serializer.validated_data.get('location_data'):
+                    location_data = serializer.validated_data['location_data']
+                    if 'latitude' in location_data and 'longitude' in location_data:
+                        existing_session.latitude = location_data['latitude']
+                        existing_session.longitude = location_data['longitude']
+                        existing_session.location_updated_at = timezone.now()
+                        update_fields.extend(['latitude', 'longitude', 'location_updated_at'])
+                
+                existing_session.save(update_fields=update_fields)
+                session = existing_session
+                
+                response_serializer = MobileSessionSerializer(session, context={'request': request})
+                return Response(response_serializer.data, status=status.HTTP_200_OK)
+                
+            except MobileSession.DoesNotExist:
+                # Create new session if none exists
+                session = MobileSessionService.create_session(
+                    device_id=device_id,
+                    device_info=serializer.validated_data.get('device_info', {}),
+                    location_data=serializer.validated_data.get('location_data', {})
+                )
+                
+                response_serializer = MobileSessionSerializer(session, context={'request': request})
+                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_session_end",
+        operation_description="End a mobile session - only requires device_id",
+        request_body=MobileSessionEndSerializer,
+        responses={
+            200: openapi.Response('Session ended', openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                'message': openapi.Schema(type=openapi.TYPE_STRING),
+                'device_id': openapi.Schema(type=openapi.TYPE_STRING)
+            })),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Session API"]
+    )
+    @action(detail=False, methods=['post'], url_path='end')
+    def end_session(self, request):
+        """End a mobile session"""
+        serializer = MobileSessionEndSerializer(data=request.data)
+        if serializer.is_valid():
+            device_id = serializer.validated_data['device_id']
+            
+            try:
+                session = MobileSession.objects.get(device_id=device_id, is_active=True)
+                session = MobileSessionService.end_session(session)
+                
+                return Response({
+                    'message': 'Session ended successfully',
+                    'device_id': session.device_id
+                })
+                
+            except MobileSession.DoesNotExist:
+                return Response(
+                    {'error': 'Session not found or already inactive'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_session_update",
+        operation_description="Update mobile session properties",
+        request_body=MobileSessionUpdateSerializer,
+        responses={
+            200: openapi.Response('Session updated', MobileSessionSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Session API"]
+    )
+    @action(detail=False, methods=['put'], url_path='update')
+    def update_session(self, request):
+        """Update mobile session properties"""
+        serializer = MobileSessionUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            device_id = serializer.validated_data['device_id']
+            
+            try:
+                session = MobileSession.objects.get(device_id=device_id, is_active=True)
+                
+                # Update only the fields that were provided
+                update_fields = ['updated_at']
+                for field, value in serializer.validated_data.items():
+                    if field != 'device_id' and hasattr(session, field):
+                        setattr(session, field, value)
+                        update_fields.append(field)
+                
+                session.save(update_fields=update_fields)
+                
+                response_serializer = MobileSessionSerializer(session, context={'request': request})
+                return Response(response_serializer.data)
+                
+            except MobileSession.DoesNotExist:
+                return Response(
+                    {'error': 'Session not found or inactive'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MobileMusicViewSet(viewsets.ViewSet):
+    """
+    Mobile Music API endpoints
+    """
+    
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_id="mobile_music_list",
+        operation_description="List music tracks for mobile app",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'genre', openapi.IN_QUERY, description="Filter by genre", type=openapi.TYPE_STRING, required=False
+            ),
+            openapi.Parameter(
+                'artist', openapi.IN_QUERY, description="Filter by artist", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Music list', MusicSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Music API"]
+    )
+    @action(detail=False, methods=['get'], url_path='list')
+    def list_music(self, request):
+        """List music tracks for mobile app"""
+        genre = request.query_params.get('genre', '')
+        artist = request.query_params.get('artist', '')
+        
+        queryset = Music.objects.filter(is_active=True)
+        
+        if genre:
+            queryset = queryset.filter(genre__icontains=genre)
+        
+        if artist:
+            queryset = queryset.filter(artist__icontains=artist)
+        
+        serializer = MusicSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+class MobileDocumentViewSet(viewsets.ViewSet):
+    """
+    Mobile Document API endpoints
+    """
+    
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_id="mobile_documents_list",
+        operation_description="List documents for mobile app",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'document_type', openapi.IN_QUERY, description="Filter by document type", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Documents list', DocumentSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Document API"]
+    )
+    @action(detail=False, methods=['get'], url_path='list')
+    def list_documents(self, request):
+        """List documents for mobile app"""
+        document_type = request.query_params.get('document_type', '')
+        
+        queryset = Document.objects.filter(is_active=True)
+        
+        if document_type:
+            queryset = queryset.filter(document_type__type_name__icontains=document_type)
+        
+        serializer = DocumentSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+class MobileEmergencyViewSet(viewsets.ViewSet):
+    """
+    Mobile Emergency API endpoints
+    """
+    
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_id="mobile_emergency_sos",
+        operation_description="Send emergency SOS - location data is automatically retrieved from device session",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'emergency_type', openapi.IN_QUERY, description="Type of emergency", type=openapi.TYPE_STRING, required=True
+            )
+        ],
+        responses={
+            200: openapi.Response('Emergency SOS sent', openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                'message': openapi.Schema(type=openapi.TYPE_STRING),
+                'emergency_type': openapi.Schema(type=openapi.TYPE_STRING),
+                'location': openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                    'latitude': openapi.Schema(type=openapi.TYPE_NUMBER),
+                    'longitude': openapi.Schema(type=openapi.TYPE_NUMBER)
+                }),
+                'facilities_nearby': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT))
+            })),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Emergency API"]
+    )
+    @action(detail=False, methods=['post'], url_path='sos')
+    def send_emergency_sos(self, request):
+        """Send emergency SOS - location data is automatically retrieved from device session"""
+        emergency_type = request.data.get('emergency_type')
+        
+        if not emergency_type:
+            return Response(
+                {'error': 'Missing required parameter: emergency_type'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Get location from the mobile session (already validated by permission class)
+        mobile_session = request.mobile_session
+        latitude = mobile_session.latitude
+        longitude = mobile_session.longitude
+        
+        # Check if location data is available
+        if latitude is None or longitude is None:
+            return Response(
+                {'error': 'Device location not available. Please enable location services and update location first.'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Find nearby facilities based on emergency type
+        nearby_facilities = Facility.objects.filter(
+            is_active=True,
+            facilityservice__service_category__category_name__icontains=emergency_type
+        )[:5]  # Limit to 5 closest facilities
+        
+        return Response({
+            'message': 'Emergency SOS received',
+            'emergency_type': emergency_type,
+            'location': {'latitude': float(latitude), 'longitude': float(longitude)},
+            'facilities_nearby': [
+                {
+                    'facility_id': facility.facility_id,
+                    'facility_name': facility.facility_name,
+                    'distance': 'Nearby'  # Simplified for now
+                }
+                for facility in nearby_facilities
+            ]
+        })
+
+
+class MobileLookupViewSet(viewsets.ViewSet):
+    """
+    Mobile Lookup API endpoints
+    """
+    
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_id="mobile_lookups_data",
+        operation_description="Get lookup data for mobile app",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'lookup_type', openapi.IN_QUERY, description="Type of lookup data", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Lookup data', openapi.Schema(type=openapi.TYPE_OBJECT)),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Lookup API"]
+    )
+    @action(detail=False, methods=['get'], url_path='data')
+    def get_lookup_data(self, request):
+        """Get lookup data for mobile app"""
+        lookup_type = request.query_params.get('lookup_type', '')
+        
+        if lookup_type == 'service_categories':
+            data = ServiceCategory.objects.all().values('service_category_id', 'category_name', 'description', 'icon_url')
+        elif lookup_type == 'gbv_categories':
+            data = GBVCategory.objects.all().values('gbv_category_id', 'category_name', 'description', 'icon_url')
+        elif lookup_type == 'contact_types':
+            data = ContactType.objects.all().values('contact_type_id', 'type_name', 'validation_regex')
+        else:
+            # Return all lookup data
+            data = {
+                'service_categories': list(ServiceCategory.objects.all().values('service_category_id', 'category_name', 'description', 'icon_url')),
+                'gbv_categories': list(GBVCategory.objects.all().values('gbv_category_id', 'category_name', 'description', 'icon_url')),
+                'contact_types': list(ContactType.objects.all().values('contact_type_id', 'type_name', 'validation_regex')),
+                'owner_types': list(OwnerType.objects.all().values('owner_type_id', 'type_name', 'description')),
+                'infrastructure_types': list(InfrastructureType.objects.all().values('infrastructure_type_id', 'type_name', 'description')),
+                'condition_statuses': list(ConditionStatus.objects.all().values('condition_status_id', 'status_name', 'description')),
+                'document_types': list(DocumentType.objects.all().values('document_type_id', 'type_name', 'allowed_extensions', 'max_file_size_mb', 'description'))
+            }
+        
+        return Response(data)
+
+
+class MobileAnalyticsViewSet(viewsets.ViewSet):
+    """
+    Mobile Analytics API endpoints
+    """
+    
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_id="mobile_analytics_contact_interaction",
+        operation_description="Track contact interaction for analytics",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
+            )
+        ],
+        responses={
+            200: openapi.Response('Interaction tracked', openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                'message': openapi.Schema(type=openapi.TYPE_STRING),
+                'interaction_id': openapi.Schema(type=openapi.TYPE_INTEGER)
+            })),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Analytics API"]
+    )
+    @action(detail=False, methods=['post'], url_path='contact-interaction')
+    def track_contact_interaction(self, request):
+        """Track contact interaction for analytics"""
+        facility_id = request.data.get('facility_id')
+        contact_type = request.data.get('contact_type')
+        interaction_data = request.data.get('interaction_data', {})
+        
+        if not all([facility_id, contact_type]):
+            return Response(
+                {'error': 'Missing required parameters: facility_id, contact_type'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            facility = Facility.objects.get(facility_id=facility_id, is_active=True)
+            
+            # Create contact interaction record
+            interaction = ContactInteraction.objects.create(
+                facility=facility,
+                device_id=request.mobile_session.device_id,
+                contact_type=contact_type,
+                interaction_data=interaction_data
+            )
+            
+            return Response({
+                'message': 'Contact interaction tracked successfully',
+                'interaction_id': interaction.interaction_id
+            })
+            
+        except Facility.DoesNotExist:
+            return Response(
+                {'error': 'Facility not found'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to track interaction: {str(e)}'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )

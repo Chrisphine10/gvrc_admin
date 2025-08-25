@@ -176,6 +176,7 @@ class UserSession(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
     longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
     session_data = models.JSONField(default=dict, blank=True)
+    game_high_score = models.IntegerField(default=0, null=False, help_text="Highest game score achieved in this session")
     is_active = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField(default=timezone.now, null=False)
     last_activity_at = models.DateTimeField(default=timezone.now, null=False)

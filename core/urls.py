@@ -38,9 +38,18 @@ urlpatterns = [
     path("", include("apps.home.urls")),          # Home
     path("facilities/", include("apps.facilities.urls")), # Facilities
     path("common/", include("apps.common.urls")), # Common
-    path("api/", include("apps.api.urls")),       # APIs
+    
+    # Mobile API endpoints (no authentication required)
+    path("mobile/", include("apps.mobile.urls")), # Mobile App APIs
+    
+    # Admin/Management API endpoints (authentication required)
+    path("api/", include("apps.api.urls")),       # Admin APIs
+    
+    # Web interface endpoints
+    path("chat/", include("apps.chat.urls")),     # Emergency Chat System Web Interface
     path("music/", include("apps.music.urls")),   # Music
     path("documents/", include("apps.documents.urls")), # Documents
+    
     # Swagger / ReDoc documentation
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

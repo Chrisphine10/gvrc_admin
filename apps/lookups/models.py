@@ -49,6 +49,7 @@ class ServiceCategory(models.Model):
     service_category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=100, unique=True, null=False)
     description = models.CharField(max_length=500, blank=True)
+    icon_url = models.URLField(max_length=500, blank=True, help_text="URL to the icon for this service category")
     
     def __str__(self):
         return self.category_name
@@ -83,6 +84,7 @@ class GBVCategory(models.Model):
     gbv_category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=100, unique=True, null=False)
     description = models.CharField(max_length=500, blank=True)
+    icon_url = models.URLField(max_length=500, blank=True, help_text="URL to the icon for this GBV category")
     
     def __str__(self):
         return self.category_name

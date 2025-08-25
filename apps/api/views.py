@@ -20,12 +20,13 @@ from .serializers import (
     FacilityMapSerializer, StatisticsSerializer, CountySerializer,
     ConstituencySerializer, WardSerializer, ConsolidatedGeographySerializer, OperationalStatusSerializer,
     ServiceCategorySerializer, ContactTypeSerializer, OwnerTypeSerializer,
-    GBVCategorySerializer, LookupDataResponseSerializer, EmergencySearchSerializer,
+    GBVCategorySerializer, InfrastructureTypeSerializer, ConditionStatusSerializer, DocumentTypeSerializer,
+    LookupDataResponseSerializer, MobileLookupDataSerializer, EmergencySearchSerializer,
     GBVServiceSearchSerializer, ReferralChainSerializer,
     ReferralOutcomeSerializer, FacilityCompleteSerializer,
     MobileAppFacilitySerializer, MusicSerializer,
     DocumentSerializer, MobileSessionSerializer, MobileSessionCreateSerializer,
-    MobileSessionUpdateSerializer
+    MobileSessionUpdateSerializer, GameScoreUpdateSerializer
 )
 from apps.facilities.models import (
     Facility, FacilityContact, FacilityService, 
@@ -35,7 +36,7 @@ from apps.authentication.models import User, UserSession, CustomToken
 from apps.geography.models import County, Constituency, Ward
 from apps.lookups.models import (
     OperationalStatus, ContactType, ServiceCategory, 
-    OwnerType, GBVCategory
+    OwnerType, GBVCategory, InfrastructureType, ConditionStatus, DocumentType
 )
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
@@ -114,7 +115,7 @@ class FacilityListView(generics.ListAPIView):
             openapi.Parameter('page_size', openapi.IN_QUERY, description="Items per page (max 100)", type=openapi.TYPE_INTEGER),
         ],
         responses={
-            200: openapi.Response('List of facilities with services and contacts', FacilityListSerializer(many=True)),
+            200: FacilityListSerializer,
             400: 'Bad Request',
             401: 'Unauthorized',
         }
@@ -223,7 +224,7 @@ class FacilityMapView(generics.ListAPIView):
             openapi.Parameter('status', openapi.IN_QUERY, description="Filter by operational status ID", type=openapi.TYPE_INTEGER),
         ],
         responses={
-            200: openapi.Response('Facilities with coordinates', FacilityMapSerializer(many=True)),
+            200: FacilityMapSerializer,
             401: 'Unauthorized',
         }
     )
@@ -282,7 +283,7 @@ class FacilitySearchView(generics.ListAPIView):
         operation_description="Advanced facility search with multiple filters",
         request_body=FacilitySearchSerializer,
         responses={
-            200: openapi.Response('Search results', FacilityListSerializer(many=True)),
+            200: FacilityListSerializer,
             400: 'Bad Request',
             401: 'Unauthorized',
         }
@@ -474,7 +475,7 @@ class ConsolidatedGeographyView(generics.ListAPIView):
     @swagger_auto_schema(
         operation_description="Get complete geographic hierarchy including counties, constituencies, and wards in a single API call",
         responses={
-            200: openapi.Response('Complete geographic hierarchy', ConsolidatedGeographySerializer(many=True)),
+            200: ConsolidatedGeographySerializer,
             401: 'Unauthorized',
         }
     )
@@ -540,7 +541,7 @@ class EmergencyServicesView(generics.GenericAPIView):
         operation_description="Find nearest emergency services for SOS situations",
         request_body=EmergencySearchSerializer,
         responses={
-            200: openapi.Response('Emergency services found', FacilityListSerializer(many=True)),
+            200: FacilityListSerializer,
             400: 'Bad Request',
             401: 'Unauthorized',
         }
@@ -607,7 +608,7 @@ class GBVServicesView(generics.GenericAPIView):
         operation_description="Find facilities providing specific GBV services",
         request_body=GBVServiceSearchSerializer,
         responses={
-            200: openapi.Response('GBV services found', FacilityListSerializer(many=True)),
+            200: FacilityListSerializer,
             400: 'Bad Request',
             401: 'Unauthorized',
         }
@@ -671,9 +672,16 @@ class ReferralChainView(generics.GenericAPIView):
         operation_description="Get recommended service pathway for GBV cases",
         request_body=ReferralChainSerializer,
         responses={
-            200: openapi.Response('Referral chain recommendations'),
-            400: 'Bad Request',
-            401: 'Unauthorized',
+            200: openapi.Response('Referral chain recommendations', openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'immediate_services': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT)),
+                    'followup_services': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT)),
+                    'recommended_order': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_STRING))
+                }
+            )),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            401: openapi.Response('Unauthorized', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         }
     )
     def post(self, request):
@@ -1014,136 +1022,7 @@ class MobileFacilitiesView(generics.ListAPIView):
             openapi.Parameter('status', openapi.IN_QUERY, description="Filter by operational status ID", type=openapi.TYPE_INTEGER),
         ],
         responses={
-            200: openapi.Response(
-                'Paginated facilities list', 
-                MobileAppFacilitySerializer(many=True),
-                examples={
-                    "application/json": {
-                        "count": 1,
-                        "next": None,
-                        "previous": None,
-                        "results": [
-                            {
-                                "facility_id": 1,
-                                "facility_name": "Example Health Center",
-                                "facility_code": "EHC001",
-                                "registration_number": "REG123456",
-                                "ward": {
-                                    "ward_id": 1,
-                                    "ward_name": "Example Ward",
-                                    "constituency": {
-                                        "constituency_id": 1,
-                                        "constituency_name": "Example Constituency",
-                                        "county": {
-                                            "county_id": 1,
-                                            "county_name": "Example County"
-                                        }
-                                    }
-                                },
-                                "operational_status": {
-                                    "operational_status_id": 1,
-                                    "status_name": "Operational"
-                                },
-                                "coordinates": {
-                                    "coordinate_id": 1,
-                                    "latitude": -1.123456,
-                                    "longitude": 36.789012,
-                                    "collection_date": "2024-01-01",
-                                    "data_source": "GPS",
-                                    "collection_method": "Manual",
-                                    "created_at": "2024-01-01T10:00:00Z",
-                                    "updated_at": "2024-01-01T10:00:00Z"
-                                },
-                                "contacts": [
-                                    {
-                                        "contact_id": 1,
-                                        "contact_type": {
-                                            "contact_type_id": 1,
-                                            "type_name": "Phone"
-                                        },
-                                        "contact_value": "+254700000000",
-                                        "contact_person_name": "John Doe",
-                                                                        "is_primary": True,
-                                "is_active": True,
-                                        "created_at": "2024-01-01T10:00:00Z",
-                                        "updated_at": "2024-01-01T10:00:00Z"
-                                    }
-                                ],
-                                "services": [
-                                    {
-                                        "service_id": 1,
-                                        "service_name": "HIV Testing",
-                                        "service_category": {
-                                            "service_category_id": 1,
-                                            "category_name": "Health Services"
-                                        },
-                                        "service_description": "Free HIV testing and counseling",
-                                        "is_free": True,
-                                        "cost_range": "",
-                                        "currency": "KES",
-                                        "availability_hours": "8:00 AM - 5:00 PM",
-                                        "availability_days": "Monday to Friday",
-                                        "appointment_required": False,
-                                        "is_active": True,
-                                        "created_at": "2024-01-01T10:00:00Z",
-                                        "updated_at": "2024-01-01T10:00:00Z"
-                                    }
-                                ],
-                                "owners": [
-                                    {
-                                        "owner_id": 1,
-                                        "owner_name": "Ministry of Health",
-                                        "owner_type": {
-                                            "owner_type_id": 1,
-                                            "type_name": "Government"
-                                        },
-                                        "created_at": "2024-01-01T10:00:00Z",
-                                        "updated_at": "2024-01-01T10:00:00Z"
-                                    }
-                                ],
-                                "gbv_categories": [
-                                    {
-                                        "gbv_category": {
-                                            "gbv_category_id": 1,
-                                            "category_name": "Domestic Violence",
-                                            "description": "Support for domestic violence cases"
-                                        },
-                                        "created_at": "2024-01-01T10:00:00Z"
-                                    }
-                                ],
-                                "infrastructure": [
-                                    {
-                                        "infrastructure_id": 1,
-                                        "infrastructure_type": {
-                                            "type_id": 1,
-                                            "type_name": "Consultation Room",
-                                            "description": "Private room for patient consultations"
-                                        },
-                                        "condition_status": {
-                                            "status_id": 1,
-                                            "status_name": "Good",
-                                            "description": "In good working condition"
-                                        },
-                                        "description": "Standard consultation room",
-                                        "capacity": 1,
-                                        "current_utilization": 1,
-                                        "is_available": True,
-                                        "created_at": "2024-01-01T10:00:00Z",
-                                        "updated_at": "2024-01-01T10:00:00Z"
-                                    }
-                                ],
-                                "address_line_1": "123 Health Street",
-                                "address_line_2": "Building A",
-                                "description": "Primary health center serving the community",
-                                "website_url": "https://example.com",
-                                "is_active": True,
-                                "created_at": "2024-01-01T10:00:00Z",
-                                "updated_at": "2024-01-01T10:00:00Z"
-                            }
-                        ]
-                    }
-                }
-            ),
+            200: MobileAppFacilitySerializer,
             400: 'Bad Request - Missing device_id',
             401: 'Unauthorized - Invalid or inactive mobile session',
         }
@@ -1368,7 +1247,7 @@ class MobileEmergencySOSView(generics.GenericAPIView):
             required=['device_id', 'emergency_type']
         ),
         responses={
-            200: openapi.Response('Emergency facilities found', MobileAppFacilitySerializer(many=True)),
+            200: openapi.Response('Emergency facilities found', MobileAppFacilitySerializer),
             400: 'Bad Request - Missing device_id or emergency_type, or location not available in session',
             401: 'Unauthorized - Invalid or inactive mobile session',
         }
@@ -1484,7 +1363,7 @@ class MobileMusicView(generics.ListAPIView):
             openapi.Parameter('artist', openapi.IN_QUERY, description="Filter by artist", type=openapi.TYPE_STRING),
         ],
         responses={
-            200: openapi.Response('Paginated music list', MusicSerializer(many=True)),
+            200: openapi.Response('Paginated music list', MusicSerializer),
             400: 'Bad Request - Missing device_id',
             401: 'Unauthorized - Invalid or inactive mobile session',
         }
@@ -1535,7 +1414,7 @@ class MobileDocumentsView(generics.ListAPIView):
             openapi.Parameter('is_public', openapi.IN_QUERY, description="Filter public documents only", type=openapi.TYPE_BOOLEAN),
         ],
         responses={
-            200: openapi.Response('Paginated documents list', DocumentSerializer(many=True)),
+            200: openapi.Response('Paginated documents list', DocumentSerializer),
             400: 'Bad Request - Missing device_id',
             401: 'Unauthorized - Invalid or inactive mobile session',
         }
@@ -1878,5 +1757,132 @@ class MobileContactInteractionView(generics.GenericAPIView):
             return Response({
                 'success': False,
                 'error': 'Failed to track contact interaction',
+                'details': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class MobileLookupView(generics.GenericAPIView):
+    """
+    Mobile lookup data endpoint.
+    Returns all essential lookup data for mobile app forms, filters, and dropdowns.
+    Uses device_id authentication like other mobile endpoints.
+    """
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_description="Get comprehensive lookup data for mobile app using mobile session authentication",
+        manual_parameters=[
+            openapi.Parameter('device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True),
+        ],
+        responses={
+            200: openapi.Response('Complete lookup data for mobile app', MobileLookupDataSerializer),
+            400: 'Bad Request - Missing device_id',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def get(self, request):
+        """Get all lookup data for mobile app"""
+        try:
+            # Update mobile session activity
+            mobile_session = request.mobile_session
+            mobile_session.update_activity()
+            
+            # Get all lookup data with optimized queries
+            lookup_data = {
+                # Geography
+                'counties': CountySerializer(County.objects.all().order_by('county_name'), many=True).data,
+                'constituencies': ConstituencySerializer(Constituency.objects.select_related('county').all().order_by('constituency_name'), many=True).data,
+                'wards': WardSerializer(Ward.objects.select_related('constituency__county').all().order_by('ward_name'), many=True).data,
+                
+                # Facility-related lookups
+                'operational_statuses': OperationalStatusSerializer(OperationalStatus.objects.all().order_by('sort_order', 'status_name'), many=True).data,
+                'service_categories': ServiceCategorySerializer(ServiceCategory.objects.all().order_by('category_name'), many=True).data,
+                'contact_types': ContactTypeSerializer(ContactType.objects.all().order_by('type_name'), many=True).data,
+                'owner_types': OwnerTypeSerializer(OwnerType.objects.all().order_by('type_name'), many=True).data,
+                'gbv_categories': GBVCategorySerializer(GBVCategory.objects.all().order_by('category_name'), many=True).data,
+                
+                # Infrastructure and equipment
+                'infrastructure_types': InfrastructureTypeSerializer(InfrastructureType.objects.all().order_by('type_name'), many=True).data,
+                'condition_statuses': ConditionStatusSerializer(ConditionStatus.objects.all().order_by('status_name'), many=True).data,
+                
+                # Document types
+                'document_types': DocumentTypeSerializer(DocumentType.objects.all().order_by('type_name'), many=True).data,
+                
+                # Metadata
+                'last_updated': timezone.now(),
+                'total_lookup_items': 0,  # Will be calculated below
+            }
+            
+            # Calculate total lookup items
+            total_items = sum(len(data) for data in lookup_data.values() if isinstance(data, list))
+            lookup_data['total_lookup_items'] = total_items
+            
+            return Response(lookup_data)
+            
+        except Exception as e:
+            return Response({
+                'error': 'Failed to retrieve lookup data',
+                'details': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class GameScoreUpdateView(generics.GenericAPIView):
+    """
+    Game score update endpoint for mobile app.
+    Updates the high score for a mobile session if the new score is higher.
+    """
+    permission_classes = [MobileSessionPermission]
+    
+    @swagger_auto_schema(
+        operation_description="Update game high score for mobile session",
+        request_body=GameScoreUpdateSerializer,
+        responses={
+            200: openapi.Response('Game score updated successfully', GameScoreUpdateSerializer),
+            400: 'Bad Request - Invalid score data',
+            401: 'Unauthorized - Invalid or inactive mobile session',
+        }
+    )
+    def post(self, request):
+        """Update game high score for mobile session"""
+        try:
+            # Update mobile session activity
+            mobile_session = request.mobile_session
+            mobile_session.update_activity()
+            
+            # Get the new score from request data
+            new_score = request.data.get('game_score', 0)
+            game_name = request.data.get('game_name', 'Unknown Game')
+            
+            if new_score < 0:
+                return Response({
+                    'success': False,
+                    'error': 'Game score cannot be negative',
+                    'details': 'Score must be 0 or greater'
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Update the high score if the new score is higher
+            score_updated = mobile_session.update_game_score(new_score)
+            
+            return Response({
+                'success': True,
+                'message': 'Game score updated successfully',
+                'data': {
+                    'device_id': mobile_session.device_id,
+                    'game_name': game_name,
+                    'new_score': new_score,
+                    'high_score': mobile_session.game_high_score,
+                    'score_updated': score_updated,
+                    'session_info': {
+                        'device_id': mobile_session.device_id,
+                        'last_active': mobile_session.last_active_at.isoformat(),
+                        'high_score': mobile_session.game_high_score
+                    }
+                }
+            }, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            return Response({
+                'success': False,
+                'error': 'Failed to update game score',
                 'details': str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

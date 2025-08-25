@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "channels",
     # Local apps
     "apps.home",
     "apps.authentication",
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     "apps.analytics",
     "apps.music",
     "apps.mobile_sessions",
+    "apps.chat",
+    "apps.mobile",
 ]
 
 MIDDLEWARE = [
@@ -170,3 +173,27 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_NAME = 'sessionid'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_SAVE_EVERY_REQUEST = True
+
+# Django Channels Configuration
+ASGI_APPLICATION = "core.asgi.application"
+
+# Channel Layer Configuration (Redis backend for production)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        # For production, use Redis:
+        # "BACKEND": "channels_redis.core.RedisChannelLayer",
+        # "CONFIG": {
+        #     "hosts": [("127.0.0.1", 6379)],
+        # },
+    },
+}
+
+# Chat System Configuration
+CHAT_SETTINGS = {
+    'MAX_MESSAGE_LENGTH': 1000,
+    'MAX_MEDIA_SIZE': 10 * 1024 * 1024,  # 10MB
+    'MESSAGE_RETENTION_DAYS': 365,
+    'AUTO_ASSIGN_LIMIT': 5,  # Max conversations per admin
+    'TYPING_INDICATOR_TIMEOUT': 5,  # seconds
+}

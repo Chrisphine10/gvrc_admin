@@ -109,6 +109,31 @@
         <!-- Divider -->
         <hr class="my-3">
         
+        <!-- Emergency Chat Section -->
+        <h6 class="navbar-heading p-0 text-muted">
+          <span class="docs-normal">Emergency Chat</span>
+        </h6>
+        <ul class="navbar-nav">
+          <!-- Chat Conversations -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'chat' in segment %} active {% endif %}" href="{% url 'chat:conversation_list' %}">
+              <i class="ni ni-chat-round text-danger"></i>
+              <span class="nav-link-text">Chat Conversations</span>
+            </a>
+          </li>
+          
+          <!-- Chat Analytics -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'chat_analytics' in segment %} active {% endif %}" href="{% url 'chat:chat_analytics' %}">
+              <i class="ni ni-chart-bar-32 text-info"></i>
+              <span class="nav-link-text">Chat Analytics</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Divider -->
+        <hr class="my-3">
+        
         <!-- Documents Section -->
         <h6 class="navbar-heading p-0 text-muted">
           <span class="docs-normal">Documents</span>

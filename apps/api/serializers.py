@@ -11,8 +11,11 @@ from apps.facilities.models import (
 from apps.geography.models import County, Constituency, Ward
 from apps.lookups.models import (
     OperationalStatus, ContactType, ServiceCategory, 
-    OwnerType, GBVCategory
+    OwnerType, GBVCategory, InfrastructureType, ConditionStatus, DocumentType
 )
+from apps.music.models import Music
+from apps.documents.models import Document
+from apps.mobile_sessions.models import MobileSession
 
 
 class CountySerializer(serializers.ModelSerializer):
@@ -94,7 +97,7 @@ class ServiceCategorySerializer(serializers.ModelSerializer):
     """Service category serializer"""
     class Meta:
         model = ServiceCategory
-        fields = ['service_category_id', 'category_name']
+        fields = ['service_category_id', 'category_name', 'description', 'icon_url']
 
 
 class OwnerTypeSerializer(serializers.ModelSerializer):
@@ -108,7 +111,28 @@ class GBVCategorySerializer(serializers.ModelSerializer):
     """GBV category serializer"""
     class Meta:
         model = GBVCategory
-        fields = ['gbv_category_id', 'category_name', 'description']
+        fields = ['gbv_category_id', 'category_name', 'description', 'icon_url']
+
+
+class InfrastructureTypeSerializer(serializers.ModelSerializer):
+    """Infrastructure type serializer"""
+    class Meta:
+        model = InfrastructureType
+        fields = ['infrastructure_type_id', 'type_name', 'description']
+
+
+class ConditionStatusSerializer(serializers.ModelSerializer):
+    """Condition status serializer"""
+    class Meta:
+        model = ConditionStatus
+        fields = ['condition_status_id', 'status_name', 'description']
+
+
+class DocumentTypeSerializer(serializers.ModelSerializer):
+    """Document type serializer"""
+    class Meta:
+        model = DocumentType
+        fields = ['document_type_id', 'type_name', 'allowed_extensions', 'max_file_size_mb', 'description']
 
 
 class FacilityCoordinateSerializer(serializers.ModelSerializer):
@@ -324,6 +348,32 @@ class LookupDataResponseSerializer(serializers.Serializer):
     gbv_categories = GBVCategorySerializer(many=True)
 
 
+class MobileLookupDataSerializer(serializers.Serializer):
+    """Comprehensive mobile lookup data serializer with all essential lookup information"""
+    # Geography
+    counties = CountySerializer(many=True)
+    constituencies = ConstituencySerializer(many=True)
+    wards = WardSerializer(many=True)
+    
+    # Facility-related lookups
+    operational_statuses = OperationalStatusSerializer(many=True)
+    service_categories = ServiceCategorySerializer(many=True)
+    contact_types = ContactTypeSerializer(many=True)
+    owner_types = OwnerTypeSerializer(many=True)
+    gbv_categories = GBVCategorySerializer(many=True)
+    
+    # Infrastructure and equipment
+    infrastructure_types = InfrastructureTypeSerializer(many=True)
+    condition_statuses = ConditionStatusSerializer(many=True)
+    
+    # Document types
+    document_types = DocumentTypeSerializer(many=True)
+    
+    # Metadata
+    last_updated = serializers.DateTimeField()
+    total_lookup_items = serializers.IntegerField()
+
+
 class EmergencySearchSerializer(serializers.Serializer):
     """Serializer for emergency SOS search parameters"""
     latitude = serializers.DecimalField(max_digits=9, decimal_places=6, required=True, help_text="User's current latitude")
@@ -469,63 +519,37 @@ class MobileAppFacilitySerializer(serializers.ModelSerializer):
 class MusicSerializer(serializers.ModelSerializer):
     """Music serializer for mobile app"""
     class Meta:
-        model = None  # Will be set dynamically
+        model = Music
         fields = [
             'music_id', 'name', 'description', 'link', 'music_file',
             'artist', 'duration', 'genre', 'is_active', 'created_at'
         ]
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Import here to avoid circular imports
-        try:
-            from apps.music.models import Music
-            self.Meta.model = Music
-        except ImportError:
-            pass
 
 
 class DocumentSerializer(serializers.ModelSerializer):
     """Document serializer for mobile app"""
     class Meta:
-        model = None  # Will be set dynamically
+        model = Document
         fields = [
             'document_id', 'title', 'description', 'file_url', 'file_name',
             'file_size_bytes', 'content', 'gbv_category', 'image_url',
             'external_url', 'document_type', 'is_public', 'is_active',
             'uploaded_at'
         ]
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Import here to avoid circular imports
-        try:
-            from apps.documents.models import Document
-            self.Meta.model = Document
-        except ImportError:
-            pass
 
 
 class MobileSessionSerializer(serializers.ModelSerializer):
     """Mobile session serializer for device management"""
     class Meta:
-        model = None  # Will be set dynamically
+        model = MobileSession
+        ref_name = "ApiMobileSessionSerializer"
         fields = [
             'device_id', 'notification_enabled', 'dark_mode_enabled',
             'preferred_language', 'latitude', 'longitude', 'location_updated_at',
-            'location_permission_granted', 'is_active', 'last_active_at',
+            'location_permission_granted', 'game_high_score', 'is_active', 'last_active_at',
             'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Import here to avoid circular imports
-        try:
-            from apps.mobile_sessions.models import MobileSession
-            self.Meta.model = MobileSession
-        except ImportError:
-            pass
 
 
 class MobileSessionCreateSerializer(serializers.Serializer):
@@ -541,12 +565,19 @@ class MobileSessionCreateSerializer(serializers.Serializer):
 
 class MobileSessionUpdateSerializer(serializers.Serializer):
     """Serializer for updating mobile sessions"""
+    device_id = serializers.CharField(max_length=128, required=True, help_text="Device UUID - required for session operations")
     notification_enabled = serializers.BooleanField(required=False, help_text="Whether notifications are enabled")
     dark_mode_enabled = serializers.BooleanField(required=False, help_text="Whether dark mode is enabled")
     preferred_language = serializers.CharField(max_length=5, required=False, help_text="Preferred language code")
     latitude = serializers.DecimalField(max_digits=10, decimal_places=8, required=False, help_text="Device latitude")
     longitude = serializers.DecimalField(max_digits=11, decimal_places=8, required=False, help_text="Device longitude")
     location_permission_granted = serializers.BooleanField(required=False, help_text="Whether location permission is granted")
+    game_high_score = serializers.IntegerField(required=False, min_value=0, help_text="Game high score to update")
+
+
+class MobileSessionEndSerializer(serializers.Serializer):
+    """Serializer for ending mobile sessions - only requires device_id"""
+    device_id = serializers.CharField(max_length=128, required=True, help_text="Device UUID - required to identify which session to end")
 
 
 class EmergencySOSSerializer(serializers.Serializer):
@@ -558,6 +589,13 @@ class EmergencySOSSerializer(serializers.Serializer):
     user_id = serializers.IntegerField(required=False, help_text="User ID if available")
     device_id = serializers.CharField(max_length=255, required=False, help_text="Device identifier")
     radius_km = serializers.IntegerField(default=5, help_text="Search radius in kilometers")
+
+
+class GameScoreUpdateSerializer(serializers.Serializer):
+    """Serializer for updating game scores"""
+    device_id = serializers.CharField(max_length=128, help_text="Device UUID")
+    game_score = serializers.IntegerField(min_value=0, help_text="New game score to check against high score")
+    game_name = serializers.CharField(max_length=100, required=False, help_text="Name of the game (optional)")
 
 
 class PaginatedResponseSerializer(serializers.Serializer):

@@ -18,6 +18,7 @@ class MobileSession(models.Model):
     longitude = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True, help_text="Device longitude")
     location_updated_at = models.DateTimeField(null=True, blank=True, help_text="When location was last updated")
     location_permission_granted = models.BooleanField(default=False, help_text="Whether location permission is granted")
+    game_high_score = models.IntegerField(default=0, null=False, help_text="Highest game score achieved in this session")
     is_active = models.BooleanField(default=True, null=False, help_text="Whether the device session is active")
     last_active_at = models.DateTimeField(default=timezone.now, null=False, help_text="Last time device was active")
     created_at = models.DateTimeField(default=timezone.now, null=False)
@@ -37,6 +38,14 @@ class MobileSession(models.Model):
         """Update last activity timestamp"""
         self.last_active_at = timezone.now()
         self.save(update_fields=['last_active_at', 'updated_at'])
+    
+    def update_game_score(self, new_score):
+        """Update game high score if the new score is higher"""
+        if new_score > self.game_high_score:
+            self.game_high_score = new_score
+            self.save(update_fields=['game_high_score', 'updated_at'])
+            return True
+        return False
     
     class Meta:
         verbose_name_plural = "Mobile Sessions"

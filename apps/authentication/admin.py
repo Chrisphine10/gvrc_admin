@@ -81,7 +81,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(UserSession)
 class UserSessionAdmin(admin.ModelAdmin):
-    list_display = ('session_id', 'user', 'ip_address', 'is_active', 'created_at', 'expires_at')
+    list_display = ('session_id', 'user', 'ip_address', 'game_high_score', 'is_active', 'created_at', 'expires_at')
     list_filter = ('is_active', 'created_at', 'expires_at')
     search_fields = ('session_id', 'user__full_name', 'ip_address')
     ordering = ('-created_at',)

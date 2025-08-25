@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-API URLs for GVRC Admin - Mobile App Focused
+Admin/Management API URLs for GVRC Admin
 """
 
 from django.urls import path
@@ -20,9 +20,7 @@ from .views import (
     obtain_api_token,
     # Utility endpoints
     api_status, hello_world,
-    # Mobile app endpoints
-    MobileFacilitiesView, MobileFacilityDetailView, MobileEmergencySOSView, MobileMusicView,
-    MobileDocumentsView, MobileSessionView, MobileSessionEndView, MobileContactInteractionView
+    # Admin management endpoints (removed mobile endpoints)
 )
 
 app_name = 'api'
@@ -60,14 +58,4 @@ urlpatterns = [
     # Utility endpoints
     path('status/', api_status, name='api-status'),
     path('hello/', hello_world, name='hello-world'),
-    
-    # Mobile App Simplified Endpoints
-    path('mobile/facilities/', MobileFacilitiesView.as_view(), name='mobile-facilities'),
-    path('mobile/facilities/<int:facility_id>/', MobileFacilityDetailView.as_view(), name='mobile-facility-detail'),
-    path('mobile/emergency-sos/', MobileEmergencySOSView.as_view(), name='mobile-emergency-sos'),
-    path('mobile/music/', MobileMusicView.as_view(), name='mobile-music'),
-    path('mobile/documents/', MobileDocumentsView.as_view(), name='mobile-documents'),
-    path('mobile/sessions/', MobileSessionView.as_view(), name='mobile-sessions'),
-    path('mobile/sessions/end/', MobileSessionEndView.as_view(), name='mobile-sessions-end'),
-    path('mobile/contact-interaction/', MobileContactInteractionView.as_view(), name='mobile-contact-interaction'),
 ]

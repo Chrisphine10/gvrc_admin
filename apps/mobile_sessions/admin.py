@@ -11,7 +11,7 @@ from .models import MobileSession, MobileAppUsage
 class MobileSessionAdmin(admin.ModelAdmin):
     """Admin interface for MobileSession model"""
     list_display = [
-        'device_id', 'is_active', 'notification_enabled', 'dark_mode_enabled',
+        'device_id', 'is_active', 'game_high_score', 'notification_enabled', 'dark_mode_enabled',
         'preferred_language', 'location_permission_granted', 'last_active_at'
     ]
     list_filter = [
@@ -26,7 +26,7 @@ class MobileSessionAdmin(admin.ModelAdmin):
     ]
     fieldsets = (
         ('Device Information', {
-            'fields': ('device_id', 'is_active', 'last_active_at')
+            'fields': ('device_id', 'is_active', 'game_high_score', 'last_active_at')
         }),
         ('User Preferences', {
             'fields': ('notification_enabled', 'dark_mode_enabled', 'preferred_language')

@@ -32,7 +32,7 @@ class ContactTypeAdmin(admin.ModelAdmin):
 @admin.register(ServiceCategory)
 class ServiceCategoryAdmin(admin.ModelAdmin):
     """Admin configuration for ServiceCategory model"""
-    list_display = ('category_name', 'description')
+    list_display = ('category_name', 'description', 'icon_url')
     search_fields = ('category_name', 'description')
     readonly_fields = ('service_category_id',)
     ordering = ('category_name',)
@@ -50,7 +50,7 @@ class OwnerTypeAdmin(admin.ModelAdmin):
 @admin.register(GBVCategory)
 class GBVCategoryAdmin(admin.ModelAdmin):
     """Admin configuration for GBVCategory model"""
-    list_display = ('category_name', 'description')
+    list_display = ('category_name', 'description', 'icon_url')
     search_fields = ('category_name', 'description')
     readonly_fields = ('gbv_category_id',)
     ordering = ('category_name',)

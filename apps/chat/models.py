@@ -4,8 +4,11 @@ Emergency Chat System Models
 """
 
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.utils import timezone
+from apps.common.utils import get_chat_file_upload_path
+import os
+
 from apps.mobile_sessions.models import MobileSession
 
 User = get_user_model()
@@ -170,7 +173,7 @@ class Message(models.Model):
         help_text="Type of message content"
     )
     media_file = models.FileField(
-        upload_to='chat_files/%Y/%m/%d/',
+        upload_to=get_chat_file_upload_path,
         blank=True, 
         null=True,
         help_text="Media file if message type is not text"
@@ -215,6 +218,34 @@ class Message(models.Model):
     
     def __str__(self):
         return f"Message {self.message_id} - {self.conversation.conversation_id} ({self.sender_type})"
+    
+    def get_original_filename(self):
+        """Get the original filename from metadata if available"""
+        if self.metadata and 'original_name' in self.metadata:
+            return self.metadata['original_name']
+        elif self.media_file:
+            # Extract original name from the unique filename
+            filename = os.path.basename(self.media_file.name)
+            # Remove the prefix and timestamp/UUID parts
+            if filename.startswith('chat_'):
+                filename = filename[5:]  # Remove 'chat_' prefix
+            # Find the last underscore before the extension
+            parts = filename.rsplit('_', 2)
+            if len(parts) >= 3:
+                return parts[0] + os.path.splitext(filename)[1]
+        return None
+    
+    def get_file_size_mb(self):
+        """Get file size in MB if available"""
+        if self.metadata and 'file_size' in self.metadata:
+            return round(self.metadata['file_size'] / (1024 * 1024), 2)
+        return None
+    
+    def get_file_type(self):
+        """Get file type if available"""
+        if self.metadata and 'file_type' in self.metadata:
+            return self.metadata['file_type']
+        return None
     
     def mark_delivered(self):
         """Mark message as delivered"""

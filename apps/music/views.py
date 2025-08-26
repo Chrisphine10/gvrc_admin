@@ -60,7 +60,7 @@ def music_list(request):
     page_obj = paginator.get_page(page_number)
     
     context = {
-        'segment': 'music',
+        'segment': 'music_library',
         'page_title': 'Music Library',
         'page_obj': page_obj,
         'music_list': music_list,
@@ -85,7 +85,7 @@ def music_detail(request, music_id):
     recent_plays = MusicPlay.objects.filter(music=music).select_related('user').order_by('-played_at')[:10]
     
     context = {
-        'segment': 'music',
+        'segment': 'music_library',
         'page_title': f'Music - {music.name}',
         'music': music,
         'recent_plays': recent_plays,
@@ -112,7 +112,7 @@ def add_music(request):
         form = MusicForm()
     
     context = {
-        'segment': 'music',
+        'segment': 'music_library',
         'page_title': 'Add Music Track',
         'form': form,
     }
@@ -140,7 +140,7 @@ def edit_music(request, music_id):
         form = MusicForm(instance=music)
     
     context = {
-        'segment': 'music',
+        'segment': 'music_library',
         'page_title': f'Edit Music - {music.name}',
         'form': form,
         'music': music,
@@ -197,7 +197,7 @@ def music_analytics(request):
     ).exclude(genre='').order_by('-total_plays')
     
     context = {
-        'segment': 'music',
+        'segment': 'music_analytics',
         'page_title': 'Music Analytics',
         'top_tracks': top_tracks,
         'recent_plays': recent_plays,

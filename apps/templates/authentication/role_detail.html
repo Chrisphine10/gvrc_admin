@@ -1,8 +1,80 @@
 {% extends "layouts/base.html" %}
+{% load static %}
 
 {% block title %} Role: {{ role.role_name }} {% endblock title %}
 
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+  <style>
+    .badge-sm {
+      font-size: 0.75em;
+      padding: 0.25em 0.5em;
+    }
+    
+    .modal-lg .table th,
+    .modal-lg .table td {
+      padding: 0.75rem;
+      vertical-align: middle;
+    }
+    
+    .modal-lg .table th {
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .user-search-section {
+      background-color: #f8f9fa;
+      border-radius: 0.375rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .user-count-badge {
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+    }
+    
+    .assign-role-btn:disabled,
+    .remove-role-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    .fa-spin {
+      animation: fa-spin 2s infinite linear;
+    }
+    
+    @keyframes fa-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .modal-lg .modal-body {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    
+    .user-table-container {
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+    
+    .search-results-counter {
+      font-size: 0.875rem;
+      color: #6c757d;
+    }
+    
+    .alert-sm {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+    }
+    
+    .alert-sm .fas {
+      font-size: 1rem;
+    }
+  </style>
+{% endblock stylesheets %}
 
 {% block content %}
   <div class="header bg-gradient-primary pb-6">
@@ -42,7 +114,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image">
                 <a href="#">
-                  <img src="/static/assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                  <img src="{% hodi_logo %}" alt="Hodi Logo" class="rounded-circle">
                 </a>
               </div>
             </div>
@@ -184,7 +256,9 @@
                           <span class="text-sm">{{ role_perm.permission.description|default:"No description" }}</span>
                         </td>
                         <td>
-                          <button class="btn btn-sm btn-danger" onclick="removePermission({{ role.role_id }}, {{ role_perm.permission.permission_id }})">
+                          <button class="btn btn-sm btn-danger remove-permission-btn" 
+                                  data-role-id="{{ role.role_id }}" 
+                                  data-permission-id="{{ role_perm.permission.permission_id }}">
                             <i class="fas fa-trash"></i> Remove
                           </button>
                         </td>
@@ -249,7 +323,9 @@
                           <span class="text-sm">{{ user_assignment.assigned_at|date:"M d, Y" }}</span>
                         </td>
                         <td>
-                          <button class="btn btn-sm btn-danger" onclick="removeUser({{ user_assignment.user.user_id }}, {{ role.role_id }})">
+                          <button class="btn btn-sm btn-danger remove-role-btn" 
+                                  data-user-id="{{ user_assignment.user.user_id }}" 
+                                  data-role-id="{{ role.role_id }}">
                             <i class="fas fa-user-minus"></i> Remove
                           </button>
                         </td>
@@ -313,7 +389,9 @@
                         <span class="text-sm">{{ permission.description|default:"No description" }}</span>
                       </td>
                       <td>
-                        <button class="btn btn-sm btn-primary" onclick="addPermission({{ role.role_id }}, {{ permission.permission_id }})">
+                        <button class="btn btn-sm btn-primary add-permission-btn" 
+                                data-role-id="{{ role.role_id }}" 
+                                data-permission-id="{{ permission.permission_id }}">
                           <i class="fas fa-plus"></i> Add
                         </button>
                       </td>
@@ -342,13 +420,145 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addUserModalLabel">Assign Role to User</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+            <h5 class="modal-title" id="addUserModalLabel">
+              Assign Role: <span class="text-primary">{{ role.role_name }}</span>
+              {% if users_without_role %}
+                <span class="badge badge-primary ml-2 user-count-badge">{{ users_without_role.count }} users available</span>
+              {% endif %}
+            </h5>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-info mr-2 test-function-btn">
+                <i class="fas fa-bug"></i> Test
+              </button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
         <div class="modal-body">
-          <p class="text-muted">This modal would show a list of users who don't have this role yet. For now, you can assign roles directly from the user management pages.</p>
+          <!-- Success/Error alerts -->
+          <div id="modalAlert" class="alert" style="display: none;"></div>
+          
+          <!-- Loading indicator -->
+          <div id="modalLoading" class="text-center py-4" style="display: none;">
+            <i class="fas fa-spinner fa-spin text-primary" style="font-size: 2rem;"></i>
+            <p class="mt-2 text-muted">Loading users...</p>
+          </div>
+          
+          <!-- Role description -->
+          {% if role.description %}
+            <div class="alert alert-light mb-3">
+              <i class="fas fa-info-circle mr-2 text-info"></i>
+              <strong>Role Description:</strong> {{ role.description }}
+            </div>
+          {% endif %}
+          
+          {% if users_without_role %}
+            <!-- Search Users -->
+            <div class="form-group mb-3 user-search-section">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+                <input type="text" class="form-control" id="userSearchInput" placeholder="Search users by name, email, or phone...">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="clearSearchBtn" title="Clear search">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Search results counter -->
+            <div class="mb-2 search-results-counter">
+              <small class="text-muted">
+                Showing <span id="visibleUserCount">{{ users_without_role.count }}</span> of {{ users_without_role.count }} users
+              </small>
+            </div>
+            
+            <!-- Info section -->
+            <div class="alert alert-info alert-sm mb-3">
+              <i class="fas fa-info-circle mr-2"></i>
+              <strong>Role Assignment:</strong> Users assigned to this role will inherit all permissions associated with "{{ role.role_name }}". 
+              You can manage role permissions from the <a href="{% url 'role_detail' role.role_id %}" class="alert-link">role details page</a>.
+            </div>
+            
+            <div class="table-responsive user-table-container">
+              <table class="table align-items-center table-flush" id="usersTable">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Current Roles</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in users_without_role %}
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <div class="media-body">
+                            <span class="name mb-0 text-sm">{{ user.full_name }}</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>
+                        <span class="text-sm">{{ user.email }}</span>
+                      </td>
+                      <td>
+                        <span class="text-sm">{{ user.phone_number }}</span>
+                      </td>
+                      <td>
+                        {% if user.userroleassignment_set.all %}
+                          {% for assignment in user.userroleassignment_set.all|slice:":2" %}
+                            <span class="badge badge-info badge-sm">{{ assignment.role.role_name }}</span>
+                          {% endfor %}
+                          {% if user.userroleassignment_set.count > 2 %}
+                            <span class="badge badge-secondary badge-sm">+{{ user.userroleassignment_set.count|add:"-2" }} more</span>
+                          {% endif %}
+                        {% else %}
+                          <span class="text-muted text-sm">No roles</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-primary assign-role-btn" 
+                                data-user-id="{{ user.user_id }}"
+                                data-role-id="{{ role.role_id }}"
+                                title="Assign role '{{ role.role_name }}' to {{ user.full_name }}">
+                          <i class="fas fa-plus"></i> Assign
+                        </button>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              
+              <!-- No search results message -->
+              <div id="noSearchResults" class="text-center py-4" style="display: none;">
+                <i class="ni ni-search text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">No Users Found</h4>
+                <p class="text-muted">No users match your search criteria.</p>
+                <div class="mt-3">
+                  <button class="btn btn-outline-secondary clear-search-btn">
+                    <i class="fas fa-times"></i> Clear Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="text-center py-4">
+              <i class="ni ni-check-bold text-success" style="font-size: 3rem;"></i>
+              <h4 class="mt-3">All Users Have This Role</h4>
+              <p class="text-muted">Every user in the system already has this role assigned.</p>
+              <div class="mt-3">
+                <a href="{% url 'user_list' %}" class="btn btn-primary">
+                  <i class="fas fa-users"></i> View All Users
+                </a>
+              </div>
+            </div>
+          {% endif %}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -410,8 +620,17 @@
       }
     }
 
-    function removeUser(userId, roleId) {
-      if (confirm('Are you sure you want to remove this role from the user?')) {
+    function removeUser(userId, roleId, buttonElement) {
+      // Get user name for confirmation - fix the selector to get the actual user name
+      const userName = buttonElement.closest('tr').querySelector('th span.name').textContent.trim();
+      const roleName = '{{ role.role_name }}';
+      
+      if (confirm(`Are you sure you want to remove the role "${roleName}" from user "${userName}"?`)) {
+        // Set loading state
+        const originalText = buttonElement.innerHTML;
+        buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Removing...';
+        buttonElement.disabled = true;
+        
         fetch(`/users/${userId}/remove-role/${roleId}/`, {
           method: 'POST',
           headers: {
@@ -429,6 +648,76 @@
         })
         .catch(error => {
           showAlert('danger', 'Error removing user: ' + error.message);
+          // Restore button state
+          buttonElement.innerHTML = originalText;
+          buttonElement.disabled = false;
+        });
+      }
+    }
+
+    function testFunction() {
+      console.log('Test function called successfully!');
+      alert('Test function works!');
+    }
+    
+    function assignRoleToUser(userId, roleId, buttonElement) {
+      console.log('assignRoleToUser called with:', { userId, roleId, buttonElement });
+      
+      // Get user name for confirmation - fix the selector to get the actual user name
+      const userName = buttonElement.closest('tr').querySelector('th span.name').textContent.trim();
+      console.log('Extracted userName:', userName);
+      
+      const roleName = '{{ role.role_name }}';
+      console.log('Role name:', roleName);
+      
+      if (confirm(`Are you sure you want to assign the role "${roleName}" to user "${userName}"?`)) {
+        // Set loading state
+        const originalText = buttonElement.innerHTML;
+        buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Assigning...';
+        buttonElement.disabled = true;
+        
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        console.log('CSRF Token:', csrfToken);
+        
+        fetch(`/users/${userId}/assign-role/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+          },
+          body: JSON.stringify({
+            role_id: roleId
+          })
+        })
+        .then(response => {
+          console.log('Response status:', response.status);
+          console.log('Response headers:', response.headers);
+          return response.json();
+        })
+        .then(data => {
+          console.log('Response data:', data);
+          if (data.success) {
+            showModalAlert('success', data.message);
+            // Also show success message on the main page
+            showAlert('success', data.message);
+            // Close the modal after a short delay
+            setTimeout(() => {
+              $('#addUserModal').modal('hide');
+              location.reload();
+            }, 2000);
+          } else {
+            showModalAlert('danger', data.error);
+            // Restore button state on error
+            buttonElement.innerHTML = originalText;
+            buttonElement.disabled = false;
+          }
+        })
+        .catch(error => {
+          console.error('Fetch error:', error);
+          showAlert('danger', 'Error assigning role: ' + error.message);
+          // Restore button state
+          buttonElement.innerHTML = originalText;
+          buttonElement.disabled = false;
         });
       }
     }
@@ -452,10 +741,191 @@
         alertDiv.remove();
       }, 5000);
     }
+    
+    function showModalAlert(type, message) {
+      const modalAlert = document.getElementById('modalAlert');
+      modalAlert.className = `alert alert-${type} alert-dismissible fade show`;
+      modalAlert.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      `;
+      modalAlert.style.display = 'block';
+      
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        modalAlert.style.display = 'none';
+      }, 3000);
+    }
 
+    // Global error handler
+    window.addEventListener('error', function(e) {
+      console.error('Global error:', e.error);
+      console.error('Error message:', e.message);
+      console.error('Error filename:', e.filename);
+      console.error('Error line:', e.lineno);
+    });
+    
     $(document).ready(function() {
       // Initialize tooltips
       $('[data-toggle="tooltip"]').tooltip();
+      
+      // Test if assignRoleToUser function is accessible
+      console.log('assignRoleToUser function available:', typeof assignRoleToUser);
+      console.log('window.assignRoleToUser:', window.assignRoleToUser);
+      
+      // Test modal functionality
+      console.log('Modal element found:', $('#addUserModal').length);
+      console.log('Modal trigger button found:', $('[data-target="#addUserModal"]').length);
+      
+      // User search functionality
+      $('#userSearchInput').on('keyup', function() {
+        const searchTerm = $(this).val().toLowerCase();
+        const table = $('#usersTable tbody');
+        const noResults = $('#noSearchResults');
+        let visibleCount = 0;
+        
+        table.find('tr').each(function() {
+          const userName = $(this).find('td:first').text().toLowerCase();
+          const userEmail = $(this).find('td:eq(1)').text().toLowerCase();
+          const userPhone = $(this).find('td:eq(2)').text().toLowerCase();
+          
+          if (userName.includes(searchTerm) || userEmail.includes(searchTerm) || userPhone.includes(searchTerm)) {
+            $(this).show();
+            visibleCount++;
+          } else {
+            $(this).hide();
+          }
+        });
+        
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+          noResults.show();
+        } else {
+          noResults.hide();
+        }
+        
+        // Update visible user count
+        $('#visibleUserCount').text(visibleCount);
+      });
+      
+      // Clear search functionality
+      $('#clearSearchBtn').on('click', function() {
+        $('#userSearchInput').val('').trigger('keyup');
+      });
+      
+      // Show loading when modal opens
+      $('#addUserModal').on('show.bs.modal', function() {
+        console.log('Modal show event triggered');
+        $('#modalLoading').show();
+        $('#userSearchInput').closest('.user-search-section').hide();
+        $('#usersTable').hide();
+        $('#noSearchResults').hide();
+      });
+      
+      // Hide loading when modal is shown
+      $('#addUserModal').on('shown.bs.modal', function() {
+        console.log('Modal shown event triggered');
+        console.log('Modal content loaded');
+        console.log('Assign buttons found:', $('.assign-role-btn').length);
+        
+        // Debug button HTML
+        $('.assign-role-btn').each(function(index) {
+          console.log(`Button ${index}:`, this.outerHTML);
+          console.log(`Button ${index} onclick:`, this.onclick);
+          console.log(`Button ${index} data attributes:`, $(this).data());
+        });
+        
+        // Test button click functionality
+        setTimeout(() => {
+          console.log('Testing button click after delay...');
+          $('.assign-role-btn').first().trigger('click');
+        }, 1000);
+        
+        setTimeout(() => {
+          $('#modalLoading').hide();
+          $('#userSearchInput').closest('.user-search-section').show();
+          $('#usersTable').show();
+        }, 500);
+      });
+      
+      // Refresh modal content after role assignment
+      $('#addUserModal').on('hidden.bs.modal', function() {
+        // Clear search and reset modal state
+        $('#userSearchInput').val('');
+        $('#noSearchResults').hide();
+        $('#modalAlert').hide();
+        // Show all rows
+        $('#usersTable tbody tr').show();
+      });
+      
+      // Confirm modal close if there are unsaved changes
+      $('#addUserModal').on('hide.bs.modal', function(e) {
+        const hasUnsavedChanges = $('.assign-role-btn:disabled').length > 0;
+        if (hasUnsavedChanges) {
+          if (!confirm('You have an assignment in progress. Are you sure you want to close the modal?')) {
+            e.preventDefault();
+          }
+        }
+      });
+      
+      // Add click event listeners to assign buttons
+      $(document).on('click', '.assign-role-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Assign button clicked via event listener');
+        console.log('Button element:', this);
+        console.log('Event:', e);
+        const userId = $(this).data('user-id');
+        const roleId = $(this).data('role-id');
+        console.log('Data attributes:', { userId, roleId });
+        if (userId && roleId) {
+          assignRoleToUser(userId, roleId, this);
+        } else {
+          console.error('Missing userId or roleId from data attributes');
+        }
+      });
+
+      // Add click event listeners to remove role buttons
+      $(document).on('click', '.remove-role-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const userId = $(this).data('user-id');
+        const roleId = $(this).data('role-id');
+        if (userId && roleId) {
+          removeUser(userId, roleId, this);
+        } else {
+          console.error('Missing userId or roleId from data attributes');
+        }
+      });
+
+      // Add click event listeners to add permission buttons
+      $(document).on('click', '.add-permission-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const roleId = $(this).data('role-id');
+        const permissionId = $(this).data('permission-id');
+        if (roleId && permissionId) {
+          addPermission(roleId, permissionId);
+        } else {
+          console.error('Missing roleId or permissionId from data attributes');
+        }
+      });
+
+      // Add click event listener to test function button
+      $(document).on('click', '.test-function-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        testFunction();
+      });
+
+      // Add click event listener to clear search button
+      $(document).on('click', '.clear-search-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('#userSearchInput').val('').trigger('keyup');
+      });
     });
   </script>
   

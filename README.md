@@ -1,4 +1,4 @@
-# GVRC Admin - Multi-Institutional GBV Response Platform
+# Hodi Admin - Multi-Institutional GBV Response Platform
 
 **A comprehensive Django-based system for managing all facilities and institutions involved in Gender-Based Violence (GBV) response in Kenya, including police stations, hospitals, NGOs, safe houses, legal aid centers, and community organizations.**
 
@@ -738,7 +738,7 @@ ALLOWED_HOSTS=your-domain.com
 
 ## 📝 License
 
-This project is for internal use by GVRC Admin system. See documentation for full terms.
+This project is for internal use by Hodi Admin system. See documentation for full terms.
 
 ---
 

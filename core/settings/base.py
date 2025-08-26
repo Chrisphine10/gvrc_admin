@@ -23,6 +23,10 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "TODO_SET_SECRET_KEY")
 
 APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
 
+# Google Maps API Configuration
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "AIzaSyBYKU1YgvaJwUYkFUqYkfwdPuOG5EvA_Bk")
+GOOGLE_PLACES_API_KEY = os.getenv("GOOGLE_PLACES_API_KEY", GOOGLE_MAPS_API_KEY)
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",

@@ -307,6 +307,7 @@ def user_list(request):
         'search_query': search_query,
         'active_users_count': active_users_count,
         'total_sessions': total_sessions,
+        'segment': 'users',
     }
     
     return render(request, 'authentication/user_list.html', context)
@@ -360,6 +361,7 @@ def user_analytics(request):
         'users_by_facility': users_by_facility,
         'users_by_county': users_by_county,
         'recent_locations': recent_locations,
+        'segment': 'user_analytics',
     }
     
     return render(request, 'authentication/user_analytics.html', context)
@@ -405,6 +407,7 @@ def profile_view(request):
         'profile': profile,
         'form': form,
         'password_form': password_form,
+        'segment': 'profile',
     }
     
     return render(request, 'authentication/profile.html', context)
@@ -452,6 +455,7 @@ def role_list(request):
     context = {
         'roles': roles,
         'search_query': search_query,
+        'segment': 'roles',
     }
     
     return render(request, 'authentication/role_list.html', context)
@@ -507,7 +511,8 @@ def role_create(request):
     
     return render(request, 'authentication/role_form.html', {
         'action': 'Create',
-        'role': None
+        'role': None,
+        'segment': 'roles',
     })
 
 
@@ -536,7 +541,8 @@ def role_edit(request, role_id):
     
     return render(request, 'authentication/role_form.html', {
         'action': 'Edit',
-        'role': role
+        'role': role,
+        'segment': 'roles',
     })
 
 
@@ -555,7 +561,8 @@ def role_delete(request, role_id):
             messages.error(request, f'Error deleting role: {str(e)}')
     
     return render(request, 'authentication/role_confirm_delete.html', {
-        'role': role
+        'role': role,
+        'segment': 'roles',
     })
 
 
@@ -588,6 +595,7 @@ def permission_list(request):
         'permissions': permissions,
         'permissions_by_resource': permissions_by_resource,
         'search_query': search_query,
+        'segment': 'permissions',
     }
     
     return render(request, 'authentication/permission_list.html', context)
@@ -619,7 +627,8 @@ def permission_create(request):
     
     return render(request, 'authentication/permission_form.html', {
         'action': 'Create',
-        'permission': None
+        'permission': None,
+        'segment': 'permissions',
     })
 
 
@@ -650,7 +659,8 @@ def permission_edit(request, permission_id):
     
     return render(request, 'authentication/permission_form.html', {
         'action': 'Edit',
-        'permission': permission
+        'permission': permission,
+        'segment': 'permissions',
     })
 
 
@@ -669,7 +679,8 @@ def permission_delete(request, permission_id):
             messages.error(request, f'Error deleting permission: {str(e)}')
     
     return render(request, 'authentication/permission_confirm_delete.html', {
-        'permission': permission
+        'permission': permission,
+        'segment': 'permissions',
     })
 
 

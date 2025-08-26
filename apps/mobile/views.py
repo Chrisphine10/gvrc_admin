@@ -253,8 +253,8 @@ class MobileChatViewSet(viewsets.ViewSet):
             
             # Get conversations for this device, prioritizing open ones first
             conversations = Conversation.objects.filter(mobile_session=mobile_session).order_by(
-                # Order by: open conversations first (new, active), then by last message time
-                'status__in', '-last_message_at'
+                # Order by: last message time (newest first)
+                '-last_message_at'
             )
             
             # Custom ordering to ensure open conversations appear first
@@ -439,11 +439,17 @@ class MobileChatViewSet(viewsets.ViewSet):
         if request.user and request.user.is_authenticated and request.user.is_superuser:
             # Handle both form data (file uploads) and JSON data
             if request.content_type and 'multipart/form-data' in request.content_type:
-                serializer = CreateMessageSerializer(data=request.data)
+                print(f"DEBUG: Admin - Processing multipart form data")
+                print(f"DEBUG: Admin - Request FILES: {request.FILES}")
+                print(f"DEBUG: Admin - Request DATA: {request.data}")
+                serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
             else:
+                print(f"DEBUG: Admin - Processing JSON data")
+                print(f"DEBUG: Admin - Request DATA: {request.data}")
                 serializer = CreateMessageSerializer(data=request.data)
                 
             if serializer.is_valid():
+                print(f"DEBUG: Admin - Serializer is valid")
                 # Get validated data
                 content = serializer.validated_data.get('content', '')
                 message_type = serializer.validated_data.get('message_type', 'text')
@@ -452,8 +458,15 @@ class MobileChatViewSet(viewsets.ViewSet):
                 is_urgent = serializer.validated_data.get('is_urgent', False)
                 metadata = serializer.validated_data.get('metadata', {})
                 
+                print(f"DEBUG: Admin - Validated data:")
+                print(f"  - Content: {content}")
+                print(f"  - Message type: {message_type}")
+                print(f"  - Media file: {media_file}")
+                print(f"  - Media URL: {media_url}")
+                
                 # Determine message type based on file if not specified or if it's still 'text'
                 if media_file:
+                    print(f"DEBUG: Admin - Processing media file...")
                     # Always determine message type from file content type, regardless of current message_type
                     if media_file.content_type.startswith('image/'):
                         message_type = 'image'
@@ -464,10 +477,14 @@ class MobileChatViewSet(viewsets.ViewSet):
                     else:
                         message_type = 'file'
                     
+                    print(f"DEBUG: Admin - Determined message type: {message_type}")
+                    
                     # If no content was provided, use a default caption
                     if not content:
                         content = f"Uploaded {message_type}"
+                        print(f"DEBUG: Admin - Set default content: {content}")
                 
+                print(f"DEBUG: Admin - About to create message...")
                 # Use admin message creation for superadmin users
                 message = MessageService.create_admin_message(
                     conversation=conversation,
@@ -480,10 +497,12 @@ class MobileChatViewSet(viewsets.ViewSet):
                     metadata=metadata
                 )
                 
+                print(f"DEBUG: Admin - Message created successfully with ID: {message.message_id}")
                 response_serializer = MessageSerializer(message, context={'request': request})
                 return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-            
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                print(f"DEBUG: Admin - Serializer errors: {serializer.errors}")
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         # For mobile users, check access and use mobile message creation
         access_ok, error_msg = self._check_conversation_access(conversation, session)
@@ -495,11 +514,17 @@ class MobileChatViewSet(viewsets.ViewSet):
         
         # Handle both form data (file uploads) and JSON data
         if request.content_type and 'multipart/form-data' in request.content_type:
-            serializer = CreateMessageSerializer(data=request.data)
+            print(f"DEBUG: Processing multipart form data")
+            print(f"DEBUG: Request FILES: {request.FILES}")
+            print(f"DEBUG: Request DATA: {request.data}")
+            serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
         else:
+            print(f"DEBUG: Processing JSON data")
+            print(f"DEBUG: Request DATA: {request.data}")
             serializer = CreateMessageSerializer(data=request.data)
             
         if serializer.is_valid():
+            print(f"DEBUG: Serializer is valid")
             # Get validated data
             content = serializer.validated_data.get('content', '')
             message_type = serializer.validated_data.get('message_type', 'text')
@@ -508,8 +533,15 @@ class MobileChatViewSet(viewsets.ViewSet):
             is_urgent = serializer.validated_data.get('is_urgent', False)
             metadata = serializer.validated_data.get('metadata', {})
             
+            print(f"DEBUG: Validated data:")
+            print(f"  - Content: {content}")
+            print(f"  - Message type: {message_type}")
+            print(f"  - Media file: {media_file}")
+            print(f"  - Media URL: {media_url}")
+            
             # Determine message type based on file if not specified or if it's still 'text'
             if media_file:
+                print(f"DEBUG: Processing media file...")
                 # Always determine message type from file content type, regardless of current message_type
                 if media_file.content_type.startswith('image/'):
                     message_type = 'image'
@@ -520,10 +552,14 @@ class MobileChatViewSet(viewsets.ViewSet):
                 else:
                     message_type = 'file'
                 
+                print(f"DEBUG: Determined message type: {message_type}")
+                
                 # If no content was provided, use a default caption
                 if not content:
                     content = f"Uploaded {message_type}"
+                    print(f"DEBUG: Set default content: {content}")
             
+            print(f"DEBUG: About to create message...")
             message = MessageService.create_mobile_message(
                 conversation=conversation,
                 content=content,
@@ -534,10 +570,12 @@ class MobileChatViewSet(viewsets.ViewSet):
                 metadata=metadata
             )
             
+            print(f"DEBUG: Message created successfully with ID: {message.message_id}")
             response_serializer = MessageSerializer(message, context={'request': request})
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print(f"DEBUG: Serializer errors: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @swagger_auto_schema(
         operation_id="mobile_chat_update_status",
@@ -758,6 +796,83 @@ class MobileChatViewSet(viewsets.ViewSet):
             'message': 'Conversation closed successfully',
             'conversation': response_serializer.data
         }, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        operation_id="mobile_chat_test_upload",
+        operation_description="Test endpoint for debugging file uploads",
+        request_body=CreateMessageSerializer,
+        responses={
+            200: "File upload test response",
+            400: "Bad Request"
+        },
+        tags=["Mobile Chat API"]
+    )
+    @action(detail=False, methods=['post'], url_path='test-upload')
+    def test_file_upload(self, request):
+        """Test endpoint for debugging file uploads"""
+        print("=" * 50)
+        print("DEBUG: TEST FILE UPLOAD ENDPOINT")
+        print("=" * 50)
+        
+        print(f"DEBUG: Request method: {request.method}")
+        print(f"DEBUG: Request content type: {request.content_type}")
+        print(f"DEBUG: Request META: {dict(request.META)}")
+        print(f"DEBUG: Request FILES: {request.FILES}")
+        print(f"DEBUG: Request DATA: {request.data}")
+        print(f"DEBUG: Request headers: {dict(request.headers)}")
+        
+        # Test serializer creation
+        try:
+            if request.content_type and 'multipart/form-data' in request.content_type:
+                print("DEBUG: Creating serializer with files")
+                serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
+            else:
+                print("DEBUG: Creating serializer without files")
+                serializer = CreateMessageSerializer(data=request.data)
+            
+            print(f"DEBUG: Serializer created: {serializer}")
+            
+            if serializer.is_valid():
+                print("DEBUG: Serializer is valid!")
+                print(f"DEBUG: Validated data: {serializer.validated_data}")
+                
+                media_file = serializer.validated_data.get('media_file')
+                if media_file:
+                    print(f"DEBUG: Media file found!")
+                    print(f"  - Name: {media_file.name}")
+                    print(f"  - Size: {media_file.size}")
+                    print(f"  - Content type: {media_file.content_type}")
+                    print(f"  - Field: {media_file.field}")
+                else:
+                    print("DEBUG: No media file in validated data")
+                
+                return Response({
+                    'message': 'File upload test successful',
+                    'content_type': request.content_type,
+                    'files_count': len(request.FILES),
+                    'data_keys': list(request.data.keys()),
+                    'validated_data': serializer.validated_data
+                })
+            else:
+                print(f"DEBUG: Serializer errors: {serializer.errors}")
+                return Response({
+                    'message': 'File upload test failed',
+                    'errors': serializer.errors,
+                    'content_type': request.content_type,
+                    'files_count': len(request.FILES),
+                    'data_keys': list(request.data.keys())
+                }, status=status.HTTP_400_BAD_REQUEST)
+                
+        except Exception as e:
+            print(f"DEBUG: Exception occurred: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return Response({
+                'message': 'File upload test exception',
+                'error': str(e),
+                'content_type': request.content_type,
+                'files_count': len(request.FILES)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class MobileFacilityViewSet(viewsets.ViewSet):

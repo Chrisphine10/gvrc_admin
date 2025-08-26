@@ -131,7 +131,7 @@ class MessageAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Message Information', {
-            'fields': ('message_id', 'conversation', 'content', 'message_type', 'media_url')
+            'fields': ('message_id', 'conversation', 'content', 'message_type', 'media_file', 'media_url')
         }),
         ('Sender Information', {
             'fields': ('sender_type', 'sender')
@@ -273,6 +273,6 @@ class ChatNotificationAdmin(admin.ModelAdmin):
 
 
 # Customize admin site
-admin.site.site_header = "GVRC Emergency Chat Admin"
-admin.site.site_title = "Emergency Chat Admin"
-admin.site.index_title = "Emergency Chat System Administration"
+admin.site.site_header = "Hodi Admin - Emergency Chat"
+admin.site.site_title = "Hodi Admin - Chat"
+admin.site.index_title = "Hodi Admin Emergency Chat System"

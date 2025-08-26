@@ -1,4 +1,4 @@
-# GVRC Admin - Complete Documentation
+# Hodi Admin - Complete Documentation
 
 **Version**: 1.0.0  
 **Last Updated**: January 2025  
@@ -22,7 +22,7 @@
 
 ## 📖 Project Overview
 
-GVRC Admin is a centralized directory and administrative system for managing community-based facilities including health facilities, police stations, CBOs, safe houses, legal aid centers, gender desks, and other community organizations in Kenya.
+Hodi Admin is a centralized directory and administrative system for managing community-based facilities including health facilities, police stations, CBOs, safe houses, legal aid centers, gender desks, and other community organizations in Kenya.
 
 ### Key Features
 
@@ -841,5 +841,5 @@ CACHES = {
 ---
 
 **Last Updated**: January 2025  
-**Maintained By**: GVRC Admin Development Team  
+**Maintained By**: Hodi Admin Development Team  
 **License**: Internal Use Only

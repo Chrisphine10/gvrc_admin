@@ -62,7 +62,7 @@
     transform: translateX(-50%);
     width: calc(100% - 2rem);
     max-width: 1200px;
-    z-index: 1000;
+    z-index: 100; /* Reduced z-index to prevent overlapping with buttons */
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
   }
   
@@ -417,6 +417,71 @@
     margin-right: 8px;
   }
   
+  /* Ensure buttons are clickable */
+  .btn {
+    position: relative;
+    z-index: 1000;
+    pointer-events: auto;
+  }
+  
+  /* Header buttons should have higher z-index */
+  .header .btn {
+    z-index: 1001;
+  }
+  
+  /* Quick action buttons should be clickable */
+  .quick-actions-buttons .btn {
+    z-index: 1001;
+    position: relative;
+  }
+  
+  /* Ensure all interactive elements are clickable */
+  button, a, .btn {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 1000;
+  }
+  
+  /* Prevent any overlapping elements from blocking buttons */
+  .header, .conversation-info, .chat-header {
+    position: relative;
+    z-index: 1000;
+  }
+  
+  /* Ensure buttons in the header are above other elements */
+  .header .btn, .header a {
+    z-index: 1001;
+    position: relative;
+  }
+  
+  /* Toast container styling */
+  .toast-container {
+    pointer-events: none;
+    z-index: 1050;
+  }
+  
+  .toast {
+    pointer-events: auto;
+    z-index: 1051;
+  }
+  
+  /* Ensure no elements can block button interactions */
+  * {
+    pointer-events: auto;
+  }
+  
+  /* Specific elements that should not block interactions */
+  .header, .conversation-info, .chat-header, .chat-container, .card {
+    pointer-events: auto;
+  }
+  
+  /* Force buttons to be on top */
+  .btn, button, a[href] {
+    position: relative !important;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+  }
 
 </style>
 {% endblock stylesheets %}
@@ -508,9 +573,24 @@
                                              <div class="d-flex align-items-center gap-2">
                          <div class="quick-actions-buttons">
                            {% if not conversation.assigned_admin %}
-                             <button class="btn btn-sm btn-success" onclick="assignToSelf()">
-                               <i class="fas fa-user-plus me-1"></i>Assign
-                             </button>
+                             <div class="dropdown d-inline-block">
+                               <button class="btn btn-sm btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                 <i class="fas fa-user-plus me-1"></i>Assign
+                               </button>
+                               <ul class="dropdown-menu">
+                                 <li><a class="dropdown-item" href="#" onclick="assignToSelf()">
+                                   <i class="fas fa-user me-1"></i>Assign to me
+                                 </a></li>
+                                 <li><hr class="dropdown-divider"></li>
+                                 {% for admin in admins %}
+                                   {% if admin != request.user %}
+                                     <li><a class="dropdown-item" href="#" onclick="assignToAdmin('{{ admin.user_id }}', '{{ admin.username|escapejs }}')">
+                                       <i class="fas fa-user-plus me-1"></i>{{ admin.username }}
+                                     </a></li>
+                                   {% endif %}
+                                 {% endfor %}
+                               </ul>
+                             </div>
                            {% endif %}
                            {% if conversation.status == 'active' %}
                              <button class="btn btn-sm btn-warning" onclick="updateStatus('resolved')">
@@ -584,6 +664,9 @@
        </div>
      </div>
 
+     <!-- Toast Container -->
+     <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050; pointer-events: none;"></div>
+
  {% endblock content %}
 
 <!-- Specific JS goes HERE -->
@@ -596,9 +679,46 @@
 
   // Load messages on page load
   document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing chat...');
     loadMessages();
     startMessagePolling();
     updateUnreadIndicator();
+    
+    // Debug button accessibility
+    setTimeout(() => {
+      const exportBtn = document.querySelector('button[onclick="exportConversation()"]');
+      const backBtn = document.querySelector('a[href*="conversation_list"]');
+      const resolveBtn = document.querySelector('button[onclick="updateStatus(\'resolved\')"]');
+      
+      console.log('Button elements found:', {
+        export: exportBtn,
+        back: backBtn,
+        resolve: resolveBtn
+      });
+      
+      if (exportBtn) {
+        console.log('Export button styles:', window.getComputedStyle(exportBtn));
+        console.log('Export button position:', exportBtn.getBoundingClientRect());
+        console.log('Export button z-index:', window.getComputedStyle(exportBtn).zIndex);
+        
+        // Add additional click event listener as backup
+        exportBtn.addEventListener('click', function(e) {
+          console.log('Export button clicked via event listener');
+          exportConversation();
+        });
+      }
+      
+      if (resolveBtn) {
+        console.log('Resolve button styles:', window.getComputedStyle(resolveBtn));
+        console.log('Resolve button z-index:', window.getComputedStyle(resolveBtn).zIndex);
+        
+        // Add additional click event listener as backup
+        resolveBtn.addEventListener('click', function(e) {
+          console.log('Resolve button clicked via event listener');
+          updateStatus('resolved');
+        });
+      }
+    }, 1000);
   });
 
   // Load messages
@@ -657,6 +777,15 @@
      const isAdmin = message.sender_type === 'admin';
      const messageClass = isAdmin ? 'admin' : 'mobile';
      const timeAgo = formatTimeAgo(message.sent_at);
+     
+     // Debug logging for all messages
+     console.log('DEBUG: Creating message HTML:', {
+       sender_type: message.sender_type,
+       messageClass: messageClass,
+       message_id: message.message_id,
+       content: message.content,
+       message_type: message.message_type
+     });
      
      // Debug logging for media messages
      if (message.message_type !== 'text') {
@@ -763,87 +892,67 @@
      `;
    }
 
-  // Send message
-  function sendMessage() {
-    const input = document.getElementById('message-input');
-    const content = input.value.trim();
-    
-    if (!content) return;
-    
-    // Clear input
-    input.value = '';
-    
-    // Add message to UI immediately (optimistic update)
-    const tempMessage = {
-      message_id: Date.now(),
-      content: content,
-      sender_type: 'admin',
-      sent_at: new Date().toISOString(),
-      status: 'sent'
-    };
-    
-    appendMessage(tempMessage);
-    
-    // Send to API
-    fetch(`/chat/admin/conversations/${conversationId}/send-message/`, {
-      method: 'POST',
-      headers: {
-        'X-CSRFToken': getCookie('csrftoken'),
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ content: content })
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Update the temporary message with real data
-      updateMessage(tempMessage.message_id, data);
-    })
-    .catch(error => {
-      console.error('Error sending message:', error);
-      showToast('Error sending message', 'error');
-      
-      // Remove the temporary message
-      removeMessage(tempMessage.message_id);
-    });
-  }
 
-  // Append message to chat
-  function appendMessage(message) {
-    const container = document.getElementById('chat-messages');
-    const messageHTML = createMessageHTML(message);
-    
-    // Remove "no messages" message if it exists
-    const noMessagesDiv = container.querySelector('.text-center.text-muted');
-    if (noMessagesDiv) {
-      noMessagesDiv.remove();
-    }
-    
-    container.insertAdjacentHTML('beforeend', messageHTML);
-    container.scrollTop = container.scrollHeight;
-    
-    updateMessageCount(parseInt(document.getElementById('message-count').textContent) + 1);
-  }
 
-  // Update message
-  function updateMessage(tempId, realMessage) {
-    const container = document.getElementById('chat-messages');
-    const tempMessageDiv = container.querySelector(`[data-temp-id="${tempId}"]`);
-    
-    if (tempMessageDiv) {
-      tempMessageDiv.outerHTML = createMessageHTML(realMessage);
-    }
-  }
+     // Append message to chat
+   function appendMessage(message, isTemporary = false) {
+     const container = document.getElementById('chat-messages');
+     let messageHTML = createMessageHTML(message);
+     
+     // Add temporary ID attribute for temporary messages
+     if (isTemporary) {
+       messageHTML = messageHTML.replace('<div class="message', `<div class="message" data-temp-id="${message.message_id}"`);
+       console.log(`DEBUG: Added temporary message with ID: ${message.message_id}`);
+     }
+     
+     // Remove "no messages" message if it exists
+     const noMessagesDiv = container.querySelector('.text-center.text-muted');
+     if (noMessagesDiv) {
+       noMessagesDiv.remove();
+     }
+     
+     container.insertAdjacentHTML('beforeend', messageHTML);
+     container.scrollTop = container.scrollHeight;
+     
+     updateMessageCount(parseInt(document.getElementById('message-count').textContent) + 1);
+   }
 
-  // Remove message
-  function removeMessage(tempId) {
-    const container = document.getElementById('chat-messages');
-    const tempMessageDiv = container.querySelector(`[data-temp-id="${tempId}"]`);
-    
-    if (tempMessageDiv) {
-      tempMessageDiv.remove();
-      updateMessageCount(parseInt(document.getElementById('message-count').textContent) - 1);
-    }
-  }
+     // Update message
+   function updateMessage(tempId, realMessage) {
+     const container = document.getElementById('chat-messages');
+     console.log(`DEBUG: Looking for temporary message with ID: ${tempId}`);
+     console.log(`DEBUG: Real message data:`, realMessage);
+     console.log(`DEBUG: Real message sender_type:`, realMessage.sender_type);
+     console.log(`DEBUG: Real message message_id:`, realMessage.message_id);
+     
+     const tempMessageDiv = container.querySelector(`[data-temp-id="${tempId}"]`);
+     console.log(`DEBUG: Found temporary message div:`, tempMessageDiv);
+     
+     if (tempMessageDiv) {
+       // Replace the temporary message with the real one
+       tempMessageDiv.outerHTML = createMessageHTML(realMessage);
+       console.log(`DEBUG: Updated temporary message ${tempId} with real message ${realMessage.message_id}`);
+     } else {
+       console.log(`DEBUG: Could not find temporary message with ID ${tempId}`);
+       console.log(`DEBUG: All data-temp-id attributes in container:`, 
+         Array.from(container.querySelectorAll('[data-temp-id]')).map(el => el.getAttribute('data-temp-id'))
+       );
+     }
+   }
+
+     // Remove message
+   function removeMessage(tempId) {
+     const container = document.getElementById('chat-messages');
+     const tempMessageDiv = container.querySelector(`[data-temp-id="${tempId}"]`);
+     
+     if (tempMessageDiv) {
+       tempMessageDiv.remove();
+       updateMessageCount(parseInt(document.getElementById('message-count').textContent) - 1);
+       console.log(`DEBUG: Removed temporary message ${tempId}`);
+     } else {
+       console.log(`DEBUG: Could not find temporary message with ID ${tempId} to remove`);
+     }
+   }
 
   // Handle key press in message input
   function handleKeyPress(event) {
@@ -853,10 +962,26 @@
   }
 
   // Start message polling
+  let pollingInterval;
   function startMessagePolling() {
-    setInterval(() => {
+    pollingInterval = setInterval(() => {
       checkNewMessages();
     }, 5000); // Check every 5 seconds
+  }
+  
+  // Stop message polling
+  function stopMessagePolling() {
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+      pollingInterval = null;
+    }
+  }
+  
+  // Resume message polling
+  function resumeMessagePolling() {
+    if (!pollingInterval) {
+      startMessagePolling();
+    }
   }
 
   // Check for new messages
@@ -876,7 +1001,10 @@
       if (newMessages.length > 0) {
         newMessages.forEach(message => {
           if (message.message_id > lastMessageId) {
-            appendMessage(message);
+            // Only append new messages from mobile users (not admin messages we just sent)
+            if (message.sender_type === 'mobile') {
+              appendMessage(message);
+            }
             lastMessageId = Math.max(lastMessageId, message.message_id);
           }
         });
@@ -994,31 +1122,85 @@
       showToast('Error assigning conversation', 'error');
     });
   }
-  
-  // Update conversation status
-  function updateStatus(status) {
-    fetch(`/chat/conversation/${conversationId}/status/`, {
-      method: 'PATCH',
+
+  // Assign conversation to a specific admin
+  function assignToAdmin(adminId, adminUsername) {
+    fetch(`/chat/conversation/${conversationId}/assign/`, {
+      method: 'POST',
       headers: {
         'X-CSRFToken': getCookie('csrftoken'),
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ status: status })
+      body: JSON.stringify({ admin_id: adminId })
     })
     .then(response => response.json())
     .then(data => {
-      showToast(`Status updated to ${status}`, 'success');
-      location.reload(); // Refresh to show new status
+      showToast(`Conversation assigned to ${adminUsername}`, 'success');
+      location.reload(); // Refresh to show new assignment
     })
     .catch(error => {
-      console.error('Error updating status:', error);
-      showToast('Error updating status', 'error');
+      console.error('Error assigning conversation:', error);
+      showToast('Error assigning conversation', 'error');
     });
+  }
+  
+  // Update conversation status
+  function updateStatus(status) {
+    try {
+      console.log('Update status button clicked:', status, 'for conversation:', conversationId);
+      if (!conversationId) {
+        console.error('No conversation ID found');
+        showToast('Error: No conversation ID found', 'error');
+        return;
+      }
+      if (!status) {
+        console.error('No status provided');
+        showToast('Error: No status provided', 'error');
+        return;
+      }
+      
+      fetch(`/chat/conversation/${conversationId}/status/`, {
+        method: 'PATCH',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: status })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        showToast(`Status updated to ${status}`, 'success');
+        location.reload(); // Refresh to show new status
+      })
+      .catch(error => {
+        console.error('Error updating status:', error);
+        showToast('Error updating status', 'error');
+      });
+    } catch (error) {
+      console.error('Error in updateStatus:', error);
+      showToast('Error updating status', 'error');
+    }
   }
 
   // Export conversation
   function exportConversation() {
-    window.open(`/chat/conversation/${conversationId}/export/`, '_blank');
+    try {
+      console.log('Export button clicked for conversation:', conversationId);
+      if (!conversationId) {
+        console.error('No conversation ID found');
+        showToast('Error: No conversation ID found', 'error');
+        return;
+      }
+      window.open(`/chat/conversation/${conversationId}/export/`, '_blank');
+    } catch (error) {
+      console.error('Error in exportConversation:', error);
+      showToast('Error exporting conversation', 'error');
+    }
   }
 
   // Get CSRF token
@@ -1043,6 +1225,7 @@
     
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
+    toast.style.pointerEvents = 'auto'; // Make individual toasts clickable
     toast.innerHTML = `
       <div class="toast-header">
         <i class="toast-icon fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
@@ -1193,91 +1376,124 @@
      }
    }
    
-   function sendTextMessage(content) {
-     // Clear input
-     document.getElementById('message-input').value = '';
-     
-     // Add message to UI immediately (optimistic update)
-     const tempMessage = {
-       message_id: Date.now(),
-       content: content,
-       sender_type: 'admin',
-       message_type: 'text',
-       sent_at: new Date().toISOString(),
-       status: 'sent'
-     };
-     
-     appendMessage(tempMessage);
-     
-     // Send to API
-     fetch(`/chat/admin/conversations/${conversationId}/send-message/`, {
-       method: 'POST',
-       headers: {
-         'X-CSRFToken': getCookie('csrftoken'),
-         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify({ content: content })
-     })
-     .then(response => response.json())
-     .then(data => {
-       // Update the temporary message with real data
-       updateMessage(tempMessage.message_id, data);
-     })
-     .catch(error => {
-       console.error('Error sending message:', error);
-       showToast('Error sending message', 'error');
-       
-       // Remove the temporary message
-       removeMessage(tempMessage.message_id);
-     });
-   }
+       function sendTextMessage(content) {
+      // Stop polling to prevent duplicate messages
+      stopMessagePolling();
+      
+      // Clear input
+      document.getElementById('message-input').value = '';
+      
+      // Add message to UI immediately (optimistic update)
+      const tempMessage = {
+        message_id: Date.now(),
+        content: content,
+        sender_type: 'admin',
+        message_type: 'text',
+        sent_at: new Date().toISOString(),
+        status: 'sent'
+      };
+      
+      appendMessage(tempMessage, true); // Mark as temporary
+      
+      // Send to API
+      fetch(`/chat/admin/conversations/${conversationId}/send-message/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: content })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Update the temporary message with real data
+        updateMessage(tempMessage.message_id, data);
+        
+        // Resume polling after a short delay
+        setTimeout(() => {
+          resumeMessagePolling();
+        }, 1000);
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+        showToast('Error sending message', 'error');
+        
+        // Remove the temporary message
+        removeMessage(tempMessage.message_id);
+        
+        // Resume polling even on error
+        resumeMessagePolling();
+      });
+    }
    
-   function sendFileMessage(file, caption) {
-     const formData = new FormData();
-     formData.append('file', file);
-     if (caption) {
-       formData.append('content', caption);
-     }
-     
-     // Add message to UI immediately (optimistic update)
-     const tempMessage = {
-       message_id: Date.now(),
-       content: caption || '',
-       sender_type: 'admin',
-       message_type: getMessageType(file.type),
-       media_url: URL.createObjectURL(file),
-       sent_at: new Date().toISOString(),
-       status: 'sending',
-       metadata: {
-         file_name: file.name,
-         file_size: file.size
-       }
-     };
-     
-     appendMessage(tempMessage);
-     
-     // Send to API
-     fetch(`/chat/admin/conversations/${conversationId}/send-message/`, {
-       method: 'POST',
-       headers: {
-         'X-CSRFToken': getCookie('csrftoken'),
-       },
-       body: formData
-     })
-     .then(response => response.json())
-     .then(data => {
-       // Update the temporary message with real data
-       updateMessage(tempMessage.message_id, data);
-       removeFile();
-     })
-     .catch(error => {
-       console.error('Error sending file:', error);
-       showToast('Error sending file', 'error');
-       
-       // Remove the temporary message
-       removeMessage(tempMessage.message_id);
-     });
-   }
+       function sendFileMessage(file, caption) {
+      // Stop polling to prevent duplicate messages
+      console.log('DEBUG: Stopping message polling before sending file');
+      stopMessagePolling();
+      
+      const formData = new FormData();
+      formData.append('media_file', file);
+      if (caption) {
+        formData.append('content', caption);
+      }
+      
+             // Add message to UI immediately (optimistic update)
+       const tempMessage = {
+         message_id: Date.now(),
+         content: caption || '',
+         sender_type: 'admin', // This should make it appear on the right side
+         message_type: getMessageType(file.type),
+         media_url: URL.createObjectURL(file),
+         sent_at: new Date().toISOString(),
+         status: 'sending',
+         metadata: {
+           file_name: file.name,
+           file_size: file.size
+         }
+       };
+      
+      console.log('DEBUG: Adding temporary message with ID:', tempMessage.message_id);
+      appendMessage(tempMessage, true); // Mark as temporary
+      
+      // Send to API
+      console.log('DEBUG: Sending file message with FormData');
+      console.log('DEBUG: FormData contents:');
+      for (let [key, value] of formData.entries()) {
+        console.log(`  ${key}: ${value}`);
+      }
+      
+      fetch(`/chat/admin/conversations/${conversationId}/send-message/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          // Note: Don't set Content-Type for FormData - browser will set it automatically
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Update the temporary message with real data
+        updateMessage(tempMessage.message_id, data);
+        removeFile();
+        console.log('DEBUG: File message sent successfully, updated temporary message');
+        
+        // Resume polling after a short delay to ensure the message is processed
+        setTimeout(() => {
+          console.log('DEBUG: Resuming message polling after file upload success');
+          resumeMessagePolling();
+        }, 2000);
+      })
+      .catch(error => {
+        console.error('Error sending file:', error);
+        showToast('Error sending file', 'error');
+        
+        // Remove the temporary message
+        removeMessage(tempMessage.message_id);
+        
+        // Resume polling even on error
+        resumeMessagePolling();
+      });
+    }
    
    function getMessageType(mimeType) {
      if (mimeType.startsWith('image/')) return 'image';

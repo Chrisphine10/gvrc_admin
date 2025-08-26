@@ -124,12 +124,98 @@
               </div>
             </div>
           </div>
+
+          <!-- Additional Overview Cards -->
+          <div class="row mt-4">
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Chat Conversations</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ total_conversations|default:0 }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow">
+                        <i class="fas fa-comments"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-muted">{{ active_conversations|default:0 }} active</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Music Tracks</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ total_music_tracks|default:0 }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-purple text-white rounded-circle shadow">
+                        <i class="fas fa-music"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-muted">{{ total_music_plays|default:0 }} total plays</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Services</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ total_services|default:0 }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-warning text-white rounded-circle shadow">
+                        <i class="fas fa-heartbeat"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-muted">Facility services</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+              <div class="card card-stats">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Infrastructure</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ total_infrastructure|default:0 }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-gradient-dark text-white rounded-circle shadow">
+                        <i class="fas fa-building"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-muted">Facility assets</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Page content -->
     <div class="container-fluid mt--6">
+      
+      <!-- Facility Status Overview -->
       <div class="row">
         <div class="col-xl-8">
           <div class="card">
@@ -219,6 +305,8 @@
             </div>
           </div>
         </div>
+        
+        <!-- Quick Actions -->
         <div class="col-xl-4">
           <div class="card">
             <div class="card-header border-0">
@@ -271,12 +359,335 @@
           </div>
         </div>
       </div>
-      
 
-      
-      {% if recent_facilities %}
+      <!-- Emergency Chat Overview -->
+      {% if total_conversations > 0 %}
       <div class="row">
-        <div class="col">
+        <div class="col-xl-6">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Emergency Chat Overview</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'chat:conversation_list' %}" class="btn btn-sm btn-primary">View all</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card bg-gradient-danger shadow-sm">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <h5 class="card-title text-uppercase text-white mb-0">Active</h5>
+                          <span class="h2 font-weight-bold mb-0 text-white">{{ active_conversations|default:0 }}</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="icon icon-shape bg-white text-danger rounded-circle shadow">
+                            <i class="fas fa-comments"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="card bg-gradient-warning shadow-sm">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <h5 class="card-title text-uppercase text-white mb-0">Urgent</h5>
+                          <span class="h2 font-weight-bold mb-0 text-white">{{ urgent_conversations|default:0 }}</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="icon icon-shape bg-white text-warning rounded-circle shadow">
+                            <i class="fas fa-exclamation-triangle"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <div class="card bg-gradient-info shadow-sm">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <h5 class="card-title text-uppercase text-white mb-0">Total Messages</h5>
+                          <span class="h2 font-weight-bold mb-0 text-white">{{ total_messages|default:0 }}</span>
+                        </div>
+                        <div class="col-auto">
+                          <div class="icon icon-shape bg-white text-info rounded-circle shadow">
+                            <i class="fas fa-comment-dots"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Chat Activity -->
+        <div class="col-xl-6">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Recent Chat Activity</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              {% if recent_conversations %}
+                <div class="list-group list-group-flush">
+                  {% for conversation in recent_conversations %}
+                  <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-{{ conversation.priority|yesno:'danger,warning,info,success' }} text-white rounded-circle mr-3">
+                        <i class="fas fa-comment"></i>
+                      </div>
+                      <div>
+                        <span class="font-weight-bold">{{ conversation.subject|default:"No subject" }}</span>
+                        <br>
+                        <small class="text-muted">
+                          {% if conversation.assigned_admin %}
+                            Assigned to: {{ conversation.assigned_admin.full_name }}
+                          {% else %}
+                            Unassigned
+                          {% endif %}
+                        </small>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <span class="badge badge-{{ conversation.status|yesno:'success,warning,info,secondary' }}">{{ conversation.status|title }}</span>
+                      <br>
+                      <small class="text-muted">{{ conversation.last_message_at|date:"M d, H:i"|default:conversation.created_at|date:"M d, H:i" }}</small>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="text-muted text-center">No recent chat activity</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Services & Infrastructure Overview -->
+      <div class="row">
+        <div class="col-xl-6">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Top Service Categories</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'services' %}" class="btn btn-sm btn-primary">View all</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              {% if top_services %}
+                <div class="list-group list-group-flush">
+                  {% for service in top_services %}
+                  <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-primary text-white rounded-circle mr-3">
+                        <i class="fas fa-heartbeat"></i>
+                      </div>
+                      <span>{{ service.service_category__category_name }}</span>
+                    </div>
+                    <span class="badge badge-primary badge-pill">{{ service.facility_count }} facilities</span>
+                  </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="text-muted text-center">No service data available</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-6">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Infrastructure Status</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'infrastructure' %}" class="btn btn-sm btn-primary">View all</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              {% if infrastructure_by_type %}
+                <div class="list-group list-group-flush">
+                  {% for infra in infrastructure_by_type %}
+                  <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-info text-white rounded-circle mr-3">
+                        <i class="fas fa-building"></i>
+                      </div>
+                      <div>
+                        <span>{{ infra.infrastructure_type__type_name }}</span>
+                        <br>
+                        <small class="text-muted">{{ infra.available }}/{{ infra.count }} available</small>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <span class="badge badge-{{ infra.good_condition|yesno:'success,warning' }}">{{ infra.good_condition }} good</span>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="text-muted text-center">No infrastructure data available</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Music & Documents Overview -->
+      <div class="row">
+        <div class="col-xl-6">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Top Music Tracks</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'music:music_list' %}" class="btn btn-sm btn-primary">View all</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              {% if top_music %}
+                <div class="list-group list-group-flush">
+                  {% for track in top_music %}
+                  <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-purple text-white rounded-circle mr-3">
+                        <i class="fas fa-music"></i>
+                      </div>
+                      <div>
+                        <span class="font-weight-bold">{{ track.name }}</span>
+                        {% if track.artist %}
+                          <br>
+                          <small class="text-muted">{{ track.artist }}</small>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <span class="badge badge-purple badge-pill">{{ track.play_count }} plays</span>
+                  </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="text-muted text-center">No music data available</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-6">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Recent Documents</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'documents:document_list' %}" class="btn btn-sm btn-primary">View all</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              {% if recent_documents %}
+                <div class="list-group list-group-flush">
+                  {% for doc in recent_documents %}
+                  <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-warning text-white rounded-circle mr-3">
+                        <i class="fas fa-file-alt"></i>
+                      </div>
+                      <div>
+                        <span class="font-weight-bold">{{ doc.title }}</span>
+                        <br>
+                        <small class="text-muted">{{ doc.document_type.type_name }}</small>
+                      </div>
+                    </div>
+                    <small class="text-muted">{{ doc.uploaded_at|date:"M d, H:i" }}</small>
+                  </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <p class="text-muted text-center">No recent documents</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity & Recent Facilities -->
+      <div class="row">
+        <div class="col-xl-6">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Recent Activity (30 days)</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="text-center">
+                    <h4 class="text-primary">{{ recent_activity.facilities_created|default:0 }}</h4>
+                    <p class="text-muted">Facilities Created</p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="text-center">
+                    <h4 class="text-success">{{ recent_activity.documents_uploaded|default:0 }}</h4>
+                    <p class="text-muted">Documents Uploaded</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-lg-6">
+                  <div class="text-center">
+                    <h4 class="text-danger">{{ recent_activity.conversations_started|default:0 }}</h4>
+                    <p class="text-muted">Chat Conversations</p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="text-center">
+                    <h4 class="text-purple">{{ recent_activity.music_plays|default:0 }}</h4>
+                    <p class="text-muted">Music Plays</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Facilities -->
+        {% if recent_facilities %}
+        <div class="col-xl-6">
           <div class="card">
             <div class="card-header border-0">
               <div class="row align-items-center">
@@ -338,8 +749,8 @@
             </div>
           </div>
         </div>
+        {% endif %}
       </div>
-      {% endif %}
 
       {% include "includes/footer.html" %}
 

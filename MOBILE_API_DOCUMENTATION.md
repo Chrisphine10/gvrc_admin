@@ -1,7 +1,7 @@
 # Mobile API Documentation
 
 ## Overview
-The GVRC Admin system provides a dedicated mobile API section designed specifically for mobile applications and field workers. This API uses mobile session-based authentication, allowing anonymous mobile app users to access services without traditional user login. The mobile session acts as the authentication mechanism, providing device tracking, location awareness, and user analytics.
+The Hodi Admin system provides a dedicated mobile API section designed specifically for mobile applications and field workers. This API uses mobile session-based authentication, allowing anonymous mobile app users to access services without traditional user login. The mobile session acts as the authentication mechanism, providing device tracking, location awareness, and user analytics.
 
 ## Mobile API Base URL
 ```

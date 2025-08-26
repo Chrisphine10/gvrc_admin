@@ -172,43 +172,71 @@ class MessageService:
         conversation: Conversation,
         content: str,
         sender_type: str,
-        sender: Optional["UserType"] = None,
         message_type: str = 'text',
         media_file = None,
         media_url: str = "",
+        sender = None,
         is_urgent: bool = False,
         metadata: Optional[Dict[str, Any]] = None
     ) -> Message:
         """
-        Create a new message in a conversation
+        Create a message in a conversation
         
         Args:
             conversation: Conversation to add message to
             content: Message content
             sender_type: Type of sender ('mobile' or 'admin')
-            sender: User who sent the message (null for mobile users)
             message_type: Type of message content
             media_file: Uploaded media file if applicable
             media_url: URL to media file if applicable
+            sender: User who sent the message (for admin users)
             is_urgent: Whether message is urgent
             metadata: Additional message metadata
             
         Returns:
             Created message
         """
-        if metadata is None:
+        print(f"DEBUG: Creating message in conversation {conversation.conversation_id}")
+        print(f"DEBUG: Message type: {message_type}")
+        print(f"DEBUG: Content: {content[:100]}...")
+        print(f"DEBUG: Media file: {media_file}")
+        
+        if media_file:
+            print(f"DEBUG: Media file details:")
+            print(f"  - Name: {media_file.name}")
+            print(f"  - Size: {media_file.size} bytes")
+            print(f"  - Content type: {media_file.content_type}")
+            print(f"  - File object type: {type(media_file)}")
+            
+            # Check if it's a proper file object
+            if hasattr(media_file, 'read'):
+                print(f"  - Has read method: ✅")
+            else:
+                print(f"  - Has read method: ❌")
+                
+            if hasattr(media_file, 'name'):
+                print(f"  - Has name attribute: ✅")
+            else:
+                print(f"  - Has name attribute: ❌")
+        
+        if not metadata:
             metadata = {}
         
         # Handle file upload
         if media_file:
+            # Store original filename before it gets renamed by the upload_to function
+            original_filename = getattr(media_file, 'name', 'unknown_file')
+            
             # Update metadata with file information
             metadata.update({
                 'file_name': media_file.name,
                 'file_size': media_file.size,
                 'file_type': media_file.content_type,
-                'original_name': getattr(media_file, 'original_name', media_file.name)
+                'original_name': original_filename
             })
+            print(f"DEBUG: Updated metadata: {metadata}")
         
+        print(f"DEBUG: About to create Message object...")
         message = Message.objects.create(
             conversation=conversation,
             content=content,
@@ -220,6 +248,13 @@ class MessageService:
             is_urgent=is_urgent,
             metadata=metadata
         )
+        
+        print(f"DEBUG: Message created with ID: {message.message_id}")
+        print(f"DEBUG: Message media_file field: {message.media_file}")
+        if message.media_file:
+            print(f"DEBUG: Message media_file path: {message.media_file.path}")
+            print(f"DEBUG: Message media_file URL: {message.media_file.url}")
+            print(f"DEBUG: Message media_file exists: {message.media_file.storage.exists(message.media_file.name)}")
         
         # Auto-assign admin if this is the first message and no admin assigned
         if (sender_type == 'mobile' and 

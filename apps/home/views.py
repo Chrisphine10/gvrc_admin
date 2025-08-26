@@ -17,6 +17,12 @@ from apps.authentication.models import User
 from apps.authentication.views import custom_login_required
 from apps.geography.models import County
 import logging
+from django.utils import timezone
+from datetime import timedelta
+from apps.chat.models import Conversation, Message
+from apps.music.models import Music, MusicPlay
+from apps.facilities.models import FacilityService, FacilityContact, FacilityInfrastructure
+from apps.lookups.models import ServiceCategory, ContactType, InfrastructureType
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +46,7 @@ def landing_page(request):
         'total_facilities': total_facilities,
         'total_counties': total_counties,
         'operational_facilities': operational_facilities,
+        'segment': 'landing',
     }
     
     return render(request, 'home/landing.html', context)
@@ -47,7 +54,8 @@ def landing_page(request):
 
 @custom_login_required
 def index(request):
-    """Dashboard view with system overview - only for authenticated users"""
+    """Dashboard view with comprehensive system overview - only for authenticated users"""
+    
     # Get basic counts
     total_facilities = Facility.objects.filter(is_active=True).count()
     total_users = User.objects.filter(is_active=True).count()
@@ -75,12 +83,84 @@ def index(request):
         facilityservice__isnull=False
     ).distinct().count()
     
+    # Get document statistics
+    total_documents = Document.objects.filter(is_active=True).count()
+    recent_documents = Document.objects.filter(
+        is_active=True
+    ).select_related('document_type', 'gbv_category').order_by('-uploaded_at')[:5]
+    
+    # Get chat statistics
+    total_conversations = Conversation.objects.count()
+    active_conversations = Conversation.objects.filter(status__in=['new', 'active']).count()
+    urgent_conversations = Conversation.objects.filter(priority='urgent').count()
+    total_messages = Message.objects.count()
+    
+    # Get recent chat activity
+    recent_conversations = Conversation.objects.select_related(
+        'mobile_session', 'assigned_admin'
+    ).order_by('-last_message_at', '-created_at')[:5]
+    
+    # Get music statistics
+    total_music_tracks = Music.objects.filter(is_active=True).count()
+    total_music_plays = MusicPlay.objects.count()
+    recent_music_plays = MusicPlay.objects.select_related(
+        'music', 'user'
+    ).order_by('-played_at')[:5]
+    
+    # Get service statistics
+    total_services = FacilityService.objects.filter(is_active=True).count()
+    services_by_category = FacilityService.objects.filter(
+        is_active=True
+    ).values('service_category__category_name').annotate(
+        count=Count('service_id')
+    ).order_by('-count')[:5]
+    
+    # Get human resources statistics
+    total_contacts = FacilityContact.objects.filter(is_active=True).count()
+    contacts_by_type = FacilityContact.objects.filter(
+        is_active=True
+    ).values('contact_type__type_name').annotate(
+        count=Count('contact_id')
+    ).order_by('-count')[:5]
+    
+    # Get infrastructure statistics
+    total_infrastructure = FacilityInfrastructure.objects.count()
+    infrastructure_by_type = FacilityInfrastructure.objects.values(
+        'infrastructure_type__type_name'
+    ).annotate(
+        count=Count('infrastructure_id'),
+        available=Count('infrastructure_id', filter=Q(is_available=True)),
+        good_condition=Count('infrastructure_id', filter=Q(condition_status__status_name__in=['Good', 'Excellent']))
+    ).order_by('-count')[:5]
+    
     # Get recent facilities
     recent_facilities = Facility.objects.filter(
         is_active=True
     ).select_related(
         'ward__constituency__county'
     ).order_by('-created_at')[:5]
+    
+    # Get system activity in last 30 days
+    thirty_days_ago = timezone.now() - timedelta(days=30)
+    recent_activity = {
+        'facilities_created': Facility.objects.filter(created_at__gte=thirty_days_ago).count(),
+        'documents_uploaded': Document.objects.filter(uploaded_at__gte=thirty_days_ago).count(),
+        'conversations_started': Conversation.objects.filter(created_at__gte=thirty_days_ago).count(),
+        'music_plays': MusicPlay.objects.filter(played_at__gte=thirty_days_ago).count(),
+    }
+    
+    # Get top performing items
+    top_services = FacilityService.objects.filter(
+        is_active=True
+    ).values('service_category__category_name').annotate(
+        facility_count=Count('facility_id', distinct=True)
+    ).order_by('-facility_count')[:5]
+    
+    top_music = Music.objects.filter(
+        is_active=True
+    ).annotate(
+        play_count=Count('musicplay__play_id')
+    ).order_by('-play_count')[:5]
     
     context = {
         'total_facilities': total_facilities,
@@ -91,6 +171,41 @@ def index(request):
         'facilities_with_coordinates': facilities_with_coordinates,
         'facilities_with_services': facilities_with_services,
         'recent_facilities': recent_facilities,
+        
+        # Document data
+        'total_documents': total_documents,
+        'recent_documents': recent_documents,
+        
+        # Chat data
+        'total_conversations': total_conversations,
+        'active_conversations': active_conversations,
+        'urgent_conversations': urgent_conversations,
+        'total_messages': total_messages,
+        'recent_conversations': recent_conversations,
+        
+        # Music data
+        'total_music_tracks': total_music_tracks,
+        'total_music_plays': total_music_plays,
+        'recent_music_plays': recent_music_plays,
+        
+        # Service data
+        'total_services': total_services,
+        'services_by_category': services_by_category,
+        'top_services': top_services,
+        
+        # Human resources data
+        'total_contacts': total_contacts,
+        'contacts_by_type': contacts_by_type,
+        
+        # Infrastructure data
+        'total_infrastructure': total_infrastructure,
+        'infrastructure_by_type': infrastructure_by_type,
+        
+        # Activity data
+        'recent_activity': recent_activity,
+        'top_music': top_music,
+        
+        'segment': 'index',
     }
     
     return render(request, 'home/index.html', context)
@@ -140,8 +255,8 @@ def services_programs(request):
     
     # Get statistics
     total_services = services.count()
-    total_facilities_with_services = services.values('facility').distinct().count()
-    total_categories = services.values('service_category').distinct().count()
+    total_facilities_with_services = services.values('facility_id').distinct().count()
+    total_categories = services.values('service_category_id').distinct().count()
     
     # Group services by category for summary
     services_by_category = {}
@@ -249,8 +364,8 @@ def human_resources(request):
     
     # Get statistics
     total_hr_contacts = hr_contacts.count()
-    total_facilities_with_hr = hr_contacts.values('facility').distinct().count()
-    total_contact_types = hr_contacts.values('contact_type').distinct().count()
+    total_facilities_with_hr = hr_contacts.values('facility_id').distinct().count()
+    total_contact_types = hr_contacts.values('contact_type_id').distinct().count()
     
     # Group HR contacts by type for summary
     hr_by_type = {}

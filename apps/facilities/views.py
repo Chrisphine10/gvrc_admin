@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, Count
 from django.db import transaction
+from django.conf import settings
 from .models import Facility, FacilityContact, FacilityService, FacilityOwner, FacilityCoordinate, FacilityGBVCategory, FacilityInfrastructure
 from .forms import (
     FacilityForm, FacilityContactForm, FacilityServiceForm, FacilityOwnerForm, 
@@ -74,6 +75,7 @@ def facility_list(request):
         'counties': counties,
         'operational_statuses': operational_statuses,
         'service_categories': service_categories,
+        'segment': 'facilities',
     }
     
     return render(request, 'facilities/facility_list.html', context)
@@ -111,6 +113,7 @@ def facility_detail(request, facility_id):
         'owners': owners,
         'infrastructure': infrastructure,
         'coordinates': coordinates,
+        'segment': 'facilities',
     }
     
     return render(request, 'facilities/facility_detail.html', context)
@@ -130,7 +133,7 @@ def facility_map(request):
     # Filter facilities with coordinates
     facilities_with_coords = []
     for facility in facilities:
-        coords = facility.facilitycoordinate_set.filter(is_active=True).first()
+        coords = facility.facilitycoordinate_set.first()
         if coords and coords.latitude and coords.longitude:
             facilities_with_coords.append({
                 'facility': facility,
@@ -141,6 +144,8 @@ def facility_map(request):
         'facilities_with_coords': facilities_with_coords,
         'total_facilities': facilities.count(),
         'facilities_with_coords_count': len(facilities_with_coords),
+        'segment': 'facility_map',
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
     }
     
     return render(request, 'facilities/facility_map.html', context)
@@ -160,7 +165,8 @@ def facility_create(request):
         
         if (facility_form.is_valid() and coordinate_form.is_valid() and 
             gbv_form.is_valid() and contact_formset.is_valid() and 
-            service_formset.is_valid() and owner_formset.is_valid()):
+            service_formset.is_valid() and owner_formset.is_valid() and
+            infrastructure_formset.is_valid()):
             
             try:
                 with transaction.atomic():
@@ -221,6 +227,8 @@ def facility_create(request):
                             try:
                                 infrastructure = infrastructure_form.save(commit=False)
                                 infrastructure.facility = facility
+                                if request.user.is_authenticated:
+                                    infrastructure.created_by = request.user.user_id
                                 infrastructure.save()
                             except Exception as e:
                                 # Log error but don't fail the entire operation
@@ -253,6 +261,7 @@ def facility_create(request):
         'infrastructure_formset': infrastructure_formset,
         'form_action': 'Create',
         'page_title': 'Create New Facility',
+        'segment': 'facilities',
     }
     
     return render(request, 'facilities/facility_form.html', context)
@@ -268,6 +277,7 @@ def facility_update(request, facility_id):
     existing_contacts = facility.facilitycontact_set.filter(is_active=True)
     existing_services = facility.facilityservice_set.filter(is_active=True)
     existing_owners = facility.facilityowner_set.filter(is_active=True)
+    existing_infrastructure = facility.facilityinfrastructure_set.filter(is_active=True)
     
     if request.method == 'POST':
         facility_form = FacilityForm(request.POST, instance=facility)
@@ -280,7 +290,8 @@ def facility_update(request, facility_id):
         
         if (facility_form.is_valid() and coordinate_form.is_valid() and 
             gbv_form.is_valid() and contact_formset.is_valid() and 
-            service_formset.is_valid() and owner_formset.is_valid()):
+            service_formset.is_valid() and owner_formset.is_valid() and
+            infrastructure_formset.is_valid()):
             
             try:
                 with transaction.atomic():
@@ -356,6 +367,8 @@ def facility_update(request, facility_id):
                             try:
                                 infrastructure = infrastructure_form.save(commit=False)
                                 infrastructure.facility = facility
+                                if request.user.is_authenticated:
+                                    infrastructure.created_by = request.user.user_id
                                 infrastructure.save()
                             except Exception as e:
                                 # Log error but don't fail the entire operation
@@ -373,9 +386,6 @@ def facility_update(request, facility_id):
         facility_form = FacilityForm(instance=facility)
         coordinate_form = FacilityCoordinateForm(instance=existing_coordinate)
         gbv_form = FacilityGBVCategoryForm(facility=facility)
-        
-        # Get existing infrastructure
-        existing_infrastructure = facility.facilityinfrastructure_set.filter(is_active=True)
         
         # Populate formsets with existing data
         contact_initial = [
@@ -418,6 +428,7 @@ def facility_update(request, facility_id):
         'infrastructure_formset': infrastructure_formset,
         'form_action': 'Update',
         'page_title': f'Edit {facility.facility_name}',
+        'segment': 'facilities',
     }
     
     return render(request, 'facilities/facility_form.html', context)

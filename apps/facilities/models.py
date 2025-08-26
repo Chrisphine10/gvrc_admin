@@ -134,8 +134,11 @@ class FacilityInfrastructure(models.Model):
     capacity = models.IntegerField(blank=True, null=True)
     current_utilization = models.IntegerField(blank=True, null=True)
     is_available = models.BooleanField(default=True, null=False)
+    is_active = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField(default=timezone.now, null=False)
     updated_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_by = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='facility_infrastructure_created', db_column='created_by', null=True, blank=True)
+    updated_by = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='facility_infrastructure_updated', db_column='updated_by')
     
     def __str__(self):
         return f"{self.facility.facility_name} - {self.infrastructure_type.type_name}"
@@ -147,6 +150,7 @@ class FacilityInfrastructure(models.Model):
             models.Index(fields=['facility']),
             models.Index(fields=['infrastructure_type']),
             models.Index(fields=['condition_status']),
+            models.Index(fields=['is_active']),
         ]
 
 

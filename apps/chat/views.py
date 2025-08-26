@@ -521,9 +521,21 @@ class AdminConversationViewSet(viewsets.ViewSet):
             conversation = get_object_or_404(Conversation, pk=pk)
             
             # Handle both form data (file uploads) and JSON data
+            print(f"DEBUG: Request content type: {request.content_type}")
+            print(f"DEBUG: Request data keys: {list(request.data.keys()) if hasattr(request.data, 'keys') else 'No keys'}")
+            print(f"DEBUG: Request FILES keys: {list(request.FILES.keys()) if request.FILES else 'No FILES'}")
+            
+            # For file uploads, we need to merge request.FILES into request.data
             if request.content_type and 'multipart/form-data' in request.content_type:
-                serializer = CreateMessageSerializer(data=request.data)
+                print(f"DEBUG: Using multipart form data")
+                # Create a mutable copy of request.data and merge files
+                data = request.data.copy()
+                if request.FILES:
+                    data.update(request.FILES)
+                print(f"DEBUG: Merged data keys: {list(data.keys())}")
+                serializer = CreateMessageSerializer(data=data)
             else:
+                print(f"DEBUG: Using regular data")
                 serializer = CreateMessageSerializer(data=request.data)
             
             if serializer.is_valid():
@@ -534,6 +546,12 @@ class AdminConversationViewSet(viewsets.ViewSet):
                 media_url = serializer.validated_data.get('media_url', '')
                 is_urgent = serializer.validated_data.get('is_urgent', False)
                 metadata = serializer.validated_data.get('metadata', {})
+                
+                print(f"DEBUG: After validation - media_file: {media_file}")
+                if media_file:
+                    print(f"DEBUG: media_file type: {type(media_file)}")
+                    print(f"DEBUG: media_file name: {media_file.name}")
+                    print(f"DEBUG: media_file size: {media_file.size}")
                 
                 # Determine message type based on file if not specified
                 if media_file:
@@ -657,6 +675,253 @@ class AdminConversationViewSet(viewsets.ViewSet):
         
         serializer = ConversationStatsSerializer(stats)
         return Response(serializer.data)
+    
+    @swagger_auto_schema(
+        operation_id="admin_conversations_analytics",
+        operation_description="Get detailed chat analytics and insights",
+        manual_parameters=[
+            openapi.Parameter(
+                'time_range', openapi.IN_QUERY, description="Time range filter", type=openapi.TYPE_STRING,
+                enum=['7d', '30d', '90d', '1y'], default='7d'
+            ),
+            openapi.Parameter(
+                'start_date', openapi.IN_QUERY, description="Start date (YYYY-MM-DD)", type=openapi.TYPE_STRING
+            ),
+            openapi.Parameter(
+                'end_date', openapi.IN_QUERY, description="End date (YYYY-MM-DD)", type=openapi.TYPE_STRING
+            )
+        ],
+        responses={
+            200: openapi.Response('Chat analytics data', openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'total_conversations': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'active_conversations': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'avg_response_time': openapi.Schema(type=openapi.TYPE_NUMBER),
+                    'resolution_rate': openapi.Schema(type=openapi.TYPE_NUMBER),
+                    'total_messages': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'mobile_messages': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'admin_messages': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'avg_messages_per_conversation': openapi.Schema(type=openapi.TYPE_NUMBER),
+                    'status_distribution': openapi.Schema(type=openapi.TYPE_OBJECT),
+                    'priority_distribution': openapi.Schema(type=openapi.TYPE_OBJECT),
+                    'conversations_trend_data': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT)),
+                    'top_admins': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT)),
+                    'activity_hours': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT))
+                }
+            )),
+            403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Admin API"]
+    )
+    @action(detail=False, methods=['get'], url_path='analytics')
+    def get_analytics(self, request):
+        """Get detailed chat analytics and insights"""
+        from datetime import timedelta
+        
+        # Get time range parameters
+        time_range = request.query_params.get('time_range', '7d')
+        start_date = request.query_params.get('start_date')
+        end_date = request.query_params.get('end_date')
+        
+        # Set default dates if not provided
+        if not start_date or not end_date:
+            end_date = timezone.now().date()
+            if time_range == '7d':
+                start_date = end_date - timedelta(days=7)
+            elif time_range == '30d':
+                start_date = end_date - timedelta(days=30)
+            elif time_range == '90d':
+                start_date = end_date - timedelta(days=90)
+            else:
+                start_date = end_date - timedelta(days=7)
+        else:
+            # Convert string dates to date objects
+            start_date = timezone.datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = timezone.datetime.strptime(end_date, '%Y-%m-%d').date()
+        
+        # Convert to datetime for filtering
+        start_datetime = timezone.make_aware(
+            timezone.datetime.combine(start_date, timezone.datetime.min.time())
+        )
+        end_datetime = timezone.make_aware(
+            timezone.datetime.combine(end_date, timezone.datetime.max.time())
+        )
+        
+        # Get conversations in date range
+        conversations = Conversation.objects.filter(
+            created_at__range=(start_datetime, end_datetime)
+        ).select_related('assigned_admin')
+        
+        # Calculate basic metrics
+        total_conversations = conversations.count()
+        
+        if total_conversations == 0:
+            # No data available - return empty response
+            return Response({
+                'total_conversations': 0,
+                'active_conversations': 0,
+                'avg_response_time': 0,
+                'resolution_rate': 0,
+                'total_messages': 0,
+                'mobile_messages': 0,
+                'admin_messages': 0,
+                'avg_messages_per_conversation': 0,
+                'status_distribution': {},
+                'priority_distribution': {},
+                'conversations_trend_data': [],
+                'top_admins': [],
+                'activity_hours': [],
+            })
+        
+        # Calculate status-based metrics
+        active_conversations = conversations.filter(status='active').count()
+        resolved_conversations = conversations.filter(status='resolved').count()
+        
+        # Calculate resolution rate
+        resolution_rate = resolved_conversations / total_conversations if total_conversations > 0 else 0
+        
+        # Get messages in date range
+        messages = Message.objects.filter(
+            conversation__created_at__range=(start_datetime, end_datetime)
+        )
+        
+        total_messages = messages.count()
+        mobile_messages = messages.filter(sender_type='mobile').count()
+        admin_messages = messages.filter(sender_type='admin').count()
+        
+        # Calculate average messages per conversation
+        avg_messages_per_conversation = total_messages / total_conversations if total_conversations > 0 else 0
+        
+        # Calculate average response time (simplified - only for conversations with admin responses)
+        conversations_with_admin_response = conversations.filter(
+            messages__sender_type='admin'
+        ).distinct()
+        
+        avg_response_time = 0
+        if conversations_with_admin_response.exists():
+            total_response_time = 0
+            response_count = 0
+            
+            for conversation in conversations_with_admin_response:
+                first_admin_message = conversation.messages.filter(
+                    sender_type='admin'
+                ).order_by('sent_at').first()
+                
+                if first_admin_message:
+                    response_time = (first_admin_message.sent_at - conversation.created_at).total_seconds() / 60
+                    total_response_time += response_time
+                    response_count += 1
+            
+            if response_count > 0:
+                avg_response_time = round(total_response_time / response_count, 1)
+        
+        # Get status distribution
+        status_distribution = {}
+        if total_conversations > 0:
+            status_counts = conversations.values('status').annotate(
+                count=Count('conversation_id')
+            )
+            status_distribution = {item['status']: item['count'] for item in status_counts}
+        
+        # Get priority distribution
+        priority_distribution = {}
+        if total_conversations > 0:
+            priority_counts = conversations.values('priority').annotate(
+                count=Count('conversation_id')
+            )
+            priority_distribution = {item['priority']: item['count'] for item in priority_counts}
+        
+        # Get conversations trend data (daily) - only if meaningful
+        conversations_trend = []
+        if total_conversations > 0:
+            current_date = start_date
+            while current_date <= end_date:
+                daily_count = conversations.filter(
+                    created_at__date=current_date
+                ).count()
+                conversations_trend.append({
+                    'date': current_date.strftime('%b %d'),
+                    'count': daily_count
+                })
+                current_date += timedelta(days=1)
+        
+        # Get top admin performers (only if there are assigned conversations)
+        top_admins = []
+        assigned_conversations = conversations.filter(assigned_admin__isnull=False)
+        
+        if assigned_conversations.exists():
+            admin_stats = User.objects.filter(
+                is_staff=True,
+                assigned_conversations__created_at__range=(start_datetime, end_datetime)
+            ).annotate(
+                conversations_handled=Count('assigned_conversations')
+            ).filter(conversations_handled__gt=0).order_by('-conversations_handled')[:5]
+            
+            # Calculate average response time for each admin (simplified)
+            for admin in admin_stats:
+                admin_conversations = admin.assigned_conversations.filter(
+                    created_at__range=(start_datetime, end_datetime)
+                )
+                
+                admin_response_time = 0
+                response_count = 0
+                
+                for conversation in admin_conversations:
+                    first_admin_message = conversation.messages.filter(
+                        sender_type='admin'
+                    ).order_by('sent_at').first()
+                    
+                    if first_admin_message:
+                        response_time = (first_admin_message.sent_at - conversation.created_at).total_seconds() / 60
+                        admin_response_time += response_time
+                        response_count += 1
+                
+                if response_count > 0:
+                    admin.avg_response_time = round(admin_response_time / response_count, 1)
+                else:
+                    admin.avg_response_time = 0
+            
+            top_admins = [
+                {
+                    'username': admin.username,
+                    'conversations_handled': admin.conversations_handled,
+                    'avg_response_time': admin.avg_response_time
+                }
+                for admin in admin_stats
+            ]
+        
+        # Get activity hours (simplified - only if meaningful)
+        activity_hours = []
+        if total_conversations > 0:
+            for hour in range(24):
+                hour_count = conversations.filter(
+                    created_at__hour=hour
+                ).count()
+                if hour_count > 0:  # Only include hours with activity
+                    activity_hours.append({
+                        'hour': hour,
+                        'count': hour_count
+                    })
+        
+        # Prepare response data
+        analytics_data = {
+            'total_conversations': total_conversations,
+            'active_conversations': active_conversations,
+            'avg_response_time': avg_response_time,
+            'resolution_rate': resolution_rate,
+            'total_messages': total_messages,
+            'mobile_messages': mobile_messages,
+            'admin_messages': admin_messages,
+            'avg_messages_per_conversation': round(avg_messages_per_conversation, 1),
+            'status_distribution': status_distribution,
+            'priority_distribution': priority_distribution,
+            'conversations_trend_data': conversations_trend,
+            'top_admins': top_admins,
+            'activity_hours': activity_hours,
+        }
+        
+        return Response(analytics_data)
 
 
 class NotificationViewSet(viewsets.ViewSet):

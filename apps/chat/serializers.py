@@ -236,15 +236,27 @@ class CreateMessageSerializer(serializers.Serializer):
     is_urgent = serializers.BooleanField(default=False, help_text="Whether message is urgent")
     metadata = serializers.JSONField(required=False, default=dict, help_text="Additional message metadata")
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+    def is_valid(self, raise_exception=False):
+        """Override is_valid to add debugging"""
+        result = super().is_valid(raise_exception=raise_exception)
+        if not result:
+            print(f"DEBUG: Validation errors: {self.errors}")
+        return result
+    
     def validate(self, data):
         """Validate message data"""
+        print(f"DEBUG: Serializer validate called with data keys: {list(data.keys())}")
         message_type = data.get('message_type', 'text')
         content = data.get('content', '')
         media_file = data.get('media_file')
-        media_url = data.get('media_url')
+        media_url = data.get('media_url', '')
         
-        # If there's a media file, allow it even for text messages (type will be determined later)
+        print(f"DEBUG: media_file in validate: {media_file}")
         if media_file:
+            print(f"DEBUG: Media file found, type: {type(media_file)}")
             return data
         
         # For text messages without files, content is required

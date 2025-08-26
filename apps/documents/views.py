@@ -11,6 +11,7 @@ from django.db.models import Q, Count
 from django.http import JsonResponse
 from django.utils import timezone
 from .models import Document
+from .forms import DocumentForm, DocumentUploadForm
 from apps.lookups.models import DocumentType, GBVCategory
 
 
@@ -103,56 +104,33 @@ def document_detail(request, document_id):
 def document_create(request):
     """Create a new document"""
     if request.method == 'POST':
-        try:
-            # Extract form data
-            title = request.POST.get('title')
-            description = request.POST.get('description', '')
-            document_type_id = request.POST.get('document_type')
-            file_url = request.POST.get('file_url', '')
-            file_name = request.POST.get('file_name', '')
-            content = request.POST.get('content', '')
-            gbv_category_id = request.POST.get('gbv_category', '')
-            image_url = request.POST.get('image_url', '')
-            external_url = request.POST.get('external_url', '')
-            is_public = request.POST.get('is_public') == 'on'
-            
-            # Validation
-            if not title or not document_type_id:
-                messages.error(request, 'Title and document type are required.')
-                return redirect('document_create')
-            
-            # Create document
-            document = Document.objects.create(
-                title=title,
-                description=description,
-                document_type_id=document_type_id,
-                file_url=file_url,
-                file_name=file_name,
-                content=content,
-                gbv_category_id=gbv_category_id if gbv_category_id else None,
-                image_url=image_url,
-                external_url=external_url,
-                is_public=is_public,
-                uploaded_by=request.user
-            )
-            
-            messages.success(request, f'Document "{document.title}" created successfully.')
-            return redirect('document_detail', document_id=document.document_id)
-            
-        except Exception as e:
-            messages.error(request, f'Error creating document: {str(e)}')
-            return redirect('document_create')
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                document = form.save(commit=False)
+                document.uploaded_by = request.user
+                document.save()
+                
+                messages.success(request, f'Document "{document.title}" created successfully.')
+                return redirect('document_detail', document_id=document.document_id)
+                
+            except Exception as e:
+                messages.error(request, f'Error creating document: {str(e)}')
+        else:
+            # Display form errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
+    else:
+        form = DocumentForm()
     
     # GET request - show form
-    document_types = DocumentType.objects.all().order_by('type_name')
-    gbv_categories = GBVCategory.objects.all().order_by('category_name')
-    
     context = {
         'segment': 'documents',
         'page_title': 'Create New Document',
-        'action': 'Create',
-        'document_types': document_types,
-        'gbv_categories': gbv_categories,
+        'form': form,
+        'document_types': DocumentType.objects.all().order_by('type_name'),
+        'gbv_categories': GBVCategory.objects.all().order_by('category_name'),
     }
     
     return render(request, 'documents/document_form.html', context)
@@ -168,55 +146,30 @@ def document_edit(request, document_id):
     )
     
     if request.method == 'POST':
-        try:
-            # Extract form data
-            title = request.POST.get('title')
-            description = request.POST.get('description', '')
-            document_type_id = request.POST.get('document_type')
-            file_url = request.POST.get('file_url', '')
-            file_name = request.POST.get('file_name', '')
-            content = request.POST.get('content', '')
-            gbv_category_id = request.POST.get('gbv_category', '')
-            image_url = request.POST.get('image_url', '')
-            external_url = request.POST.get('external_url', '')
-            is_public = request.POST.get('is_public') == 'on'
-            
-            # Validation
-            if not title or not document_type_id:
-                messages.error(request, 'Title and document type are required.')
-                return redirect('document_edit', document_id=document_id)
-            
-            # Update document
-            document.title = title
-            document.description = description
-            document.document_type_id = document_type_id
-            document.file_url = file_url
-            document.file_name = file_name
-            document.content = content
-            document.gbv_category_id = gbv_category_id if gbv_category_id else None
-            document.image_url = image_url
-            document.external_url = external_url
-            document.is_public = is_public
-            document.save()
-            
-            messages.success(request, f'Document "{document.title}" updated successfully.')
-            return redirect('document_detail', document_id=document.document_id)
-            
-        except Exception as e:
-            messages.error(request, f'Error updating document: {str(e)}')
-            return redirect('document_edit', document_id=document_id)
-    
-    # GET request - show form
-    document_types = DocumentType.objects.all().order_by('type_name')
-    gbv_categories = GBVCategory.objects.all().order_by('category_name')
+        form = DocumentForm(request.POST, request.FILES, instance=document)
+        if form.is_valid():
+            try:
+                document = form.save()
+                messages.success(request, f'Document "{document.title}" updated successfully.')
+                return redirect('document_detail', document_id=document.document_id)
+                
+            except Exception as e:
+                messages.error(request, f'Error updating document: {str(e)}')
+        else:
+            # Display form errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
+    else:
+        form = DocumentForm(instance=document)
     
     context = {
         'segment': 'documents',
         'page_title': f'Edit Document: {document.title}',
-        'action': 'Edit',
+        'form': form,
         'document': document,
-        'document_types': document_types,
-        'gbv_categories': gbv_categories,
+        'document_types': DocumentType.objects.all().order_by('type_name'),
+        'gbv_categories': GBVCategory.objects.all().order_by('category_name'),
     }
     
     return render(request, 'documents/document_form.html', context)

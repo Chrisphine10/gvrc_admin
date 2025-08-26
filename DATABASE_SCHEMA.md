@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the complete database schema for the GVRC Admin system, which has been restructured to align with the specified requirements.
+This document describes the complete database schema for the Hodi Admin system, which has been restructured to align with the specified requirements.
 
 ## Database Structure
 

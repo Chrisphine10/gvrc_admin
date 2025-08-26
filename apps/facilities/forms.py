@@ -286,6 +286,11 @@ class FacilityInfrastructureForm(forms.ModelForm):
         required_fields = ['infrastructure_type', 'condition_status']
         for field_name, field in self.fields.items():
             field.required = field_name in required_fields
+            
+        # Make infrastructure type and condition status not required for empty forms
+        # They will be validated only if the form has data
+        self.fields['infrastructure_type'].required = False
+        self.fields['condition_status'].required = False
 
 
 class FacilityGBVCategoryForm(forms.Form):
@@ -342,7 +347,7 @@ FacilityOwnerFormSet = formset_factory(
 
 FacilityInfrastructureFormSet = formset_factory(
     FacilityInfrastructureForm, 
-    extra=0,  # Start with exactly 0 forms (from min_num)
+    extra=1,  # Start with 1 empty form
     min_num=0,  # Infrastructure is optional
     max_num=10,
     can_delete=True,

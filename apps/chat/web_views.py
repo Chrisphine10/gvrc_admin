@@ -101,7 +101,7 @@ def conversation_list(request):
     context = {
         'conversations': page_obj,
         'admins': admins,
-        'segment': 'chat',
+        'segment': 'chat_conversations',
         'filters': {
             'status': status,
             'priority': priority,
@@ -137,6 +137,11 @@ def conversation_detail(request, conversation_id):
         conversation.unread_count_admin = 0
         conversation.save(update_fields=['unread_count_admin'])
     
+    # Get all staff users for assignment dropdown
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    admins = User.objects.filter(is_staff=True).exclude(user_id=request.user.user_id)
+    
     # Serialize messages to include media_file_url
     from .serializers import MessageSerializer
     serialized_messages = MessageSerializer(messages, many=True, context={'request': request})
@@ -144,7 +149,8 @@ def conversation_detail(request, conversation_id):
     context = {
         'conversation': conversation,
         'messages': serialized_messages.data,  # Use serialized data
-        'segment': 'chat',
+        'admins': admins,
+        'segment': 'chat_conversations',
     }
     
     return render(request, 'chat/conversation_detail.html', context)
@@ -208,6 +214,26 @@ def chat_analytics(request):
     if total_conversations > 0:
         avg_messages_per_conversation = total_messages / total_conversations
     
+    # Calculate overall average response time
+    total_response_time = 0
+    response_count = 0
+    
+    for conversation in conversations:
+        # Get first admin message in each conversation
+        first_admin_message = conversation.messages.filter(
+            sender_type='admin'
+        ).order_by('sent_at').first()
+        
+        if first_admin_message:
+            # Calculate response time: first admin message time - conversation creation time
+            response_time = (first_admin_message.sent_at - conversation.created_at).total_seconds() / 60  # in minutes
+            total_response_time += response_time
+            response_count += 1
+    
+    avg_response_time = 0
+    if response_count > 0:
+        avg_response_time = round(total_response_time / response_count, 1)
+    
     # Get status distribution
     status_distribution = conversations.values('status').annotate(
         count=Count('conversation_id')
@@ -236,9 +262,35 @@ def chat_analytics(request):
         is_staff=True,
         assigned_conversations__created_at__range=(start_datetime, end_datetime)
     ).annotate(
-        conversations_handled=Count('assigned_conversations'),
-        avg_response_time=Avg('assigned_conversations__avg_response_time')
+        conversations_handled=Count('assigned_conversations')
     ).order_by('-conversations_handled')[:5]
+    
+    # Calculate average response time for each admin
+    for admin in top_admins:
+        admin_conversations = admin.assigned_conversations.filter(
+            created_at__range=(start_datetime, end_datetime)
+        )
+        
+        total_response_time = 0
+        response_count = 0
+        
+        for conversation in admin_conversations:
+            # Get first admin message in each conversation
+            first_admin_message = conversation.messages.filter(
+                sender_type='admin'
+            ).order_by('sent_at').first()
+            
+            if first_admin_message:
+                # Calculate response time: first admin message time - conversation creation time
+                response_time = (first_admin_message.sent_at - conversation.created_at).total_seconds() / 60  # in minutes
+                total_response_time += response_time
+                response_count += 1
+        
+        # Calculate average response time
+        if response_count > 0:
+            admin.avg_response_time = round(total_response_time / response_count, 1)
+        else:
+            admin.avg_response_time = 0
     
     # Get activity hours (simplified - just show distribution)
     activity_hours = []
@@ -261,6 +313,7 @@ def chat_analytics(request):
             'mobile_messages': mobile_messages,
             'admin_messages': admin_messages,
             'avg_messages_per_conversation': avg_messages_per_conversation,
+            'avg_response_time': avg_response_time, # Add overall average response time
             'status_distribution': {item['status']: item['count'] for item in status_distribution},
             'priority_distribution': {item['priority']: item['count'] for item in priority_distribution},
             'conversations_trend_data': conversations_trend,
@@ -293,7 +346,7 @@ def assign_conversation(request, conversation_id):
             else:
                 admin_id = data.get('admin_id')
                 if admin_id:
-                    admin = get_object_or_404(User, id=admin_id, is_staff=True)
+                    admin = get_object_or_404(User, user_id=admin_id, is_staff=True)
                     conversation.assigned_admin = admin
                     conversation.status = 'active'
                     conversation.save()

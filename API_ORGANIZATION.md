@@ -1,4 +1,4 @@
-# API Organization - GVRC Admin System
+# API Organization - Hodi Admin System
 
 ## Overview
 

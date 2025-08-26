@@ -3,111 +3,433 @@
 
 {% block title %} Lookup Tables {% endblock title %}
 
+{% block stylesheets %}
+<style>
+  /* Bootstrap 4 close button styling */
+  .close {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    opacity: .75;
+  }
+  
+  .close:not(:disabled):not(.disabled):hover,
+  .close:not(:disabled):not(.disabled):focus {
+    opacity: .75;
+  }
+  
+  /* Ensure modals are properly positioned */
+  .modal {
+    z-index: 1050;
+  }
+  
+  .modal-backdrop {
+    z-index: 1040;
+  }
+</style>
+{% endblock stylesheets %}
+
 {% block content %}
   <div class="container-fluid py-4">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card mb-4">
-          <div class="card-header pb-0"><h6>Operational Status</h6></div>
-          <div class="card-body p-0">
-            <table class="table mb-0">
-              <tbody>
-                {% for s in operational_statuses %}
-                  <tr><td class="text-sm">{{ s.status_name }}</td></tr>
-                {% empty %}
-                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+    <!-- Messages -->
+    {% if messages %}
+      <div class="row">
+        <div class="col-12">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
         </div>
       </div>
-      <div class="col-md-6">
+    {% endif %}
+
+    <!-- Operational Status -->
+    <div class="row">
+      <div class="col-12">
         <div class="card mb-4">
-          <div class="card-header pb-0"><h6>Contact Types</h6></div>
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>Operational Status</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addOperationalStatusModal">
+              <i class="fas fa-plus"></i> Add Status
+            </button>
+          </div>
           <div class="card-body p-0">
-            <table class="table mb-0">
-              <tbody>
-                {% for c in contact_types %}
-                  <tr><td class="text-sm">{{ c.type_name }}</td></tr>
-                {% empty %}
-                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Status Name</th>
+                    <th>Description</th>
+                    <th>Sort Order</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for s in operational_statuses %}
+                    <tr>
+                      <td class="text-sm">{{ s.status_name }}</td>
+                      <td class="text-sm">{{ s.description|default:"-" }}</td>
+                      <td class="text-sm">{{ s.sort_order }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editOperationalStatusModal{{ s.operational_status_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteOperationalStatusModal{{ s.operational_status_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="4" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Contact Types -->
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-12">
         <div class="card mb-4">
-          <div class="card-header pb-0"><h6>Service Categories</h6></div>
-          <div class="card-body p-0">
-            <table class="table mb-0">
-              <tbody>
-                {% for sc in service_categories %}
-                  <tr><td class="text-sm">{{ sc.category_name }}</td></tr>
-                {% empty %}
-                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>Contact Types</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addContactTypeModal">
+              <i class="fas fa-plus"></i> Add Type
+            </button>
           </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card mb-4">
-          <div class="card-header pb-0"><h6>Owner Types</h6></div>
           <div class="card-body p-0">
-            <table class="table mb-0">
-              <tbody>
-                {% for o in owner_types %}
-                  <tr><td class="text-sm">{{ o.owner_name }}</td></tr>
-                {% empty %}
-                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Type Name</th>
+                    <th>Validation Regex</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for c in contact_types %}
+                    <tr>
+                      <td class="text-sm">{{ c.type_name }}</td>
+                      <td class="text-sm">{{ c.validation_regex|default:"-" }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editContactTypeModal{{ c.contact_type_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteContactTypeModal{{ c.contact_type_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="3" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Service Categories -->
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-12">
         <div class="card mb-4">
-          <div class="card-header pb-0"><h6>GBV Categories</h6></div>
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>Service Categories</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addServiceCategoryModal">
+              <i class="fas fa-plus"></i> Add Category
+            </button>
+          </div>
           <div class="card-body p-0">
-            <table class="table mb-0">
-              <tbody>
-                {% for g in gbv_categories %}
-                  <tr><td class="text-sm">{{ g.category_name }}</td></tr>
-                {% empty %}
-                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Icon URL</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for sc in service_categories %}
+                    <tr>
+                      <td class="text-sm">{{ sc.category_name }}</td>
+                      <td class="text-sm">{{ sc.description|default:"-" }}</td>
+                      <td class="text-sm">{{ sc.icon_url|default:"-" }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editServiceCategoryModal{{ sc.service_category_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteServiceCategoryModal{{ sc.service_category_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="4" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+    </div>
+
+    <!-- Owner Types -->
+    <div class="row">
+      <div class="col-12">
         <div class="card mb-4">
-          <div class="card-header pb-0"><h6>Document Types</h6></div>
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>Owner Types</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addOwnerTypeModal">
+              <i class="fas fa-plus"></i> Add Type
+            </button>
+          </div>
           <div class="card-body p-0">
-            <table class="table mb-0">
-              <tbody>
-                {% for d in document_types %}
-                  <tr><td class="text-sm">{{ d.type_name }}</td></tr>
-                {% empty %}
-                  <tr><td class="text-sm text-dark text-center">No data.</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Type Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for o in owner_types %}
+                    <tr>
+                      <td class="text-sm">{{ o.type_name }}</td>
+                      <td class="text-sm">{{ o.description|default:"-" }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editOwnerTypeModal{{ o.owner_type_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteOwnerTypeModal{{ o.owner_type_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="3" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GBV Categories -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>GBV Categories</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addGBVCategoryModal">
+              <i class="fas fa-plus"></i> Add Category
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Icon URL</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for g in gbv_categories %}
+                    <tr>
+                      <td class="text-sm">{{ g.category_name }}</td>
+                      <td class="text-sm">{{ g.description|default:"-" }}</td>
+                      <td class="text-sm">{{ g.icon_url|default:"-" }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editGBVCategoryModal{{ g.gbv_category_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteGBVCategoryModal{{ g.gbv_category_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="4" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infrastructure Types -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>Infrastructure Types</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addInfrastructureTypeModal">
+              <i class="fas fa-plus"></i> Add Type
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Type Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in infrastructure_types %}
+                    <tr>
+                      <td class="text-sm">{{ i.type_name }}</td>
+                      <td class="text-sm">{{ i.description|default:"-" }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editInfrastructureTypeModal{{ i.infrastructure_type_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteInfrastructureTypeModal{{ i.infrastructure_type_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="3" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Condition Statuses -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>Condition Statuses</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addConditionStatusModal">
+              <i class="fas fa-plus"></i> Add Status
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Status Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for cs in condition_statuses %}
+                    <tr>
+                      <td class="text-sm">{{ cs.status_name }}</td>
+                      <td class="text-sm">{{ cs.description|default:"-" }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editConditionStatusModal{{ cs.condition_status_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteConditionStatusModal{{ cs.condition_status_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="3" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Types -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+            <h6>Document Types</h6>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addDocumentTypeModal">
+              <i class="fas fa-plus"></i> Add Type
+            </button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Type Name</th>
+                    <th>Allowed Extensions</th>
+                    <th>Max File Size (MB)</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in document_types %}
+                    <tr>
+                      <td class="text-sm">{{ d.type_name }}</td>
+                      <td class="text-sm">{{ d.allowed_extensions|default:"-" }}</td>
+                      <td class="text-sm">{{ d.max_file_size_mb }}</td>
+                      <td class="text-sm">{{ d.description|default:"-" }}</td>
+                      <td>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editDocumentTypeModal{{ d.document_type_id }}">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteDocumentTypeModal{{ d.document_type_id }}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="5" class="text-sm text-dark text-center">No data.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Include all the modal forms -->
+  {% include 'common/lookup_modals.html' %}
 {% endblock content %}

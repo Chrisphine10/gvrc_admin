@@ -101,11 +101,11 @@ class FacilityServiceAdmin(admin.ModelAdmin):
 
 @admin.register(FacilityInfrastructure)
 class FacilityInfrastructureAdmin(admin.ModelAdmin):
-    list_display = ('infrastructure_id', 'facility', 'infrastructure_type', 'condition_status', 'capacity', 'is_available')
-    list_filter = ('infrastructure_type', 'condition_status', 'is_available', 'facility__ward__constituency__county')
+    list_display = ('infrastructure_id', 'facility', 'infrastructure_type', 'condition_status', 'capacity', 'is_available', 'is_active')
+    list_filter = ('infrastructure_type', 'condition_status', 'is_available', 'is_active', 'facility__ward__constituency__county')
     search_fields = ('facility__facility_name', 'infrastructure_type__type_name', 'description')
     ordering = ('facility__facility_name', 'infrastructure_type__type_name')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at', 'created_by', 'updated_by')
     fieldsets = (
         ('Basic Information', {
             'fields': ('facility', 'infrastructure_type', 'condition_status', 'description')
@@ -113,8 +113,11 @@ class FacilityInfrastructureAdmin(admin.ModelAdmin):
         ('Capacity', {
             'fields': ('capacity', 'current_utilization', 'is_available')
         }),
+        ('Status', {
+            'fields': ('is_active',)
+        }),
         ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
+            'fields': ('created_at', 'updated_at', 'created_by', 'updated_by'),
             'classes': ('collapse',)
         })
     )

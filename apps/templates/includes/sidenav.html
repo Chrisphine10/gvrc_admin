@@ -4,7 +4,7 @@
     <div class="sidenav-header  align-items-center">
               <a class="navbar-brand" href="{% url 'landing' %}">
         <img src="/static/assets/img/brand/hodi app logo.png" class="navbar-brand-img" alt="Hodi Admin - Hodi App Management Dashboard" style="max-height: 40px;">
-        <span class="navbar-brand-text ms-2 fw-bold text-primary">GVRC DMIN</span>
+        <span class="navbar-brand-text ms-2 fw-bold text-primary">Hodi Admin</span>
       </a>
     </div>
     <div class="navbar-inner">
@@ -57,7 +57,7 @@
 
           <!-- Human Resources -->
           <li class="nav-item">
-            <a class="nav-link {% if 'human_resources' in segment %} active {% endif %}" href="{% url 'human_resources' %}">
+            <a class="nav-link {% if 'humanresources' in segment %} active {% endif %}" href="{% url 'human_resources' %}">
               <i class="ni ni-circle-08 text-purple"></i>
               <span class="nav-link-text">Human Resources</span>
             </a>
@@ -91,7 +91,7 @@
         <ul class="navbar-nav">
           <!-- User Analytics -->
           <li class="nav-item">
-            <a class="nav-link {% if 'analytics' in segment %} active {% endif %}" href="{% url 'user_analytics' %}">
+            <a class="nav-link {% if 'user_analytics' in segment %} active {% endif %}" href="{% url 'user_analytics' %}">
               <i class="ni ni-chart-bar-32 text-success"></i>
               <span class="nav-link-text">User Analytics</span>
             </a>
@@ -116,7 +116,7 @@
         <ul class="navbar-nav">
           <!-- Chat Conversations -->
           <li class="nav-item">
-            <a class="nav-link {% if 'chat' in segment %} active {% endif %}" href="{% url 'chat:conversation_list' %}">
+            <a class="nav-link {% if 'chat_conversations' in segment %} active {% endif %}" href="{% url 'chat:conversation_list' %}">
               <i class="ni ni-chat-round text-danger"></i>
               <span class="nav-link-text">Chat Conversations</span>
             </a>
@@ -158,7 +158,7 @@
         <ul class="navbar-nav">
           <!-- Music Library -->
           <li class="nav-item">
-            <a class="nav-link {% if 'music' in segment %} active {% endif %}" href="{% url 'music:music_list' %}">
+            <a class="nav-link {% if 'music_library' in segment %} active {% endif %}" href="{% url 'music:music_list' %}">
               <i class="ni ni-sound-wave text-primary"></i>
               <span class="nav-link-text">Music Library</span>
             </a>

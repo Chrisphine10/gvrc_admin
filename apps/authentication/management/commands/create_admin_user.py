@@ -17,8 +17,8 @@ class Command(BaseCommand):
         parser.add_argument(
             '--password',
             type=str,
-            default='admin123',
-            help='Password for the admin user (default: admin123)',
+            required=True,
+            help='Password for the admin user (REQUIRED - must be provided)',
         )
         parser.add_argument(
             '--force',

@@ -102,9 +102,9 @@ def facility_detail(request, facility_id):
     # Get related data efficiently
     contacts = facility.facilitycontact_set.filter(is_active=True)
     services = facility.facilityservice_set.filter(is_active=True)
-    owners = facility.facilityowner_set.filter(is_active=True)
+    owners = facility.facilityowner_set.all()
     infrastructure = facility.facilityinfrastructure_set.filter(is_active=True)
-    coordinates = facility.facilitycoordinate_set.filter(is_active=True).first()
+    coordinates = facility.facilitycoordinate_set.first()
     
     context = {
         'facility': facility,
@@ -172,6 +172,18 @@ def facility_create(request):
                 with transaction.atomic():
                     # Create facility
                     facility = facility_form.save(commit=False)
+                    
+                    # Set ward based on geography selection
+                    if facility_form.cleaned_data.get('ward'):
+                        facility.ward = facility_form.cleaned_data['ward']
+                    elif (facility_form.cleaned_data.get('county') and 
+                          facility_form.cleaned_data.get('constituency')):
+                        # If ward is not selected but county and constituency are, 
+                        # we need to find or create the appropriate ward
+                        # For now, we'll require ward selection
+                        messages.error(request, 'Please select a ward for the facility.')
+                        raise ValueError('Ward selection required')
+                    
                     if request.user.is_authenticated:
                         facility.created_by = request.user.user_id
                     facility.save()
@@ -219,11 +231,10 @@ def facility_create(request):
                                 owner.created_by = request.user.user_id
                             owner.save()
                     
-                    # Save infrastructure (optional)
+                    # Save infrastructure
                     for infrastructure_form in infrastructure_formset:
                         if (infrastructure_form.cleaned_data and 
-                            not infrastructure_form.cleaned_data.get('DELETE', False) and
-                            infrastructure_form.cleaned_data.get('infrastructure_type')):
+                            not infrastructure_form.cleaned_data.get('DELETE', False)):
                             try:
                                 infrastructure = infrastructure_form.save(commit=False)
                                 infrastructure.facility = facility
@@ -262,6 +273,7 @@ def facility_create(request):
         'form_action': 'Create',
         'page_title': 'Create New Facility',
         'segment': 'facilities',
+        'google_places_api_key': settings.GOOGLE_PLACES_API_KEY,
     }
     
     return render(request, 'facilities/facility_form.html', context)
@@ -273,10 +285,10 @@ def facility_update(request, facility_id):
     facility = get_object_or_404(Facility, facility_id=facility_id, is_active=True)
     
     # Get existing related objects
-    existing_coordinate = facility.facilitycoordinate_set.filter(is_active=True).first()
+    existing_coordinate = facility.facilitycoordinate_set.first()
     existing_contacts = facility.facilitycontact_set.filter(is_active=True)
     existing_services = facility.facilityservice_set.filter(is_active=True)
-    existing_owners = facility.facilityowner_set.filter(is_active=True)
+    existing_owners = facility.facilityowner_set.all()
     existing_infrastructure = facility.facilityinfrastructure_set.filter(is_active=True)
     
     if request.method == 'POST':
@@ -297,6 +309,18 @@ def facility_update(request, facility_id):
                 with transaction.atomic():
                     # Update facility
                     facility = facility_form.save(commit=False)
+                    
+                    # Set ward based on geography selection
+                    if facility_form.cleaned_data.get('ward'):
+                        facility.ward = facility_form.cleaned_data['ward']
+                    elif (facility_form.cleaned_data.get('county') and 
+                          facility_form.cleaned_data.get('constituency')):
+                        # If ward is not selected but county and constituency are, 
+                        # we need to find or create the appropriate ward
+                        # For now, we'll require ward selection
+                        messages.error(request, 'Please select a ward for the facility.')
+                        raise ValueError('Ward selection required')
+                    
                     if request.user.is_authenticated:
                         facility.updated_by = request.user.user_id
                     facility.save()
@@ -329,7 +353,8 @@ def facility_update(request, facility_id):
                     # Mark existing related objects as inactive (soft delete)
                     existing_contacts.update(is_active=False)
                     existing_services.update(is_active=False)
-                    existing_owners.update(is_active=False)
+                    # Delete existing owners (they don't have is_active field)
+                    existing_owners.delete()
                     existing_infrastructure.update(is_active=False)
                     
                     # Save new contacts
@@ -359,11 +384,10 @@ def facility_update(request, facility_id):
                                 owner.created_by = request.user.user_id
                             owner.save()
                     
-                    # Save new infrastructure (optional)
+                    # Save new infrastructure
                     for infrastructure_form in infrastructure_formset:
                         if (infrastructure_form.cleaned_data and 
-                            not infrastructure_form.cleaned_data.get('DELETE', False) and
-                            infrastructure_form.cleaned_data.get('infrastructure_type')):
+                            not infrastructure_form.cleaned_data.get('DELETE', False)):
                             try:
                                 infrastructure = infrastructure_form.save(commit=False)
                                 infrastructure.facility = facility
@@ -429,6 +453,7 @@ def facility_update(request, facility_id):
         'form_action': 'Update',
         'page_title': f'Edit {facility.facility_name}',
         'segment': 'facilities',
+        'google_places_api_key': settings.GOOGLE_PLACES_API_KEY,
     }
     
     return render(request, 'facilities/facility_form.html', context)

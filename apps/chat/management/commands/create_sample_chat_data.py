@@ -11,6 +11,10 @@ from apps.mobile_sessions.models import MobileSession
 from datetime import timedelta
 import random
 from django.db.models import Count
+import os
+import uuid
+import secrets
+import string
 
 User = get_user_model()
 
@@ -41,10 +45,21 @@ class Command(BaseCommand):
         staff_users = User.objects.filter(is_staff=True)
         if not staff_users.exists():
             self.stdout.write('No staff users found. Creating a sample admin user...')
+            
+            # Use environment variables or generate secure credentials
+            admin_username = os.getenv('SAMPLE_ADMIN_USERNAME', f'admin_{uuid.uuid4().hex[:8]}')
+            admin_email = os.getenv('SAMPLE_ADMIN_EMAIL', f'admin_{uuid.uuid4().hex[:8]}@example.com')
+            admin_password = os.getenv('SAMPLE_ADMIN_PASSWORD')
+            
+            if not admin_password:
+                # Generate a secure random password if not provided
+                admin_password = ''.join(secrets.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(16))
+                self.stdout.write(f'Generated secure password for admin user: {admin_password}')
+            
             admin_user = User.objects.create_user(
-                username='admin',
-                email='admin@example.com',
-                password='admin123',
+                username=admin_username,
+                email=admin_email,
+                password=admin_password,
                 is_staff=True,
                 is_superuser=True
             )

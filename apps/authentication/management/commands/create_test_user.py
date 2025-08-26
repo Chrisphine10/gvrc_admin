@@ -23,8 +23,8 @@ class Command(BaseCommand):
         parser.add_argument(
             '--password',
             type=str,
-            default='admin123',
-            help='Password for the test user'
+            required=True,
+            help='Password for the test user (REQUIRED - must be provided)'
         )
         parser.add_argument(
             '--full-name',

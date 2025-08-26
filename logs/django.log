@@ -15506,3 +15506,912 @@ INFO 2025-08-26 09:59:38,055 autoreload 33424 19288 Watching for file changes wi
 INFO 2025-08-26 09:59:38,143 autoreload 29336 35352 Watching for file changes with StatReloader
 INFO 2025-08-26 09:59:38,531 autoreload 41448 30892 Watching for file changes with StatReloader
 INFO 2025-08-26 09:59:39,094 autoreload 40420 25292 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:31,256 autoreload 41448 30892 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\urls.py changed, reloading.
+INFO 2025-08-26 10:00:31,287 autoreload 33424 19288 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\urls.py changed, reloading.
+INFO 2025-08-26 10:00:31,953 autoreload 29336 35352 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\urls.py changed, reloading.
+INFO 2025-08-26 10:00:32,072 autoreload 40420 25292 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\urls.py changed, reloading.
+INFO 2025-08-26 10:00:35,436 autoreload 29508 39856 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:35,508 autoreload 43612 34444 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:36,120 autoreload 35912 24616 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:36,685 autoreload 26312 41904 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:47,835 autoreload 26312 41904 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:00:47,858 autoreload 43612 34444 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:00:48,365 autoreload 35912 24616 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:00:48,740 autoreload 29508 39856 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:00:52,545 autoreload 37216 12140 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:52,972 autoreload 40068 30124 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:53,402 autoreload 30396 38204 Watching for file changes with StatReloader
+INFO 2025-08-26 10:00:53,498 autoreload 40736 40452 Watching for file changes with StatReloader
+INFO 2025-08-26 10:01:03,732 autoreload 40736 40452 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:01:03,890 autoreload 30396 38204 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:01:03,983 autoreload 40068 30124 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:01:04,140 autoreload 37216 12140 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:01:05,592 autoreload 40236 32364 Watching for file changes with StatReloader
+INFO 2025-08-26 10:01:05,676 autoreload 43464 23624 Watching for file changes with StatReloader
+INFO 2025-08-26 10:01:05,691 autoreload 9908 13132 Watching for file changes with StatReloader
+INFO 2025-08-26 10:01:05,799 autoreload 21992 33996 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:01:23,300 backends 40236 13680 Retrieved user by ID: 2
+INFO 2025-08-26 10:01:23,565 basehttp 40236 13680 "GET /facilities/create/ HTTP/1.1" 200 71414
+DEBUG 2025-08-26 10:02:00,983 backends 40236 13680 Retrieved user by ID: 2
+INFO 2025-08-26 10:02:01,040 basehttp 40236 13680 "GET /common/lookups/ HTTP/1.1" 200 118979
+DEBUG 2025-08-26 10:02:08,997 backends 40236 13680 Retrieved user by ID: 2
+INFO 2025-08-26 10:02:09,076 basehttp 40236 13680 "GET /facilities/ HTTP/1.1" 200 51492
+DEBUG 2025-08-26 10:02:12,021 backends 40236 13680 Retrieved user by ID: 2
+INFO 2025-08-26 10:02:12,231 basehttp 40236 13680 "GET /facilities/create/ HTTP/1.1" 200 75266
+DEBUG 2025-08-26 10:02:32,720 backends 40236 13680 Retrieved user by ID: 2
+INFO 2025-08-26 10:02:32,897 basehttp 40236 13680 "GET /facilities/create/ HTTP/1.1" 200 75441
+DEBUG 2025-08-26 10:02:47,366 backends 40236 13680 Retrieved user by ID: 2
+INFO 2025-08-26 10:02:47,432 basehttp 40236 13680 "GET /facilities/ HTTP/1.1" 200 51492
+DEBUG 2025-08-26 10:03:02,967 backends 40236 13680 Retrieved user by ID: 2
+INFO 2025-08-26 10:03:03,151 basehttp 40236 13680 "GET /facilities/create/ HTTP/1.1" 200 75441
+INFO 2025-08-26 10:03:41,013 autoreload 43464 23624 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:41,351 autoreload 21992 33996 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:41,670 autoreload 40236 32364 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:41,772 autoreload 9908 13132 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:42,245 autoreload 27924 29408 Watching for file changes with StatReloader
+INFO 2025-08-26 10:03:42,634 autoreload 34744 38880 Watching for file changes with StatReloader
+INFO 2025-08-26 10:03:43,163 autoreload 6972 37236 Watching for file changes with StatReloader
+INFO 2025-08-26 10:03:43,820 autoreload 31448 22220 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:03:46,879 backends 27924 39712 Retrieved user by ID: 2
+INFO 2025-08-26 10:03:47,233 basehttp 27924 39712 "GET /facilities/create/ HTTP/1.1" 200 87392
+DEBUG 2025-08-26 10:03:47,478 backends 27924 39712 Retrieved user by ID: 2
+WARNING 2025-08-26 10:03:47,526 log 27924 39712 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:03:47,539 basehttp 27924 39712 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 10:03:51,616 autoreload 6972 37236 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:51,669 autoreload 31448 22220 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:51,971 autoreload 34744 38880 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:52,067 autoreload 27924 29408 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:03:54,300 autoreload 43360 34704 Watching for file changes with StatReloader
+INFO 2025-08-26 10:03:54,338 autoreload 20132 38312 Watching for file changes with StatReloader
+INFO 2025-08-26 10:03:54,380 autoreload 38532 43724 Watching for file changes with StatReloader
+INFO 2025-08-26 10:03:54,467 autoreload 4984 26524 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:04,144 autoreload 4984 26524 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:05,107 autoreload 43360 34704 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:05,236 autoreload 38532 43724 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:05,327 autoreload 20132 38312 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:06,386 autoreload 31348 34932 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:06,681 autoreload 40360 35072 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:06,865 autoreload 38012 40812 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:06,907 autoreload 38636 40260 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:04:07,817 backends 31348 31380 Retrieved user by ID: 2
+INFO 2025-08-26 10:04:08,033 basehttp 31348 31380 "GET /dashboard/ HTTP/1.1" 200 65381
+INFO 2025-08-26 10:04:14,775 autoreload 40360 35072 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:14,874 autoreload 38012 40812 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:15,012 autoreload 31348 34932 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:15,065 autoreload 38636 40260 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:17,157 autoreload 9660 3128 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:17,230 autoreload 29840 27320 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:17,290 autoreload 37064 21716 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:17,452 autoreload 33036 25332 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:30,228 autoreload 33036 25332 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:30,783 autoreload 9660 3128 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:30,924 autoreload 29840 27320 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:31,228 autoreload 37064 21716 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:32,037 autoreload 34748 23620 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:32,313 autoreload 22752 24344 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:32,313 autoreload 34004 21780 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:32,564 autoreload 33344 39028 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:04:46,759 backends 34748 30348 Retrieved user by ID: 2
+INFO 2025-08-26 10:04:47,325 basehttp 34748 30348 "GET /dashboard/ HTTP/1.1" 200 65381
+INFO 2025-08-26 10:04:50,207 autoreload 34748 23620 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:50,555 autoreload 22752 24344 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:50,818 autoreload 34004 21780 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:50,982 autoreload 33344 39028 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 10:04:53,401 autoreload 26688 35420 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:53,954 autoreload 43744 18136 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:54,067 autoreload 14884 27864 Watching for file changes with StatReloader
+INFO 2025-08-26 10:04:55,785 autoreload 23304 1472 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:05:24,737 backends 26688 25656 Retrieved user by ID: 2
+INFO 2025-08-26 10:05:24,815 basehttp 26688 25656 "GET /services/ HTTP/1.1" 200 38206
+DEBUG 2025-08-26 10:05:28,071 backends 26688 25656 Retrieved user by ID: 2
+INFO 2025-08-26 10:05:28,099 basehttp 26688 25656 "GET /human-resources/ HTTP/1.1" 200 38211
+DEBUG 2025-08-26 10:05:31,111 backends 26688 25656 Retrieved user by ID: 2
+INFO 2025-08-26 10:05:31,231 basehttp 26688 25656 "GET /common/lookups/ HTTP/1.1" 200 118979
+INFO 2025-08-26 10:08:18,648 autoreload 2704 29768 Watching for file changes with StatReloader
+INFO 2025-08-26 10:08:43,087 autoreload 26688 35420 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:08:43,090 autoreload 43744 18136 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:08:43,399 autoreload 2704 29768 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:08:43,879 autoreload 23304 1472 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:08:43,929 autoreload 14884 27864 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:08:47,062 autoreload 32828 33032 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:08:55,429 backends 32828 26356 Retrieved user by ID: 2
+INFO 2025-08-26 10:08:55,992 basehttp 32828 26356 "GET /common/lookups/ HTTP/1.1" 200 118979
+DEBUG 2025-08-26 10:09:06,276 backends 32828 26356 Retrieved user by ID: 2
+INFO 2025-08-26 10:09:06,384 basehttp 32828 26356 "GET /facilities/ HTTP/1.1" 200 52050
+DEBUG 2025-08-26 10:09:09,522 backends 32828 26356 Retrieved user by ID: 2
+INFO 2025-08-26 10:09:10,024 basehttp 32828 26356 "GET /facilities/create/ HTTP/1.1" 200 93178
+DEBUG 2025-08-26 10:09:10,458 backends 32828 26356 Retrieved user by ID: 2
+WARNING 2025-08-26 10:09:10,565 log 32828 26356 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:09:10,595 basehttp 32828 26356 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:09:24,378 backends 32828 26356 Retrieved user by ID: 2
+WARNING 2025-08-26 10:09:24,437 log 32828 26356 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:09:24,462 basehttp 32828 26356 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:10:22,205 backends 32828 26356 Retrieved user by ID: 2
+INFO 2025-08-26 10:10:22,838 basehttp 32828 26356 "GET /facilities/create/ HTTP/1.1" 200 93178
+DEBUG 2025-08-26 10:10:23,366 backends 32828 26356 Retrieved user by ID: 2
+WARNING 2025-08-26 10:10:23,398 log 32828 26356 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:10:23,436 basehttp 32828 26356 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:10:25,094 backends 32828 26356 Retrieved user by ID: 2
+INFO 2025-08-26 10:10:25,155 basehttp 32828 26356 "GET /facilities/map/ HTTP/1.1" 200 39368
+INFO 2025-08-26 10:10:48,910 autoreload 32828 33032 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:13:58,586 autoreload 22312 25008 Watching for file changes with StatReloader
+WARNING 2025-08-26 10:14:02,954 base 22312 30556 Session data corrupted
+WARNING 2025-08-26 10:14:02,954 base 22312 30556 Session data corrupted
+INFO 2025-08-26 10:14:03,086 basehttp 22312 30556 "GET /facilities/ HTTP/1.1" 302 0
+INFO 2025-08-26 10:14:03,102 views 22312 30556 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-26 10:14:03,104 views 22312 30556 Login page accessed
+INFO 2025-08-26 10:14:03,188 basehttp 22312 30556 "GET /login/?next=/facilities/ HTTP/1.1" 200 16058
+INFO 2025-08-26 10:14:03,291 basehttp 22312 30556 "GET /static/assets/css/gvrc-auth.css HTTP/1.1" 304 0
+INFO 2025-08-26 10:14:05,579 views 22312 30556 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-26 10:14:05,694 forms 22312 30556 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-26 10:14:05,695 backends 22312 30556 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-26 10:14:07,134 backends 22312 30556 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-26 10:14:07,135 forms 22312 30556 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-26 10:14:07,135 forms 22312 30556 Authentication successful for email: admin@hodi.ke
+INFO 2025-08-26 10:14:07,135 views 22312 30556 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-08-26 10:14:07,136 views 22312 30556 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-08-26 10:14:07,136 backends 22312 30556 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-08-26 10:14:07,151 backends 22312 30556 User session created successfully: 5CDuZHzwQLzsmzeNEowZ3cuD7KsYQSkptafgCQdOmy8 for user: admin@hodi.ke
+DEBUG 2025-08-26 10:14:07,152 views 22312 30556 User session created: 5CDuZHzwQLzsmzeNEowZ3cuD7KsYQSkptafgCQdOmy8
+INFO 2025-08-26 10:14:07,189 views 22312 30556 User admin@hodi.ke successfully logged in and redirected
+INFO 2025-08-26 10:14:07,205 basehttp 22312 30556 "POST /login/?next=/facilities/ HTTP/1.1" 302 0
+DEBUG 2025-08-26 10:14:07,232 backends 22312 30556 Retrieved user by ID: 2
+INFO 2025-08-26 10:14:07,368 basehttp 22312 30556 "GET /facilities/ HTTP/1.1" 200 52050
+DEBUG 2025-08-26 10:14:11,261 backends 22312 30556 Retrieved user by ID: 2
+INFO 2025-08-26 10:14:11,289 basehttp 22312 30556 "GET /facilities/map/ HTTP/1.1" 200 39368
+DEBUG 2025-08-26 10:14:13,745 backends 22312 30556 Retrieved user by ID: 2
+INFO 2025-08-26 10:14:13,791 basehttp 22312 30556 "GET /facilities/ HTTP/1.1" 200 52050
+DEBUG 2025-08-26 10:14:15,526 backends 22312 30556 Retrieved user by ID: 2
+INFO 2025-08-26 10:14:15,855 basehttp 22312 30556 "GET /facilities/create/ HTTP/1.1" 200 93774
+DEBUG 2025-08-26 10:14:16,096 backends 22312 30556 Retrieved user by ID: 2
+WARNING 2025-08-26 10:14:16,106 log 22312 30556 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:14:16,142 basehttp 22312 30556 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:14:17,372 backends 22312 30556 Retrieved user by ID: 2
+WARNING 2025-08-26 10:14:17,384 log 22312 30556 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:14:17,408 basehttp 22312 30556 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 10:15:42,781 autoreload 22312 25008 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-26 10:15:44,285 autoreload 38096 31368 Watching for file changes with StatReloader
+INFO 2025-08-26 10:15:47,846 autoreload 38096 31368 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:15:50,733 autoreload 7292 29736 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:15:58,885 backends 7292 32948 Retrieved user by ID: 2
+INFO 2025-08-26 10:15:59,413 basehttp 7292 32948 "GET /facilities/create/ HTTP/1.1" 200 93178
+DEBUG 2025-08-26 10:15:59,614 backends 7292 32948 Retrieved user by ID: 2
+WARNING 2025-08-26 10:15:59,630 log 7292 32948 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:15:59,634 basehttp 7292 32948 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:17:22,423 backends 7292 32948 Retrieved user by ID: 2
+INFO 2025-08-26 10:17:22,932 basehttp 7292 32948 "GET /facilities/create/ HTTP/1.1" 200 93178
+DEBUG 2025-08-26 10:17:23,390 backends 7292 32948 Retrieved user by ID: 2
+WARNING 2025-08-26 10:17:23,411 log 7292 32948 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:17:23,421 basehttp 7292 32948 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 10:17:49,427 autoreload 7292 29736 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:17:50,749 autoreload 33660 41700 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:18:11,570 backends 33660 21088 Retrieved user by ID: 2
+INFO 2025-08-26 10:18:12,209 basehttp 33660 21088 "GET /facilities/create/ HTTP/1.1" 200 93178
+DEBUG 2025-08-26 10:18:12,713 backends 33660 21088 Retrieved user by ID: 2
+WARNING 2025-08-26 10:18:12,737 log 33660 21088 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:18:12,741 basehttp 33660 21088 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:18:18,685 backends 33660 21088 Retrieved user by ID: 2
+INFO 2025-08-26 10:18:18,762 basehttp 33660 21088 "GET /common/lookups/ HTTP/1.1" 200 118979
+INFO 2025-08-26 10:18:26,699 autoreload 33660 41700 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:18:28,308 autoreload 25036 23596 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:18:38,714 backends 25036 20640 Retrieved user by ID: 2
+INFO 2025-08-26 10:18:39,251 basehttp 25036 20640 "GET /facilities/create/ HTTP/1.1" 200 93178
+DEBUG 2025-08-26 10:18:39,523 backends 25036 20640 Retrieved user by ID: 2
+WARNING 2025-08-26 10:18:39,563 log 25036 20640 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:18:39,595 basehttp 25036 20640 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:19:43,917 backends 13992 40760 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:19:49,216 backends 13992 40760 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:20:16,855 backends 25036 20640 Retrieved user by ID: 2
+INFO 2025-08-26 10:20:17,504 basehttp 25036 20640 "GET /facilities/create/ HTTP/1.1" 200 93178
+DEBUG 2025-08-26 10:20:17,932 backends 25036 20640 Retrieved user by ID: 2
+WARNING 2025-08-26 10:20:17,961 log 25036 20640 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:20:17,974 basehttp 25036 20640 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 10:21:39,547 autoreload 25036 23596 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:21:40,507 autoreload 36992 38504 Watching for file changes with StatReloader
+INFO 2025-08-26 10:21:55,140 autoreload 36992 38504 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:21:56,097 autoreload 41524 41032 Watching for file changes with StatReloader
+INFO 2025-08-26 10:22:35,540 autoreload 41524 41032 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:22:36,661 autoreload 34140 41832 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:22:48,076 backends 34140 23712 Retrieved user by ID: 2
+INFO 2025-08-26 10:22:48,758 basehttp 34140 23712 "GET /facilities/create/ HTTP/1.1" 200 93282
+DEBUG 2025-08-26 10:22:49,204 backends 34140 23712 Retrieved user by ID: 2
+WARNING 2025-08-26 10:22:49,333 log 34140 23712 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:22:49,373 basehttp 34140 23712 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 10:22:53,276 autoreload 34140 41832 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:22:54,618 autoreload 7516 352 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:23:01,141 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:01,170 basehttp 7516 42432 "GET /geography/api/constituencies/3/ HTTP/1.1" 200 39
+DEBUG 2025-08-26 10:23:05,971 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:05,981 basehttp 7516 42432 "GET /geography/api/constituencies/4/ HTTP/1.1" 200 39
+DEBUG 2025-08-26 10:23:09,788 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:09,810 basehttp 7516 42432 "GET /geography/api/constituencies/1/ HTTP/1.1" 200 1532
+DEBUG 2025-08-26 10:23:11,931 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:11,946 basehttp 7516 42432 "GET /geography/api/wards/6/ HTTP/1.1" 200 341
+DEBUG 2025-08-26 10:23:14,997 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:15,016 basehttp 7516 42432 "GET /geography/api/wards/10/ HTTP/1.1" 200 308
+DEBUG 2025-08-26 10:23:17,651 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:17,672 basehttp 7516 42432 "GET /geography/api/wards/12/ HTTP/1.1" 200 347
+DEBUG 2025-08-26 10:23:24,514 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:24,528 basehttp 7516 42432 "GET /geography/api/constituencies/4/ HTTP/1.1" 200 39
+DEBUG 2025-08-26 10:23:26,935 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:26,964 basehttp 7516 42432 "GET /geography/api/constituencies/3/ HTTP/1.1" 200 39
+DEBUG 2025-08-26 10:23:29,094 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:29,113 basehttp 7516 42432 "GET /geography/api/constituencies/1/ HTTP/1.1" 200 1532
+DEBUG 2025-08-26 10:23:31,112 backends 7516 42432 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:31,119 autoreload 7516 352 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:23:32,537 autoreload 35988 33692 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:23:33,371 backends 35988 26804 Retrieved user by ID: 2
+INFO 2025-08-26 10:23:33,388 basehttp 35988 26804 "GET /geography/api/wards/12/ HTTP/1.1" 200 347
+DEBUG 2025-08-26 10:23:33,398 backends 35988 26804 Retrieved user by ID: 2
+WARNING 2025-08-26 10:23:33,409 log 35988 26804 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:23:33,413 basehttp 35988 26804 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 10:24:00,704 autoreload 35988 33692 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:24:03,383 autoreload 38896 41156 Watching for file changes with StatReloader
+INFO 2025-08-26 10:24:12,829 autoreload 38896 41156 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:24:16,453 autoreload 22876 352 Watching for file changes with StatReloader
+INFO 2025-08-26 10:24:46,503 autoreload 22876 352 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:24:47,512 autoreload 40808 31168 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:24:52,953 backends 40808 9552 Retrieved user by ID: 2
+INFO 2025-08-26 10:24:53,676 basehttp 40808 9552 "GET /facilities/create/ HTTP/1.1" 200 94514
+DEBUG 2025-08-26 10:24:54,160 backends 40808 9552 Retrieved user by ID: 2
+WARNING 2025-08-26 10:24:54,172 log 40808 9552 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:24:54,177 basehttp 40808 9552 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:24:56,058 backends 40808 9552 Retrieved user by ID: 2
+INFO 2025-08-26 10:24:56,072 basehttp 40808 9552 "GET /geography/api/constituencies/3/ HTTP/1.1" 200 39
+DEBUG 2025-08-26 10:24:58,359 backends 40808 9552 Retrieved user by ID: 2
+INFO 2025-08-26 10:24:58,374 basehttp 40808 9552 "GET /geography/api/constituencies/1/ HTTP/1.1" 200 1532
+DEBUG 2025-08-26 10:25:00,720 backends 40808 9552 Retrieved user by ID: 2
+INFO 2025-08-26 10:25:00,732 basehttp 40808 9552 "GET /geography/api/wards/5/ HTTP/1.1" 200 293
+DEBUG 2025-08-26 10:25:03,018 backends 40808 9552 Retrieved user by ID: 2
+INFO 2025-08-26 10:25:03,048 basehttp 40808 9552 "GET /geography/api/wards/10/ HTTP/1.1" 200 308
+DEBUG 2025-08-26 10:25:05,797 backends 40808 9552 Retrieved user by ID: 2
+INFO 2025-08-26 10:25:05,809 basehttp 40808 9552 "GET /geography/api/wards/15/ HTTP/1.1" 200 291
+DEBUG 2025-08-26 10:25:19,435 backends 4780 42460 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:25:24,792 backends 4780 42460 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:26:05,982 backends 12364 38032 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:26:10,835 backends 12364 38032 Authentication attempt with missing email or password
+INFO 2025-08-26 10:26:34,034 autoreload 40808 31168 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-26 10:26:35,384 autoreload 43308 28964 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:26:43,964 backends 43308 8524 Retrieved user by ID: 2
+INFO 2025-08-26 10:26:44,303 basehttp 43308 8524 "GET /facilities/create/ HTTP/1.1" 200 94514
+DEBUG 2025-08-26 10:26:44,656 backends 43308 8524 Retrieved user by ID: 2
+WARNING 2025-08-26 10:26:44,701 log 43308 8524 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:26:44,719 basehttp 43308 8524 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:26:46,329 backends 43308 8524 Retrieved user by ID: 2
+INFO 2025-08-26 10:26:46,337 basehttp 43308 8524 "GET /geography/api/constituencies/5/ HTTP/1.1" 200 39
+DEBUG 2025-08-26 10:26:48,458 backends 43308 8524 Retrieved user by ID: 2
+WARNING 2025-08-26 10:26:48,472 log 43308 8524 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:26:48,475 basehttp 43308 8524 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 10:27:35,010 autoreload 43308 28964 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 10:27:37,443 autoreload 20852 31168 Watching for file changes with StatReloader
+DEBUG 2025-08-26 10:30:46,171 backends 24364 29948 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:30:52,335 backends 24364 29948 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:30:58,918 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:30:59,832 basehttp 20852 8540 "GET /facilities/create/ HTTP/1.1" 200 98456
+DEBUG 2025-08-26 10:31:00,242 backends 20852 8540 Retrieved user by ID: 2
+WARNING 2025-08-26 10:31:00,270 log 20852 8540 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:31:00,273 basehttp 20852 8540 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:31:10,329 backends 2732 30464 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:31:16,003 backends 2732 30464 Authentication attempt with missing email or password
+DEBUG 2025-08-26 10:34:12,431 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:34:12,740 basehttp 20852 8540 "GET /facilities/create/ HTTP/1.1" 200 98456
+DEBUG 2025-08-26 10:34:13,194 backends 20852 8540 Retrieved user by ID: 2
+WARNING 2025-08-26 10:34:13,219 log 20852 8540 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:34:13,222 basehttp 20852 8540 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:35:14,898 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:35:15,683 basehttp 20852 8540 "GET /facilities/create/ HTTP/1.1" 200 98456
+DEBUG 2025-08-26 10:35:16,162 backends 20852 8540 Retrieved user by ID: 2
+WARNING 2025-08-26 10:35:16,206 log 20852 8540 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:35:16,240 basehttp 20852 8540 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:36:48,041 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:36:48,787 basehttp 20852 8540 "GET /facilities/create/ HTTP/1.1" 200 98628
+DEBUG 2025-08-26 10:36:49,221 backends 20852 8540 Retrieved user by ID: 2
+WARNING 2025-08-26 10:36:49,243 log 20852 8540 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:36:49,247 basehttp 20852 8540 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:36:59,024 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:36:59,515 basehttp 20852 8540 "GET /facilities/create/ HTTP/1.1" 200 98628
+DEBUG 2025-08-26 10:36:59,786 backends 20852 8540 Retrieved user by ID: 2
+WARNING 2025-08-26 10:36:59,804 log 20852 8540 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:36:59,810 basehttp 20852 8540 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:37:46,210 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:37:46,243 basehttp 20852 8540 "GET /geography/api/constituencies/2/ HTTP/1.1" 200 542
+DEBUG 2025-08-26 10:37:47,791 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:37:47,803 basehttp 20852 8540 "GET /geography/api/wards/19/ HTTP/1.1" 200 273
+DEBUG 2025-08-26 10:37:52,964 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:37:52,986 basehttp 20852 8540 "GET /geography/api/constituencies/4/ HTTP/1.1" 200 39
+DEBUG 2025-08-26 10:37:56,596 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:37:56,616 basehttp 20852 8540 "GET /geography/api/constituencies/2/ HTTP/1.1" 200 542
+DEBUG 2025-08-26 10:37:58,637 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:37:58,654 basehttp 20852 8540 "GET /geography/api/wards/19/ HTTP/1.1" 200 273
+DEBUG 2025-08-26 10:38:07,673 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:38:08,612 basehttp 20852 8540 "GET /facilities/create/ HTTP/1.1" 200 98628
+DEBUG 2025-08-26 10:38:08,971 backends 20852 8540 Retrieved user by ID: 2
+WARNING 2025-08-26 10:38:08,980 log 20852 8540 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:38:08,982 basehttp 20852 8540 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:38:15,270 backends 20852 8540 Retrieved user by ID: 2
+INFO 2025-08-26 10:38:15,452 basehttp 20852 8540 "GET /common/lookups/ HTTP/1.1" 200 262137
+DEBUG 2025-08-26 10:57:00,040 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:00,119 basehttp 20852 34632 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 10:57:03,803 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:04,460 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 118593
+DEBUG 2025-08-26 10:57:04,813 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 10:57:04,829 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:57:04,833 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 10:57:07,624 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:07,633 basehttp 20852 34632 "GET /geography/api/constituencies/37/ HTTP/1.1" 200 592
+DEBUG 2025-08-26 10:57:08,766 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:08,775 basehttp 20852 34632 "GET /geography/api/wards/195/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 10:57:11,586 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:11,597 basehttp 20852 34632 "GET /geography/api/constituencies/26/ HTTP/1.1" 200 659
+DEBUG 2025-08-26 10:57:12,586 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:12,597 basehttp 20852 34632 "GET /geography/api/wards/123/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 10:57:23,865 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:23,873 basehttp 20852 34632 "GET /geography/api/constituencies/36/ HTTP/1.1" 200 323
+DEBUG 2025-08-26 10:57:25,276 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:25,297 basehttp 20852 34632 "GET /geography/api/wards/180/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 10:57:43,968 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:43,984 basehttp 20852 34632 "GET /geography/api/wards/181/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 10:57:48,021 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:48,035 basehttp 20852 34632 "GET /geography/api/constituencies/40/ HTTP/1.1" 200 491
+DEBUG 2025-08-26 10:57:49,655 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:57:49,671 basehttp 20852 34632 "GET /geography/api/wards/211/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 10:58:02,355 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:58:02,371 basehttp 20852 34632 "GET /geography/api/constituencies/1/ HTTP/1.1" 200 1532
+DEBUG 2025-08-26 10:58:03,570 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:58:03,577 basehttp 20852 34632 "GET /geography/api/wards/13/ HTTP/1.1" 200 282
+DEBUG 2025-08-26 10:59:57,621 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 10:59:58,749 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 118593
+DEBUG 2025-08-26 10:59:59,227 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 10:59:59,236 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 10:59:59,240 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:00:14,448 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:00:14,458 basehttp 20852 34632 "GET /geography/api/constituencies/46/ HTTP/1.1" 200 771
+DEBUG 2025-08-26 11:00:15,923 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:00:15,941 basehttp 20852 34632 "GET /geography/api/wards/264/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 11:00:18,842 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:00:18,852 basehttp 20852 34632 "GET /geography/api/constituencies/41/ HTTP/1.1" 200 1117
+DEBUG 2025-08-26 11:00:20,466 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:00:20,481 basehttp 20852 34632 "GET /geography/api/wards/220/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 11:00:23,876 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:00:23,887 basehttp 20852 34632 "GET /geography/api/wards/225/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 11:00:50,393 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:00:50,548 basehttp 20852 34632 "GET /common/lookups/ HTTP/1.1" 200 262137
+DEBUG 2025-08-26 11:04:54,094 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:04:54,262 basehttp 20852 34632 "GET /common/lookups/ HTTP/1.1" 200 262137
+DEBUG 2025-08-26 11:04:57,457 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:04:57,522 basehttp 20852 34632 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 11:05:00,080 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:05:01,082 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 135792
+DEBUG 2025-08-26 11:05:01,365 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:05:01,375 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:05:01,384 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:05:49,548 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:05:51,553 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 135792
+DEBUG 2025-08-26 11:05:52,089 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:05:52,124 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:05:52,138 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:06:01,041 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:01,068 basehttp 20852 34632 "GET /geography/api/wards/209/ HTTP/1.1" 200 103
+DEBUG 2025-08-26 11:06:03,909 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:03,929 basehttp 20852 34632 "GET /geography/api/constituencies/33/ HTTP/1.1" 200 413
+DEBUG 2025-08-26 11:06:06,215 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:06,229 basehttp 20852 34632 "GET /geography/api/constituencies/39/ HTTP/1.1" 200 583
+DEBUG 2025-08-26 11:06:07,771 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:07,781 basehttp 20852 34632 "GET /geography/api/wards/207/ HTTP/1.1" 200 104
+DEBUG 2025-08-26 11:06:11,449 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:11,458 basehttp 20852 34632 "GET /geography/api/constituencies/40/ HTTP/1.1" 200 491
+DEBUG 2025-08-26 11:06:12,970 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:12,991 basehttp 20852 34632 "GET /geography/api/wards/211/ HTTP/1.1" 200 102
+DEBUG 2025-08-26 11:06:17,031 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:17,046 basehttp 20852 34632 "GET /geography/api/constituencies/48/ HTTP/1.1" 200 906
+DEBUG 2025-08-26 11:06:18,526 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:18,537 basehttp 20852 34632 "GET /geography/api/wards/281/ HTTP/1.1" 200 113
+DEBUG 2025-08-26 11:06:23,800 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:26,821 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 120529
+DEBUG 2025-08-26 11:06:27,399 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:06:27,448 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:06:27,451 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:06:44,881 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:46,051 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121193
+DEBUG 2025-08-26 11:06:46,499 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:06:46,511 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:06:46,520 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:06:57,265 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:06:57,971 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121193
+DEBUG 2025-08-26 11:06:58,195 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:06:58,204 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:06:58,210 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:07:41,924 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:07:42,930 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121193
+DEBUG 2025-08-26 11:07:43,146 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:07:43,153 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:07:43,161 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:07:55,597 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:07:57,192 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121193
+DEBUG 2025-08-26 11:07:57,744 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:07:57,881 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:07:57,962 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:08:06,087 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:06,095 basehttp 20852 34632 "GET /geography/api/constituencies/8/ HTTP/1.1" 200 661
+DEBUG 2025-08-26 11:08:09,778 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:09,793 basehttp 20852 34632 "GET /geography/api/wards/30/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 11:08:12,717 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:12,740 basehttp 20852 34632 "GET /geography/api/constituencies/43/ HTTP/1.1" 200 850
+DEBUG 2025-08-26 11:08:13,875 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:13,883 basehttp 20852 34632 "GET /geography/api/wards/235/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 11:08:18,016 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:18,035 basehttp 20852 34632 "GET /geography/api/constituencies/8/ HTTP/1.1" 200 661
+DEBUG 2025-08-26 11:08:19,150 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:19,168 basehttp 20852 34632 "GET /geography/api/wards/30/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 11:08:26,252 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:27,114 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:08:27,419 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:08:27,433 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:08:27,435 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:08:40,926 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:08:41,982 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:08:42,250 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:08:42,267 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:08:42,274 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:10:39,529 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:10:40,693 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121477
+DEBUG 2025-08-26 11:10:41,180 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:10:41,248 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:10:41,260 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:10:59,751 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:11:01,413 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121477
+DEBUG 2025-08-26 11:11:01,739 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:11:01,763 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:11:01,792 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:11:32,273 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:11:33,888 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121477
+DEBUG 2025-08-26 11:11:34,256 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:11:34,279 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:11:34,284 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:11:40,631 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:11:41,303 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121477
+DEBUG 2025-08-26 11:11:41,633 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:11:41,648 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:11:41,655 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:11:54,388 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:11:55,516 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121440
+DEBUG 2025-08-26 11:11:55,711 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:11:55,718 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:11:55,724 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:11:59,906 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:12:01,525 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121440
+DEBUG 2025-08-26 11:12:01,872 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:12:01,902 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:12:01,959 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:12:07,266 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:12:08,432 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:12:08,637 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:12:08,661 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:12:08,694 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:13:03,330 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:13:04,677 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121421
+DEBUG 2025-08-26 11:13:05,012 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:13:05,021 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:13:05,027 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:14:44,168 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:14:45,915 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:14:46,412 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:14:46,464 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:14:46,468 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:14:48,556 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:14:49,716 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:14:50,111 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:14:50,129 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:14:50,140 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:14:57,820 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:14:58,953 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:14:59,362 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:14:59,496 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:14:59,549 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:15:01,603 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:15:02,290 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:15:02,535 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:15:02,552 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:15:02,554 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:15:11,804 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:15:12,883 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:15:13,072 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:15:13,080 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:15:13,090 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:15:20,930 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:15:21,931 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121419
+DEBUG 2025-08-26 11:15:22,139 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:15:22,149 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:15:22,157 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:17:33,169 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:17:34,719 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 120523
+DEBUG 2025-08-26 11:17:35,272 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:17:35,299 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:17:35,323 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:17:53,369 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:17:54,058 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 120523
+DEBUG 2025-08-26 11:17:54,361 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:17:54,369 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:17:54,373 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:19:00,288 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:19:01,809 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 120523
+DEBUG 2025-08-26 11:19:04,487 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:19:04,494 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:19:04,500 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:19:19,562 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:19:20,733 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 120523
+DEBUG 2025-08-26 11:19:21,054 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:19:21,066 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:19:21,074 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:19:25,232 backends 20852 34632 Retrieved user by ID: 2
+INFO 2025-08-26 11:19:26,494 basehttp 20852 34632 "GET /facilities/create/ HTTP/1.1" 200 121921
+DEBUG 2025-08-26 11:19:26,786 backends 20852 34632 Retrieved user by ID: 2
+WARNING 2025-08-26 11:19:26,841 log 20852 34632 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:19:26,860 basehttp 20852 34632 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:19:29,960 autoreload 20852 31168 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:19:32,214 autoreload 37104 35752 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:19:42,759 backends 37104 31360 Retrieved user by ID: 2
+INFO 2025-08-26 11:19:44,142 basehttp 37104 31360 "GET /facilities/create/ HTTP/1.1" 200 120063
+DEBUG 2025-08-26 11:19:44,452 backends 37104 31360 Retrieved user by ID: 2
+WARNING 2025-08-26 11:19:44,540 log 37104 31360 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:19:44,549 basehttp 37104 31360 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:19:45,442 backends 37104 31360 Retrieved user by ID: 2
+INFO 2025-08-26 11:19:46,959 basehttp 37104 31360 "GET /facilities/create/ HTTP/1.1" 200 120063
+DEBUG 2025-08-26 11:19:47,239 backends 37104 31360 Retrieved user by ID: 2
+WARNING 2025-08-26 11:19:47,251 log 37104 31360 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:19:47,254 basehttp 37104 31360 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:19:52,091 backends 37104 31360 Retrieved user by ID: 2
+INFO 2025-08-26 11:19:53,535 basehttp 37104 31360 "GET /facilities/create/ HTTP/1.1" 200 120063
+DEBUG 2025-08-26 11:19:53,815 backends 37104 31360 Retrieved user by ID: 2
+WARNING 2025-08-26 11:19:53,824 log 37104 31360 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:19:53,824 basehttp 37104 31360 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:20:16,059 backends 37104 31360 Retrieved user by ID: 2
+INFO 2025-08-26 11:20:16,708 basehttp 37104 31360 "GET /facilities/create/ HTTP/1.1" 200 120063
+DEBUG 2025-08-26 11:20:16,902 backends 37104 31360 Retrieved user by ID: 2
+WARNING 2025-08-26 11:20:16,912 log 37104 31360 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:20:16,917 basehttp 37104 31360 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:20:23,995 autoreload 37104 35752 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:20:25,075 autoreload 34232 42076 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:20:35,989 backends 34232 22024 Retrieved user by ID: 2
+INFO 2025-08-26 11:20:37,528 basehttp 34232 22024 "GET /facilities/create/ HTTP/1.1" 200 120039
+DEBUG 2025-08-26 11:20:37,870 backends 34232 22024 Retrieved user by ID: 2
+WARNING 2025-08-26 11:20:37,927 log 34232 22024 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:20:37,951 basehttp 34232 22024 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:20:55,039 autoreload 34232 42076 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:20:56,216 autoreload 32264 29304 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:22:00,356 backends 32264 36848 Retrieved user by ID: 2
+INFO 2025-08-26 11:22:00,895 basehttp 32264 36848 "GET /facilities/map/ HTTP/1.1" 200 39368
+DEBUG 2025-08-26 11:22:05,162 backends 32264 36848 Retrieved user by ID: 2
+INFO 2025-08-26 11:22:05,246 basehttp 32264 36848 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 11:22:07,768 backends 32264 36848 Retrieved user by ID: 2
+INFO 2025-08-26 11:22:07,796 basehttp 32264 36848 "GET /facilities/map/ HTTP/1.1" 200 39368
+DEBUG 2025-08-26 11:22:09,239 backends 32264 36848 Retrieved user by ID: 2
+INFO 2025-08-26 11:22:09,614 basehttp 32264 36848 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 11:22:12,847 backends 32264 36848 Retrieved user by ID: 2
+ERROR 2025-08-26 11:22:13,409 log 32264 36848 Internal Server Error: /facilities/1/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py", line 105, in facility_detail
+    owners = facility.facilityowner_set.filter(is_active=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\query.py", line 1493, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\query.py", line 1511, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\query.py", line 1518, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\sql\query.py", line 1646, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\sql\query.py", line 1678, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\sql\query.py", line 1526, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\sql\query.py", line 1333, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'is_active' into field. Choices are: created_at, created_by, created_by_id, facility, facility_id, owner_id, owner_name, owner_type, owner_type_id, updated_at, updated_by, updated_by_id
+ERROR 2025-08-26 11:22:13,452 basehttp 32264 36848 "GET /facilities/1/ HTTP/1.1" 500 132732
+DEBUG 2025-08-26 11:22:34,062 backends 32264 36848 Retrieved user by ID: 2
+INFO 2025-08-26 11:22:34,227 basehttp 32264 36848 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 11:22:36,351 backends 32264 36848 Retrieved user by ID: 2
+INFO 2025-08-26 11:22:37,423 basehttp 32264 36848 "GET /facilities/create/ HTTP/1.1" 200 119746
+DEBUG 2025-08-26 11:22:37,721 backends 32264 36848 Retrieved user by ID: 2
+WARNING 2025-08-26 11:22:37,763 log 32264 36848 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:22:37,776 basehttp 32264 36848 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:22:51,645 autoreload 32264 29304 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 11:22:53,968 autoreload 30956 42016 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:22:58,176 backends 30956 35212 Retrieved user by ID: 2
+INFO 2025-08-26 11:22:59,746 basehttp 30956 35212 "GET /facilities/create/ HTTP/1.1" 200 123903
+DEBUG 2025-08-26 11:23:00,121 backends 30956 35212 Retrieved user by ID: 2
+WARNING 2025-08-26 11:23:00,199 log 30956 35212 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:23:00,278 basehttp 30956 35212 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:23:01,328 autoreload 30956 42016 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 11:23:04,788 autoreload 34436 33360 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:23:07,060 backends 34436 24180 Retrieved user by ID: 2
+INFO 2025-08-26 11:23:07,733 basehttp 34436 24180 "GET /facilities/create/ HTTP/1.1" 200 123901
+DEBUG 2025-08-26 11:23:07,953 backends 34436 24180 Retrieved user by ID: 2
+WARNING 2025-08-26 11:23:07,965 log 34436 24180 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:23:07,966 basehttp 34436 24180 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:23:10,302 autoreload 34436 33360 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 11:23:12,825 autoreload 30136 21592 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:23:20,665 backends 30136 43016 Retrieved user by ID: 2
+INFO 2025-08-26 11:23:22,315 basehttp 30136 43016 "GET /facilities/create/ HTTP/1.1" 200 123919
+DEBUG 2025-08-26 11:23:22,583 backends 30136 43016 Retrieved user by ID: 2
+WARNING 2025-08-26 11:23:22,595 log 30136 43016 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:23:22,596 basehttp 30136 43016 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:23:39,767 autoreload 30136 21592 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:23:41,742 autoreload 27600 580 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:23:42,519 backends 27600 22252 Retrieved user by ID: 2
+INFO 2025-08-26 11:23:43,250 basehttp 27600 22252 "GET /facilities/create/ HTTP/1.1" 200 123908
+DEBUG 2025-08-26 11:23:43,583 backends 27600 22252 Retrieved user by ID: 2
+WARNING 2025-08-26 11:23:43,607 log 27600 22252 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:23:43,633 basehttp 27600 22252 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:23:50,613 autoreload 27600 580 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:23:52,077 autoreload 12960 37464 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:23:53,271 backends 12960 32480 Retrieved user by ID: 2
+INFO 2025-08-26 11:23:54,154 basehttp 12960 32480 "GET /facilities/create/ HTTP/1.1" 200 121645
+DEBUG 2025-08-26 11:23:54,373 backends 12960 32480 Retrieved user by ID: 2
+WARNING 2025-08-26 11:23:54,390 log 12960 32480 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:23:54,396 basehttp 12960 32480 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:24:11,649 basehttp 12960 43280 "GET /facilities/1/ HTTP/1.1" 302 0
+INFO 2025-08-26 11:24:12,607 autoreload 31792 22772 Watching for file changes with StatReloader
+INFO 2025-08-26 11:24:22,097 autoreload 35468 23440 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:25:25,283 backends 12960 37012 Retrieved user by ID: 2
+INFO 2025-08-26 11:25:26,828 basehttp 12960 37012 "GET /facilities/create/ HTTP/1.1" 200 120523
+DEBUG 2025-08-26 11:25:27,315 backends 12960 37012 Retrieved user by ID: 2
+WARNING 2025-08-26 11:25:27,384 log 12960 37012 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:25:27,392 basehttp 12960 37012 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:25:30,835 backends 12960 37012 Retrieved user by ID: 2
+INFO 2025-08-26 11:25:31,100 basehttp 12960 37012 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 11:25:33,059 backends 12960 37012 Retrieved user by ID: 2
+INFO 2025-08-26 11:25:33,593 basehttp 12960 37012 "GET /facilities/1/ HTTP/1.1" 200 43595
+INFO 2025-08-26 11:25:41,387 autoreload 12960 37464 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 11:25:41,852 autoreload 31792 22772 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 11:25:43,012 autoreload 12896 43052 Watching for file changes with StatReloader
+INFO 2025-08-26 11:25:43,590 autoreload 33784 29444 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:25:45,480 backends 12896 41488 Retrieved user by ID: 2
+INFO 2025-08-26 11:25:46,244 basehttp 12896 41488 "GET /facilities/1/edit/ HTTP/1.1" 200 120854
+DEBUG 2025-08-26 11:25:46,503 backends 12896 41488 Retrieved user by ID: 2
+WARNING 2025-08-26 11:25:46,512 log 12896 41488 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:25:46,513 basehttp 12896 41488 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:25:56,019 backends 12896 41488 Retrieved user by ID: 2
+INFO 2025-08-26 11:25:56,748 basehttp 12896 41488 "POST /facilities/1/edit/ HTTP/1.1" 200 124590
+DEBUG 2025-08-26 11:25:56,951 backends 12896 41488 Retrieved user by ID: 2
+WARNING 2025-08-26 11:25:56,959 log 12896 41488 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:25:56,960 basehttp 12896 41488 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:26:04,357 backends 12896 41488 Retrieved user by ID: 2
+INFO 2025-08-26 11:26:04,877 basehttp 12896 41488 "POST /facilities/1/edit/ HTTP/1.1" 200 124590
+DEBUG 2025-08-26 11:26:05,082 backends 12896 41488 Retrieved user by ID: 2
+WARNING 2025-08-26 11:26:05,089 log 12896 41488 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:26:05,090 basehttp 12896 41488 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:26:33,230 backends 12896 41488 Retrieved user by ID: 2
+INFO 2025-08-26 11:26:33,837 basehttp 12896 41488 "POST /facilities/1/edit/ HTTP/1.1" 200 123268
+DEBUG 2025-08-26 11:26:34,015 backends 12896 41488 Retrieved user by ID: 2
+WARNING 2025-08-26 11:26:34,025 log 12896 41488 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:26:34,027 basehttp 12896 41488 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:26:37,774 autoreload 12896 43052 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:26:38,120 autoreload 33784 29444 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:26:39,827 autoreload 35176 26300 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:26:43,964 backends 35176 28272 Retrieved user by ID: 2
+INFO 2025-08-26 11:26:44,121 basehttp 35176 28272 "GET /facilities/1/ HTTP/1.1" 200 43595
+DEBUG 2025-08-26 11:26:46,895 backends 35176 28272 Retrieved user by ID: 2
+INFO 2025-08-26 11:26:46,932 basehttp 35176 28272 "GET /facilities/1/ HTTP/1.1" 200 43595
+INFO 2025-08-26 11:26:47,847 autoreload 42508 35872 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+DEBUG 2025-08-26 11:26:48,542 backends 35176 28272 Retrieved user by ID: 2
+INFO 2025-08-26 11:26:48,609 basehttp 35176 28272 "GET /facilities/ HTTP/1.1" 200 58269
+INFO 2025-08-26 11:26:48,613 autoreload 35176 26300 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:26:49,843 autoreload 8520 32268 Watching for file changes with StatReloader
+INFO 2025-08-26 11:26:50,602 autoreload 15468 17724 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:26:51,134 backends 8520 30308 Retrieved user by ID: 2
+INFO 2025-08-26 11:26:51,861 basehttp 8520 30308 "GET /facilities/create/ HTTP/1.1" 200 122454
+DEBUG 2025-08-26 11:26:52,079 backends 8520 30308 Retrieved user by ID: 2
+WARNING 2025-08-26 11:26:52,096 log 8520 30308 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:26:52,099 basehttp 8520 30308 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:27:00,920 backends 8520 30308 Retrieved user by ID: 2
+INFO 2025-08-26 11:27:02,981 basehttp 8520 30308 "GET /facilities/create/ HTTP/1.1" 200 122454
+DEBUG 2025-08-26 11:27:06,930 backends 8520 30308 Retrieved user by ID: 2
+WARNING 2025-08-26 11:27:06,961 log 8520 30308 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:27:06,981 basehttp 8520 30308 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:27:25,251 autoreload 15468 17724 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:27:25,338 autoreload 8520 32268 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:27:26,684 autoreload 31176 33556 Watching for file changes with StatReloader
+INFO 2025-08-26 11:27:26,744 autoreload 30560 31736 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:30:25,104 backends 31176 37368 Retrieved user by ID: 2
+INFO 2025-08-26 11:30:26,286 basehttp 31176 37368 "GET /facilities/create/ HTTP/1.1" 200 122881
+DEBUG 2025-08-26 11:30:26,668 backends 31176 37368 Retrieved user by ID: 2
+WARNING 2025-08-26 11:30:26,687 log 31176 37368 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:30:26,688 basehttp 31176 37368 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:32:03,040 backends 31176 39072 Retrieved user by ID: 2
+INFO 2025-08-26 11:32:04,671 basehttp 31176 39072 "GET /facilities/create/ HTTP/1.1" 200 121648
+DEBUG 2025-08-26 11:32:05,339 backends 31176 39072 Retrieved user by ID: 2
+WARNING 2025-08-26 11:32:05,350 log 31176 39072 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:32:05,350 basehttp 31176 39072 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:32:13,664 autoreload 31176 33556 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:32:13,909 autoreload 30560 31736 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:32:15,478 autoreload 34796 11824 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:34:03,467 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:34:04,399 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 123026
+DEBUG 2025-08-26 11:34:04,739 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:34:04,753 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:34:04,755 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:35:09,291 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:35:11,870 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 123026
+DEBUG 2025-08-26 11:35:12,348 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:35:12,359 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:35:12,404 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:35:22,609 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:35:24,397 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 121829
+DEBUG 2025-08-26 11:35:24,909 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:35:24,929 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:35:24,934 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:35:29,427 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:35:30,422 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 121648
+DEBUG 2025-08-26 11:35:30,630 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:35:30,644 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:35:30,649 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:36:03,372 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:36:05,126 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 121648
+DEBUG 2025-08-26 11:36:05,457 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:36:05,478 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:36:05,482 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:36:50,037 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:36:50,864 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 121648
+DEBUG 2025-08-26 11:36:51,276 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:36:51,307 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:36:51,311 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:37:03,527 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:37:05,522 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 122881
+DEBUG 2025-08-26 11:37:05,798 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:37:05,834 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:37:05,845 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:37:40,114 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:37:42,042 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 122579
+DEBUG 2025-08-26 11:37:42,434 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:37:42,527 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:37:42,632 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 11:37:49,469 backends 24424 24436 Retrieved user by ID: 2
+INFO 2025-08-26 11:37:51,737 basehttp 24424 24436 "GET /facilities/create/ HTTP/1.1" 200 122579
+DEBUG 2025-08-26 11:37:52,877 backends 24424 24436 Retrieved user by ID: 2
+WARNING 2025-08-26 11:37:52,895 log 24424 24436 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:37:52,897 basehttp 24424 24436 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:39:29,486 autoreload 34796 11824 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:39:29,929 autoreload 24424 12004 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:39:31,258 autoreload 24336 24516 Watching for file changes with StatReloader
+INFO 2025-08-26 11:39:31,258 autoreload 9796 9804 Watching for file changes with StatReloader
+INFO 2025-08-26 11:40:17,520 autoreload 9796 9804 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:40:18,537 autoreload 24336 24516 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 11:40:18,832 autoreload 15068 20664 Watching for file changes with StatReloader
+INFO 2025-08-26 11:40:19,595 autoreload 34644 39160 Watching for file changes with StatReloader
+DEBUG 2025-08-26 11:57:40,875 backends 15068 9964 Retrieved user by ID: 2
+INFO 2025-08-26 11:57:41,037 basehttp 15068 9964 "GET /facilities/map/ HTTP/1.1" 200 39368
+DEBUG 2025-08-26 11:57:42,829 backends 15068 9964 Retrieved user by ID: 2
+INFO 2025-08-26 11:57:42,900 basehttp 15068 9964 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 11:57:45,635 backends 15068 9964 Retrieved user by ID: 2
+INFO 2025-08-26 11:57:46,279 basehttp 15068 9964 "GET /facilities/create/ HTTP/1.1" 200 120309
+DEBUG 2025-08-26 11:57:46,556 backends 15068 9964 Retrieved user by ID: 2
+WARNING 2025-08-26 11:57:46,580 log 15068 9964 Bad Request: /geography/api/search/
+WARNING 2025-08-26 11:57:46,582 basehttp 15068 9964 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 11:58:00,624 autoreload 15068 20664 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 11:58:01,105 autoreload 34644 39160 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 11:58:02,394 autoreload 34168 42984 Watching for file changes with StatReloader
+INFO 2025-08-26 11:58:02,680 autoreload 40012 38796 Watching for file changes with StatReloader
+DEBUG 2025-08-26 12:14:30,014 backends 34168 29404 Retrieved user by ID: 2
+INFO 2025-08-26 12:14:31,342 basehttp 34168 29404 "GET /facilities/create/ HTTP/1.1" 200 120309
+DEBUG 2025-08-26 12:14:31,848 backends 34168 29404 Retrieved user by ID: 2
+WARNING 2025-08-26 12:14:31,899 log 34168 29404 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:14:31,904 basehttp 34168 29404 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 12:39:24,711 backends 34168 10364 Retrieved user by ID: 2
+INFO 2025-08-26 12:39:25,543 basehttp 34168 10364 "GET /facilities/create/ HTTP/1.1" 200 120309
+DEBUG 2025-08-26 12:39:25,985 backends 34168 10364 Retrieved user by ID: 2
+WARNING 2025-08-26 12:39:25,993 log 34168 10364 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:39:26,003 basehttp 34168 10364 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 12:42:39,600 backends 34168 10364 Retrieved user by ID: 2
+INFO 2025-08-26 12:42:40,569 basehttp 34168 10364 "GET /facilities/create/ HTTP/1.1" 200 120309
+DEBUG 2025-08-26 12:42:40,892 backends 34168 10364 Retrieved user by ID: 2
+WARNING 2025-08-26 12:42:40,900 log 34168 10364 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:42:40,904 basehttp 34168 10364 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 12:45:07,663 autoreload 34168 42984 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:45:07,653 autoreload 40012 38796 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:45:10,363 autoreload 1244 22728 Watching for file changes with StatReloader
+INFO 2025-08-26 12:45:10,364 autoreload 30088 33680 Watching for file changes with StatReloader
+DEBUG 2025-08-26 12:45:12,465 backends 30088 43096 Retrieved user by ID: 2
+INFO 2025-08-26 12:45:13,730 basehttp 30088 43096 "GET /facilities/create/ HTTP/1.1" 200 120853
+DEBUG 2025-08-26 12:45:14,183 backends 30088 43096 Retrieved user by ID: 2
+WARNING 2025-08-26 12:45:14,198 log 30088 43096 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:45:14,216 basehttp 30088 43096 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 12:45:19,247 autoreload 1244 22728 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:45:19,560 autoreload 30088 33680 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:45:21,143 autoreload 14244 32036 Watching for file changes with StatReloader
+INFO 2025-08-26 12:45:21,335 autoreload 34024 43964 Watching for file changes with StatReloader
+DEBUG 2025-08-26 12:53:25,715 backends 14244 31284 Retrieved user by ID: 2
+INFO 2025-08-26 12:53:26,799 basehttp 14244 31284 "GET /facilities/create/ HTTP/1.1" 200 120309
+DEBUG 2025-08-26 12:53:27,273 backends 14244 31284 Retrieved user by ID: 2
+WARNING 2025-08-26 12:53:27,348 log 14244 31284 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:53:27,358 basehttp 14244 31284 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 12:54:08,658 backends 14244 40332 Retrieved user by ID: 2
+INFO 2025-08-26 12:54:10,831 basehttp 14244 40332 "GET /facilities/create/ HTTP/1.1" 200 120304
+DEBUG 2025-08-26 12:54:11,353 backends 14244 40332 Retrieved user by ID: 2
+WARNING 2025-08-26 12:54:11,474 log 14244 40332 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:54:11,491 basehttp 14244 40332 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 12:54:17,338 backends 14244 40332 Retrieved user by ID: 2
+INFO 2025-08-26 12:54:18,888 basehttp 14244 40332 "GET /facilities/create/ HTTP/1.1" 200 120106
+DEBUG 2025-08-26 12:54:19,312 backends 14244 40332 Retrieved user by ID: 2
+WARNING 2025-08-26 12:54:19,343 log 14244 40332 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:54:19,347 basehttp 14244 40332 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 12:54:23,715 backends 14244 40332 Retrieved user by ID: 2
+INFO 2025-08-26 12:54:25,628 basehttp 14244 40332 "GET /facilities/create/ HTTP/1.1" 200 120106
+DEBUG 2025-08-26 12:54:25,832 backends 14244 40332 Retrieved user by ID: 2
+WARNING 2025-08-26 12:54:25,851 log 14244 40332 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:54:25,856 basehttp 14244 40332 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 12:54:32,739 backends 14244 40332 Retrieved user by ID: 2
+INFO 2025-08-26 12:54:33,849 basehttp 14244 40332 "GET /facilities/create/ HTTP/1.1" 200 119954
+DEBUG 2025-08-26 12:54:34,075 backends 14244 40332 Retrieved user by ID: 2
+WARNING 2025-08-26 12:54:34,082 log 14244 40332 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:54:34,092 basehttp 14244 40332 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 12:54:57,786 autoreload 14244 32036 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:54:58,397 autoreload 34024 43964 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:54:59,635 autoreload 44648 44652 Watching for file changes with StatReloader
+INFO 2025-08-26 12:54:59,814 autoreload 44788 44792 Watching for file changes with StatReloader
+INFO 2025-08-26 12:55:11,412 autoreload 44648 44652 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:55:11,576 autoreload 44788 44792 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:55:13,527 autoreload 44888 44900 Watching for file changes with StatReloader
+INFO 2025-08-26 12:55:13,553 autoreload 44872 44880 Watching for file changes with StatReloader
+INFO 2025-08-26 12:55:48,717 autoreload 44888 44900 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:55:48,894 autoreload 44872 44880 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:55:49,974 autoreload 44884 19784 Watching for file changes with StatReloader
+INFO 2025-08-26 12:55:50,219 autoreload 33436 39868 Watching for file changes with StatReloader
+DEBUG 2025-08-26 12:55:55,556 backends 44884 44160 Retrieved user by ID: 2
+INFO 2025-08-26 12:55:57,176 basehttp 44884 44160 "GET /facilities/create/ HTTP/1.1" 200 116876
+DEBUG 2025-08-26 12:55:57,492 backends 44884 44160 Retrieved user by ID: 2
+WARNING 2025-08-26 12:55:57,632 log 44884 44160 Bad Request: /geography/api/search/
+WARNING 2025-08-26 12:55:57,693 basehttp 44884 44160 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 12:56:01,093 autoreload 44884 19784 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:56:01,778 autoreload 33436 39868 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:56:03,176 autoreload 41728 37224 Watching for file changes with StatReloader
+INFO 2025-08-26 12:56:03,409 autoreload 26132 10384 Watching for file changes with StatReloader
+INFO 2025-08-26 12:56:21,708 autoreload 26132 10384 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:56:22,426 autoreload 41728 37224 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:56:23,232 autoreload 41472 22424 Watching for file changes with StatReloader
+INFO 2025-08-26 12:56:24,026 autoreload 44672 35272 Watching for file changes with StatReloader
+INFO 2025-08-26 12:56:33,031 autoreload 44672 35272 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:56:33,548 autoreload 41472 22424 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:56:34,606 autoreload 41052 44420 Watching for file changes with StatReloader
+INFO 2025-08-26 12:56:35,074 autoreload 44916 33056 Watching for file changes with StatReloader
+INFO 2025-08-26 12:57:01,894 autoreload 44916 33056 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-26 12:57:02,394 autoreload 41052 44420 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 12:57:03,513 autoreload 34596 22184 Watching for file changes with StatReloader
+INFO 2025-08-26 12:57:04,209 autoreload 44368 26736 Watching for file changes with StatReloader
+DEBUG 2025-08-26 13:00:01,097 backends 34596 45852 Retrieved user by ID: 2
+INFO 2025-08-26 13:00:02,040 basehttp 34596 45852 "GET /facilities/create/ HTTP/1.1" 200 116876
+DEBUG 2025-08-26 13:00:02,356 backends 34596 45852 Retrieved user by ID: 2
+WARNING 2025-08-26 13:00:02,377 log 34596 45852 Bad Request: /geography/api/search/
+WARNING 2025-08-26 13:00:02,380 basehttp 34596 45852 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 13:00:03,202 backends 34596 45852 Retrieved user by ID: 2
+INFO 2025-08-26 13:00:03,263 basehttp 34596 45852 "GET /facilities/ HTTP/1.1" 200 58269
+INFO 2025-08-26 13:00:18,073 autoreload 44368 26736 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 13:00:18,079 autoreload 34596 22184 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-08-26 13:00:19,831 autoreload 30340 38176 Watching for file changes with StatReloader
+INFO 2025-08-26 13:00:19,901 autoreload 17516 39372 Watching for file changes with StatReloader
+DEBUG 2025-08-26 13:00:21,028 backends 17516 43468 Retrieved user by ID: 2
+INFO 2025-08-26 13:00:21,218 basehttp 17516 43468 "GET /facilities/map/ HTTP/1.1" 200 39368
+DEBUG 2025-08-26 13:00:23,677 backends 17516 43468 Retrieved user by ID: 2
+INFO 2025-08-26 13:00:23,695 basehttp 17516 43468 "GET /services/ HTTP/1.1" 200 39717
+DEBUG 2025-08-26 13:00:27,358 backends 17516 43468 Retrieved user by ID: 2
+INFO 2025-08-26 13:00:27,411 basehttp 17516 43468 "GET /common/lookups/ HTTP/1.1" 200 262137

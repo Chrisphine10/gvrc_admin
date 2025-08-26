@@ -12,6 +12,27 @@ from apps.lookups.models import OperationalStatus, ContactType, ServiceCategory,
 class FacilityForm(forms.ModelForm):
     """Form for creating and updating facilities"""
     
+    # Add geography fields for cascading dropdowns
+    county = forms.ModelChoiceField(
+        queryset=County.objects.all().order_by('county_name'),
+        required=False,
+        empty_label="Select County",
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'id': 'id_county'
+        })
+    )
+    
+    constituency = forms.ModelChoiceField(
+        queryset=Constituency.objects.all().order_by('constituency_name'),
+        required=False,
+        empty_label="Select Constituency",
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'id': 'id_constituency'
+        })
+    )
+    
     class Meta:
         model = Facility
         fields = ['facility_name', 'facility_code', 'registration_number', 'operational_status', 'ward', 
@@ -33,7 +54,8 @@ class FacilityForm(forms.ModelForm):
                 'class': 'form-control'
             }),
             'ward': forms.Select(attrs={
-                'class': 'form-control'
+                'class': 'form-control',
+                'id': 'id_ward'
             }),
             'address_line_1': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -60,6 +82,8 @@ class FacilityForm(forms.ModelForm):
         self.fields['facility_code'].help_text = 'Optional unique facility code'
         self.fields['registration_number'].help_text = 'Unique registration number'
         self.fields['operational_status'].help_text = 'Current operational status'
+        self.fields['county'].help_text = 'Select the county where the facility is located'
+        self.fields['constituency'].help_text = 'Select the constituency within the county'
         self.fields['ward'].help_text = 'Administrative ward where facility is located'
         self.fields['address_line_1'].help_text = 'Primary address of the facility'
         self.fields['address_line_2'].help_text = 'Additional address information (optional)'
@@ -73,7 +97,17 @@ class FacilityForm(forms.ModelForm):
             
         # Set empty label for select fields
         self.fields['operational_status'].empty_label = "Select operational status"
-        self.fields['ward'].empty_label = "Select ward"
+        self.fields['county'].empty_label = "Select County"
+        self.fields['constituency'].empty_label = "Select Constituency"
+        self.fields['ward'].empty_label = "Select Ward"
+        
+        # Initialize geography fields if we have an instance
+        if 'instance' in kwargs and kwargs['instance']:
+            instance = kwargs['instance']
+            if instance.ward:
+                # Set county and constituency based on ward
+                self.fields['county'].initial = instance.ward.constituency.county
+                self.fields['constituency'].initial = instance.ward.constituency
 
 
 class FacilityContactForm(forms.ModelForm):
@@ -286,11 +320,6 @@ class FacilityInfrastructureForm(forms.ModelForm):
         required_fields = ['infrastructure_type', 'condition_status']
         for field_name, field in self.fields.items():
             field.required = field_name in required_fields
-            
-        # Make infrastructure type and condition status not required for empty forms
-        # They will be validated only if the form has data
-        self.fields['infrastructure_type'].required = False
-        self.fields['condition_status'].required = False
 
 
 class FacilityGBVCategoryForm(forms.Form):
@@ -298,10 +327,11 @@ class FacilityGBVCategoryForm(forms.Form):
     
     gbv_categories = forms.ModelMultipleChoiceField(
         queryset=GBVCategory.objects.all(),
-        widget=forms.CheckboxSelectMultiple(attrs={
-            'class': 'form-check-input'
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-control',
+            'size': '6'
         }),
-        required=False,
+        required=True,
         help_text='Select the GBV categories this facility specializes in'
     )
     
@@ -313,6 +343,13 @@ class FacilityGBVCategoryForm(forms.Form):
             # Pre-select existing categories
             existing_categories = facility.facilitygbvcategory_set.values_list('gbv_category', flat=True)
             self.fields['gbv_categories'].initial = existing_categories
+    
+    def clean_gbv_categories(self):
+        """Validate that at least one GBV category is selected"""
+        gbv_categories = self.cleaned_data.get('gbv_categories')
+        if not gbv_categories:
+            raise forms.ValidationError('Please select at least one GBV category.')
+        return gbv_categories
 
 
 # Formsets for handling multiple related objects
@@ -347,9 +384,9 @@ FacilityOwnerFormSet = formset_factory(
 
 FacilityInfrastructureFormSet = formset_factory(
     FacilityInfrastructureForm, 
-    extra=1,  # Start with 1 empty form
-    min_num=0,  # Infrastructure is optional
+    extra=0,  # Start with exactly 1 form (from min_num)
+    min_num=1,  # Ensure at least one form
     max_num=10,
     can_delete=True,
-    validate_min=False  # Don't validate minimum since infrastructure is optional
+    validate_min=True  # Validate minimum number of forms
 )

@@ -37,6 +37,7 @@ urlpatterns = [
     path("", include("apps.authentication.urls")), # Authentication at root
     path("", include("apps.home.urls")),          # Home
     path("facilities/", include("apps.facilities.urls")), # Facilities
+    path("geography/", include("apps.geography.urls")), # Geography
     path("common/", include("apps.common.urls")), # Common
     
     # Mobile API endpoints (no authentication required)

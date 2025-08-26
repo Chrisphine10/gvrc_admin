@@ -25,7 +25,7 @@ APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
 
 # Google Maps API Configuration
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "AIzaSyBYKU1YgvaJwUYkFUqYkfwdPuOG5EvA_Bk")
-GOOGLE_PLACES_API_KEY = os.getenv("GOOGLE_PLACES_API_KEY", GOOGLE_MAPS_API_KEY)
+GOOGLE_PLACES_API_KEY = GOOGLE_MAPS_API_KEY  # Same key works for both Maps and Places
 
 # Application definition
 INSTALLED_APPS = [

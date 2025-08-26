@@ -5,8 +5,7 @@ Base settings for Django project
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-
+from dotenv import load_dotenv  
 # Import legacy helpers for backward compatibility
 try:
     from apps.common.utils import *

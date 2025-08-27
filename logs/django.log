@@ -17716,3 +17716,6 @@ DEBUG 2025-08-27 11:50:48,322 backends 30528 26728 Retrieved user by ID: 2
 INFO 2025-08-27 11:50:48,339 basehttp 30528 26728 "GET /analytics/ HTTP/1.1" 200 31934
 INFO 2025-08-27 11:51:06,008 basehttp 30528 26728 "GET /swagger/ HTTP/1.1" 200 2207
 INFO 2025-08-27 11:51:06,612 basehttp 30528 26728 "GET /swagger/?format=openapi HTTP/1.1" 200 76176
+INFO 2025-08-27 11:52:12,313 autoreload 14636 32336 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-08-27 11:52:12,320 autoreload 30528 37528 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\admin.py changed, reloading.
+INFO 2025-08-27 11:56:15,438 autoreload 17880 1736 Watching for file changes with StatReloader

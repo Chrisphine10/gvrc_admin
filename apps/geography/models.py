@@ -5,6 +5,7 @@ Geographic administrative division models for GVRC Admin
 
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 
 class County(models.Model):
@@ -17,6 +18,25 @@ class County(models.Model):
     
     def __str__(self):
         return self.county_name
+    
+    def has_facilities(self):
+        """Check if county has facilities connected through constituencies and wards"""
+        try:
+            # Check if any ward in this county has facilities
+            return self.constituency_set.filter(ward__facility__isnull=False).exists()
+        except:
+            return False
+    
+    def can_delete(self):
+        """Check if county can be safely deleted"""
+        return not self.has_facilities() and not self.constituency_set.exists()
+    
+    def clean(self):
+        """Validate county data"""
+        if not self.county_name or not self.county_name.strip():
+            raise ValidationError('County name is required')
+        if not self.county_code or not self.county_code.strip():
+            raise ValidationError('County code is required')
     
     class Meta:
         verbose_name_plural = "Counties"
@@ -39,6 +59,27 @@ class Constituency(models.Model):
     def __str__(self):
         return f"{self.constituency_name} - {self.county.county_name}"
     
+    def has_facilities(self):
+        """Check if constituency has facilities connected through wards"""
+        try:
+            # Check if any ward in this constituency has facilities
+            return self.ward_set.filter(facility__isnull=False).exists()
+        except:
+            return False
+    
+    def can_delete(self):
+        """Check if constituency can be safely deleted"""
+        return not self.has_facilities() and not self.ward_set.exists()
+    
+    def clean(self):
+        """Validate constituency data"""
+        if not self.constituency_name or not self.constituency_name.strip():
+            raise ValidationError('Constituency name is required')
+        if not self.constituency_code or not self.constituency_code.strip():
+            raise ValidationError('Constituency code is required')
+        if not self.county:
+            raise ValidationError('County is required')
+    
     class Meta:
         verbose_name_plural = "Constituencies"
         db_table = 'constituencies'
@@ -60,6 +101,27 @@ class Ward(models.Model):
     
     def __str__(self):
         return f"{self.ward_name} - {self.constituency.constituency_name}"
+    
+    def has_facilities(self):
+        """Check if ward has facilities connected"""
+        try:
+            # Check if this ward has facilities
+            return hasattr(self, 'facility_set') and self.facility_set.exists()
+        except:
+            return False
+    
+    def can_delete(self):
+        """Check if ward can be safely deleted"""
+        return not self.has_facilities()
+    
+    def clean(self):
+        """Validate ward data"""
+        if not self.ward_name or not self.ward_name.strip():
+            raise ValidationError('Ward name is required')
+        if not self.ward_code or not self.ward_code.strip():
+            raise ValidationError('Ward code is required')
+        if not self.constituency:
+            raise ValidationError('Constituency is required')
     
     class Meta:
         verbose_name_plural = "Wards"

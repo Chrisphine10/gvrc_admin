@@ -10,15 +10,28 @@ from .models import ContactInteraction, AuditTrail
 @admin.register(ContactInteraction)
 class ContactInteractionAdmin(admin.ModelAdmin):
     """Admin configuration for ContactInteraction model"""
-    list_display = ('interaction_id', 'device', 'contact', 'is_helpful', 'created_at')
-    list_filter = ('is_helpful', 'created_at')
+    list_display = ('interaction_id', 'device', 'contact', 'interaction_type', 'is_helpful', 'created_at')
+    list_filter = ('interaction_type', 'is_helpful', 'created_at', 'contact__contact_type')
     search_fields = ('device__device_id', 'contact__contact_value', 'contact__facility__facility_name')
     readonly_fields = ('interaction_id', 'created_at')
     ordering = ('-created_at',)
     
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('interaction_id', 'device', 'contact', 'interaction_type', 'created_at')
+        }),
+        ('User Information', {
+            'fields': ('user_latitude', 'user_longitude', 'is_helpful')
+        }),
+        ('Interaction Data', {
+            'fields': ('click_data',),
+            'classes': ('collapse',)
+        }),
+    )
+    
     def get_queryset(self, request):
         return super().get_queryset(request).select_related(
-            'device', 'contact', 'contact__facility'
+            'device', 'contact', 'contact__facility', 'contact__contact_type'
         )
 
 

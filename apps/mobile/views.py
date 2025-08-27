@@ -1326,6 +1326,28 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
                 'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
             )
         ],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['facility_id', 'contact_type'],
+            properties={
+                'facility_id': openapi.Schema(
+                    type=openapi.TYPE_STRING, 
+                    description="ID of the facility for the interaction",
+                    example="FAC001"
+                ),
+                'contact_type': openapi.Schema(
+                    type=openapi.TYPE_STRING, 
+                    description="Type of contact interaction (e.g., phone, email, visit)",
+                    example="phone"
+                ),
+                'interaction_data': openapi.Schema(
+                    type=openapi.TYPE_OBJECT, 
+                    description="Additional data about the interaction",
+                    example={},
+                    default={}
+                )
+            }
+        ),
         responses={
             200: openapi.Response('Interaction tracked', openapi.Schema(type=openapi.TYPE_OBJECT, properties={
                 'message': openapi.Schema(type=openapi.TYPE_STRING),
@@ -1351,17 +1373,38 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
         try:
             facility = Facility.objects.get(facility_id=facility_id, is_active=True)
             
+            # Find the specific contact for this facility and contact type
+            try:
+                facility_contact = FacilityContact.objects.get(
+                    facility=facility,
+                    contact_type__type_name__iexact=contact_type,
+                    is_active=True
+                )
+            except FacilityContact.DoesNotExist:
+                return Response(
+                    {'error': f'Contact of type "{contact_type}" not found for facility {facility_id}'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
             # Create contact interaction record
             interaction = ContactInteraction.objects.create(
-                facility=facility,
-                device_id=request.mobile_session.device_id,
-                contact_type=contact_type,
-                interaction_data=interaction_data
+                contact=facility_contact,
+                device=request.mobile_session,
+                user_latitude=request.mobile_session.latitude,
+                user_longitude=request.mobile_session.longitude,
+                is_helpful=interaction_data.get('is_helpful'),
+                interaction_type='general',
+                click_data=interaction_data,
+                created_at=timezone.now()
             )
             
             return Response({
                 'message': 'Contact interaction tracked successfully',
-                'interaction_id': interaction.interaction_id
+                'interaction_id': interaction.interaction_id,
+                'contact_id': facility_contact.contact_id,
+                'facility_name': facility.facility_name,
+                'contact_type': contact_type,
+                'contact_value': facility_contact.contact_value
             })
             
         except Facility.DoesNotExist:
@@ -1372,5 +1415,108 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
         except Exception as e:
             return Response(
                 {'error': f'Failed to track interaction: {str(e)}'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    @swagger_auto_schema(
+        operation_id="mobile_analytics_contact_click",
+        operation_description="Track when a user clicks on a specific contact (e.g., phone number, email)",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
+            )
+        ],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['contact_id'],
+            properties={
+                'contact_id': openapi.Schema(
+                    type=openapi.TYPE_INTEGER, 
+                    description="ID of the specific contact that was clicked",
+                    example=123
+                ),
+                'click_type': openapi.Schema(
+                    type=openapi.TYPE_STRING, 
+                    description="Type of click action (e.g., 'call', 'email', 'sms', 'whatsapp')",
+                    example="call",
+                    default="click"
+                ),
+                'click_data': openapi.Schema(
+                    type=openapi.TYPE_OBJECT, 
+                    description="Additional data about the click",
+                    example={
+                        "duration": 30,
+                        "successful": True,
+                        "notes": "User called the facility"
+                    },
+                    default={}
+                )
+            }
+        ),
+        responses={
+            200: openapi.Response('Contact click tracked', openapi.Schema(type=openapi.TYPE_OBJECT, properties={
+                'message': openapi.Schema(type=openapi.TYPE_STRING),
+                'interaction_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                'contact_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                'facility_name': openapi.Schema(type=openapi.TYPE_STRING),
+                'contact_type': openapi.Schema(type=openapi.TYPE_STRING),
+                'contact_value': openapi.Schema(type=openapi.TYPE_STRING)
+            })),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Contact not found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Analytics API"]
+    )
+    @action(detail=False, methods=['post'], url_path='contact-click')
+    def track_contact_click(self, request):
+        """Track when a user clicks on a specific contact"""
+        contact_id = request.data.get('contact_id')
+        click_type = request.data.get('click_type', 'click')
+        click_data = request.data.get('click_data', {})
+        
+        if not contact_id:
+            return Response(
+                {'error': 'Missing required parameter: contact_id'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            # Get the specific contact
+            facility_contact = FacilityContact.objects.get(
+                contact_id=contact_id,
+                is_active=True
+            )
+            
+            # Create contact interaction record for the click
+            interaction = ContactInteraction.objects.create(
+                contact=facility_contact,
+                device=request.mobile_session,
+                user_latitude=request.mobile_session.latitude,
+                user_longitude=request.mobile_session.longitude,
+                is_helpful=click_data.get('is_helpful'),
+                interaction_type=click_type,
+                click_data=click_data,
+                created_at=timezone.now()
+            )
+            
+            return Response({
+                'message': 'Contact click tracked successfully',
+                'interaction_id': interaction.interaction_id,
+                'contact_id': facility_contact.contact_id,
+                'facility_name': facility_contact.facility.facility_name,
+                'contact_type': facility_contact.contact_type.type_name,
+                'contact_value': facility_contact.contact_value,
+                'click_type': click_type,
+                'click_data': click_data
+            })
+            
+        except FacilityContact.DoesNotExist:
+            return Response(
+                {'error': 'Contact not found'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to track contact click: {str(e)}'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )

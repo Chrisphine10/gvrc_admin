@@ -15,6 +15,8 @@ class ContactInteraction(models.Model):
     user_latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
     user_longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
     is_helpful = models.BooleanField(blank=True, null=True)
+    interaction_type = models.CharField(max_length=50, default='general', blank=True)  # 'general', 'click', 'call', 'email', 'sms'
+    click_data = models.JSONField(default=dict, blank=True)  # Store click-specific data like duration, success, etc.
     created_at = models.DateTimeField(default=timezone.now, null=False)
     
     def __str__(self):

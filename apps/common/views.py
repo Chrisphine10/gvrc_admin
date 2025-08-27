@@ -26,7 +26,7 @@ def geography_overview(request):
     counties = County.objects.annotate(
         constituency_count=Count('constituency'),
         ward_count=Count('constituency__ward')
-    ).order_by('county_name')
+    ).values('county_id', 'county_name', 'county_code', 'constituency_count', 'ward_count').order_by('county_name')
     
     # Get total counts
     total_constituencies = Constituency.objects.count()

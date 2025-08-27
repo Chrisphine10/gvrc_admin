@@ -86,6 +86,19 @@ class Command(BaseCommand):
                         )
                     )
 
+                # Ensure UserProfile exists with default avatar
+                from apps.authentication.models import UserProfile
+                profile, created = UserProfile.objects.get_or_create(
+                    user=user,
+                    defaults={'avatar_url': '/static/assets/img/brand/hodi app logo.png'}
+                )
+                if created:
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            f'UserProfile created with default Hodi logo avatar'
+                        )
+                    )
+
                 self.stdout.write(
                     self.style.SUCCESS(
                         f'Login credentials:\n'

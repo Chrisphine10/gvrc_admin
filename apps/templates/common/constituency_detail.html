@@ -20,7 +20,7 @@
                   {% for w in wards %}
                     <tr>
                       <td class="text-sm">{{ w.ward_name }}</td>
-                      <td class="text-sm text-end"><a href="{% url 'ward_detail' w.ward_id %}" class="text-secondary">View</a></td>
+                      <td class="text-sm text-end"><a href="{% url 'common:ward_detail' w.ward_id %}" class="text-secondary">View</a></td>
                     </tr>
                   {% empty %}
                     <tr><td colspan="2" class="text-center text-dark">No wards.</td></tr>

@@ -31,6 +31,11 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save(using=self._db)
+        
+        # Automatically create UserProfile with default avatar
+        from .models import UserProfile
+        UserProfile.objects.create(user=user)
+        
         return user
     
     def create_superuser(self, email, full_name, phone_number, password=None, **extra_fields):
@@ -129,6 +134,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Return the short name of the user"""
         return self.full_name.split()[0] if self.full_name else ""
     
+    def get_avatar_url(self):
+        """Return the user's avatar URL or default Hodi logo"""
+        try:
+            return self.userprofile.display_avatar
+        except UserProfile.DoesNotExist:
+            return '/static/assets/img/brand/hodi app logo.png'
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name', 'phone_number']
     
@@ -153,7 +165,7 @@ class UserProfile(models.Model):
     """Extended user profile information"""
     profile_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_column='user_id', unique=True, null=False)
-    avatar_url = models.CharField(max_length=500, blank=True)
+    avatar_url = models.CharField(max_length=500, blank=True, default='/static/assets/img/brand/hodi app logo.png')
     bio = models.TextField(blank=True)
     department = models.CharField(max_length=100, blank=True)
     job_title = models.CharField(max_length=100, blank=True)
@@ -163,6 +175,11 @@ class UserProfile(models.Model):
     
     def __str__(self):
         return f"Profile for {self.user.full_name}"
+    
+    @property
+    def display_avatar(self):
+        """Return the avatar URL or default Hodi logo if none set"""
+        return self.avatar_url or '/static/assets/img/brand/hodi app logo.png'
     
     class Meta:
         db_table = 'user_profiles'

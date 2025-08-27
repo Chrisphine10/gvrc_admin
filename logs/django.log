@@ -16415,3 +16415,1304 @@ DEBUG 2025-08-26 13:00:23,677 backends 17516 43468 Retrieved user by ID: 2
 INFO 2025-08-26 13:00:23,695 basehttp 17516 43468 "GET /services/ HTTP/1.1" 200 39717
 DEBUG 2025-08-26 13:00:27,358 backends 17516 43468 Retrieved user by ID: 2
 INFO 2025-08-26 13:00:27,411 basehttp 17516 43468 "GET /common/lookups/ HTTP/1.1" 200 262137
+INFO 2025-08-26 22:53:52,380 autoreload 5440 31304 Watching for file changes with StatReloader
+DEBUG 2025-08-26 22:56:43,992 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:56:44,091 basehttp 5440 9804 "GET / HTTP/1.1" 302 0
+DEBUG 2025-08-26 22:56:44,107 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:56:44,301 basehttp 5440 9804 "GET /dashboard/ HTTP/1.1" 200 65382
+INFO 2025-08-26 22:56:44,382 basehttp 5440 9804 "GET /static/assets/img/brand/hodi%20app%20logo.png HTTP/1.1" 304 0
+DEBUG 2025-08-26 22:57:03,947 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:03,998 basehttp 5440 9804 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 22:57:05,459 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:05,488 basehttp 5440 9804 "GET /facilities/map/ HTTP/1.1" 200 39368
+DEBUG 2025-08-26 22:57:06,555 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:06,577 basehttp 5440 9804 "GET /services/ HTTP/1.1" 200 39717
+DEBUG 2025-08-26 22:57:08,665 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:08,715 basehttp 5440 9804 "GET /facilities/ HTTP/1.1" 200 58269
+DEBUG 2025-08-26 22:57:10,163 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:10,681 basehttp 5440 9804 "GET /facilities/create/ HTTP/1.1" 200 116876
+DEBUG 2025-08-26 22:57:10,887 backends 5440 9804 Retrieved user by ID: 2
+WARNING 2025-08-26 22:57:10,937 log 5440 9804 Bad Request: /geography/api/search/
+WARNING 2025-08-26 22:57:10,938 basehttp 5440 9804 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 22:57:18,871 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:18,889 basehttp 5440 9804 "GET /geography/api/constituencies/19/ HTTP/1.1" 200 392
+DEBUG 2025-08-26 22:57:20,339 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:20,356 basehttp 5440 9804 "GET /geography/api/wards/83/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 22:57:21,664 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:21,681 basehttp 5440 9804 "GET /geography/api/wards/82/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 22:57:24,771 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:24,779 basehttp 5440 9804 "GET /geography/api/constituencies/39/ HTTP/1.1" 200 583
+DEBUG 2025-08-26 22:57:25,830 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:25,847 basehttp 5440 9804 "GET /geography/api/wards/206/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 22:57:27,925 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:27,943 basehttp 5440 9804 "GET /geography/api/wards/207/ HTTP/1.1" 200 30
+DEBUG 2025-08-26 22:57:32,069 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:32,076 basehttp 5440 9804 "GET /geography/api/constituencies/1/ HTTP/1.1" 200 1532
+DEBUG 2025-08-26 22:57:33,052 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:33,058 basehttp 5440 9804 "GET /geography/api/wards/10/ HTTP/1.1" 200 308
+DEBUG 2025-08-26 22:57:35,453 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:35,472 basehttp 5440 9804 "GET /geography/api/wards/13/ HTTP/1.1" 200 282
+DEBUG 2025-08-26 22:57:38,639 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:38,658 basehttp 5440 9804 "GET /geography/api/wards/3/ HTTP/1.1" 200 346
+DEBUG 2025-08-26 22:57:58,395 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:57:58,825 basehttp 5440 9804 "GET /facilities/create/ HTTP/1.1" 200 116876
+DEBUG 2025-08-26 22:57:59,071 backends 5440 9804 Retrieved user by ID: 2
+WARNING 2025-08-26 22:57:59,090 log 5440 9804 Bad Request: /geography/api/search/
+WARNING 2025-08-26 22:57:59,093 basehttp 5440 9804 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-26 22:57:59,181 basehttp 5440 9804 "GET /static/assets/img/icons/common/favicon.ico HTTP/1.1" 304 0
+DEBUG 2025-08-26 22:59:48,500 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 22:59:48,973 basehttp 5440 9804 "GET /facilities/create/ HTTP/1.1" 200 116876
+DEBUG 2025-08-26 22:59:49,307 backends 5440 9804 Retrieved user by ID: 2
+WARNING 2025-08-26 22:59:49,317 log 5440 9804 Bad Request: /geography/api/search/
+WARNING 2025-08-26 22:59:49,318 basehttp 5440 9804 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-26 23:01:16,000 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 23:01:16,043 basehttp 5440 9804 "GET /analytics/ HTTP/1.1" 200 31875
+DEBUG 2025-08-26 23:01:20,788 backends 5440 9804 Retrieved user by ID: 2
+INFO 2025-08-26 23:01:20,825 basehttp 5440 9804 "GET /roles/ HTTP/1.1" 200 51909
+DEBUG 2025-08-26 23:01:24,930 backends 5440 9804 Retrieved user by ID: 2
+ERROR 2025-08-26 23:01:25,377 log 5440 9804 Internal Server Error: /roles/1/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'hodi_logo'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 282, in wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 487, in role_detail
+    return render(request, 'authentication/role_detail.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 567, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 117: 'hodi_logo', expected 'endblock'. Did you forget to register or load this tag?
+ERROR 2025-08-26 23:01:25,391 basehttp 5440 9804 "GET /roles/1/ HTTP/1.1" 500 280234
+DEBUG 2025-08-26 23:01:44,293 backends 5440 4520 Retrieved user by ID: 2
+INFO 2025-08-26 23:01:44,331 basehttp 5440 4520 "GET /roles/create/ HTTP/1.1" 200 36737
+DEBUG 2025-08-26 23:01:47,616 backends 5440 4520 Retrieved user by ID: 2
+ERROR 2025-08-26 23:01:47,855 log 5440 4520 Internal Server Error: /common/geography/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py", line 44, in geography_overview
+    return render(request, 'common/geography_overview.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'county_detail' not found. 'county_detail' is not a valid view function or pattern name.
+ERROR 2025-08-26 23:01:47,866 basehttp 5440 4520 "GET /common/geography/ HTTP/1.1" 500 202950
+DEBUG 2025-08-26 23:01:50,433 backends 5440 4520 Retrieved user by ID: 2
+ERROR 2025-08-26 23:01:50,521 log 5440 4520 Internal Server Error: /common/geography/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py", line 44, in geography_overview
+    return render(request, 'common/geography_overview.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'county_detail' not found. 'county_detail' is not a valid view function or pattern name.
+ERROR 2025-08-26 23:01:50,525 basehttp 5440 4520 "GET /common/geography/ HTTP/1.1" 500 203087
+INFO 2025-08-26 23:02:10,643 autoreload 18108 43628 Watching for file changes with StatReloader
+DEBUG 2025-08-26 23:02:34,232 backends 5440 4520 Retrieved user by ID: 2
+ERROR 2025-08-26 23:02:34,286 log 5440 4520 Internal Server Error: /common/geography/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py", line 44, in geography_overview
+    return render(request, 'common/geography_overview.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'county_detail' not found. 'county_detail' is not a valid view function or pattern name.
+ERROR 2025-08-26 23:02:34,289 basehttp 5440 4520 "GET /common/geography/ HTTP/1.1" 500 203087
+DEBUG 2025-08-26 23:02:41,973 backends 5440 4520 Retrieved user by ID: 2
+INFO 2025-08-26 23:02:41,999 basehttp 5440 4520 "GET /roles/ HTTP/1.1" 200 51909
+DEBUG 2025-08-26 23:02:43,802 backends 5440 4520 Retrieved user by ID: 2
+INFO 2025-08-26 23:02:43,822 basehttp 5440 4520 "GET /roles/create/ HTTP/1.1" 200 36737
+INFO 2025-08-26 23:05:25,955 basehttp 5440 4520 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-26 23:05:26,722 basehttp 5440 4520 "GET /swagger/?format=openapi HTTP/1.1" 200 74170
+DEBUG 2025-08-26 23:05:32,664 backends 5440 4520 Retrieved user by ID: 2
+INFO 2025-08-26 23:05:32,684 basehttp 5440 4520 "GET /help/ HTTP/1.1" 200 38687
+DEBUG 2025-08-26 23:06:23,721 backends 5440 4520 Retrieved user by ID: 2
+INFO 2025-08-26 23:06:23,750 basehttp 5440 4520 "GET /roles/ HTTP/1.1" 200 51967
+DEBUG 2025-08-26 23:06:26,997 backends 5440 4520 Retrieved user by ID: 2
+INFO 2025-08-26 23:06:27,032 basehttp 5440 4520 "GET /roles/6/ HTTP/1.1" 200 75424
+DEBUG 2025-08-26 23:06:39,455 backends 5440 4520 Retrieved user by ID: 2
+INFO 2025-08-26 23:06:39,487 basehttp 5440 4520 "GET /users/ HTTP/1.1" 200 43332
+WARNING 2025-08-26 23:06:39,597 basehttp 5440 4520 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+DEBUG 2025-08-26 23:06:54,289 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:06:54,310 basehttp 5440 44272 "GET /roles/ HTTP/1.1" 200 51967
+DEBUG 2025-08-26 23:06:58,480 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:06:58,519 basehttp 5440 44272 "GET /roles/6/ HTTP/1.1" 200 75424
+DEBUG 2025-08-26 23:07:05,385 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:05,408 basehttp 5440 44272 "GET /roles/ HTTP/1.1" 200 51967
+DEBUG 2025-08-26 23:07:30,805 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:30,826 basehttp 5440 44272 "GET /roles/create/ HTTP/1.1" 200 36795
+DEBUG 2025-08-26 23:07:36,146 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:36,158 basehttp 5440 44272 "POST /roles/create/ HTTP/1.1" 200 37219
+DEBUG 2025-08-26 23:07:45,726 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:45,741 basehttp 5440 44272 "POST /roles/create/ HTTP/1.1" 302 0
+DEBUG 2025-08-26 23:07:45,754 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:45,778 basehttp 5440 44272 "GET /roles/7/ HTTP/1.1" 200 73821
+DEBUG 2025-08-26 23:07:54,768 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:54,791 basehttp 5440 44272 "POST /roles/7/assign-permission/ HTTP/1.1" 200 94
+DEBUG 2025-08-26 23:07:55,855 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:55,876 basehttp 5440 44272 "POST /roles/7/assign-permission/ HTTP/1.1" 200 94
+DEBUG 2025-08-26 23:07:56,308 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:56,338 basehttp 5440 44272 "GET /roles/7/ HTTP/1.1" 200 74405
+DEBUG 2025-08-26 23:07:59,434 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:07:59,457 basehttp 5440 44272 "POST /roles/7/assign-permission/ HTTP/1.1" 200 93
+DEBUG 2025-08-26 23:08:00,697 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:00,716 basehttp 5440 44272 "POST /roles/7/assign-permission/ HTTP/1.1" 200 92
+DEBUG 2025-08-26 23:08:00,982 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:01,013 basehttp 5440 44272 "GET /roles/7/ HTTP/1.1" 200 74885
+DEBUG 2025-08-26 23:08:06,328 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:06,342 basehttp 5440 44272 "POST /roles/7/assign-permission/ HTTP/1.1" 200 87
+DEBUG 2025-08-26 23:08:07,904 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:07,945 basehttp 5440 44272 "GET /roles/7/ HTTP/1.1" 200 75125
+DEBUG 2025-08-26 23:08:35,520 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:35,548 basehttp 5440 44272 "GET /roles/ HTTP/1.1" 200 55530
+DEBUG 2025-08-26 23:08:40,719 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:40,751 basehttp 5440 44272 "GET /roles/7/ HTTP/1.1" 200 75125
+DEBUG 2025-08-26 23:08:51,236 backends 5440 44272 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:51,277 basehttp 5440 44272 "GET /users/ HTTP/1.1" 200 43332
+WARNING 2025-08-26 23:08:51,395 basehttp 5440 44272 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+DEBUG 2025-08-26 23:08:59,192 backends 5440 10384 Retrieved user by ID: 2
+INFO 2025-08-26 23:08:59,216 basehttp 5440 10384 "GET /users/3/ HTTP/1.1" 200 32165
+DEBUG 2025-08-26 23:09:02,843 backends 5440 10384 Retrieved user by ID: 2
+INFO 2025-08-26 23:09:02,863 basehttp 5440 10384 "GET /infrastructure/ HTTP/1.1" 200 40133
+DEBUG 2025-08-26 23:09:05,640 backends 5440 10384 Retrieved user by ID: 2
+INFO 2025-08-26 23:09:05,667 basehttp 5440 10384 "GET /roles/ HTTP/1.1" 200 55124
+DEBUG 2025-08-26 23:09:12,537 backends 5440 10384 Retrieved user by ID: 2
+INFO 2025-08-26 23:09:12,612 basehttp 5440 10384 "GET /admin/ HTTP/1.1" 302 0
+DEBUG 2025-08-26 23:09:12,634 backends 5440 10384 Retrieved user by ID: 2
+INFO 2025-08-26 23:09:12,785 basehttp 5440 10384 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3698
+INFO 2025-08-26 23:09:12,879 basehttp 5440 10384 "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-08-26 23:09:12,915 basehttp 5440 10384 "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-08-26 23:09:12,915 basehttp 5440 7816 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-08-26 23:09:12,921 basehttp 5440 13916 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-08-26 23:09:12,921 basehttp 5440 7816 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-08-26 23:09:12,924 basehttp 5440 4324 "GET /static/admin/css/login.css HTTP/1.1" 304 0
+INFO 2025-08-26 23:09:12,973 basehttp 5440 4324 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+DEBUG 2025-08-26 23:09:14,656 backends 5440 4324 Retrieved user by ID: 2
+DEBUG 2025-08-26 23:09:14,659 backends 5440 4324 Authentication attempt with missing email or password
+INFO 2025-08-26 23:09:15,441 basehttp 5440 4324 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 3871
+DEBUG 2025-08-26 23:10:47,183 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:10:47,202 basehttp 5440 4324 "GET /music/analytics/ HTTP/1.1" 200 38335
+DEBUG 2025-08-26 23:10:50,064 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:10:50,093 basehttp 5440 4324 "GET /music/1/ HTTP/1.1" 200 37992
+DEBUG 2025-08-26 23:10:54,469 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:10:54,500 basehttp 5440 4324 "GET /music/ HTTP/1.1" 200 38681
+DEBUG 2025-08-26 23:10:58,607 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:10:58,630 basehttp 5440 4324 "GET /music/analytics/ HTTP/1.1" 200 38335
+DEBUG 2025-08-26 23:11:08,252 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:11:08,278 basehttp 5440 4324 "GET /music/ HTTP/1.1" 200 38681
+DEBUG 2025-08-26 23:11:45,899 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:11:45,938 basehttp 5440 4324 "GET /music/ HTTP/1.1" 200 38681
+DEBUG 2025-08-26 23:11:49,102 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:11:49,124 basehttp 5440 4324 "GET /services/ HTTP/1.1" 200 39775
+DEBUG 2025-08-26 23:11:51,080 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:11:51,100 basehttp 5440 4324 "GET /facilities/map/ HTTP/1.1" 200 39426
+DEBUG 2025-08-26 23:11:52,250 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:11:52,396 basehttp 5440 4324 "GET /facilities/ HTTP/1.1" 200 58327
+DEBUG 2025-08-26 23:11:56,867 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:11:56,901 basehttp 5440 4324 "GET /facilities/ HTTP/1.1" 200 58327
+DEBUG 2025-08-26 23:12:12,405 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:12:12,423 basehttp 5440 4324 "GET /analytics/ HTTP/1.1" 200 31933
+DEBUG 2025-08-26 23:12:16,805 backends 5440 4324 Retrieved user by ID: 2
+INFO 2025-08-26 23:12:16,818 basehttp 5440 4324 "GET /analytics/ HTTP/1.1" 200 31933
+DEBUG 2025-08-26 23:19:26,649 backends 5440 25364 Retrieved user by ID: 2
+INFO 2025-08-26 23:19:26,676 basehttp 5440 25364 "GET /analytics/ HTTP/1.1" 200 31933
+DEBUG 2025-08-26 23:20:46,661 backends 5440 25364 Retrieved user by ID: 2
+INFO 2025-08-26 23:20:46,688 basehttp 5440 25364 "GET /users/ HTTP/1.1" 200 43332
+WARNING 2025-08-26 23:20:46,895 basehttp 5440 25364 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+DEBUG 2025-08-26 23:24:32,261 backends 5440 13960 Retrieved user by ID: 2
+INFO 2025-08-26 23:24:32,415 basehttp 5440 13960 "GET /common/lookups/ HTTP/1.1" 200 262195
+DEBUG 2025-08-26 23:31:58,734 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:31:58,793 basehttp 5440 44240 "GET /common/lookups/ HTTP/1.1" 200 262195
+DEBUG 2025-08-26 23:32:39,382 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:32:39,404 basehttp 5440 44240 "GET /analytics/ HTTP/1.1" 200 31933
+DEBUG 2025-08-26 23:33:29,932 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:33:29,957 basehttp 5440 44240 "GET /services/ HTTP/1.1" 200 39775
+DEBUG 2025-08-26 23:33:32,009 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:33:32,047 basehttp 5440 44240 "GET /facilities/map/ HTTP/1.1" 200 39426
+DEBUG 2025-08-26 23:34:42,971 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:34:42,991 basehttp 5440 44240 "GET /human-resources/ HTTP/1.1" 200 38269
+DEBUG 2025-08-26 23:34:44,218 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:34:44,295 basehttp 5440 44240 "GET /facilities/ HTTP/1.1" 200 58327
+DEBUG 2025-08-26 23:34:49,122 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:34:49,143 basehttp 5440 44240 "GET /chat/ HTTP/1.1" 200 50255
+DEBUG 2025-08-26 23:34:49,488 backends 5440 44240 Retrieved user by ID: 2
+DEBUG 2025-08-26 23:34:49,488 backends 5440 28516 Retrieved user by ID: 2
+INFO 2025-08-26 23:34:49,719 basehttp 5440 28516 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-08-26 23:34:49,808 basehttp 5440 44240 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-08-26 23:34:54,017 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:34:54,499 basehttp 5440 44240 "GET /chat/conversation/9/ HTTP/1.1" 200 73912
+DEBUG 2025-08-26 23:34:55,029 backends 5440 28516 Retrieved user by ID: 2
+DEBUG 2025-08-26 23:34:55,123 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:34:55,792 basehttp 5440 28516 "GET /chat/admin/conversations/9/ HTTP/1.1" 200 4689
+INFO 2025-08-26 23:34:56,228 basehttp 5440 44240 "GET /chat/admin/conversations/9/messages/ HTTP/1.1" 200 4122
+INFO 2025-08-26 23:34:56,310 basehttp 5440 44240 "GET /media/chat_files/2025/08/25/Finished_Deformed_Bars_JPG_dWfHolk.avif HTTP/1.1" 304 0
+DEBUG 2025-08-26 23:35:00,019 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:00,063 basehttp 5440 44240 "GET /chat/admin/conversations/9/messages/?after=111 HTTP/1.1" 200 185
+DEBUG 2025-08-26 23:35:04,964 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:04,985 basehttp 5440 44240 "GET /chat/admin/conversations/9/messages/?after=111 HTTP/1.1" 200 185
+DEBUG 2025-08-26 23:35:09,271 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:09,308 basehttp 5440 44240 "GET /chat/ HTTP/1.1" 200 50255
+DEBUG 2025-08-26 23:35:09,635 backends 5440 28516 Retrieved user by ID: 2
+DEBUG 2025-08-26 23:35:09,716 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:09,797 basehttp 5440 28516 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-08-26 23:35:10,269 basehttp 5440 44240 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-08-26 23:35:12,905 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:13,015 basehttp 5440 44240 "GET /chat/conversation/12/ HTTP/1.1" 200 74947
+DEBUG 2025-08-26 23:35:13,227 backends 5440 28516 Retrieved user by ID: 2
+DEBUG 2025-08-26 23:35:13,311 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:13,918 basehttp 5440 28516 "GET /chat/admin/conversations/12/ HTTP/1.1" 200 2735
+INFO 2025-08-26 23:35:13,953 basehttp 5440 44240 "GET /chat/admin/conversations/12/messages/ HTTP/1.1" 200 2188
+DEBUG 2025-08-26 23:35:18,186 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:18,209 basehttp 5440 44240 "GET /chat/admin/conversations/12/messages/?after=97 HTTP/1.1" 200 186
+DEBUG 2025-08-26 23:35:23,251 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:23,305 basehttp 5440 44240 "GET /chat/admin/conversations/12/messages/?after=97 HTTP/1.1" 200 186
+DEBUG 2025-08-26 23:35:25,015 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:25,032 basehttp 5440 44240 "GET /chat/ HTTP/1.1" 200 50255
+DEBUG 2025-08-26 23:35:25,293 backends 5440 28516 Retrieved user by ID: 2
+DEBUG 2025-08-26 23:35:25,306 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:25,382 basehttp 5440 28516 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-08-26 23:35:25,461 basehttp 5440 44240 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-08-26 23:35:56,078 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:35:56,105 basehttp 5440 44240 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-08-26 23:36:25,259 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:36:25,289 basehttp 5440 44240 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-08-26 23:36:55,270 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:36:55,287 basehttp 5440 44240 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-08-26 23:37:25,265 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:37:25,278 basehttp 5440 44240 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-08-26 23:37:55,260 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:37:55,292 basehttp 5440 44240 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-08-26 23:38:27,170 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:38:27,193 basehttp 5440 44240 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-08-26 23:38:34,426 backends 5440 44240 Retrieved user by ID: 2
+INFO 2025-08-26 23:38:34,497 basehttp 5440 44240 "GET /users/ HTTP/1.1" 200 43332
+WARNING 2025-08-26 23:38:34,601 basehttp 5440 44240 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+WARNING 2025-08-26 23:38:34,778 basehttp 5440 28516 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+DEBUG 2025-08-26 23:38:37,749 backends 5440 44796 Retrieved user by ID: 2
+INFO 2025-08-26 23:38:41,914 basehttp 5440 44796 "GET /users/2/ HTTP/1.1" 200 33676
+DEBUG 2025-08-26 23:38:54,546 backends 5440 44796 Retrieved user by ID: 2
+INFO 2025-08-26 23:38:54,626 basehttp 5440 44796 "GET /users/ HTTP/1.1" 200 43332
+WARNING 2025-08-26 23:38:54,831 basehttp 5440 44796 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+DEBUG 2025-08-26 23:41:52,635 backends 5440 37492 Retrieved user by ID: 2
+INFO 2025-08-26 23:41:52,663 basehttp 5440 37492 "GET /users/2/edit/ HTTP/1.1" 200 50922
+WARNING 2025-08-26 23:41:52,875 basehttp 5440 37492 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+DEBUG 2025-08-26 23:42:10,570 backends 5440 31576 Retrieved user by ID: 2
+INFO 2025-08-26 23:42:10,611 basehttp 5440 31576 "GET /facilities/ HTTP/1.1" 200 58327
+DEBUG 2025-08-26 23:42:13,607 backends 5440 31576 Retrieved user by ID: 2
+INFO 2025-08-26 23:42:13,621 basehttp 5440 31576 "GET /infrastructure/ HTTP/1.1" 200 40133
+DEBUG 2025-08-26 23:42:20,369 backends 5440 31576 Retrieved user by ID: 2
+INFO 2025-08-26 23:42:20,423 basehttp 5440 31576 "GET /dashboard/ HTTP/1.1" 200 65440
+DEBUG 2025-08-26 23:42:55,341 backends 5440 31576 Retrieved user by ID: 2
+INFO 2025-08-26 23:42:55,383 basehttp 5440 31576 "GET /facilities/ HTTP/1.1" 200 58327
+INFO 2025-08-26 23:44:03,977 autoreload 5440 31304 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:44:03,993 autoreload 18108 43628 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:44:11,709 autoreload 29324 39512 Watching for file changes with StatReloader
+INFO 2025-08-26 23:44:11,709 autoreload 36712 14080 Watching for file changes with StatReloader
+INFO 2025-08-26 23:44:17,114 autoreload 36712 14080 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:44:17,161 autoreload 29324 39512 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:44:18,221 autoreload 15312 32560 Watching for file changes with StatReloader
+INFO 2025-08-26 23:44:18,223 autoreload 40872 34320 Watching for file changes with StatReloader
+INFO 2025-08-26 23:44:23,463 autoreload 15312 32560 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\models.py changed, reloading.
+INFO 2025-08-26 23:44:23,509 autoreload 40872 34320 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\models.py changed, reloading.
+INFO 2025-08-26 23:44:24,890 autoreload 29316 32620 Watching for file changes with StatReloader
+INFO 2025-08-26 23:44:24,890 autoreload 26440 23932 Watching for file changes with StatReloader
+INFO 2025-08-26 23:44:52,672 autoreload 29316 32620 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:44:52,694 autoreload 26440 23932 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:44:53,460 autoreload 42208 19464 Watching for file changes with StatReloader
+INFO 2025-08-26 23:44:53,460 autoreload 41164 17464 Watching for file changes with StatReloader
+INFO 2025-08-26 23:49:43,010 autoreload 42208 19464 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:49:43,010 autoreload 41164 17464 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:49:43,852 autoreload 7988 24472 Watching for file changes with StatReloader
+INFO 2025-08-26 23:49:43,853 autoreload 11744 27968 Watching for file changes with StatReloader
+DEBUG 2025-08-26 23:49:57,304 backends 7988 10296 Retrieved user by ID: 2
+INFO 2025-08-26 23:49:57,535 basehttp 7988 10296 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-26 23:50:06,310 backends 7988 10296 Retrieved user by ID: 2
+INFO 2025-08-26 23:50:06,359 basehttp 7988 10296 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-26 23:50:09,915 backends 7988 10296 Retrieved user by ID: 2
+INFO 2025-08-26 23:50:09,952 basehttp 7988 10296 "GET /music/analytics/ HTTP/1.1" 200 38336
+DEBUG 2025-08-26 23:50:22,722 backends 7988 10296 Retrieved user by ID: 2
+INFO 2025-08-26 23:50:22,784 basehttp 7988 10296 "GET /music/analytics/ HTTP/1.1" 200 38336
+DEBUG 2025-08-26 23:50:46,535 backends 7988 10296 Retrieved user by ID: 2
+INFO 2025-08-26 23:50:46,562 basehttp 7988 10296 "GET /music/analytics/ HTTP/1.1" 200 38336
+INFO 2025-08-26 23:50:46,857 autoreload 7988 24472 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\models.py changed, reloading.
+INFO 2025-08-26 23:50:47,148 autoreload 11744 27968 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\models.py changed, reloading.
+INFO 2025-08-26 23:50:48,842 autoreload 1036 29924 Watching for file changes with StatReloader
+INFO 2025-08-26 23:50:49,060 autoreload 39508 12824 Watching for file changes with StatReloader
+DEBUG 2025-08-26 23:50:49,772 backends 1036 10668 Retrieved user by ID: 2
+INFO 2025-08-26 23:50:49,875 basehttp 1036 10668 "GET /music/analytics/ HTTP/1.1" 200 38336
+INFO 2025-08-26 23:50:58,532 autoreload 1036 29924 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:50:58,583 autoreload 39508 12824 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:50:59,550 autoreload 7752 38384 Watching for file changes with StatReloader
+INFO 2025-08-26 23:50:59,552 autoreload 42452 19156 Watching for file changes with StatReloader
+DEBUG 2025-08-26 23:51:01,062 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:51:01,361 basehttp 7752 16140 "GET /music/analytics/ HTTP/1.1" 200 38336
+DEBUG 2025-08-26 23:51:04,572 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:51:04,666 basehttp 7752 16140 "GET /users/ HTTP/1.1" 200 46473
+DEBUG 2025-08-26 23:51:14,095 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:51:14,110 basehttp 7752 16140 "GET /users/4/ HTTP/1.1" 200 32160
+DEBUG 2025-08-26 23:51:16,438 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:51:16,501 basehttp 7752 16140 "GET /users/ HTTP/1.1" 200 46473
+DEBUG 2025-08-26 23:51:21,949 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:51:22,003 basehttp 7752 16140 "GET /facilities/ HTTP/1.1" 200 58328
+DEBUG 2025-08-26 23:51:23,498 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:51:23,574 basehttp 7752 16140 "GET /dashboard/ HTTP/1.1" 200 65441
+DEBUG 2025-08-26 23:51:41,072 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:51:41,084 basehttp 7752 16140 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-08-26 23:52:15,118 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:52:15,165 basehttp 7752 16140 "GET /facilities/ HTTP/1.1" 200 58328
+DEBUG 2025-08-26 23:52:22,789 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:52:22,936 basehttp 7752 16140 "GET /facilities/?search=&county=16&status=2 HTTP/1.1" 200 44549
+DEBUG 2025-08-26 23:52:31,025 backends 7752 16140 Retrieved user by ID: 2
+INFO 2025-08-26 23:52:31,069 basehttp 7752 16140 "GET /facilities/?search=&county=1&status=2 HTTP/1.1" 200 58344
+INFO 2025-08-26 23:53:14,531 autoreload 7752 38384 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\models.py changed, reloading.
+INFO 2025-08-26 23:53:14,657 autoreload 42452 19156 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\models.py changed, reloading.
+INFO 2025-08-26 23:53:24,385 autoreload 36612 7888 Watching for file changes with StatReloader
+INFO 2025-08-26 23:53:24,386 autoreload 33520 940 Watching for file changes with StatReloader
+DEBUG 2025-08-26 23:53:30,738 backends 33520 21600 Retrieved user by ID: 2
+INFO 2025-08-26 23:53:30,881 basehttp 33520 21600 "GET /analytics/ HTTP/1.1" 200 31934
+INFO 2025-08-26 23:54:33,961 autoreload 33520 940 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:54:34,544 autoreload 36612 7888 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:54:34,858 autoreload 18248 41592 Watching for file changes with StatReloader
+INFO 2025-08-26 23:54:35,317 autoreload 31392 32632 Watching for file changes with StatReloader
+INFO 2025-08-26 23:55:12,070 autoreload 31392 32632 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:55:12,752 autoreload 18248 41592 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:55:12,754 autoreload 21540 18908 Watching for file changes with StatReloader
+INFO 2025-08-26 23:55:13,532 autoreload 18468 16676 Watching for file changes with StatReloader
+INFO 2025-08-26 23:55:54,588 autoreload 18468 16676 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile_sessions\admin.py changed, reloading.
+INFO 2025-08-26 23:55:54,599 autoreload 21540 18908 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile_sessions\admin.py changed, reloading.
+INFO 2025-08-26 23:55:55,436 autoreload 10604 3972 Watching for file changes with StatReloader
+INFO 2025-08-26 23:55:55,436 autoreload 36504 25728 Watching for file changes with StatReloader
+INFO 2025-08-26 23:58:04,283 autoreload 36504 25728 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:58:04,291 autoreload 10604 3972 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-26 23:58:05,027 autoreload 44696 42152 Watching for file changes with StatReloader
+INFO 2025-08-26 23:58:05,028 autoreload 24388 31800 Watching for file changes with StatReloader
+INFO 2025-08-27 00:01:06,404 autoreload 12492 35432 Watching for file changes with StatReloader
+DEBUG 2025-08-27 00:01:10,638 backends 12492 13232 Retrieved user by ID: 2
+INFO 2025-08-27 00:01:10,675 basehttp 12492 13232 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-08-27 00:01:13,207 backends 12492 13232 Retrieved user by ID: 2
+INFO 2025-08-27 00:01:13,233 basehttp 12492 13232 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-27 00:01:14,986 backends 12492 13232 Retrieved user by ID: 2
+ERROR 2025-08-27 00:01:15,305 log 12492 13232 Internal Server Error: /common/geography/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py", line 44, in geography_overview
+    return render(request, 'common/geography_overview.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'county_detail' not found. 'county_detail' is not a valid view function or pattern name.
+ERROR 2025-08-27 00:01:15,312 basehttp 12492 13232 "GET /common/geography/ HTTP/1.1" 500 203265
+DEBUG 2025-08-27 00:01:17,962 backends 12492 13232 Retrieved user by ID: 2
+ERROR 2025-08-27 00:01:18,010 log 12492 13232 Internal Server Error: /common/geography/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py", line 44, in geography_overview
+    return render(request, 'common/geography_overview.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'county_detail' not found. 'county_detail' is not a valid view function or pattern name.
+ERROR 2025-08-27 00:01:18,013 basehttp 12492 13232 "GET /common/geography/ HTTP/1.1" 500 203402
+DEBUG 2025-08-27 00:01:31,343 backends 12492 19392 Retrieved user by ID: 2
+ERROR 2025-08-27 00:01:31,409 log 12492 19392 Internal Server Error: /common/geography/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py", line 44, in geography_overview
+    return render(request, 'common/geography_overview.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'county_detail' not found. 'county_detail' is not a valid view function or pattern name.
+ERROR 2025-08-27 00:01:31,414 basehttp 12492 19392 "GET /common/geography/ HTTP/1.1" 500 203265
+DEBUG 2025-08-27 00:01:55,673 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:01:55,736 basehttp 12492 19392 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-27 00:02:01,741 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:02:01,766 basehttp 12492 19392 "GET /common/geography/ HTTP/1.1" 200 47748
+INFO 2025-08-27 00:02:37,867 autoreload 17240 23764 Watching for file changes with StatReloader
+INFO 2025-08-27 00:02:38,120 basehttp 12492 22056 "GET /common/geography/ HTTP/1.1" 302 0
+INFO 2025-08-27 00:02:50,983 basehttp 12492 2324 "GET /common/geography/ HTTP/1.1" 302 0
+INFO 2025-08-27 00:02:50,985 views 12492 2324 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-27 00:02:50,986 views 12492 2324 Login page accessed
+INFO 2025-08-27 00:02:51,021 basehttp 12492 2324 "GET /login/?next=/common/geography/ HTTP/1.1" 200 16058
+DEBUG 2025-08-27 00:02:55,593 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:02:55,778 basehttp 12492 19392 "GET /documents/ HTTP/1.1" 200 38850
+DEBUG 2025-08-27 00:03:01,338 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:01,380 basehttp 12492 19392 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 00:03:03,227 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:03,269 basehttp 12492 19392 "GET /facilities/ HTTP/1.1" 200 58328
+DEBUG 2025-08-27 00:03:04,281 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:04,309 basehttp 12492 19392 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 00:03:31,334 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:31,354 basehttp 12492 19392 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-08-27 00:03:34,100 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:34,124 basehttp 12492 19392 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-08-27 00:03:36,784 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:36,805 basehttp 12492 19392 "GET /infrastructure/ HTTP/1.1" 200 40134
+DEBUG 2025-08-27 00:03:39,011 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:39,059 basehttp 12492 19392 "GET /common/lookups/ HTTP/1.1" 200 262196
+DEBUG 2025-08-27 00:03:40,262 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:40,290 basehttp 12492 19392 "GET /infrastructure/ HTTP/1.1" 200 40134
+DEBUG 2025-08-27 00:03:44,380 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:44,422 basehttp 12492 19392 "GET /common/lookups/ HTTP/1.1" 200 262196
+DEBUG 2025-08-27 00:03:45,176 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:45,190 basehttp 12492 19392 "GET /infrastructure/ HTTP/1.1" 200 40134
+DEBUG 2025-08-27 00:03:45,813 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:45,834 basehttp 12492 19392 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-08-27 00:03:46,626 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:46,636 basehttp 12492 19392 "GET /infrastructure/ HTTP/1.1" 200 40134
+DEBUG 2025-08-27 00:03:48,679 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:48,720 basehttp 12492 19392 "GET /common/lookups/ HTTP/1.1" 200 262196
+DEBUG 2025-08-27 00:03:51,063 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:51,085 basehttp 12492 19392 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-27 00:03:52,611 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:52,638 basehttp 12492 19392 "GET /common/geography/ HTTP/1.1" 200 47748
+DEBUG 2025-08-27 00:03:54,311 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:54,322 basehttp 12492 19392 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-27 00:03:58,207 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:03:58,244 basehttp 12492 19392 "GET /users/ HTTP/1.1" 200 46473
+DEBUG 2025-08-27 00:04:01,719 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:01,738 basehttp 12492 19392 "GET /users/2/ HTTP/1.1" 200 33677
+DEBUG 2025-08-27 00:04:03,609 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:03,646 basehttp 12492 19392 "GET /users/ HTTP/1.1" 200 46473
+DEBUG 2025-08-27 00:04:05,583 backends 12492 19392 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:05,611 basehttp 12492 19392 "GET /users/2/edit/ HTTP/1.1" 200 50965
+WARNING 2025-08-27 00:04:05,756 basehttp 12492 19392 "GET /static/assets/img/theme/team-4-800x800.jpg HTTP/1.1" 404 1919
+DEBUG 2025-08-27 00:04:35,130 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:35,166 basehttp 12492 7568 "GET /users/2/ HTTP/1.1" 200 33677
+DEBUG 2025-08-27 00:04:39,483 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:39,508 basehttp 12492 7568 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-27 00:04:44,449 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:44,475 basehttp 12492 7568 "GET /music/ HTTP/1.1" 200 38682
+DEBUG 2025-08-27 00:04:48,381 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:48,423 basehttp 12492 7568 "GET /music/add/ HTTP/1.1" 200 43434
+DEBUG 2025-08-27 00:04:52,060 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:52,081 basehttp 12492 7568 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-27 00:04:52,915 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:04:52,946 basehttp 12492 7568 "GET /common/geography/ HTTP/1.1" 200 47748
+DEBUG 2025-08-27 00:05:00,045 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:05:00,070 basehttp 12492 7568 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-08-27 00:05:01,074 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:05:01,097 basehttp 12492 7568 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-08-27 00:05:01,701 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:05:01,720 basehttp 12492 7568 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 00:05:02,859 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:05:02,898 basehttp 12492 7568 "GET /facilities/ HTTP/1.1" 200 58328
+DEBUG 2025-08-27 00:05:05,038 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:05:05,514 basehttp 12492 7568 "GET /facilities/create/ HTTP/1.1" 200 123427
+DEBUG 2025-08-27 00:05:05,709 backends 12492 7568 Retrieved user by ID: 2
+WARNING 2025-08-27 00:05:05,715 log 12492 7568 Bad Request: /geography/api/search/
+WARNING 2025-08-27 00:05:05,716 basehttp 12492 7568 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-27 00:05:15,300 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:05:15,666 basehttp 12492 7568 "GET /facilities/create/ HTTP/1.1" 200 123427
+DEBUG 2025-08-27 00:05:15,813 backends 12492 7568 Retrieved user by ID: 2
+WARNING 2025-08-27 00:05:15,821 log 12492 7568 Bad Request: /geography/api/search/
+WARNING 2025-08-27 00:05:15,821 basehttp 12492 7568 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-27 00:05:35,661 backends 12492 7568 Retrieved user by ID: 2
+INFO 2025-08-27 00:05:36,064 basehttp 12492 7568 "GET /facilities/create/ HTTP/1.1" 200 123427
+DEBUG 2025-08-27 00:05:36,217 backends 12492 7568 Retrieved user by ID: 2
+WARNING 2025-08-27 00:05:36,240 log 12492 7568 Bad Request: /geography/api/search/
+WARNING 2025-08-27 00:05:36,241 basehttp 12492 7568 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-27 00:07:03,588 autoreload 12492 35432 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-27 00:07:04,987 autoreload 20788 38096 Watching for file changes with StatReloader
+INFO 2025-08-27 00:07:30,428 autoreload 20788 38096 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-27 00:07:31,166 autoreload 31228 38656 Watching for file changes with StatReloader
+INFO 2025-08-27 00:08:00,658 autoreload 31228 38656 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\views.py changed, reloading.
+INFO 2025-08-27 00:08:01,613 autoreload 11388 44872 Watching for file changes with StatReloader
+DEBUG 2025-08-27 00:09:44,101 backends 11388 45808 Retrieved user by ID: 2
+INFO 2025-08-27 00:09:45,744 basehttp 11388 45808 "GET /facilities/create/ HTTP/1.1" 200 123420
+DEBUG 2025-08-27 00:09:46,304 backends 11388 45808 Retrieved user by ID: 2
+WARNING 2025-08-27 00:09:46,335 log 11388 45808 Bad Request: /geography/api/search/
+WARNING 2025-08-27 00:09:46,352 basehttp 11388 45808 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-27 00:10:23,747 autoreload 11388 44872 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\forms.py changed, reloading.
+INFO 2025-08-27 00:10:24,940 autoreload 27932 9820 Watching for file changes with StatReloader
+DEBUG 2025-08-27 00:11:21,316 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:21,430 basehttp 27932 32292 "GET /facilities/ HTTP/1.1" 200 58328
+DEBUG 2025-08-27 00:11:26,962 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:26,992 basehttp 27932 32292 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 00:11:28,796 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:28,820 basehttp 27932 32292 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-08-27 00:11:30,975 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:30,996 basehttp 27932 32292 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-08-27 00:11:32,445 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:32,468 basehttp 27932 32292 "GET /infrastructure/ HTTP/1.1" 200 40134
+DEBUG 2025-08-27 00:11:33,303 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:33,366 basehttp 27932 32292 "GET /common/lookups/ HTTP/1.1" 200 262196
+DEBUG 2025-08-27 00:11:34,579 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:34,601 basehttp 27932 32292 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-08-27 00:11:36,219 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:36,247 basehttp 27932 32292 "GET /common/geography/ HTTP/1.1" 200 47748
+DEBUG 2025-08-27 00:11:38,149 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:38,158 basehttp 27932 32292 "GET /chat/ HTTP/1.1" 200 50256
+DEBUG 2025-08-27 00:11:38,332 backends 27932 32292 Retrieved user by ID: 2
+DEBUG 2025-08-27 00:11:38,344 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:38,354 basehttp 27932 32292 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-08-27 00:11:38,409 basehttp 27932 42112 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-08-27 00:11:40,465 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:40,498 basehttp 27932 42112 "GET /chat/conversation/9/ HTTP/1.1" 200 73913
+DEBUG 2025-08-27 00:11:40,686 backends 27932 42112 Retrieved user by ID: 2
+DEBUG 2025-08-27 00:11:40,686 backends 27932 32292 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:40,743 basehttp 27932 32292 "GET /chat/admin/conversations/9/ HTTP/1.1" 200 4689
+INFO 2025-08-27 00:11:40,766 basehttp 27932 42112 "GET /chat/admin/conversations/9/messages/ HTTP/1.1" 200 4122
+DEBUG 2025-08-27 00:11:42,877 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:42,925 basehttp 27932 42112 "GET /common/lookups/ HTTP/1.1" 200 262196
+DEBUG 2025-08-27 00:11:44,654 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:44,723 basehttp 27932 42112 "GET /documents/ HTTP/1.1" 200 38850
+DEBUG 2025-08-27 00:11:46,889 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:11:46,925 basehttp 27932 42112 "GET /users/ HTTP/1.1" 200 46473
+INFO 2025-08-27 00:11:51,913 basehttp 27932 42112 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 00:11:52,525 basehttp 27932 42112 "GET /swagger/?format=openapi HTTP/1.1" 200 74170
+DEBUG 2025-08-27 00:13:51,696 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:13:51,719 basehttp 27932 42112 "GET /mobile/documents/list/?device_id=string HTTP/1.1" 200 2
+DEBUG 2025-08-27 00:14:08,493 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:14:08,525 basehttp 27932 42112 "GET /mobile/music/list/?device_id=string HTTP/1.1" 200 260
+DEBUG 2025-08-27 00:14:25,651 backends 27932 42112 Retrieved user by ID: 2
+INFO 2025-08-27 00:14:25,662 basehttp 27932 42112 "GET /mobile/lookups/data/?device_id=string HTTP/1.1" 200 7581
+DEBUG 2025-08-27 00:14:57,421 backends 27932 42112 Retrieved user by ID: 2
+WARNING 2025-08-27 00:14:57,449 log 27932 42112 Bad Request: /mobile/analytics/contact-interaction/
+WARNING 2025-08-27 00:14:57,450 basehttp 27932 42112 "POST /mobile/analytics/contact-interaction/?device_id=string HTTP/1.1" 400 66
+INFO 2025-08-27 00:15:47,362 autoreload 27932 9820 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile\views.py changed, reloading.
+INFO 2025-08-27 00:15:48,512 autoreload 28340 22664 Watching for file changes with StatReloader
+INFO 2025-08-27 00:15:54,906 autoreload 28340 22664 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile\views.py changed, reloading.
+INFO 2025-08-27 00:15:55,804 autoreload 10792 19492 Watching for file changes with StatReloader
+INFO 2025-08-27 00:16:03,303 basehttp 10792 21148 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 00:16:04,274 basehttp 10792 21148 "GET /swagger/?format=openapi HTTP/1.1" 200 74680
+DEBUG 2025-08-27 00:16:25,996 backends 10792 21148 Retrieved user by ID: 2
+WARNING 2025-08-27 00:16:26,015 log 10792 21148 Bad Request: /mobile/analytics/contact-interaction/
+WARNING 2025-08-27 00:16:26,016 basehttp 10792 21148 "POST /mobile/analytics/contact-interaction/?device_id=string HTTP/1.1" 400 96
+DEBUG 2025-08-27 00:18:05,383 backends 10792 21148 Retrieved user by ID: 2
+INFO 2025-08-27 00:18:05,535 basehttp 10792 21148 "GET /mobile/facilities/list/?device_id=string HTTP/1.1" 200 4491
+INFO 2025-08-27 00:18:16,633 autoreload 10792 19492 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile\views.py changed, reloading.
+INFO 2025-08-27 00:18:17,678 autoreload 34600 37280 Watching for file changes with StatReloader
+INFO 2025-08-27 00:18:39,401 autoreload 34600 37280 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\models.py changed, reloading.
+INFO 2025-08-27 00:18:40,774 autoreload 4164 12492 Watching for file changes with StatReloader
+INFO 2025-08-27 00:18:50,265 autoreload 4164 12492 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile\views.py changed, reloading.
+INFO 2025-08-27 00:18:51,091 autoreload 31468 28232 Watching for file changes with StatReloader
+INFO 2025-08-27 00:18:58,469 autoreload 31468 28232 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile\views.py changed, reloading.
+INFO 2025-08-27 00:18:59,468 autoreload 35704 29960 Watching for file changes with StatReloader
+INFO 2025-08-27 00:19:26,683 autoreload 35704 29960 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\admin.py changed, reloading.
+INFO 2025-08-27 00:19:27,433 autoreload 17032 15124 Watching for file changes with StatReloader
+INFO 2025-08-27 00:19:39,756 basehttp 17032 7984 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 00:19:40,983 basehttp 17032 7984 "GET /swagger/?format=openapi HTTP/1.1" 200 76176
+DEBUG 2025-08-27 00:20:07,749 backends 17032 7984 Retrieved user by ID: 2
+WARNING 2025-08-27 00:20:07,806 log 17032 7984 Not Found: /mobile/analytics/contact-click/
+WARNING 2025-08-27 00:20:07,808 basehttp 17032 7984 "POST /mobile/analytics/contact-click/?device_id=string HTTP/1.1" 404 29
+DEBUG 2025-08-27 00:20:13,906 backends 17032 7984 Retrieved user by ID: 2
+WARNING 2025-08-27 00:20:13,945 log 17032 7984 Not Found: /mobile/analytics/contact-click/
+WARNING 2025-08-27 00:20:13,949 basehttp 17032 7984 "POST /mobile/analytics/contact-click/?device_id=string HTTP/1.1" 404 29
+INFO 2025-08-27 00:20:28,872 autoreload 17032 15124 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\analytics\models.py changed, reloading.
+INFO 2025-08-27 00:20:29,810 autoreload 39804 14312 Watching for file changes with StatReloader
+DEBUG 2025-08-27 00:20:41,083 backends 39804 24076 Retrieved user by ID: 2
+WARNING 2025-08-27 00:20:41,092 log 39804 24076 Not Found: /mobile/analytics/contact-click/
+WARNING 2025-08-27 00:20:41,094 basehttp 39804 24076 "POST /mobile/analytics/contact-click/?device_id=string HTTP/1.1" 404 29
+DEBUG 2025-08-27 00:20:44,260 backends 39804 24076 Retrieved user by ID: 2
+WARNING 2025-08-27 00:20:44,278 log 39804 24076 Not Found: /mobile/analytics/contact-click/
+WARNING 2025-08-27 00:20:44,278 basehttp 39804 24076 "POST /mobile/analytics/contact-click/?device_id=string HTTP/1.1" 404 29
+INFO 2025-08-27 00:22:48,775 basehttp 39804 24076 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 00:22:49,716 basehttp 39804 24076 "GET /swagger/?format=openapi HTTP/1.1" 200 76176
+INFO 2025-08-27 00:22:56,496 autoreload 39804 14312 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\mobile\views.py changed, reloading.
+INFO 2025-08-27 00:22:57,791 autoreload 23956 5900 Watching for file changes with StatReloader
+INFO 2025-08-27 00:23:06,850 basehttp 23956 18236 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 00:23:07,326 basehttp 23956 18236 "GET /swagger/?format=openapi HTTP/1.1" 200 76176
+DEBUG 2025-08-27 00:23:44,453 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:23:44,482 basehttp 23956 18236 "POST /mobile/chat/start/ HTTP/1.1" 200 778
+DEBUG 2025-08-27 00:24:12,680 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:24:12,714 basehttp 23956 18236 "GET /mobile/chat/check-status/?device_id=string HTTP/1.1" 200 868
+DEBUG 2025-08-27 00:24:29,860 backends 23956 18236 Retrieved user by ID: 2
+WARNING 2025-08-27 00:24:29,866 log 23956 18236 Forbidden: /mobile/chat/admin/list/
+WARNING 2025-08-27 00:24:29,866 basehttp 23956 18236 "GET /mobile/chat/admin/list/ HTTP/1.1" 403 38
+DEBUG 2025-08-27 00:24:38,235 backends 23956 18236 Retrieved user by ID: 2
+WARNING 2025-08-27 00:24:38,242 log 23956 18236 Forbidden: /mobile/chat/admin/list/
+WARNING 2025-08-27 00:24:38,243 basehttp 23956 18236 "GET /mobile/chat/admin/list/ HTTP/1.1" 403 38
+DEBUG 2025-08-27 00:27:38,173 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:27:38,222 basehttp 23956 18236 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 00:27:44,006 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:27:44,046 basehttp 23956 18236 "GET /music/ HTTP/1.1" 200 38682
+DEBUG 2025-08-27 00:27:51,562 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:27:51,593 basehttp 23956 18236 "GET /music/analytics/ HTTP/1.1" 200 38336
+DEBUG 2025-08-27 00:27:52,901 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:27:52,928 basehttp 23956 18236 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 00:27:54,055 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:27:54,110 basehttp 23956 18236 "GET /facilities/ HTTP/1.1" 200 58328
+DEBUG 2025-08-27 00:27:55,503 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:27:55,888 basehttp 23956 18236 "GET /facilities/create/ HTTP/1.1" 200 123427
+DEBUG 2025-08-27 00:27:56,081 backends 23956 18236 Retrieved user by ID: 2
+WARNING 2025-08-27 00:27:56,099 log 23956 18236 Bad Request: /geography/api/search/
+WARNING 2025-08-27 00:27:56,100 basehttp 23956 18236 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-08-27 00:28:00,113 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:28:00,122 basehttp 23956 18236 "GET /geography/api/constituencies/41/ HTTP/1.1" 200 1117
+DEBUG 2025-08-27 00:28:01,457 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:28:01,467 basehttp 23956 18236 "GET /geography/api/wards/220/ HTTP/1.1" 200 30
+DEBUG 2025-08-27 00:28:04,223 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:28:04,254 basehttp 23956 18236 "GET /common/geography/ HTTP/1.1" 200 47748
+DEBUG 2025-08-27 00:29:01,311 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:29:01,328 basehttp 23956 18236 "GET /help/ HTTP/1.1" 200 38688
+DEBUG 2025-08-27 00:29:02,608 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:29:02,642 basehttp 23956 18236 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-08-27 00:29:04,546 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:29:04,556 basehttp 23956 18236 "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-08-27 00:29:04,575 basehttp 23956 18236 "GET / HTTP/1.1" 200 27349
+INFO 2025-08-27 00:29:04,818 basehttp 23956 18236 "GET /static/assets/css/gvrc-auth.css HTTP/1.1" 304 0
+INFO 2025-08-27 00:29:35,951 views 23956 18236 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-27 00:29:35,955 views 23956 18236 Login page accessed
+INFO 2025-08-27 00:29:35,973 basehttp 23956 18236 "GET /login/ HTTP/1.1" 200 16548
+INFO 2025-08-27 00:29:39,393 views 23956 18236 Login attempt from IP: 127.0.0.1
+DEBUG 2025-08-27 00:29:39,494 forms 23956 18236 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-08-27 00:29:39,496 backends 23956 18236 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-08-27 00:29:42,975 backends 23956 18236 Password verification successful for user: admin@hodi.ke
+INFO 2025-08-27 00:29:42,980 forms 23956 18236 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-08-27 00:29:42,986 forms 23956 18236 Authentication successful for email: admin@hodi.ke
+INFO 2025-08-27 00:29:42,997 views 23956 18236 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-08-27 00:29:43,002 views 23956 18236 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-08-27 00:29:43,004 backends 23956 18236 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-08-27 00:29:43,034 backends 23956 18236 User session created successfully: vO5FTCMcduhrk8YGfytdnFnRlV9UykQEuiSsSWSatJ4 for user: admin@hodi.ke
+DEBUG 2025-08-27 00:29:43,036 views 23956 18236 User session created: vO5FTCMcduhrk8YGfytdnFnRlV9UykQEuiSsSWSatJ4
+INFO 2025-08-27 00:29:43,066 views 23956 18236 User admin@hodi.ke successfully logged in and redirected
+INFO 2025-08-27 00:29:43,083 basehttp 23956 18236 "POST /login/ HTTP/1.1" 302 0
+DEBUG 2025-08-27 00:29:43,155 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:29:43,396 basehttp 23956 18236 "GET /dashboard/ HTTP/1.1" 200 65441
+DEBUG 2025-08-27 00:30:00,499 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:30:00,573 basehttp 23956 18236 "GET /facilities/ HTTP/1.1" 200 58328
+DEBUG 2025-08-27 00:30:03,663 backends 23956 18236 Retrieved user by ID: 2
+INFO 2025-08-27 00:30:04,081 basehttp 23956 18236 "GET /facilities/create/ HTTP/1.1" 200 124023
+DEBUG 2025-08-27 00:30:04,291 backends 23956 18236 Retrieved user by ID: 2
+WARNING 2025-08-27 00:30:04,298 log 23956 18236 Bad Request: /geography/api/search/
+WARNING 2025-08-27 00:30:04,303 basehttp 23956 18236 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+INFO 2025-08-27 00:30:04,401 autoreload 23956 5900 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 00:30:05,659 autoreload 20336 31984 Watching for file changes with StatReloader
+INFO 2025-08-27 00:30:13,283 autoreload 20336 31984 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 00:30:14,197 autoreload 38904 36144 Watching for file changes with StatReloader
+DEBUG 2025-08-27 00:30:16,232 backends 38904 17092 Retrieved user by ID: 2
+INFO 2025-08-27 00:30:16,448 basehttp 38904 17092 "GET /common/geography/ HTTP/1.1" 200 47748
+DEBUG 2025-08-27 00:30:27,580 backends 38904 17092 Retrieved user by ID: 2
+INFO 2025-08-27 00:30:27,621 basehttp 38904 17092 "GET /common/geography/ HTTP/1.1" 200 47748
+INFO 2025-08-27 00:32:14,145 autoreload 38904 36144 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-08-27 00:32:15,217 autoreload 35716 41932 Watching for file changes with StatReloader
+INFO 2025-08-27 00:32:26,010 autoreload 41708 35316 Watching for file changes with StatReloader
+INFO 2025-08-27 00:35:33,356 autoreload 35716 41932 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-08-27 00:35:33,391 autoreload 41708 35316 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-08-27 00:35:35,123 autoreload 30672 13836 Watching for file changes with StatReloader
+INFO 2025-08-27 00:35:35,132 autoreload 7052 33212 Watching for file changes with StatReloader
+DEBUG 2025-08-27 11:32:11,459 backends 30672 7816 Retrieved user by ID: 2
+INFO 2025-08-27 11:32:11,851 basehttp 30672 7816 "GET /common/geography/ HTTP/1.1" 200 79740
+DEBUG 2025-08-27 11:32:12,269 backends 30672 11620 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:32:12,269 backends 30672 7816 Retrieved user by ID: 2
+INFO 2025-08-27 11:32:12,315 basehttp 30672 11620 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+INFO 2025-08-27 11:32:12,339 basehttp 30672 7816 "GET /geography/api/counties/ HTTP/1.1" 200 2238
+INFO 2025-08-27 11:32:12,482 basehttp 30672 7816 "GET /static/assets/img/icons/common/favicon.ico HTTP/1.1" 304 0
+DEBUG 2025-08-27 11:32:27,116 backends 30672 7816 Retrieved user by ID: 2
+INFO 2025-08-27 11:32:27,133 basehttp 30672 7816 "POST /geography/api/delete/ HTTP/1.1" 200 71
+DEBUG 2025-08-27 11:32:28,181 backends 30672 7816 Retrieved user by ID: 2
+INFO 2025-08-27 11:32:28,235 basehttp 30672 7816 "GET /common/geography/ HTTP/1.1" 200 79032
+DEBUG 2025-08-27 11:32:28,634 backends 30672 11620 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:32:28,636 backends 30672 7816 Retrieved user by ID: 2
+INFO 2025-08-27 11:32:28,662 basehttp 30672 7816 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:32:28,686 basehttp 30672 11620 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+INFO 2025-08-27 11:33:27,691 autoreload 7052 33212 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:33:27,693 autoreload 30672 13836 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:33:47,875 autoreload 34128 13444 Watching for file changes with StatReloader
+INFO 2025-08-27 11:33:47,875 autoreload 14440 9196 Watching for file changes with StatReloader
+INFO 2025-08-27 11:33:58,417 autoreload 14440 9196 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:33:58,419 autoreload 34128 13444 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:33:59,626 autoreload 18196 23492 Watching for file changes with StatReloader
+INFO 2025-08-27 11:33:59,638 autoreload 16876 13900 Watching for file changes with StatReloader
+INFO 2025-08-27 11:34:06,476 autoreload 16876 13900 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:34:06,493 autoreload 18196 23492 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:34:07,842 autoreload 18544 42512 Watching for file changes with StatReloader
+INFO 2025-08-27 11:34:41,762 autoreload 43920 14976 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:34:41,820 autoreload 18544 42512 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:34:43,400 autoreload 42360 42220 Watching for file changes with StatReloader
+INFO 2025-08-27 11:34:43,407 autoreload 30952 5580 Watching for file changes with StatReloader
+INFO 2025-08-27 11:34:57,119 autoreload 42360 42220 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:34:57,195 autoreload 30952 5580 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:35:00,252 autoreload 29664 39832 Watching for file changes with StatReloader
+INFO 2025-08-27 11:35:00,366 autoreload 32696 23964 Watching for file changes with StatReloader
+INFO 2025-08-27 11:37:23,775 autoreload 32696 23964 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:37:23,790 autoreload 29664 39832 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:37:26,011 autoreload 30444 45664 Watching for file changes with StatReloader
+INFO 2025-08-27 11:37:26,076 autoreload 26192 40988 Watching for file changes with StatReloader
+INFO 2025-08-27 11:37:39,437 autoreload 30444 45664 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:37:39,493 autoreload 26192 40988 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:37:40,334 autoreload 1060 6836 Watching for file changes with StatReloader
+INFO 2025-08-27 11:37:40,380 autoreload 36464 26768 Watching for file changes with StatReloader
+INFO 2025-08-27 11:39:09,769 autoreload 36464 26768 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-08-27 11:39:09,807 autoreload 1060 6836 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:39:10,923 autoreload 23568 34288 Watching for file changes with StatReloader
+INFO 2025-08-27 11:39:10,923 autoreload 31868 39756 Watching for file changes with StatReloader
+INFO 2025-08-27 11:40:08,293 autoreload 31868 39756 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:40:08,302 autoreload 23568 34288 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:40:11,225 autoreload 37588 23392 Watching for file changes with StatReloader
+INFO 2025-08-27 11:40:11,225 autoreload 6416 13432 Watching for file changes with StatReloader
+DEBUG 2025-08-27 11:40:35,485 backends 6416 15400 Retrieved user by ID: 2
+INFO 2025-08-27 11:40:36,196 basehttp 6416 15400 - Broken pipe from ('127.0.0.1', 42123)
+DEBUG 2025-08-27 11:40:36,528 backends 6416 22884 Retrieved user by ID: 2
+INFO 2025-08-27 11:40:36,645 basehttp 6416 22884 "GET /common/geography/ HTTP/1.1" 200 79032
+DEBUG 2025-08-27 11:40:37,476 backends 6416 22884 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:40:37,480 backends 6416 4680 Retrieved user by ID: 2
+INFO 2025-08-27 11:40:37,536 basehttp 6416 4680 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:40:37,551 basehttp 6416 22884 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+INFO 2025-08-27 11:41:53,947 autoreload 37588 23392 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:41:53,955 autoreload 6416 13432 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:41:54,994 autoreload 40160 44840 Watching for file changes with StatReloader
+INFO 2025-08-27 11:42:06,554 autoreload 40160 44840 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:42:06,559 autoreload 42692 14020 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:42:07,506 autoreload 8152 45732 Watching for file changes with StatReloader
+
+DEBUG 2025-08-27 11:42:39,917 backends 8152 8696 Retrieved user by ID: 2
+INFO 2025-08-27 11:42:40,392 basehttp 8152 8696 "GET /common/geography/ HTTP/1.1" 200 79032
+DEBUG 2025-08-27 11:42:41,055 backends 8152 8696 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:42:41,056 backends 8152 3048 Retrieved user by ID: 2
+INFO 2025-08-27 11:42:41,095 basehttp 8152 8696 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:42:41,106 basehttp 8152 3048 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+DEBUG 2025-08-27 11:43:49,976 backends 8152 3048 Retrieved user by ID: 2
+INFO 2025-08-27 11:43:50,044 basehttp 8152 3048 "GET /common/geography/ HTTP/1.1" 200 79032
+DEBUG 2025-08-27 11:43:50,544 backends 8152 8696 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:43:50,552 backends 8152 3048 Retrieved user by ID: 2
+INFO 2025-08-27 11:43:50,637 basehttp 8152 8696 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+INFO 2025-08-27 11:43:50,678 basehttp 8152 3048 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:44:35,886 autoreload 19404 12476 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\models.py changed, reloading.
+INFO 2025-08-27 11:44:36,710 autoreload 8152 45732 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\models.py changed, reloading.
+INFO 2025-08-27 11:44:38,671 autoreload 39736 21496 Watching for file changes with StatReloader
+INFO 2025-08-27 11:44:39,295 autoreload 38040 21068 Watching for file changes with StatReloader
+INFO 2025-08-27 11:44:49,923 autoreload 38040 21068 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:44:50,605 autoreload 39736 21496 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:44:51,044 autoreload 1372 39028 Watching for file changes with StatReloader
+INFO 2025-08-27 11:44:51,522 autoreload 16348 15932 Watching for file changes with StatReloader
+INFO 2025-08-27 11:45:54,611 autoreload 16348 15932 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:45:54,768 autoreload 1372 39028 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:45:55,704 autoreload 19532 35512 Watching for file changes with StatReloader
+INFO 2025-08-27 11:45:55,787 autoreload 27312 1764 Watching for file changes with StatReloader
+INFO 2025-08-27 11:46:15,265 basehttp 19532 12544 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 11:46:16,607 basehttp 19532 12544 "GET /swagger/?format=openapi HTTP/1.1" 200 76176
+DEBUG 2025-08-27 11:46:21,673 backends 19532 12544 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:21,684 basehttp 19532 12544 "GET / HTTP/1.1" 302 0
+DEBUG 2025-08-27 11:46:21,714 backends 19532 12544 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:21,950 basehttp 19532 12544 "GET /dashboard/ HTTP/1.1" 200 65441
+INFO 2025-08-27 11:46:25,191 autoreload 27312 1764 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:46:25,265 autoreload 19532 35512 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:46:26,685 autoreload 37940 41428 Watching for file changes with StatReloader
+INFO 2025-08-27 11:46:26,715 autoreload 26636 3700 Watching for file changes with StatReloader
+DEBUG 2025-08-27 11:46:32,691 backends 37940 13836 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:32,932 basehttp 37940 13836 "GET /common/geography/ HTTP/1.1" 200 93447
+DEBUG 2025-08-27 11:46:33,159 backends 37940 13836 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:46:33,159 backends 37940 35744 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:33,171 basehttp 37940 13836 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:46:33,184 basehttp 37940 35744 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+DEBUG 2025-08-27 11:46:43,819 backends 37940 35744 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:43,833 basehttp 37940 35744 "POST /geography/api/edit/ HTTP/1.1" 200 125
+DEBUG 2025-08-27 11:46:44,876 backends 37940 35744 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:44,911 basehttp 37940 35744 "GET /common/geography/ HTTP/1.1" 200 93450
+DEBUG 2025-08-27 11:46:45,082 backends 37940 13836 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:46:45,084 backends 37940 35744 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:45,096 basehttp 37940 13836 "GET /geography/api/constituencies/ HTTP/1.1" 200 27186
+INFO 2025-08-27 11:46:45,106 basehttp 37940 35744 "GET /geography/api/counties/ HTTP/1.1" 200 2195
+DEBUG 2025-08-27 11:46:48,494 backends 37940 35744 Retrieved user by ID: 2
+INFO 2025-08-27 11:46:48,514 basehttp 37940 35744 "GET /geography/api/check-facilities/?type=county&id=48 HTTP/1.1" 200 42
+DEBUG 2025-08-27 11:46:51,470 backends 37940 35744 Retrieved user by ID: 2
+WARNING 2025-08-27 11:46:51,518 log 37940 35744 Bad Request: /geography/api/delete/
+WARNING 2025-08-27 11:46:51,519 basehttp 37940 35744 "POST /geography/api/delete/ HTTP/1.1" 400 126
+DEBUG 2025-08-27 11:46:52,969 backends 37940 35744 Retrieved user by ID: 2
+WARNING 2025-08-27 11:46:52,991 log 37940 35744 Bad Request: /geography/api/delete/
+WARNING 2025-08-27 11:46:52,992 basehttp 37940 35744 "POST /geography/api/delete/ HTTP/1.1" 400 126
+DEBUG 2025-08-27 11:46:56,567 backends 37940 35744 Retrieved user by ID: 2
+WARNING 2025-08-27 11:46:56,587 log 37940 35744 Bad Request: /geography/api/delete/
+WARNING 2025-08-27 11:46:56,588 basehttp 37940 35744 "POST /geography/api/delete/ HTTP/1.1" 400 126
+DEBUG 2025-08-27 11:47:03,233 backends 37940 35744 Retrieved user by ID: 2
+INFO 2025-08-27 11:47:03,259 basehttp 37940 35744 "POST /geography/api/edit/ HTTP/1.1" 200 123
+DEBUG 2025-08-27 11:47:04,286 backends 37940 35744 Retrieved user by ID: 2
+INFO 2025-08-27 11:47:04,318 basehttp 37940 35744 "GET /common/geography/ HTTP/1.1" 200 93447
+DEBUG 2025-08-27 11:47:04,468 backends 37940 35744 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:47:04,470 backends 37940 13836 Retrieved user by ID: 2
+INFO 2025-08-27 11:47:04,479 basehttp 37940 35744 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:47:04,486 basehttp 37940 13836 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+DEBUG 2025-08-27 11:47:14,138 backends 37940 13836 Retrieved user by ID: 2
+INFO 2025-08-27 11:47:14,158 basehttp 37940 13836 "GET /geography/api/check-facilities/?type=county&id=6 HTTP/1.1" 200 42
+DEBUG 2025-08-27 11:47:15,254 backends 37940 13836 Retrieved user by ID: 2
+WARNING 2025-08-27 11:47:15,273 log 37940 13836 Bad Request: /geography/api/delete/
+WARNING 2025-08-27 11:47:15,274 basehttp 37940 13836 "POST /geography/api/delete/ HTTP/1.1" 400 131
+DEBUG 2025-08-27 11:47:21,127 backends 37940 13836 Retrieved user by ID: 2
+INFO 2025-08-27 11:47:21,149 basehttp 37940 13836 "GET /geography/api/check-facilities/?type=county&id=42 HTTP/1.1" 200 42
+DEBUG 2025-08-27 11:47:22,269 backends 37940 13836 Retrieved user by ID: 2
+WARNING 2025-08-27 11:47:22,288 log 37940 13836 Bad Request: /geography/api/delete/
+WARNING 2025-08-27 11:47:22,289 basehttp 37940 13836 "POST /geography/api/delete/ HTTP/1.1" 400 126
+INFO 2025-08-27 11:47:45,001 autoreload 37940 41428 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:47:45,331 autoreload 26636 3700 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\views.py changed, reloading.
+INFO 2025-08-27 11:47:45,994 autoreload 44408 16268 Watching for file changes with StatReloader
+INFO 2025-08-27 11:47:46,308 autoreload 19244 21956 Watching for file changes with StatReloader
+INFO 2025-08-27 11:47:54,545 autoreload 44408 16268 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-08-27 11:47:54,664 autoreload 19244 21956 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-08-27 11:47:56,177 autoreload 33700 33184 Watching for file changes with StatReloader
+INFO 2025-08-27 11:47:56,280 autoreload 10504 37444 Watching for file changes with StatReloader
+INFO 2025-08-27 11:47:58,899 autoreload 33700 33184 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:47:59,056 autoreload 10504 37444 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\geography\urls.py changed, reloading.
+INFO 2025-08-27 11:48:00,677 autoreload 30528 37528 Watching for file changes with StatReloader
+INFO 2025-08-27 11:48:00,804 autoreload 14636 32336 Watching for file changes with StatReloader
+DEBUG 2025-08-27 11:48:50,970 backends 30528 26728 Retrieved user by ID: 2
+INFO 2025-08-27 11:48:51,253 basehttp 30528 26728 "GET /common/geography/ HTTP/1.1" 200 105255
+DEBUG 2025-08-27 11:48:51,668 backends 30528 20572 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:48:51,671 backends 30528 26728 Retrieved user by ID: 2
+INFO 2025-08-27 11:48:51,717 basehttp 30528 20572 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+INFO 2025-08-27 11:48:51,823 basehttp 30528 26728 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+DEBUG 2025-08-27 11:49:03,959 backends 30528 26728 Retrieved user by ID: 2
+INFO 2025-08-27 11:49:04,020 basehttp 30528 26728 "GET /common/geography/ HTTP/1.1" 200 106394
+DEBUG 2025-08-27 11:49:04,465 backends 30528 20572 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:49:04,466 backends 30528 26728 Retrieved user by ID: 2
+INFO 2025-08-27 11:49:04,537 basehttp 30528 26728 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:49:04,566 basehttp 30528 20572 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+DEBUG 2025-08-27 11:49:09,099 backends 30528 20572 Retrieved user by ID: 2
+INFO 2025-08-27 11:49:09,107 basehttp 30528 20572 "GET /geography/api/check-facilities/?type=county&id=6 HTTP/1.1" 200 42
+DEBUG 2025-08-27 11:49:10,317 backends 30528 20572 Retrieved user by ID: 2
+WARNING 2025-08-27 11:49:10,349 log 30528 20572 Bad Request: /geography/api/delete/
+WARNING 2025-08-27 11:49:10,350 basehttp 30528 20572 "POST /geography/api/delete/ HTTP/1.1" 400 131
+DEBUG 2025-08-27 11:49:11,411 backends 30528 20572 Retrieved user by ID: 2
+WARNING 2025-08-27 11:49:11,454 log 30528 20572 Bad Request: /geography/api/delete/
+WARNING 2025-08-27 11:49:11,458 basehttp 30528 20572 "POST /geography/api/delete/ HTTP/1.1" 400 131
+DEBUG 2025-08-27 11:49:19,549 backends 30528 20572 Retrieved user by ID: 2
+INFO 2025-08-27 11:49:19,752 basehttp 30528 20572 "GET /common/geography/ HTTP/1.1" 200 106257
+DEBUG 2025-08-27 11:49:20,183 backends 30528 26728 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:49:20,189 backends 30528 20572 Retrieved user by ID: 2
+INFO 2025-08-27 11:49:20,250 basehttp 30528 26728 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+INFO 2025-08-27 11:49:20,281 basehttp 30528 20572 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+DEBUG 2025-08-27 11:50:41,810 backends 30528 20572 Retrieved user by ID: 2
+INFO 2025-08-27 11:50:41,863 basehttp 30528 20572 "GET /common/geography/ HTTP/1.1" 200 106912
+DEBUG 2025-08-27 11:50:42,105 backends 30528 20572 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:50:42,110 backends 30528 26728 Retrieved user by ID: 2
+INFO 2025-08-27 11:50:42,131 basehttp 30528 20572 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:50:42,148 basehttp 30528 26728 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+DEBUG 2025-08-27 11:50:48,322 backends 30528 26728 Retrieved user by ID: 2
+INFO 2025-08-27 11:50:48,339 basehttp 30528 26728 "GET /analytics/ HTTP/1.1" 200 31934
+INFO 2025-08-27 11:51:06,008 basehttp 30528 26728 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 11:51:06,612 basehttp 30528 26728 "GET /swagger/?format=openapi HTTP/1.1" 200 76176

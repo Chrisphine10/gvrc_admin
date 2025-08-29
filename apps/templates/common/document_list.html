@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Documents {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <div class="row align-items-end">
+              <div class="col-md-5">
+                <label class="form-label text-xs mb-1">Search</label>
+                <form method="get"><input type="text" name="search" value="{{ search_query }}" class="form-control" placeholder="Title, description or facility" /></form>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label text-xs mb-1">Document Type</label>
+                <select class="form-select" name="doc_type" onchange="location.href='?doc_type=' + this.value + '&gbv_category={{ selected_gbv_category }}&search={{ search_query }}'">
+                  <option value="">All</option>
+                  {% for t in document_types %}
+                    <option value="{{ t.document_type_id }}" {% if selected_doc_type == t.document_type_id|stringformat:'s' %}selected{% endif %}>{{ t.type_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label text-xs mb-1">GBV Category</label>
+                <select class="form-select" name="gbv_category" onchange="location.href='?gbv_category=' + this.value + '&doc_type={{ selected_doc_type }}&search={{ search_query }}'">
+                  <option value="">All</option>
+                  {% for g in gbv_categories %}
+                    <option value="{{ g.gbv_category_id }}" {% if selected_gbv_category == g.gbv_category_id|stringformat:'s' %}selected{% endif %}>{{ g.category_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead><tr><th>Title</th><th>Facility</th><th>Type</th><th>GBV Category</th><th>Uploaded</th></tr></thead>
+                <tbody>
+                  {% for d in documents %}
+                    <tr>
+                      <td class="text-sm">{{ d.title }}</td>
+                      <td class="text-sm">{{ d.facility.facility_name|default:'-' }}</td>
+                      <td class="text-sm">{{ d.document_type.type_name }}</td>
+                      <td class="text-sm">{{ d.gbv_category.category_name }}</td>
+                      <td class="text-sm">{{ d.uploaded_at }}</td>
+                    </tr>
+                  {% empty %}
+                    <tr><td colspan="5" class="text-center text-dark">No documents.</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

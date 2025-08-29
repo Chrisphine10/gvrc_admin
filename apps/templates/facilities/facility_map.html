@@ -1,0 +1,269 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Facility Map {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Map View</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+
+
+    <!-- Map Container -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header pb-0">
+            <div class="row">
+              <div class="col-md-6">
+                <h6><i class="ni ni-pin-3 text-primary me-2"></i>Facility Locations Map</h6>
+                <p class="text-sm text-dark mb-0">Interactive map showing all facilities with GPS coordinates</p>
+              </div>
+              <div class="col-md-6 text-end">
+                <div class="btn-group" role="group">
+                  <a href="{% url 'facilities:facility_list' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="ni ni-bullet-list-67"></i> List View
+                  </a>
+                  <button class="btn btn-outline-info btn-sm" onclick="centerMap()">
+                    <i class="ni ni-compass-04"></i> Center Map
+                  </button>
+                  <button class="btn btn-outline-success btn-sm" onclick="showAllMarkers()">
+                    <i class="ni ni-zoom-split-in"></i> Fit All
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div id="facility-map" style="height: 600px; width: 100%;">
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <div class="text-center">
+                  <i class="ni ni-pin-3 text-muted" style="font-size: 4rem;"></i>
+                  <h5 class="text-dark mt-3">Interactive Map</h5>
+                  <p class="text-sm text-muted">
+                    Showing {{ facilities_with_coords_count }} of {{ total_facilities }} facilities with GPS coordinates
+                  </p>
+                  {% if facilities_with_coords_count == 0 %}
+                  <div class="alert alert-warning mx-4" role="alert">
+                    <strong>No GPS coordinates found!</strong><br>
+                    Please add coordinate information to facilities to display them on the map.
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+  <!-- Facility Data (Django template data) -->
+  <script type="application/json" id="facilities-data">
+    {{ facilities_with_coords|safe }}
+  </script>
+
+  <!-- Map JavaScript -->
+  <script>
+    // Get facility data from Django template
+    const facilitiesData = JSON.parse(document.getElementById('facilities-data').textContent);
+    
+    let map;
+    let markers = [];
+    let infoWindow;
+    
+    // Initialize Google Maps
+    function initMap() {
+      // Default center (Kenya)
+      const defaultCenter = { lat: -1.2921, lng: 36.8219 };
+      
+      // Create map
+      map = new google.maps.Map(document.getElementById('facility-map'), {
+        zoom: 7,
+        center: defaultCenter,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: true,
+        streetViewControl: true,
+        fullscreenControl: true,
+        zoomControl: true,
+        styles: [
+          {
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }]
+          }
+        ]
+      });
+      
+      // Create info window
+      infoWindow = new google.maps.InfoWindow();
+      
+      // Add facility markers
+      addFacilityMarkers();
+      
+      // Fit map to show all markers if there are any
+      if (markers.length > 0) {
+        fitMapToMarkers();
+      }
+    }
+    
+    // Add markers for all facilities with coordinates
+    function addFacilityMarkers() {
+      facilitiesData.forEach(function(facilityData) {
+        const facility = facilityData.facility;
+        const coords = facilityData.coordinates;
+        
+        // Create marker
+        const marker = new google.maps.Marker({
+          position: { 
+            lat: parseFloat(coords.latitude), 
+            lng: parseFloat(coords.longitude) 
+          },
+          map: map,
+          title: facility.facility_name,
+          icon: {
+            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+              <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="12" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+                <circle cx="16" cy="16" r="6" fill="#ffffff"/>
+                <circle cx="16" cy="16" r="3" fill="#e74c3c"/>
+              </svg>
+            `),
+            scaledSize: new google.maps.Size(32, 32),
+            anchor: new google.maps.Point(16, 16)
+          }
+        });
+        
+        // Create info window content
+        const infoContent = `
+          <div style="min-width: 200px;">
+            <h6 style="margin: 0 0 8px 0; color: #34495e; font-weight: bold;">
+              ${facility.facility_name}
+            </h6>
+            <p style="margin: 0 0 4px 0; font-size: 12px; color: #7f8c8d;">
+              <strong>Registration:</strong> ${facility.registration_number}
+            </p>
+            <p style="margin: 0 0 4px 0; font-size: 12px; color: #7f8c8d;">
+              <strong>Ward:</strong> ${facility.ward.ward_name}
+            </p>
+            <p style="margin: 0 0 4px 0; font-size: 12px; color: #7f8c8d;">
+              <strong>County:</strong> ${facility.ward.constituency.county.county_name}
+            </p>
+            <p style="margin: 0 0 8px 0; font-size: 12px; color: #7f8c8d;">
+              <strong>Status:</strong> ${facility.operational_status.status_name}
+            </p>
+            <div style="text-align: center;">
+              <a href="/facilities/${facility.facility_id}/" 
+                 class="btn btn-sm btn-primary" 
+                 style="text-decoration: none; padding: 4px 8px; font-size: 11px;">
+                View Details
+              </a>
+            </div>
+          </div>
+        `;
+        
+        // Add click listener to marker
+        marker.addListener('click', function() {
+          infoWindow.setContent(infoContent);
+          infoWindow.open(map, marker);
+        });
+        
+        // Store marker reference
+        markers.push(marker);
+      });
+    }
+    
+    // Center map function
+    function centerMap() {
+      if (markers.length > 0) {
+        const bounds = new google.maps.LatLngBounds();
+        markers.forEach(marker => bounds.extend(marker.getPosition()));
+        map.fitBounds(bounds);
+      } else {
+        // Default to Kenya center if no markers
+        map.setCenter({ lat: -1.2921, lng: 36.8219 });
+        map.setZoom(7);
+      }
+    }
+    
+    // Show all markers function
+    function showAllMarkers() {
+      if (markers.length > 0) {
+        const bounds = new google.maps.LatLngBounds();
+        markers.forEach(marker => bounds.extend(marker.getPosition()));
+        map.fitBounds(bounds);
+      }
+    }
+    
+    // Zoom to specific facility
+    function zoomToFacility(lat, lng) {
+      const position = { lat: parseFloat(lat), lng: parseFloat(lng) };
+      map.setCenter(position);
+      map.setZoom(15);
+      
+      // Find and highlight the marker
+      markers.forEach(marker => {
+        if (marker.getPosition().lat() === position.lat && 
+            marker.getPosition().lng() === position.lng) {
+          // Trigger marker click to show info window
+          google.maps.event.trigger(marker, 'click');
+        }
+      });
+    }
+    
+    // Fit map to show all markers
+    function fitMapToMarkers() {
+      if (markers.length > 0) {
+        const bounds = new google.maps.LatLngBounds();
+        markers.forEach(marker => bounds.extend(marker.getPosition()));
+        map.fitBounds(bounds);
+        
+        // Ensure minimum zoom level
+        google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+          if (map.getZoom() > 15) {
+            map.setZoom(15);
+          }
+        });
+      }
+    }
+    
+    // Initialize map when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Initializing facility map...');
+      
+      // Add event listeners for facility zoom buttons
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.zoom-facility-btn')) {
+          const button = e.target.closest('.zoom-facility-btn');
+          const lat = parseFloat(button.dataset.lat);
+          const lng = parseFloat(button.dataset.lng);
+          
+          if (!isNaN(lat) && !isNaN(lng)) {
+            zoomToFacility(lat, lng);
+          } else {
+            console.error('Invalid coordinates:', lat, lng);
+          }
+        }
+      });
+    });
+  </script>
+  
+  <!-- Google Maps API -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap">
+  </script>
+{% endblock content %}

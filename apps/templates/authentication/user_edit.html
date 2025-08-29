@@ -1,0 +1,529 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Edit User: {{ user.full_name }} {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+  <div class="header bg-gradient-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Edit User</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'user_list' %}">Users</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'user_detail' user.user_id %}">{{ user.full_name }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <a href="{% url 'user_detail' user.user_id %}" class="btn btn-sm btn-neutral">
+              <i class="fas fa-arrow-left"></i> Back to User
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <!-- User Information -->
+      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-3 order-lg-2">
+              <div class="card-profile-image">
+                <a href="#">
+                  <img src="/static/assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'user_detail' user.user_id %}" class="btn btn-sm btn-info mr-4">View</a>
+              <a href="{% url 'change_password' %}" class="btn btn-sm btn-warning float-right">Change Password</a>
+            </div>
+          </div>
+          <div class="card-body pt-0 pt-md-4">
+            <div class="row">
+              <div class="col">
+                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                  <div>
+                    <span class="heading">{{ user.userroleassignment_set.count }}</span>
+                    <span class="description">Roles</span>
+                  </div>
+                  <div>
+                    <span class="heading">{{ user.usersession_set.count }}</span>
+                    <span class="description">Sessions</span>
+                  </div>
+                  <div>
+                    <span class="heading">{{ user.created_at|date:"M d" }}</span>
+                    <span class="description">Joined</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h3>{{ user.full_name }}</h3>
+              <div class="h5 font-weight-300">
+                <i class="ni location_pin mr-2"></i>{{ user.email }}
+              </div>
+              <div class="mt-4">
+                {% if user.is_superuser %}
+                  <span class="badge badge-danger">Super Admin</span>
+                {% elif user.is_staff %}
+                  <span class="badge badge-warning">Staff</span>
+                {% else %}
+                  <span class="badge badge-success">Regular User</span>
+                {% endif %}
+                
+                {% if user.verified %}
+                  <span class="badge badge-info">Verified</span>
+                {% else %}
+                  <span class="badge badge-secondary">Unverified</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Details -->
+      <div class="col-xl-8 order-xl-1">
+        <!-- Profile Information -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Profile Information</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <form method="post">
+              {% csrf_token %}
+              
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="full_name" class="form-control-label">Full Name *</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="full_name" 
+                      name="full_name" 
+                      value="{{ form.full_name.value|default:'' }}" 
+                      required
+                    >
+                    {% if form.full_name.errors %}
+                      <div class="invalid-feedback d-block">
+                        {% for error in form.full_name.errors %}
+                          {{ error }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="phone_number" class="form-control-label">Phone Number *</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="phone_number" 
+                      name="phone_number" 
+                      value="{{ form.phone_number.value|default:'' }}" 
+                      required
+                    >
+                    {% if form.phone_number.errors %}
+                      <div class="invalid-feedback d-block">
+                        {% for error in form.phone_number.errors %}
+                          {{ error }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-control-label">Email Address</label>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  id="email" 
+                  value="{{ user.email }}" 
+                  readonly
+                >
+                <small class="form-text text-muted">
+                  Email address cannot be changed. Contact an administrator if you need to update it.
+                </small>
+              </div>
+
+              <div class="form-group">
+                <label for="bio" class="form-control-label">Bio</label>
+                <textarea 
+                  class="form-control" 
+                  id="bio" 
+                  name="bio" 
+                  rows="3" 
+                  placeholder="Tell us about yourself..."
+                >{{ form.bio.value|default:'' }}</textarea>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="department" class="form-control-label">Department</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="department" 
+                      name="department" 
+                      value="{{ form.department.value|default:'' }}" 
+                      placeholder="e.g., IT, HR, Operations"
+                    >
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="job_title" class="form-control-label">Job Title</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="job_title" 
+                      name="job_title" 
+                      value="{{ form.job_title.value|default:'' }}" 
+                      placeholder="e.g., Manager, Analyst, Coordinator"
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="avatar_url" class="form-control-label">Avatar URL</label>
+                <input 
+                  type="url" 
+                  class="form-control" 
+                  id="avatar_url" 
+                  name="avatar_url" 
+                  value="{{ form.avatar_url.value|default:'' }}" 
+                  placeholder="https://example.com/avatar.jpg"
+                >
+                <small class="form-text text-muted">
+                  Optional: Provide a URL to a profile picture or avatar image.
+                </small>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" name="profile_form" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Update Profile
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Role Management -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Role Management</h3>
+              </div>
+              <div class="col-4 text-right">
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addRoleModal">
+                  <i class="fas fa-plus"></i> Assign Role
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            {% if user_roles %}
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Role</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Assigned</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for user_role in user_roles %}
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">{{ user_role.role.role_name }}</span>
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <span class="text-sm">{{ user_role.role.description|default:"No description" }}</span>
+                        </td>
+                        <td>
+                          {% if user_role.role.is_system_role %}
+                            <span class="badge badge-warning">System</span>
+                          {% else %}
+                            <span class="badge badge-success">Custom</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          <span class="text-sm">{{ user_role.assigned_at|date:"M d, Y" }}</span>
+                        </td>
+                        <td>
+                          <button class="btn btn-sm btn-danger" onclick="removeRole({{ user.user_id }}, {{ user_role.role.role_id }})">
+                            <i class="fas fa-user-minus"></i> Remove
+                          </button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <div class="text-center py-4">
+                <i class="ni ni-badge text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">No Roles Assigned</h4>
+                <p class="text-muted">This user doesn't have any roles yet. Assign roles to grant permissions.</p>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
+                  <i class="fas fa-plus"></i> Assign First Role
+                </button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Account Status -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Account Status</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Account Status</label>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="is_active" 
+                           {% if user.is_active %}checked{% endif %} disabled>
+                    <label class="custom-control-label" for="is_active">
+                      {% if user.is_active %}
+                        <span class="text-success">Active</span>
+                      {% else %}
+                        <span class="text-danger">Inactive</span>
+                      {% endif %}
+                    </label>
+                  </div>
+                  <small class="form-text text-muted">
+                    Account status can only be changed by administrators.
+                  </small>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Verification Status</label>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="verified" 
+                           {% if user.verified %}checked{% endif %} disabled>
+                    <label class="custom-control-label" for="verified">
+                      {% if user.verified %}
+                        <span class="text-success">Verified</span>
+                      {% else %}
+                        <span class="text-warning">Unverified</span>
+                      {% endif %}
+                    </label>
+                  </div>
+                  <small class="form-text text-muted">
+                    Verification status can only be changed by administrators.
+                  </small>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Created</label>
+                  <input type="text" class="form-control" value="{{ user.created_at|date:'F d, Y H:i' }}" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Last Updated</label>
+                  <input type="text" class="form-control" value="{{ user.updated_at|date:'F d, Y H:i'|default:'Never' }}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Role Modal -->
+  <div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addRoleModalLabel">Assign Role to User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% if all_roles %}
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Role</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for role in all_roles %}
+                    <tr>
+                      <th scope="row">
+                        <span class="name mb-0 text-sm">{{ role.role_name }}</span>
+                      </th>
+                      <td>
+                        <span class="text-sm">{{ role.description|default:"No description" }}</span>
+                      </td>
+                      <td>
+                        {% if role.is_system_role %}
+                          <span class="badge badge-warning">System</span>
+                        {% else %}
+                          <span class="badge badge-success">Custom</span>
+                        {% endif %}
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="addRole({{ user.user_id }}, {{ role.role_id }})">
+                          <i class="fas fa-plus"></i> Assign
+                        </button>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <div class="text-center py-4">
+              <i class="ni ni-check-bold text-success" style="font-size: 3rem;"></i>
+              <h4 class="mt-3">All Roles Assigned</h4>
+              <p class="text-muted">This user already has all available roles.</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script>
+    function addRole(userId, roleId) {
+      fetch(`/users/${userId}/assign-role/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({
+          role_id: roleId
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          showAlert('success', data.message);
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          showAlert('danger', data.error);
+        }
+      })
+      .catch(error => {
+        showAlert('danger', 'Error assigning role: ' + error.message);
+      });
+    }
+
+    function removeRole(userId, roleId) {
+      if (confirm('Are you sure you want to remove this role from the user?')) {
+        fetch(`/users/${userId}/remove-role/${roleId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('success', data.message);
+            setTimeout(() => location.reload(), 1500);
+          } else {
+            showAlert('danger', data.error);
+          }
+        })
+        .catch(error => {
+          showAlert('danger', 'Error removing role: ' + error.message);
+        });
+      }
+    }
+
+    function showAlert(type, message) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      `;
+      
+      // Insert at the top of the first card body
+      const cardBody = document.querySelector('.card-body');
+      cardBody.insertBefore(alertDiv, cardBody.firstChild);
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 5000);
+    }
+
+    $(document).ready(function() {
+      // Initialize tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Auto-hide alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').fadeOut('slow');
+      }, 5000);
+    });
+  </script>
+{% endblock javascripts %}

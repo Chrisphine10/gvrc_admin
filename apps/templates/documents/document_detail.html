@@ -1,0 +1,374 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Document: {{ document.title }} {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'documents:document_list' %}">Documents</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ document.title|truncatechars:30 }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'documents:document_edit' document.document_id %}" class="btn btn-warning me-2">
+            <i class="fas fa-edit"></i> Edit Document
+          </a>
+          <a href="{% url 'documents:document_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Documents
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <!-- Document Information -->
+      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-3 order-lg-2">
+              <div class="card-profile-image">
+                <a href="#">
+                  {% if document.image_url %}
+                    <img src="{{ document.image_url }}" class="rounded-circle" alt="Document Image">
+                  {% else %}
+                    <i class="ni ni-folder-17 text-primary" style="font-size: 4rem;"></i>
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'documents:document_edit' document.document_id %}" class="btn btn-sm btn-info mr-4">Edit</a>
+              <a href="{% url 'documents:document_delete' document.document_id %}" class="btn btn-sm btn-danger float-right">Delete</a>
+            </div>
+          </div>
+          <div class="card-body pt-0 pt-md-4">
+            <div class="row">
+              <div class="col">
+                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                  <div>
+                    <span class="heading">{{ document.document_type.type_name|truncatechars:15 }}</span>
+                    <span class="description">Type</span>
+                  </div>
+                  <div>
+                    <span class="heading">
+                      {% if document.is_public %}Public{% else %}Private{% endif %}
+                    </span>
+                    <span class="description">Visibility</span>
+                  </div>
+                  <div>
+                    <span class="heading">{{ document.uploaded_at|date:"M d" }}</span>
+                    <span class="description">Uploaded</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h3>{{ document.title }}</h3>
+              {% if document.description %}
+                <div class="h5 font-weight-300">
+                  <i class="ni ni-single-02 mr-2"></i>{{ document.description|truncatechars:100 }}
+                </div>
+              {% endif %}
+              <div class="mt-4">
+                {% if document.is_public %}
+                  <span class="badge badge-success">Public Document</span>
+                {% else %}
+                  <span class="badge badge-warning">Private Document</span>
+                {% endif %}
+                <span class="badge badge-info ml-2">{{ document.document_type.type_name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Document Details -->
+      <div class="col-xl-8 order-xl-1">
+        <!-- Basic Information -->
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Document Information</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Document Title</label>
+                  <input type="text" class="form-control" value="{{ document.title }}" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Document Type</label>
+                  <input type="text" class="form-control" value="{{ document.document_type.type_name }}" readonly>
+                </div>
+              </div>
+            </div>
+            {% if document.description %}
+              <div class="form-group">
+                <label class="form-control-label">Description</label>
+                <textarea class="form-control" rows="3" readonly>{{ document.description }}</textarea>
+              </div>
+            {% endif %}
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Uploaded By</label>
+                  <input type="text" class="form-control" value="{{ document.uploaded_by.full_name }} ({{ document.uploaded_by.email }})" readonly>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Upload Date</label>
+                  <input type="text" class="form-control" value="{{ document.uploaded_at|date:'F d, Y H:i' }}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- File Information -->
+        {% if document.file_url or document.file_name or document.content %}
+          <div class="card">
+            <div class="card-header">
+              <h3 class="mb-0">File & Content</h3>
+            </div>
+            <div class="card-body">
+              {% if document.file_url %}
+                <div class="form-group">
+                  <label class="form-control-label">File URL</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" value="{{ document.file_url }}" readonly>
+                    <div class="input-group-append">
+                      <a href="{{ document.file_url }}" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> Open File
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              
+              {% if document.file_name %}
+                <div class="form-group">
+                  <label class="form-control-label">File Name</label>
+                  <input type="text" class="form-control" value="{{ document.file_name }}" readonly>
+                </div>
+              {% endif %}
+              
+              {% if document.content %}
+                <div class="form-group">
+                  <label class="form-control-label">Document Content</label>
+                  <textarea class="form-control" rows="8" readonly>{{ document.content }}</textarea>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Additional Information -->
+        {% if document.gbv_category or document.image_url or document.external_url %}
+          <div class="card">
+            <div class="card-header">
+              <h3 class="mb-0">Additional Information</h3>
+            </div>
+            <div class="card-body">
+              {% if document.gbv_category %}
+                <div class="form-group">
+                  <label class="form-control-label">GBV Category</label>
+                  <input type="text" class="form-control" value="{{ document.gbv_category.category_name }}" readonly>
+                </div>
+              {% endif %}
+              
+              {% if document.image_url %}
+                <div class="form-group">
+                  <label class="form-control-label">Image URL</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" value="{{ document.image_url }}" readonly>
+                    <div class="input-group-append">
+                      <a href="{{ document.image_url }}" target="_blank" class="btn btn-info">
+                        <i class="fas fa-image"></i> View Image
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              
+              {% if document.external_url %}
+                <div class="form-group">
+                  <label class="form-control-label">External URL</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" value="{{ document.external_url }}" readonly>
+                    <div class="input-group-append">
+                      <a href="{{ document.external_url }}" target="_blank" class="btn btn-success">
+                        <i class="fas fa-external-link-alt"></i> Visit Link
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Document Settings -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Document Settings</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Visibility Status</label>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="is_public" 
+                           {% if document.is_public %}checked{% endif %} disabled>
+                    <label class="custom-control-label" for="is_public">
+                      {% if document.is_public %}
+                        <span class="text-success">Public Document</span>
+                      {% else %}
+                        <span class="text-warning">Private Document</span>
+                      {% endif %}
+                    </label>
+                  </div>
+                  <small class="form-text text-muted">
+                    {% if document.is_public %}
+                      This document is visible to all users.
+                    {% else %}
+                      This document is only visible to authorized users.
+                    {% endif %}
+                  </small>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label">Document Status</label>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="is_active" 
+                           {% if document.is_active %}checked{% endif %} disabled>
+                    <label class="custom-control-label" for="is_active">
+                      {% if document.is_active %}
+                        <span class="text-success">Active</span>
+                      {% else %}
+                        <span class="text-danger">Inactive</span>
+                      {% endif %}
+                    </label>
+                  </div>
+                  <small class="form-text text-muted">
+                    {% if document.is_active %}
+                      This document is currently active and accessible.
+                    {% else %}
+                      This document has been deactivated.
+                    {% endif %}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Quick Actions</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <a href="{% url 'documents:document_edit' document.document_id %}" class="btn btn-warning btn-block">
+                  <i class="fas fa-edit"></i> Edit Document
+                </a>
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-info btn-block" onclick="togglePublic({{ document.document_id }}, {{ document.is_public|lower }})">
+                  <i class="fas fa-globe"></i> 
+                  {% if document.is_public %}Make Private{% else %}Make Public{% endif %}
+                </button>
+              </div>
+              <div class="col-md-4">
+                <a href="{% url 'documents:document_delete' document.document_id %}" class="btn btn-danger btn-block">
+                  <i class="fas fa-trash"></i> Delete Document
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script>
+    function togglePublic(documentId, currentStatus) {
+      fetch(`/documents/${documentId}/toggle-public/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message
+          showAlert('success', data.message);
+          // Reload page to show updated status
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          showAlert('danger', data.error);
+        }
+      })
+      .catch(error => {
+        showAlert('danger', 'Error updating document: ' + error.message);
+      });
+    }
+
+    function showAlert(type, message) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      `;
+      
+      // Insert at the top of the first card body
+      const cardBody = document.querySelector('.card-body');
+      cardBody.insertBefore(alertDiv, cardBody.firstChild);
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 5000);
+    }
+
+    $(document).ready(function() {
+      // Initialize tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  
+  <!-- CSRF Token for AJAX requests -->
+  {% csrf_token %}
+{% endblock javascripts %}

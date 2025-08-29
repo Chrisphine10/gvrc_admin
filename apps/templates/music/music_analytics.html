@@ -1,0 +1,329 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Music Analytics{% endblock %}
+
+{% block stylesheets %}
+<style>
+.analytics-header {
+    background: linear-gradient(135deg, var(--gvrc-primary) 0%, #667eea 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.stats-card {
+    border-left: 4px solid var(--gvrc-primary);
+    transition: transform 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+}
+
+.top-track-card {
+    border-left: 4px solid var(--gvrc-primary);
+    margin-bottom: 15px;
+}
+
+.track-rank {
+    background: var(--gvrc-primary);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.genre-chart-container {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.play-count-badge {
+    background: var(--gvrc-primary);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.recent-play-item {
+    border-left: 3px solid var(--gvrc-primary);
+    padding-left: 15px;
+    margin-bottom: 15px;
+}
+
+.chart-placeholder {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    color: #6c757d;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'music:music_list' %}">Music</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Analytics</li>
+          </ol>
+        </nav>
+        <h1 class="h3 mb-0">Music Analytics</h1>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'music:music_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Music
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Top Tracks Section -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card stats-card">
+                                 <div class="card-header">
+                     <h4 class="mb-0"><i class="fas fa-trophy text-primary"></i> Top Tracks</h4>
+                 </div>
+                <div class="card-body">
+                    {% if top_tracks %}
+                    {% for track in top_tracks %}
+                    <div class="top-track-card">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="track-rank">{{ forloop.counter }}</div>
+                            </div>
+                            <div class="col">
+                                <h5 class="mb-1">{{ track.name }}</h5>
+                                {% if track.artist %}
+                                <p class="text-muted mb-1">by {{ track.artist }}</p>
+                                {% endif %}
+                                {% if track.genre %}
+                                <small class="text-muted">{{ track.genre }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="col-auto">
+                                <span class="play-count-badge">
+                                    <i class="fas fa-play"></i> {{ track.play_count }} plays
+                                </span>
+                            </div>
+                            <div class="col-auto">
+                                <a href="{% url 'music:music_detail' track.music_id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-music fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No tracks found</h5>
+                        <p class="text-muted">Add some music tracks to see analytics data.</p>
+                        <a href="{% url 'music:add_music' %}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Music Track
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Genre Statistics -->
+        <div class="col-lg-4">
+            <div class="card stats-card">
+                                 <div class="card-header">
+                     <h4 class="mb-0"><i class="fas fa-tags text-primary"></i> Genres</h4>
+                 </div>
+                <div class="card-body">
+                    {% if genre_stats %}
+                    {% for genre in genre_stats %}
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="mb-0">{{ genre.genre|default:"Unknown" }}</h6>
+                            <small class="text-muted">{{ genre.track_count }} tracks</small>
+                        </div>
+                        <span class="play-count-badge">{{ genre.total_plays }} plays</span>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-tags fa-2x text-muted mb-3"></i>
+                        <p class="text-muted">No genre data available</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts and Recent Activity -->
+    <div class="row">
+        <!-- Genre Distribution Chart -->
+        <div class="col-lg-6">
+            <div class="card stats-card">
+                                 <div class="card-header">
+                     <h4 class="mb-0"><i class="fas fa-chart-pie text-primary"></i> Distribution</h4>
+                 </div>
+                <div class="card-body">
+                    {% if genre_stats %}
+                    <div class="genre-chart-container">
+                        <canvas id="genreChart" width="400" height="200"></canvas>
+                    </div>
+                    {% else %}
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-pie fa-3x mb-3"></i>
+                        <h5>No Genre Data</h5>
+                        <p>Add music tracks with genres to see the distribution chart.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Plays -->
+        <div class="col-lg-6">
+            <div class="card stats-card">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-history text-primary"></i> Recent Plays</h4>
+                </div>
+                <div class="card-body">
+                    {% if recent_plays %}
+                    {% for play in recent_plays %}
+                    <div class="recent-play-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1">{{ play.music.name }}</h6>
+                                <p class="text-muted mb-1">Played by {{ play.user.full_name }}</p>
+                                <small class="text-muted">{{ play.played_at|date:"M d, Y H:i" }}</small>
+                            </div>
+                            <div class="text-right">
+                                {% if play.session_duration %}
+                                <span class="badge badge-info">{{ play.session_duration }}</span>
+                                {% endif %}
+                                <br>
+                                <small class="text-muted">{{ play.ip_address|default:"No IP" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-headphones fa-2x text-muted mb-3"></i>
+                        <h5 class="text-muted">No Recent Plays</h5>
+                        <p class="text-muted">Plays will appear here when users listen to tracks.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Analytics -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card stats-card">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-chart-line text-primary"></i> Listening Trends</h4>
+                </div>
+                <div class="card-body">
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line fa-3x mb-3"></i>
+                        <h5>Listening Trends Chart</h5>
+                        <p>This chart would show listening patterns over time, peak listening hours, and user engagement trends.</p>
+                        <p class="text-muted small">Advanced analytics features can be implemented here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden data container for JavaScript -->
+{% if genre_stats %}
+<div id="genre-data" style="display: none;" 
+     data-genre-stats="{{ genre_stats|safe|escapejs }}">
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Genre Distribution Chart
+    const genreDataElement = document.getElementById('genre-data');
+    if (genreDataElement) {
+        const genreCtx = document.getElementById('genreChart').getContext('2d');
+        
+        // Get data from hidden element
+        const genreStats = JSON.parse(genreDataElement.dataset.genreStats);
+        
+        const genreLabels = genreStats.map(function(genre) {
+            return genre.genre || 'Unknown';
+        });
+        
+        const genreData = genreStats.map(function(genre) {
+            return genre.total_plays;
+        });
+        
+        const genreChartData = {
+            labels: genreLabels,
+            datasets: [{
+                data: genreData,
+                backgroundColor: [
+                    '#f093fb', '#f5576c', '#4facfe', '#00f2fe', '#43e97b',
+                    '#38f9d7', '#fa709a', '#fee140', '#a8edea', '#fed6e3'
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        };
+        
+        new Chart(genreCtx, {
+            type: 'doughnut',
+            data: genreChartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

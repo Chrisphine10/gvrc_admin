@@ -1,0 +1,394 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Document Management {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Documents</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'documents:document_create' %}" class="btn btn-primary me-2">
+            <i class="ni ni-fat-add"></i> Upload Document
+          </a>
+          <a href="{% url 'documents:document_analytics' %}" class="btn btn-info">
+            <i class="ni ni-chart-bar-32"></i> Analytics
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Statistics Cards -->
+    <div class="row">
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Total Documents</h5>
+                <span class="h2 font-weight-bold mb-0">{{ total_documents }}</span>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                  <i class="ni ni-folder-17"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Public Documents</h5>
+                <span class="h2 font-weight-bold mb-0">{{ public_documents }}</span>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                  <i class="ni ni-world-2"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Private Documents</h5>
+                <span class="h2 font-weight-bold mb-0">{{ private_documents }}</span>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                  <i class="ni ni-lock-circle"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Document Types</h5>
+                <span class="h2 font-weight-bold mb-0">{{ document_types.count }}</span>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                  <i class="ni ni-tag"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Documents</h3>
+              </div>
+              <div class="col text-right">
+                <form class="form-inline" method="get">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search documents..." name="search" value="{{ search_query }}">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-default" type="submit">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Advanced Filters -->
+            <form method="get" class="mb-4">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="document_type">Document Type</label>
+                    <select class="form-control" id="document_type" name="document_type">
+                      <option value="">All Types</option>
+                      {% for doc_type in document_types %}
+                        <option value="{{ doc_type.id }}" {% if selected_document_type == doc_type.id|stringformat:"s" %}selected{% endif %}>
+                          {{ doc_type.type_name }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="is_public">Visibility</label>
+                    <select class="form-control" id="is_public" name="is_public">
+                      <option value="">All</option>
+                      <option value="true" {% if selected_is_public == 'true' %}selected{% endif %}>Public</option>
+                      <option value="false" {% if selected_is_public == 'false' %}selected{% endif %}>Private</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="is_active">Status</label>
+                    <select class="form-control" id="is_active" name="is_active">
+                      <option value="">All</option>
+                      <option value="true" {% if selected_is_active == 'true' %}selected{% endif %}>Active</option>
+                      <option value="false" {% if selected_is_active == 'false' %}selected{% endif %}>Inactive</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div>
+                      <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter"></i> Apply Filters
+                      </button>
+                      <a href="{% url 'documents:document_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Clear
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            {% if documents %}
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Document</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Visibility</th>
+                      <th scope="col">Uploaded By</th>
+                      <th scope="col">Uploaded</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for document in documents %}
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">
+                                <a href="{% url 'documents:document_detail' document.document_id %}" class="text-primary">
+                                  {{ document.title }}
+                                </a>
+                              </span>
+                              {% if document.description %}
+                                <br><small class="text-muted">{{ document.description|truncatechars:100 }}</small>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <span class="badge badge-info">{{ document.document_type.type_name }}</span>
+                        </td>
+                        <td>
+                          {% if document.is_public %}
+                            <span class="badge badge-success">Public</span>
+                          {% else %}
+                            <span class="badge badge-warning">Private</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">{{ document.uploaded_by.full_name }}</span>
+                              <br><small class="text-muted">{{ document.uploaded_by.email }}</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <span class="text-sm">{{ document.uploaded_at|date:"M d, Y" }}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dropdown">
+                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <a class="dropdown-item" href="{% url 'documents:document_detail' document.document_id %}">
+                                <i class="fas fa-eye text-info"></i> View Details
+                              </a>
+                              <a class="dropdown-item" href="{% url 'documents:document_edit' document.document_id %}">
+                                <i class="fas fa-edit text-warning"></i> Edit Document
+                              </a>
+                              <button class="dropdown-item" onclick="togglePublic({{ document.document_id }}, {{ document.is_public|lower }})">
+                                <i class="fas fa-globe text-success"></i> 
+                                {% if document.is_public %}Make Private{% else %}Make Public{% endif %}
+                              </button>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item text-danger" href="{% url 'documents:document_delete' document.document_id %}">
+                                <i class="fas fa-trash"></i> Delete Document
+                              </a>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination -->
+              {% if page_obj.has_other_pages %}
+                <nav aria-label="Document pagination">
+                  <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_document_type %}&document_type={{ selected_document_type }}{% endif %}{% if selected_is_public %}&is_public={{ selected_is_public }}{% endif %}{% if selected_is_active %}&is_active={{ selected_is_active }}{% endif %}">
+                          <i class="fas fa-angle-left"></i>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                      </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="page-item active">
+                          <span class="page-link">{{ num }}</span>
+                        </li>
+                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_document_type %}&document_type={{ selected_document_type }}{% endif %}{% if selected_is_public %}&is_public={{ selected_is_public }}{% endif %}{% if selected_is_active %}&is_active={{ selected_is_active }}{% endif %}">{{ num }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_document_type %}&document_type={{ selected_document_type }}{% endif %}{% if selected_is_public %}&is_public={{ selected_is_public }}{% endif %}{% if selected_is_active %}&is_active={{ selected_is_active }}{% endif %}">
+                          <i class="fas fa-angle-right"></i>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+              {% endif %}
+            {% else %}
+              <div class="text-center py-4">
+                <i class="ni ni-folder-17 text-muted" style="font-size: 3rem;"></i>
+                <h3 class="mt-3">No Documents Found</h3>
+                <p class="text-muted">
+                  {% if search_query or selected_document_type or selected_is_public or selected_is_active %}
+                    No documents match your current filters.
+                  {% else %}
+                    Get started by uploading your first document.
+                  {% endif %}
+                </p>
+                <a href="{% url 'documents:document_create' %}" class="btn btn-primary">
+                  <i class="ni ni-fat-add"></i> Upload First Document
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script>
+    function togglePublic(documentId, currentStatus) {
+      fetch(`/documents/${documentId}/toggle-public/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message
+          showAlert('success', data.message);
+          // Reload page to show updated status
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          showAlert('danger', data.error);
+        }
+      })
+      .catch(error => {
+        showAlert('danger', 'Error updating document: ' + error.message);
+      });
+    }
+
+    function showAlert(type, message) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      `;
+      
+      // Insert at the top of the card body
+      const cardBody = document.querySelector('.card-body');
+      cardBody.insertBefore(alertDiv, cardBody.firstChild);
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 5000);
+    }
+
+    $(document).ready(function() {
+      // Initialize tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Auto-hide alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').fadeOut('slow');
+      }, 5000);
+    });
+  </script>
+  
+  <!-- CSRF Token for AJAX requests -->
+  {% csrf_token %}
+{% endblock javascripts %}

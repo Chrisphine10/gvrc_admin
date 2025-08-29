@@ -1,0 +1,231 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Users {% endblock title %}
+
+{% block stylesheets %}
+<style>
+/* Fix dropdown z-index issue in tables */
+.dropdown-menu {
+    z-index: 9999 !important;
+}
+
+/* Ensure dropdown appears above table */
+.table-responsive {
+    overflow: visible !important;
+}
+
+.table {
+    position: relative;
+}
+
+/* Make sure dropdown container has proper positioning */
+.dropdown {
+    position: relative;
+}
+
+/* Ensure dropdown menu is visible */
+.dropdown-menu.show {
+    z-index: 9999 !important;
+    position: absolute !important;
+}
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="header bg-gradient-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Users</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Users</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <a href="{% url 'register' %}" class="btn btn-sm btn-neutral">
+              <i class="ni ni-fat-add"></i> Add New User
+            </a>
+          </div>
+        </div>
+              </div>
+            </div>
+          </div>
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Active Users ({{ active_users_count }})</h3>
+              </div>
+              <div class="col text-right">
+                <form class="form-inline" method="get">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search users..." name="search" value="{{ search_query }}">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-default" type="submit">
+                        <i class="fas fa-search"></i>
+                      </button>
+              </div>
+              </div>
+            </form>
+          </div>
+            </div>
+          </div>
+
+          <!-- Card body -->
+          <div class="card-body">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            {% if users %}
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">User</th>
+                      <th scope="col">Contact</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Roles</th>
+                      <th scope="col">Joined</th>
+                      <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <a href="#" class="avatar rounded-circle mr-3">
+                              <img alt="User Avatar" src="{{ user.get_avatar_url }}">
+                            </a>
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">{{ user.full_name }}</span>
+                              <div class="text-xs text-muted">{{ user.email }}</div>
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <div class="text-sm">
+                            <div><i class="fas fa-phone text-muted mr-2"></i>{{ user.phone_number }}</div>
+                            <div class="text-xs text-muted mt-1">Last login: {{ user.last_login|date:"M d, Y"|default:"Never" }}</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            {% if user.is_active %}
+                              <span class="badge badge-dot mr-4">
+                                <i class="bg-success"></i>
+                                <span class="status">Active</span>
+                              </span>
+                            {% else %}
+                              <span class="badge badge-dot mr-4">
+                                <i class="bg-danger"></i>
+                                <span class="status">Inactive</span>
+                              </span>
+                            {% endif %}
+                            
+                            {% if user.verified %}
+                              <span class="badge badge-info">Verified</span>
+                            {% else %}
+                              <span class="badge badge-warning">Unverified</span>
+                            {% endif %}
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex flex-wrap">
+                            {% for role_assignment in user.userroleassignment_set.all|slice:":3" %}
+                              <span class="badge badge-primary mr-1 mb-1">{{ role_assignment.role.role_name }}</span>
+                            {% endfor %}
+                            {% if user.userroleassignment_set.count > 3 %}
+                              <span class="badge badge-secondary">+{{ user.userroleassignment_set.count|add:"-3" }} more</span>
+                            {% endif %}
+                            {% if user.userroleassignment_set.count == 0 %}
+                              <span class="text-muted text-sm">No roles</span>
+                            {% endif %}
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <span class="text-sm">{{ user.created_at|date:"M d, Y" }}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dropdown">
+                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <a class="dropdown-item" href="{% url 'user_detail' user.user_id %}">
+                                <i class="fas fa-eye text-info"></i> View Details
+                              </a>
+                              <a class="dropdown-item" href="{% url 'user_edit' user.user_id %}">
+                                <i class="fas fa-edit text-warning"></i> Edit User
+                              </a>
+                              {% if user.is_superuser %}
+                                <div class="dropdown-divider"></div>
+                                <span class="dropdown-item-text text-muted">
+                                  <i class="fas fa-shield-alt text-danger"></i> Super Admin
+                                </span>
+                              {% endif %}
+                            </div>
+                          </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+              <div class="text-center py-4">
+                <i class="ni ni-single-02 text-muted" style="font-size: 3rem;"></i>
+                <h3 class="mt-3">No Users Found</h3>
+                <p class="text-muted">
+                  {% if search_query %}
+                    No users match your search criteria "{{ search_query }}".
+                  {% else %}
+                    Get started by creating your first user account.
+                  {% endif %}
+                </p>
+                <a href="{% url 'register' %}" class="btn btn-primary">
+                  <i class="ni ni-fat-add"></i> Create First User
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script>
+    $(document).ready(function() {
+      // Initialize tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+      
+      // Auto-hide alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').fadeOut('slow');
+      }, 5000);
+    });
+  </script>
+{% endblock javascripts %}

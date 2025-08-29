@@ -1,0 +1,279 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{ action }} Permission {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+  <div class="header bg-gradient-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">{{ action }} Permission</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'permission_list' %}">Permissions</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ action }} Permission</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col-lg-6 col-5 text-right">
+            <a href="{% url 'permission_list' %}" class="btn btn-sm btn-neutral">
+              <i class="fas fa-arrow-left"></i> Back to Permissions
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">{{ action }} System Permission</h3>
+          </div>
+          <div class="card-body">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <form method="post">
+              {% csrf_token %}
+              
+              <div class="form-group">
+                <label for="permission_name" class="form-control-label">Permission Name *</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="permission_name" 
+                  name="permission_name" 
+                  value="{{ permission.permission_name|default:'' }}" 
+                  placeholder="Enter permission name (e.g., view_users)"
+                  required
+                >
+                <small class="form-text text-muted">
+                  Use lowercase with underscores. Format: action_resource (e.g., view_users, add_roles)
+                </small>
+                {% if form.permission_name.errors %}
+                  <div class="invalid-feedback d-block">
+                    {% for error in form.permission_name.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="resource_name" class="form-control-label">Resource *</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="resource_name" 
+                      name="resource_name" 
+                      value="{{ permission.resource_name|default:'' }}" 
+                      placeholder="e.g., users, roles, facilities"
+                      required
+                    >
+                    <small class="form-text text-muted">
+                      The resource this permission applies to (e.g., users, documents, analytics)
+                    </small>
+                    {% if form.resource_name.errors %}
+                      <div class="invalid-feedback d-block">
+                        {% for error in form.resource_name.errors %}
+                          {{ error }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="action_name" class="form-control-label">Action *</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="action_name" 
+                      name="action_name" 
+                      value="{{ permission.action_name|default:'' }}" 
+                      placeholder="e.g., view, add, change, delete"
+                      required
+                    >
+                    <small class="form-text text-muted">
+                      The action allowed on this resource (e.g., view, add, change, delete)
+                    </small>
+                    {% if form.action_name.errors %}
+                      <div class="invalid-feedback d-block">
+                        {% for error in form.action_name.errors %}
+                          {{ error }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="description" class="form-control-label">Description</label>
+                <textarea 
+                  class="form-control" 
+                  id="description" 
+                  name="description" 
+                  rows="3" 
+                  placeholder="Describe what this permission allows users to do..."
+                >{{ permission.description|default:'' }}</textarea>
+                <small class="form-text text-muted">
+                  Provide a clear description of what this permission enables users to do.
+                </small>
+                {% if form.description.errors %}
+                  <div class="invalid-feedback d-block">
+                    {% for error in form.description.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">Permission Examples</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card bg-light">
+                      <div class="card-body p-3">
+                        <h6 class="card-title text-primary">Common Resources</h6>
+                        <ul class="list-unstyled mb-0">
+                          <li><small>• <strong>users:</strong> User management</small></li>
+                          <li><small>• <strong>roles:</strong> Role management</small></li>
+                          <li><small>• <strong>facilities:</strong> Facility data</small></li>
+                          <li><small>• <strong>documents:</strong> File management</small></li>
+                          <li><small>• <strong>analytics:</strong> Reports & data</small></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card bg-light">
+                      <div class="card-body p-3">
+                        <h6 class="card-title text-success">Common Actions</h6>
+                        <ul class="list-unstyled mb-0">
+                          <li><small>• <strong>view:</strong> Read access</small></li>
+                          <li><small>• <strong>add:</strong> Create new items</small></li>
+                          <li><small>• <strong>change:</strong> Edit existing items</small></li>
+                          <li><small>• <strong>delete:</strong> Remove items</small></li>
+                          <li><small>• <strong>export:</strong> Download data</small></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">Permission Naming Convention</label>
+                <div class="alert alert-info">
+                  <i class="fas fa-info-circle"></i>
+                  <strong>Best Practices:</strong>
+                  <ul class="mb-0 mt-2">
+                    <li>Use lowercase letters and underscores only</li>
+                    <li>Format: <code>action_resource</code> (e.g., <code>view_users</code>)</li>
+                    <li>Be specific but concise</li>
+                    <li>Use consistent naming across similar resources</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">Next Steps</label>
+                <div class="alert alert-warning">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  <strong>After creating this permission:</strong>
+                  <ol class="mb-0 mt-2">
+                    <li>Assign it to appropriate roles to define access levels</li>
+                    <li>Test the permission to ensure it works as expected</li>
+                    <li>Consider if similar permissions are needed for other resources</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save"></i> {{ action }} Permission
+                </button>
+                <a href="{% url 'permission_list' %}" class="btn btn-secondary">
+                  <i class="fas fa-times"></i> Cancel
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script>
+    $(document).ready(function() {
+      // Form validation
+      $('form').on('submit', function(e) {
+        const permissionName = $('#permission_name').val().trim();
+        const resourceName = $('#resource_name').val().trim();
+        const actionName = $('#action_name').val().trim();
+        
+        if (!permissionName) {
+          e.preventDefault();
+          alert('Permission name is required.');
+          $('#permission_name').focus();
+          return false;
+        }
+        
+        if (!resourceName) {
+          e.preventDefault();
+          alert('Resource name is required.');
+          $('#resource_name').focus();
+          return false;
+        }
+        
+        if (!actionName) {
+          e.preventDefault();
+          alert('Action name is required.');
+          $('#action_name').focus();
+          return false;
+        }
+        
+        // Validate permission name format
+        if (!/^[a-z_]+$/.test(permissionName)) {
+          e.preventDefault();
+          alert('Permission name must contain only lowercase letters and underscores.');
+          $('#permission_name').focus();
+          return false;
+        }
+        
+        if (permissionName.length < 3) {
+          e.preventDefault();
+          alert('Permission name must be at least 3 characters long.');
+          $('#permission_name').focus();
+          return false;
+        }
+      });
+      
+      // Auto-hide alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').fadeOut('slow');
+      }, 5000);
+    });
+  </script>
+{% endblock javascripts %}

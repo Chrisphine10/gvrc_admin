@@ -1,0 +1,388 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Document Analytics {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'documents:document_list' %}">Documents</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Analytics</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'documents:document_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Document
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Statistics Cards -->
+    <div class="row">
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Total Documents</h5>
+                <span class="h2 font-weight-bold mb-0">{{ total_documents }}</span>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                  <i class="ni ni-single-copy-04"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Public Documents</h5>
+                <span class="h2 font-weight-bold mb-0">{{ public_documents }}</span>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2">
+                    <i class="fas fa-arrow-up"></i> 
+                    {% if total_documents > 0 %}
+                      {% widthratio public_documents total_documents 100 %}%
+                    {% else %}
+                      0%
+                    {% endif %}
+                  </span>
+                  <span class="text-nowrap">of total</span>
+                </p>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                  <i class="fas fa-globe"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Private Documents</h5>
+                <span class="h2 font-weight-bold mb-0">{{ private_documents }}</span>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-warning mr-2">
+                    <i class="fas fa-arrow-up"></i> 
+                    {% if total_documents > 0 %}
+                      {% widthratio private_documents total_documents 100 %}%
+                    {% else %}
+                      0%
+                    {% endif %}
+                  </span>
+                  <span class="text-nowrap">of total</span>
+                </p>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                  <i class="fas fa-lock"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Document Types</h5>
+                <span class="h2 font-weight-bold mb-0">{{ documents_by_type|length }}</span>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-info mr-2">
+                    <i class="fas fa-tag"></i> 
+                    Categories
+                  </span>
+                </p>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                  <i class="ni ni-tag"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Documents by Type</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart">
+              <canvas id="documentsByTypeChart" class="chart-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Documents by Month</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart">
+              <canvas id="documentsByMonthChart" class="chart-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Documents -->
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Recent Uploads</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            {% if recent_documents %}
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Document</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Uploaded By</th>
+                      <th scope="col">Upload Date</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for document in recent_documents %}
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">
+                                <a href="{% url 'documents:document_detail' document.document_id %}" class="text-primary">
+                                  {{ document.title|truncatechars:50 }}
+                                </a>
+                              </span>
+                              {% if document.description %}
+                                <br><small class="text-muted">{{ document.description|truncatechars:100 }}</small>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <span class="badge badge-info">{{ document.document_type.type_name }}</span>
+                        </td>
+                        <td>
+                          <span class="name mb-0 text-sm">{{ document.uploaded_by.full_name|default:document.uploaded_by.username }}</span>
+                        </td>
+                        <td>
+                          <span class="text-sm">{{ document.uploaded_at|date:"M d, Y" }}</span>
+                        </td>
+                        <td>
+                          {% if document.is_public %}
+                            <span class="badge badge-success">Public</span>
+                          {% else %}
+                            <span class="badge badge-warning">Private</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          <div class="dropdown">
+                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <a class="dropdown-item" href="{% url 'documents:document_detail' document.document_id %}">
+                                <i class="fas fa-eye"></i> View
+                              </a>
+                              <a class="dropdown-item" href="{% url 'documents:document_edit' document.document_id %}">
+                                <i class="fas fa-edit"></i> Edit
+                              </a>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <div class="text-center py-4">
+                <i class="ni ni-single-copy-04 text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">No Documents Found</h4>
+                <p class="text-muted">No documents have been uploaded yet.</p>
+                <a href="{% url 'documents:document_create' %}" class="btn btn-primary">
+                  <i class="fas fa-plus"></i> Upload First Document
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Store Django data in data attributes to avoid JavaScript linter issues -->
+  <div id="chartData" 
+       data-document-types="{{ documents_by_type_json|safe }}"
+       data-monthly-data="{{ months_json|safe }}"
+       data-monthly-counts="{{ counts_json|safe }}"
+       style="display: none;">
+  </div>
+  
+  <script>
+    // Extract data from DOM data attributes to avoid Django template syntax in JavaScript
+    const chartDataElement = document.getElementById('chartData');
+    
+    // Parse the Django data safely
+    let documentTypeData = { labels: [], data: [] };
+    let monthlyData = { labels: [], data: [] };
+    
+    try {
+      // Parse document type data
+      const documentTypesRaw = chartDataElement.getAttribute('data-document-types');
+      if (documentTypesRaw) {
+        const documentTypes = JSON.parse(documentTypesRaw);
+        documentTypeData.labels = documentTypes.map(item => item.type_name);
+        documentTypeData.data = documentTypes.map(item => item.count);
+      }
+      
+      // Parse monthly data
+      const monthlyLabelsRaw = chartDataElement.getAttribute('data-monthly-data');
+      const monthlyCountsRaw = chartDataElement.getAttribute('data-monthly-counts');
+      if (monthlyLabelsRaw && monthlyCountsRaw) {
+        monthlyData.labels = JSON.parse(monthlyLabelsRaw);
+        monthlyData.data = JSON.parse(monthlyCountsRaw);
+      }
+    } catch (e) {
+      console.warn('Error parsing chart data:', e);
+    }
+    
+    $(document).ready(function() {
+      // Documents by Type Chart
+      if (documentTypeData.labels.length > 0) {
+        const documentsByTypeCtx = document.getElementById('documentsByTypeChart').getContext('2d');
+        new Chart(documentsByTypeCtx, {
+          type: 'doughnut',
+          data: {
+            labels: documentTypeData.labels,
+            datasets: [{
+              data: documentTypeData.data,
+              backgroundColor: [
+                '#f5365c', '#f56036', '#fb6340', '#fbb140', '#f7fafc',
+                '#11cdef', '#2dce89', '#5e72e4', '#8898aa', '#172b4d'
+              ],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+              position: 'bottom'
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || '';
+                    const value = context.parsed;
+                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+                    return label + ': ' + value + ' (' + percentage + '%)';
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Documents by Month Chart
+      if (monthlyData.labels.length > 0) {
+        const documentsByMonthCtx = document.getElementById('documentsByMonthChart').getContext('2d');
+        new Chart(documentsByMonthCtx, {
+          type: 'line',
+          data: {
+            labels: monthlyData.labels,
+            datasets: [{
+              label: 'Documents Uploaded',
+              data: monthlyData.data,
+              borderColor: '#5e72e4',
+              backgroundColor: 'rgba(94, 114, 228, 0.1)',
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+              display: false
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+                }
+              }
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return 'Documents: ' + context.parsed.y;
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    });
+  </script>
+{% endblock javascripts %}

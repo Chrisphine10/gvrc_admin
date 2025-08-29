@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <title>
+    Hodi Admin - {% block title %} Healthcare Facility Management {% endblock %}
+  </title>
+
+  <link rel="icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/static/assets/img/icons/common/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+  <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+  
+  <!-- Argon CSS -->
+  <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+  
+  <!-- Custom GVRC Auth CSS -->
+  <link rel="stylesheet" href="/static/assets/css/gvrc-auth.css" type="text/css">
+
+  <!-- Toast Notification Styles -->
+  <style>
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 1050;
+      max-width: 400px;
+      min-width: 300px;
+    }
+
+    .toast {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      margin-bottom: 10px;
+      padding: 16px 20px;
+      border-left: 4px solid #007bff;
+      transition: all 0.3s ease;
+      animation: slideInLeft 0.3s ease-out;
+      position: relative;
+      overflow: hidden;
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .toast.toast-success {
+      border-left-color: #28a745;
+    }
+
+    .toast.toast-success .toast-icon {
+      color: #28a745;
+    }
+
+    .toast.toast-error {
+      border-left-color: #dc3545;
+    }
+
+    .toast.toast-error .toast-icon {
+      color: #dc3545;
+    }
+
+    .toast.toast-warning {
+      border-left-color: #ffc107;
+    }
+
+    .toast.toast-warning .toast-icon {
+      color: #ffc107;
+    }
+
+    .toast.toast-info {
+      border-left-color: #17a2b8;
+    }
+
+    .toast.toast-info .toast-icon {
+      color: #17a2b8;
+    }
+
+    .toast-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .toast-icon {
+      font-size: 18px;
+      margin-right: 10px;
+      color: #007bff;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+      flex: 1;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 10px;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .toast-close:hover {
+      color: #666;
+    }
+
+    .toast-message {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .toast.toast-removing {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    .toast-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: rgba(0, 123, 255, 0.3);
+      width: 100%;
+      transition: width linear;
+    }
+
+    .toast-success .toast-progress {
+      background: rgba(40, 167, 69, 0.3);
+    }
+
+    .toast-error .toast-progress {
+      background: rgba(220, 53, 69, 0.3);
+    }
+
+    .toast-warning .toast-progress {
+      background: rgba(255, 193, 7, 0.3);
+    }
+
+    .toast-info .toast-progress {
+      background: rgba(23, 162, 184, 0.3);
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOutLeft {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+  </style>
+
+  <!-- Specific CSS goes HERE -->
+  {% block stylesheets %}{% endblock stylesheets %}
+</head>
+
+<body class="gvrc-auth-bg">
+  <div class="main-content">
+    
+    <!-- Simple Navigation for Auth Pages -->
+    <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
+      <div class="container px-4">
+        <a class="navbar-brand" href="{% url 'landing' %}">
+          <div class="d-flex align-items-center">
+            <div class="gvrc-logo me-3">
+              <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo" class="hodi-logo" style="width: 40px; height: 40px; object-fit: contain;">
+            </div>
+            <div>
+              <span class="text-white font-weight-bold" style="font-size: 1.25rem;">Hodi Admin</span>
+              <div class="text-white-50" style="font-size: 0.75rem;">Healthcare Management System</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Page content -->
+    {% block content %}{% endblock content %}
+
+    <!-- Simple Footer -->
+    <footer class="py-4">
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-6 text-center">
+            <div class="copyright text-muted">
+              <span class="text-white-50">&copy; 2025 Hodi Admin. GBV Directory Management System.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Toast Container for left-bottom positioned notifications -->
+  <div id="toast-container" class="toast-container"></div>
+    
+  <!-- Core JS -->
+  <script src="/static/assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="/static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Toast Notification JavaScript -->
+  <script>
+    // Toast notification system for authentication pages
+    class AuthToastManager {
+      constructor() {
+        this.container = document.getElementById('toast-container');
+        this.toasts = [];
+      }
+
+      show(message, type = 'info', title = null, duration = 5000) {
+        const toast = this.createToast(message, type, title, duration);
+        this.container.appendChild(toast);
+        this.toasts.push(toast);
+
+        // Trigger animation
+        setTimeout(() => {
+          toast.classList.add('show');
+        }, 10);
+
+        // Auto dismiss
+        if (duration > 0) {
+          this.startProgressBar(toast, duration);
+          setTimeout(() => {
+            this.dismiss(toast);
+          }, duration);
+        }
+
+        return toast;
+      }
+
+      createToast(message, type, title, duration) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+
+        const iconMap = {
+          success: 'fas fa-check-circle',
+          error: 'fas fa-exclamation-circle',
+          warning: 'fas fa-exclamation-triangle',
+          info: 'fas fa-info-circle'
+        };
+
+        const titleMap = {
+          success: 'Success',
+          error: 'Error',
+          warning: 'Warning',
+          info: 'Information'
+        };
+
+        const toastTitle = title || titleMap[type];
+        const icon = iconMap[type];
+
+        toast.innerHTML = `
+          <div class="toast-header">
+            <i class="${icon} toast-icon"></i>
+            <h6 class="toast-title">${toastTitle}</h6>
+            <button type="button" class="toast-close" onclick="authToastManager.dismiss(this.closest('.toast'))">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <p class="toast-message">${message}</p>
+          ${duration > 0 ? '<div class="toast-progress"></div>' : ''}
+        `;
+
+        // Add click to dismiss
+        toast.addEventListener('click', (e) => {
+          if (!e.target.closest('.toast-close')) {
+            this.dismiss(toast);
+          }
+        });
+
+        return toast;
+      }
+
+      startProgressBar(toast, duration) {
+        const progressBar = toast.querySelector('.toast-progress');
+        if (progressBar) {
+          progressBar.style.width = '100%';
+          progressBar.style.transition = `width ${duration}ms linear`;
+          
+          // Start the animation after a small delay to ensure the initial width is set
+          setTimeout(() => {
+            progressBar.style.width = '0%';
+          }, 10);
+        }
+      }
+
+      dismiss(toast) {
+        if (!toast || !toast.parentNode) return;
+
+        toast.classList.remove('show');
+        toast.classList.add('toast-removing');
+        
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+            const index = this.toasts.indexOf(toast);
+            if (index > -1) {
+              this.toasts.splice(index, 1);
+            }
+          }
+        }, 300);
+      }
+
+      clear() {
+        this.toasts.forEach(toast => this.dismiss(toast));
+      }
+
+      success(message, title = null, duration = 5000) {
+        return this.show(message, 'success', title, duration);
+      }
+
+      error(message, title = null, duration = 7000) {
+        return this.show(message, 'error', title, duration);
+      }
+
+      warning(message, title = null, duration = 6000) {
+        return this.show(message, 'warning', title, duration);
+      }
+
+      info(message, title = null, duration = 5000) {
+        return this.show(message, 'info', title, duration);
+      }
+    }
+
+    // Initialize toast manager
+    const authToastManager = new AuthToastManager();
+
+    // Make it globally available
+    window.authToastManager = authToastManager;
+    window.showAuthToast = (message, type, title, duration) => authToastManager.show(message, type, title, duration);
+  </script>
+  
+  <!-- Specific JS goes HERE --> 
+  {% block javascripts %}{% endblock javascripts %}
+  
+  <!-- Custom GVRC JS -->
+  <script>
+    // Add form animation classes
+    document.addEventListener('DOMContentLoaded', function() {
+      const formElements = document.querySelectorAll('.gvrc-form-group');
+      formElements.forEach((element, index) => {
+        setTimeout(() => {
+          element.classList.add('gvrc-form-fade-in');
+        }, index * 100);
+      });
+    });
+  </script>
+
+</body>
+</html>

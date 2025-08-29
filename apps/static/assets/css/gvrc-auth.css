@@ -1,0 +1,360 @@
+/* GVRC Admin Authentication Styles */
+:root {
+  --gvrc-primary: #52A373;
+  --gvrc-primary-dark: #3E7A5A;
+  --gvrc-secondary: #2D5A3D;
+  --gvrc-accent: #7FBF95;
+  --gvrc-light: #E8F5ED;
+  --gvrc-white: #FFFFFF;
+  --gvrc-gray-100: #F8F9FA;
+  --gvrc-gray-200: #E9ECEF;
+  --gvrc-gray-300: #DEE2E6;
+  --gvrc-gray-600: #6C757D;
+  --gvrc-gray-800: #343A40;
+  --gvrc-gray-900: #212529;
+}
+
+/* Override background gradient */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--gvrc-primary) 0%, var(--gvrc-secondary) 100%) !important;
+}
+
+/* Custom healthcare-themed background pattern */
+.gvrc-auth-bg {
+  background: linear-gradient(135deg, var(--gvrc-primary) 0%, var(--gvrc-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gvrc-auth-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 2px, transparent 2px),
+    radial-gradient(circle at 40% 60%, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px, 60px 60px, 30px 30px;
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Logo container */
+.gvrc-logo-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.gvrc-logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  background: var(--gvrc-white);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.gvrc-logo::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--gvrc-accent), var(--gvrc-primary));
+  border-radius: 22px;
+  z-index: -1;
+}
+
+/* Hodi logo styling */
+.hodi-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+  transition: transform 0.3s ease;
+}
+
+.hodi-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Healthcare logo styling (fallback) */
+.gvrc-logo-icon {
+  font-size: 2.5rem;
+  color: var(--gvrc-primary);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Custom card styling */
+.gvrc-auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.gvrc-auth-card .card-header {
+  background: transparent;
+  border: none;
+  padding: 2rem 2rem 0;
+}
+
+.gvrc-auth-card .card-body {
+  padding: 0 2rem 2rem;
+}
+
+/* Brand text */
+.gvrc-brand-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gvrc-gray-800);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.gvrc-brand-subtitle {
+  font-size: 0.875rem;
+  color: var(--gvrc-gray-600);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+/* Form styling */
+.gvrc-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.gvrc-input-group {
+  position: relative;
+  background: var(--gvrc-gray-100);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.gvrc-input-group:focus-within {
+  background: var(--gvrc-white);
+  border-color: var(--gvrc-primary);
+  box-shadow: 0 0 0 3px rgba(82, 163, 115, 0.1);
+}
+
+.gvrc-input-group .input-group-text {
+  background: transparent;
+  border: none;
+  color: var(--gvrc-gray-600);
+  font-size: 1.1rem;
+}
+
+.gvrc-input-group .form-control {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  padding: 0.875rem 1rem;
+  color: var(--gvrc-gray-800);
+}
+
+.gvrc-input-group .form-control:focus {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: var(--gvrc-gray-800);
+}
+
+.gvrc-input-group .form-control::placeholder {
+  color: var(--gvrc-gray-600);
+  opacity: 0.8;
+}
+
+/* Button styling */
+.gvrc-btn-primary {
+  background: linear-gradient(135deg, var(--gvrc-primary) 0%, var(--gvrc-primary-dark) 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--gvrc-white);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.gvrc-btn-primary:hover {
+  background: linear-gradient(135deg, var(--gvrc-primary-dark) 0%, var(--gvrc-secondary) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(82, 163, 115, 0.3);
+  color: var(--gvrc-white);
+}
+
+.gvrc-btn-primary:focus {
+  box-shadow: 0 0 0 3px rgba(82, 163, 115, 0.3);
+  color: var(--gvrc-white);
+}
+
+/* Link styling */
+.gvrc-link {
+  color: var(--gvrc-white);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.gvrc-link:hover {
+  color: var(--gvrc-accent);
+  text-decoration: none;
+}
+
+/* Checkbox styling */
+.gvrc-checkbox {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.gvrc-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.75rem;
+  accent-color: var(--gvrc-primary);
+}
+
+.gvrc-checkbox label {
+  color: var(--gvrc-gray-600);
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* Success/Error messages */
+.gvrc-alert {
+  border-radius: 12px;
+  border: none;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.gvrc-alert-success {
+  background: rgba(82, 163, 115, 0.1);
+  color: var(--gvrc-primary-dark);
+}
+
+.gvrc-alert-danger {
+  background: rgba(220, 53, 69, 0.1);
+  color: #c82333;
+}
+
+.gvrc-alert-info {
+  background: rgba(23, 162, 184, 0.1);
+  color: #138496;
+}
+
+/* Footer styling */
+.gvrc-footer-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+.gvrc-footer-links a {
+  color: var(--gvrc-white);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.gvrc-footer-links a:hover {
+  color: var(--gvrc-accent);
+  text-decoration: none;
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gvrc-auth-card {
+    margin: 1rem;
+    border-radius: 16px;
+  }
+  
+  .gvrc-logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .hodi-logo {
+    padding: 6px;
+  }
+  
+  .gvrc-brand-text {
+    font-size: 1.25rem;
+  }
+  
+  .gvrc-footer-links {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  /* Navigation logo responsive */
+  .navbar-brand .hodi-logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .navbar-brand .text-white {
+    font-size: 1rem !important;
+  }
+  
+  .navbar-brand .text-white-50 {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Animation for form elements */
+.gvrc-form-fade-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Remove template styling */
+.navbar-brand img[alt*="Argon"],
+.navbar-brand img[alt*="Template"],
+a[href*="appseed"],
+a[href*="creative-tim"],
+a[href*="pro"],
+.btn:contains("PRO") {
+  display: none !important;
+}

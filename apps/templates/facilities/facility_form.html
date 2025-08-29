@@ -1,0 +1,1508 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock title %}
+
+{% block extra_css %}
+<style>
+  /* GBV Categories select styling */
+  .gbv-categories-select-wrapper {
+    position: relative;
+  }
+  
+  .gbv-categories-select-wrapper select {
+    min-height: 120px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 8px;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .gbv-categories-select-wrapper select:focus {
+    border-color: #1976d2;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+  }
+  
+  .gbv-categories-select-wrapper select.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  }
+  
+  .gbv-categories-select-wrapper select.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  }
+  
+  .gbv-categories-select-wrapper select option {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+  }
+  
+  .gbv-categories-select-wrapper select option:checked {
+    background-color: #1976d2;
+    color: white;
+    font-weight: 500;
+  }
+  
+  .gbv-categories-select-wrapper select option:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .gbv-categories-select-wrapper select option:checked:hover {
+    background-color: #1565c0;
+  }
+  
+  /* Selection count indicator */
+  .gbv-selection-count {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 4px;
+    font-style: italic;
+  }
+  
+  /* GBV selection buttons */
+  .gbv-categories-select-wrapper .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .gbv-categories-select-wrapper .btn:hover {
+    transform: translateY(-1px);
+    transition: transform 0.15s ease-in-out;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .gbv-categories-select-wrapper select {
+      min-height: 100px;
+    }
+    
+    .gbv-categories-select-wrapper .btn {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
+    }
+  }
+  
+  /* Selected categories display */
+  .selected-categories-display {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 8px 12px;
+    border-left: 3px solid #28a745;
+  }
+  
+  .selected-categories-display small {
+    line-height: 1.4;
+  }
+</style>
+{% endblock extra_css %}
+
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
+            {% if facility %}
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_detail' facility.facility_id %}">{{ facility.facility_name|truncatechars:30 }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            {% else %}
+            <li class="breadcrumb-item active" aria-current="page">Create New</li>
+            {% endif %}
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="row">
+      <div class="col-12">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Main Form -->
+    <form method="post" id="facility-form">
+      {% csrf_token %}
+      
+      <!-- Header Card -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="d-flex align-items-center">
+                    <div class="me-3">
+                      <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                        <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="mb-0">{{ form_action }} Facility</h4>
+                      <p class="text-sm text-secondary mb-0">{{ page_title }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 text-end">
+                  <a href="{% if facility %}{% url 'facilities:facility_detail' facility.facility_id %}{% else %}{% url 'facilities:facility_list' %}{% endif %}" 
+                     class="btn btn-outline-secondary btn-sm me-2">
+                    <i class="fas fa-times"></i> Cancel
+                  </a>
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="fas fa-save"></i> {{ form_action }} Facility
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Sections -->
+      <div class="row">
+        <!-- Left Column - Basic Info & Coordinates -->
+        <div class="col-lg-8">
+          
+        <!-- Basic Information -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6><i class="ni ni-badge text-primary me-2"></i>Basic Information</h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.facility_name.id_for_label }}" class="form-label">
+                    Facility Name <span class="text-danger">*</span>
+                  </label>
+                  {{ facility_form.facility_name }}
+                  {% if facility_form.facility_name.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.facility_name.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.facility_name.errors %}
+                  <div class="text-danger small">{{ facility_form.facility_name.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.facility_code.id_for_label }}" class="form-label">
+                    Facility Code
+                  </label>
+                  {{ facility_form.facility_code }}
+                  {% if facility_form.facility_code.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.facility_code.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.facility_code.errors %}
+                  <div class="text-danger small">{{ facility_form.facility_code.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.registration_number.id_for_label }}" class="form-label">
+                    Registration Number
+                  </label>
+                  {{ facility_form.registration_number }}
+                  {% if facility_form.registration_number.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.registration_number.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.registration_number.errors %}
+                  <div class="text-danger small">{{ facility_form.registration_number.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.operational_status.id_for_label }}" class="form-label">
+                    Operational Status <span class="text-danger">*</span>
+                  </label>
+                  {{ facility_form.operational_status }}
+                  {% if facility_form.operational_status.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.operational_status.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.operational_status.errors %}
+                  <div class="text-danger small">{{ facility_form.operational_status.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-12 mb-3">
+                  <label for="{{ facility_form.description.id_for_label }}" class="form-label">
+                    Description
+                  </label>
+                  {{ facility_form.description }}
+                  {% if facility_form.description.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.description.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.description.errors %}
+                  <div class="text-danger small">{{ facility_form.description.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.website_url.id_for_label }}" class="form-label">
+                    Website URL
+                  </label>
+                  {{ facility_form.website_url }}
+                  {% if facility_form.website_url.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.website_url.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.website_url.errors %}
+                  <div class="text-danger small">{{ facility_form.website_url.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ gbv_form.gbv_categories.id_for_label }}" class="form-label">
+                    GBV Categories <span class="text-danger">*</span>
+                  </label>
+                  <div class="form-text mb-2">
+                    <small class="text-muted">
+                      <i class="ni ni-bell-55 text-warning me-1"></i>
+                      Select all GBV categories that this facility provides services for
+                    </small>
+                  </div>
+                  <div class="gbv-categories-select-wrapper">
+                    {{ gbv_form.gbv_categories }}
+                    <div class="mt-2 d-flex gap-2">
+                      <button type="button" class="btn btn-outline-primary btn-sm" id="select-all-gbv" 
+                              aria-label="Select all GBV categories">
+                        <i class="ni ni-check-bold me-1"></i>Select All
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm" id="clear-all-gbv"
+                              aria-label="Clear all GBV category selections">
+                        <i class="ni ni-fat-remove me-1"></i>Clear All
+                      </button>
+                    </div>
+                  </div>
+                  <div class="gbv-selection-count" id="gbv-selection-count">
+                    <small class="text-muted">
+                      <i class="ni ni-info text-info me-1"></i>
+                      Select all applicable GBV categories that this facility specializes in.
+                    </small>
+                  </div>
+                  <div class="selected-categories-display mt-2" id="selected-categories-display" style="display: none;">
+                    <small class="text-success">
+                      <i class="ni ni-tag text-success me-1"></i>
+                      <strong>Selected:</strong> <span id="selected-categories-list"></span>
+                    </small>
+                  </div>
+                  <div class="mt-1">
+                    <small class="text-muted">
+                      <i class="ni ni-key-25 text-warning me-1"></i>
+                      <strong>Tip:</strong> Hold Ctrl (Windows) or Cmd (Mac) to select multiple categories, or hold Shift to select a range.
+                    </small>
+                  </div>
+                  {% if gbv_form.gbv_categories.errors %}
+                  <div class="text-danger small mt-2">{{ gbv_form.gbv_categories.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Geographic Information -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6><i class="ni ni-pin-3 text-warning me-2"></i>Geographic Information</h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="{{ facility_form.county.id_for_label }}" class="form-label">
+                    County <span class="text-danger">*</span>
+                  </label>
+                  {{ facility_form.county }}
+                  {% if facility_form.county.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.county.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.county.errors %}
+                  <div class="text-danger small">{{ facility_form.county.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                  <label for="{{ facility_form.constituency.id_for_label }}" class="form-label">
+                    Constituency <span class="text-danger">*</span>
+                  </label>
+                  {{ facility_form.constituency }}
+                  {% if facility_form.constituency.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.constituency.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.constituency.errors %}
+                  <div class="text-danger small">{{ facility_form.constituency.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                  <label for="{{ facility_form.ward.id_for_label }}" class="form-label">
+                    Ward <span class="text-danger">*</span>
+                  </label>
+                  {{ facility_form.ward }}
+                  {% if facility_form.ward.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.ward.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.ward.errors %}
+                  <div class="text-danger small">{{ facility_form.ward.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.address_line_1.id_for_label }}" class="form-label">
+                    Address Line 1
+                  </label>
+                  {{ facility_form.address_line_1 }}
+                  {% if facility_form.address_line_1.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.address_line_1.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.address_line_1.errors %}
+                  <div class="text-danger small">{{ facility_form.address_line_1.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ facility_form.address_line_2.id_for_label }}" class="form-label">
+                    Address Line 2
+                  </label>
+                  {{ facility_form.address_line_2 }}
+                  {% if facility_form.address_line_2.help_text %}
+                  <small class="form-text text-muted">{{ facility_form.address_line_2.help_text }}</small>
+                  {% endif %}
+                  {% if facility_form.address_line_2.errors %}
+                  <div class="text-danger small">{{ facility_form.address_line_2.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- Coordinates Information -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6><i class="ni ni-world-2 text-info me-2"></i>Coordinates Information</h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.latitude.id_for_label }}" class="form-label">
+                    Latitude
+                  </label>
+                  {{ coordinate_form.latitude }}
+                  {% if coordinate_form.latitude.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.latitude.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.latitude.errors %}
+                  <div class="text-danger small">{{ coordinate_form.latitude.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.longitude.id_for_label }}" class="form-label">
+                    Longitude
+                  </label>
+                  {{ coordinate_form.longitude }}
+                  {% if coordinate_form.longitude.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.longitude.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.longitude.errors %}
+                  <div class="text-danger small">{{ coordinate_form.longitude.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.collection_date.id_for_label }}" class="form-label">
+                    Collection Date
+                  </label>
+                  {{ coordinate_form.collection_date }}
+                  {% if coordinate_form.collection_date.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.collection_date.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.collection_date.errors %}
+                  <div class="text-danger small">{{ coordinate_form.collection_date.errors }}</div>
+                  {% endif %}
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.data_source.id_for_label }}" class="form-label">
+                    Data Source
+                  </label>
+                  {{ coordinate_form.data_source }}
+                  {% if coordinate_form.data_source.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.data_source.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.data_source.errors %}
+                  <div class="text-danger small">{{ coordinate_form.data_source.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="{{ coordinate_form.collection_method.id_for_label }}" class="form-label">
+                    Collection Method
+                  </label>
+                  {{ coordinate_form.collection_method }}
+                  {% if coordinate_form.collection_method.help_text %}
+                  <small class="form-text text-muted">{{ coordinate_form.collection_method.help_text }}</small>
+                  {% endif %}
+                  {% if coordinate_form.collection_method.errors %}
+                  <div class="text-danger small">{{ coordinate_form.collection_method.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Related Data Formsets -->
+        <div class="col-lg-4">
+          
+          <!-- Contact Information -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6><i class="ni ni-mobile-button text-primary me-2"></i>Contact Information</h6>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addFormsetForm('contacts')">
+                  <i class="fas fa-plus"></i> Add Contact
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="contacts-formset">
+                {{ contact_formset.management_form }}
+                {% for form in contact_formset %}
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
+                  {% if form.non_field_errors %}
+                  <div class="text-danger small">{{ form.non_field_errors }}</div>
+                  {% endif %}
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Contact Type <span class="text-danger">*</span></label>
+                      {{ form.contact_type }}
+                      {% if form.contact_type.errors %}
+                      <div class="text-danger small">{{ form.contact_type.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Contact Value <span class="text-danger">*</span></label>
+                      {{ form.contact_value }}
+                      {% if form.contact_value.errors %}
+                      <div class="text-danger small">{{ form.contact_value.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Contact Person Name</label>
+                      {{ form.contact_person_name }}
+                      {% if form.contact_person_name.errors %}
+                      <div class="text-danger small">{{ form.contact_person_name.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                          {{ form.is_primary }}
+                      <label class="form-check-label small" for="{{ form.is_primary.id_for_label }}">
+                            Primary Contact
+                          </label>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this contact">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                  
+                  <!-- Hidden DELETE field for existing forms -->
+                  {% if form.DELETE %}
+                  <div style="display: none;">
+                    {{ form.DELETE }}
+                    </div>
+                  {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+
+          <!-- Services Offered -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6><i class="ni ni-settings-gear-65 text-warning me-2"></i>Services Offered</h6>
+                <button type="button" class="btn btn-outline-warning btn-sm" onclick="addFormsetForm('services')">
+                  <i class="fas fa-plus"></i> Add Service
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="services-formset">
+                {{ service_formset.management_form }}
+                {% for form in service_formset %}
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
+                  {% if form.non_field_errors %}
+                  <div class="text-danger small">{{ form.non_field_errors }}</div>
+                  {% endif %}
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Service Category <span class="text-danger">*</span></label>
+                      {{ form.service_category }}
+                      {% if form.service_category.errors %}
+                      <div class="text-danger small">{{ form.service_category.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Service Name <span class="text-danger">*</span></label>
+                      {{ form.service_name }}
+                      {% if form.service_name.errors %}
+                      <div class="text-danger small">{{ form.service_name.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Description</label>
+                      {{ form.service_description }}
+                      {% if form.service_description.errors %}
+                      <div class="text-danger small">{{ form.service_description.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                  <div class="row mb-2">
+                    <div class="col-6">
+                        <div class="form-check">
+                          {{ form.is_free }}
+                        <label class="form-check-label small" for="{{ form.is_free.id_for_label }}">
+                            Free Service
+                          </label>
+                        </div>
+                      </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                          {{ form.appointment_required }}
+                        <label class="form-check-label small" for="{{ form.appointment_required.id_for_label }}">
+                            Appointment Required
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Cost Range</label>
+                        {{ form.cost_range }}
+                    {% if form.cost_range.errors %}
+                    <div class="text-danger small">{{ form.cost_range.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Currency</label>
+                        {{ form.currency }}
+                    {% if form.currency.errors %}
+                    <div class="text-danger small">{{ form.currency.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Availability Hours</label>
+                        {{ form.availability_hours }}
+                    {% if form.availability_hours.errors %}
+                    <div class="text-danger small">{{ form.availability_hours.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Availability Days</label>
+                        {{ form.availability_days }}
+                    {% if form.availability_days.errors %}
+                    <div class="text-danger small">{{ form.availability_days.errors }}</div>
+                    {% endif %}
+                      </div>
+                  
+                                     <div class="text-end">
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this service">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                   
+                   <!-- Hidden DELETE field for existing forms -->
+                   {% if form.DELETE %}
+                   <div style="display: none;">
+                     {{ form.DELETE }}
+                    </div>
+                   {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+
+          <!-- Ownership Information -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6><i class="ni ni-single-02 text-info me-2"></i>Ownership Information</h6>
+                <button type="button" class="btn btn-outline-info btn-sm" onclick="addFormsetForm('owners')">
+                  <i class="fas fa-plus"></i> Add Owner
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="owners-formset">
+                {{ owner_formset.management_form }}
+                {% for form in owner_formset %}
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
+                  {% if form.non_field_errors %}
+                  <div class="text-danger small">{{ form.non_field_errors }}</div>
+                  {% endif %}
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Owner Name <span class="text-danger">*</span></label>
+                      {{ form.owner_name }}
+                      {% if form.owner_name.errors %}
+                      <div class="text-danger small">{{ form.owner_name.errors }}</div>
+                      {% endif %}
+                    </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Owner Type <span class="text-danger">*</span></label>
+                        {{ form.owner_type }}
+                    {% if form.owner_type.errors %}
+                    <div class="text-danger small">{{ form.owner_type.errors }}</div>
+                    {% endif %}
+                  </div>
+                  
+                                     <div class="text-end">
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this owner">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                   
+                   <!-- Hidden DELETE field for existing forms -->
+                   {% if form.DELETE %}
+                   <div style="display: none;">
+                     {{ form.DELETE }}
+                   </div>
+                      {% endif %}
+                </div>
+                {% endfor %}
+          </div>
+        </div>
+      </div>
+
+          <!-- Infrastructure -->
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6><i class="ni ni-building text-secondary me-2"></i>Infrastructure</h6>
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addFormsetForm('infrastructure')">
+                  <i class="fas fa-plus"></i> Add Infrastructure
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="infrastructure-formset">
+                {{ infrastructure_formset.management_form }}
+                  {% for form in infrastructure_formset %}
+                <div class="formset-form border rounded p-3 mb-3 bg-light">
+                    {% if form.non_field_errors %}
+                    <div class="text-danger small">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Infrastructure Type <span class="text-danger">*</span></label>
+                        {{ form.infrastructure_type }}
+                        {% if form.infrastructure_type.errors %}
+                        <div class="text-danger small">{{ form.infrastructure_type.errors }}</div>
+                        {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Condition Status <span class="text-danger">*</span></label>
+                        {{ form.condition_status }}
+                        {% if form.condition_status.errors %}
+                        <div class="text-danger small">{{ form.condition_status.errors }}</div>
+                        {% endif %}
+                      </div>
+                  
+                  <div class="mb-2">
+                    <label class="form-label small fw-bold">Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                    <div class="text-danger small">{{ form.description.errors }}</div>
+                    {% endif %}
+                    </div>
+                  
+                  <div class="row mb-2">
+                    <div class="col-6">
+                      <label class="form-label small fw-bold">Capacity</label>
+                        {{ form.capacity }}
+                        {% if form.capacity.errors %}
+                        <div class="text-danger small">{{ form.capacity.errors }}</div>
+                        {% endif %}
+                      </div>
+                    <div class="col-6">
+                      <label class="form-label small fw-bold">Current Utilization</label>
+                        {{ form.current_utilization }}
+                        {% if form.current_utilization.errors %}
+                        <div class="text-danger small">{{ form.current_utilization.errors }}</div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  
+                  <div class="mb-2">
+                          <div class="form-check">
+                            {{ form.is_available }}
+                      <label class="form-check-label small" for="{{ form.is_available.id_for_label }}">
+                        Currently Available
+                            </label>
+                          </div>
+                  </div>
+                  
+                                     <div class="text-end">
+                     <button type="button" class="btn btn-outline-danger btn-sm remove-form-btn" onclick="removeFormsetForm(this)" title="Remove this infrastructure">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                   
+                   <!-- Hidden DELETE field for existing forms -->
+                   {% if form.DELETE %}
+                   <div style="display: none;">
+                     {{ form.DELETE }}
+                      </div>
+                   {% endif %}
+                  </div>
+                  {% endfor %}
+          </div>
+        </div>
+      </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Geography Add Modal -->
+  <div class="modal fade" id="geographyModal" tabindex="-1" aria-labelledby="geographyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="geographyModalLabel">Add New Geography Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="geographyForm">
+            <div class="mb-3">
+              <label for="geographyType" class="form-label">Type</label>
+              <select class="form-control" id="geographyType" required>
+                <option value="">Select Type</option>
+                <option value="county">County</option>
+                <option value="constituency">Constituency</option>
+                <option value="ward">Ward</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="geographyName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="geographyName" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="geographyCode" class="form-label">Code</label>
+              <input type="text" class="form-control" id="geographyCode" required>
+            </div>
+            
+            <!-- County selection for constituency -->
+            <div class="mb-3" id="countySelection" style="display: none;">
+              <label for="geographyCounty" class="form-label">County</label>
+              <select class="form-control" id="geographyCounty">
+                <option value="">Select County</option>
+              </select>
+            </div>
+            
+            <!-- Constituency selection for ward -->
+            <div class="mb-3" id="constituencySelection" style="display: none;">
+              <label for="geographyConstituency" class="form-label">Constituency</label>
+              <select class="form-control" id="geographyConstituency">
+                <option value="">Select Constituency</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveGeographyItem()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Places Autocomplete Modal -->
+  <div class="modal fade" id="placesModal" tabindex="-1" aria-labelledby="placesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="placesModalLabel">Search Address with Google Places</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="placesSearch" class="form-label">Search for address:</label>
+            <input type="text" class="form-control" id="placesSearch" placeholder="Enter address to search...">
+          </div>
+          <div id="placesResults" class="mt-3">
+            <!-- Results will be populated here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addFormsetForm(prefix) {
+      const formsetDiv = document.getElementById(prefix + '-formset');
+      const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+      const formIdx = parseInt(totalForms.value);
+      
+      // Clone the first form
+      const firstForm = formsetDiv.querySelector('.formset-form');
+      if (!firstForm) {
+        console.error('No form found to clone');
+        return;
+      }
+      
+      const newForm = firstForm.cloneNode(true);
+      
+      // Update form indices
+      const regex = new RegExp(`${prefix}-(\\d+)-`, 'g');
+      newForm.innerHTML = newForm.innerHTML.replace(regex, `${prefix}-${formIdx}-`);
+      
+      // Clear form values and reset checkboxes
+      const inputs = newForm.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        if (input.type === 'checkbox') {
+          input.checked = false;
+        } else if (input.type === 'radio') {
+          input.checked = false;
+        } else if (input.type !== 'hidden') {
+          input.value = '';
+          if (input.tagName === 'SELECT') {
+          input.selectedIndex = 0; // Reset select elements
+          }
+        }
+      });
+      
+      // Remove any existing DELETE field from new forms
+      const deleteField = newForm.querySelector('input[name$="-DELETE"]');
+      if (deleteField) {
+        deleteField.remove();
+      }
+      
+      // Add the new form
+      formsetDiv.appendChild(newForm);
+      
+      // Update total forms count
+      totalForms.value = formIdx + 1;
+      
+      // Update delete button visibility
+      updateDeleteButtonVisibility(prefix);
+    }
+    
+    function removeFormsetForm(button) {
+      const form = button.closest('.formset-form');
+      const formsetDiv = form.closest('[id$="-formset"]');
+      const prefix = formsetDiv.id.replace('-formset', '');
+      
+      // Count visible forms (not marked for deletion)
+      const visibleForms = Array.from(formsetDiv.querySelectorAll('.formset-form')).filter(f => 
+        f.style.display !== 'none' && !f.querySelector('input[name$="-DELETE"]:checked')
+      );
+      
+              // Prevent deletion if this is the last visible form
+        // All formsets must keep at least 1 form
+        if (visibleForms.length <= 1) {
+          const formType = prefix === 'contacts' ? 'contact' : prefix === 'services' ? 'service' : prefix === 'owners' ? 'owner' : 'infrastructure';
+          alert(`You must keep at least one ${formType} entry. Please add another ${formType} before removing this one.`);
+          return;
+        }
+      
+      const deleteInput = form.querySelector('input[name$="-DELETE"]');
+      
+      if (deleteInput) {
+        // For existing forms (with DELETE field), mark for deletion
+        deleteInput.checked = true;
+        form.style.display = 'none';
+        form.style.opacity = '0.5';
+      } else {
+        // For new forms (without DELETE field), remove completely
+        form.remove();
+        // Update the total forms count
+        const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+        if (totalForms) {
+          // All formsets must keep at least 1 form
+          totalForms.value = Math.max(1, parseInt(totalForms.value) - 1);
+        }
+        updateFormsetIndices();
+      }
+      
+      // Update delete button visibility
+      updateDeleteButtonVisibility(prefix);
+    }
+    
+    function updateDeleteButtonVisibility(prefix) {
+      const formsetDiv = document.getElementById(prefix + '-formset');
+      const visibleForms = Array.from(formsetDiv.querySelectorAll('.formset-form')).filter(f => 
+        f.style.display !== 'none' && !f.querySelector('input[name$="-DELETE"]:checked')
+      );
+      
+      // Show/hide delete buttons based on number of visible forms
+      visibleForms.forEach(form => {
+        const deleteButton = form.querySelector('.remove-form-btn');
+        if (deleteButton) {
+          // All formsets must keep at least 1 form
+          if (visibleForms.length <= 1) {
+            deleteButton.style.display = 'none';
+          } else {
+            deleteButton.style.display = 'block';
+          }
+        }
+      });
+    }
+    
+    function updateFormsetIndices() {
+      ['contacts', 'services', 'owners', 'infrastructure'].forEach(prefix => {
+        const formsetDiv = document.getElementById(prefix + '-formset');
+        const visibleForms = Array.from(formsetDiv.querySelectorAll('.formset-form')).filter(f => 
+          f.style.display !== 'none'
+        );
+        const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+        
+        if (totalForms) {
+          // Update form indices
+        visibleForms.forEach((form, index) => {
+          const regex = new RegExp(`${prefix}-(\\d+)-`, 'g');
+          form.innerHTML = form.innerHTML.replace(regex, `${prefix}-${index}-`);
+        });
+        
+          // Update total forms count
+          // All formsets must have at least 1 form
+          totalForms.value = Math.max(1, visibleForms.length);
+        }
+      });
+    }
+    
+    // Initialize delete button visibility when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      ['contacts', 'services', 'owners', 'infrastructure'].forEach(prefix => {
+        updateDeleteButtonVisibility(prefix);
+      });
+      
+      // Initialize GBV Categories dropdown
+      initializeGBVCategories();
+      
+
+      
+      // Add form validation
+      const form = document.getElementById('facility-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          if (!validateForm()) {
+            e.preventDefault();
+            return false;
+          }
+        });
+      }
+      
+      // Initialize geography cascading dropdowns
+      initializeGeographyDropdowns();
+      
+      // Load counties for geography modal
+      loadCountiesForModal();
+    });
+    
+    // Form validation function
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate required fields in main facility form
+      const requiredFields = form.querySelectorAll('[required]');
+      requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+          field.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          field.classList.remove('is-invalid');
+        }
+      });
+      
+      // Validate GBV Categories
+      const gbvSelect = document.querySelector('.gbv-categories-select-wrapper select');
+      if (gbvSelect) {
+        const selectedOptions = Array.from(gbvSelect.selectedOptions);
+        if (selectedOptions.length === 0) {
+          gbvSelect.style.borderColor = '#dc3545';
+          gbvSelect.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          gbvSelect.style.borderColor = '#28a745';
+          gbvSelect.classList.remove('is-invalid');
+        }
+      }
+      
+      // Validate formsets
+      ['contacts', 'services', 'owners'].forEach(prefix => {
+        const formsetDiv = document.getElementById(prefix + '-formset');
+        const visibleForms = Array.from(formsetDiv.querySelectorAll('.formset-form')).filter(f => 
+          f.style.display !== 'none' && !f.querySelector('input[name$="-DELETE"]:checked')
+        );
+        
+        if (visibleForms.length === 0) {
+          alert(`${prefix.charAt(0).toUpperCase() + prefix.slice(1)} must have at least one entry.`);
+          isValid = false;
+        }
+        
+        // Validate required fields in each visible form
+        visibleForms.forEach(form => {
+          const requiredInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+          requiredInputs.forEach(input => {
+            if (!input.value.trim()) {
+              input.classList.add('is-invalid');
+              isValid = false;
+            } else {
+              input.classList.remove('is-invalid');
+            }
+          });
+      });
+    });
+      
+      if (!isValid) {
+        alert('Please fill in all required fields marked with *.');
+      }
+      
+      return isValid;
+    }
+    
+    // Geography functionality
+    function initializeGeographyDropdowns() {
+      const countySelect = document.getElementById('id_county');
+      const constituencySelect = document.getElementById('id_constituency');
+      const wardSelect = document.getElementById('id_ward');
+      
+      if (countySelect) {
+        countySelect.addEventListener('change', function() {
+          const countyId = this.value;
+          if (countyId) {
+            loadConstituencies(countyId);
+            // Clear constituency and ward
+            constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+          } else {
+            constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+          }
+        });
+      }
+      
+      if (constituencySelect) {
+        constituencySelect.addEventListener('change', function() {
+          const constituencyId = this.value;
+          if (constituencyId) {
+            loadWards(constituencyId);
+            // Clear ward
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+          } else {
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+          }
+        });
+      }
+    }
+    
+    function loadConstituencies(countyId) {
+      fetch(`/geography/api/constituencies/${countyId}/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const constituencySelect = document.getElementById('id_constituency');
+            constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
+            
+            data.constituencies.forEach(constituency => {
+              const option = document.createElement('option');
+              option.value = constituency.constituency_id;
+              option.textContent = constituency.constituency_name;
+              constituencySelect.appendChild(option);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error loading constituencies:', error);
+        });
+    }
+    
+    function loadWards(constituencyId) {
+      fetch(`/geography/api/wards/${constituencyId}/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const wardSelect = document.getElementById('id_ward');
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+            
+            data.wards.forEach(ward => {
+              const option = document.createElement('option');
+              option.value = ward.ward_id;
+              option.textContent = ward.ward_name;
+              wardSelect.appendChild(option);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error loading wards:', error);
+        });
+    }
+    
+    // Geography modal functions
+    function showAddGeographyModal(type) {
+      const modal = new bootstrap.Modal(document.getElementById('geographyModal'));
+      const typeSelect = document.getElementById('geographyType');
+      const countySelection = document.getElementById('countySelection');
+      const constituencySelection = document.getElementById('constituencySelection');
+      
+      // Reset form
+      document.getElementById('geographyForm').reset();
+      typeSelect.value = type;
+      
+      // Show/hide relevant selection fields
+      if (type === 'county') {
+        countySelection.style.display = 'none';
+        constituencySelection.style.display = 'none';
+      } else if (type === 'constituency') {
+        countySelection.style.display = 'block';
+        constituencySelection.style.display = 'none';
+        loadCountiesForModal();
+      } else if (type === 'ward') {
+        countySelection.style.display = 'none';
+        constituencySelection.style.display = 'block';
+        loadConstituenciesForModal();
+      }
+      
+      modal.show();
+    }
+    
+    function loadCountiesForModal() {
+      fetch('/geography/api/search/?q=')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const countySelect = document.getElementById('geographyCounty');
+            countySelect.innerHTML = '<option value="">Select County</option>';
+            
+            data.results.counties.forEach(county => {
+              const option = document.createElement('option');
+              option.value = county.id;
+              option.textContent = county.name;
+              countySelect.appendChild(option);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error loading counties:', error);
+        });
+    }
+    
+    function loadConstituenciesForModal() {
+      const countyId = document.getElementById('geographyCounty').value;
+      if (!countyId) return;
+      
+      fetch(`/geography/api/constituencies/${countyId}/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const constituencySelect = document.getElementById('geographyConstituency');
+            constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
+            
+            data.constituencies.forEach(constituency => {
+              const option = document.createElement('option');
+              option.value = constituency.constituency_id;
+              option.textContent = constituency.constituency_name;
+              constituencySelect.appendChild(option);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error loading constituencies:', error);
+        });
+    }
+    
+    function saveGeographyItem() {
+      const type = document.getElementById('geographyType').value;
+      const name = document.getElementById('geographyName').value.trim();
+      const code = document.getElementById('geographyCode').value.trim();
+      
+      if (!type || !name || !code) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      
+      const data = {
+        type: type,
+        name: name,
+        code: code
+      };
+      
+      if (type === 'constituency') {
+        const countyId = document.getElementById('geographyCounty').value;
+        if (!countyId) {
+          alert('Please select a county.');
+          return;
+        }
+        data.county_id = countyId;
+      } else if (type === 'ward') {
+        const constituencyId = document.getElementById('geographyConstituency').value;
+        if (!constituencyId) {
+          alert('Please select a constituency.');
+          return;
+        }
+        data.constituency_id = constituencyId;
+      }
+      
+      fetch('/geography/api/add/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+          
+          // Refresh the appropriate dropdown
+          if (type === 'county') {
+            location.reload(); // Reload to refresh all dropdowns
+          } else if (type === 'constituency') {
+            const countyId = document.getElementById('id_county').value;
+            if (countyId) loadConstituencies(countyId);
+          } else if (type === 'ward') {
+            const constituencyId = document.getElementById('id_constituency').value;
+            if (constituencyId) loadWards(constituencyId);
+          }
+          
+          // Close modal
+          bootstrap.Modal.getInstance(document.getElementById('geographyModal')).hide();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error saving geography item:', error);
+        alert('Error saving geography item. Please try again.');
+      });
+    }
+    
+    // Google Places integration
+    function searchAddress() {
+      const modal = new bootstrap.Modal(document.getElementById('placesModal'));
+      modal.show();
+      
+      // Initialize Google Places Autocomplete
+      const input = document.getElementById('placesSearch');
+      const autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ['geocode'],
+        componentRestrictions: { country: 'ke' } // Restrict to Kenya
+      });
+      
+      autocomplete.addListener('place_changed', function() {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+          // Fill in the address fields
+          document.getElementById('{{ facility_form.address_line_1.id_for_label }}').value = place.formatted_address;
+          
+          // Extract coordinates if available
+          if (place.geometry.location) {
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
+            
+            // Fill coordinate fields if they exist
+            const latField = document.getElementById('{{ coordinate_form.latitude.id_for_label }}');
+            const lngField = document.getElementById('{{ coordinate_form.longitude.id_for_label }}');
+            
+            if (latField) latField.value = lat.toFixed(6);
+            if (lngField) lngField.value = lng.toFixed(6);
+          }
+          
+          // Try to extract administrative areas
+          extractAdministrativeAreas(place);
+          
+          modal.hide();
+        }
+      });
+    }
+    
+    function extractAdministrativeAreas(place) {
+      let county = null;
+      let constituency = null;
+      let ward = null;
+      
+      // Extract administrative areas from place details
+      for (let component of place.address_components) {
+        const types = component.types;
+        
+        if (types.includes('administrative_area_level_1')) {
+          // This is typically the county in Kenya
+          county = component.long_name;
+        } else if (types.includes('administrative_area_level_2')) {
+          // This might be constituency
+          constituency = component.long_name;
+        } else if (types.includes('sublocality_level_1')) {
+          // This might be ward
+          ward = component.long_name;
+        }
+      }
+      
+      // Try to match with existing geography data
+      if (county) {
+        searchAndSelectGeography('county', county);
+      }
+      if (constituency) {
+        searchAndSelectGeography('constituency', constituency);
+      }
+      if (ward) {
+        searchAndSelectGeography('ward', ward);
+      }
+    }
+    
+    function searchAndSelectGeography(type, name) {
+      fetch(`/geography/api/search/?q=${encodeURIComponent(name)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (type === 'county' && data.results.counties.length > 0) {
+              const county = data.results.counties[0];
+              document.getElementById('id_county').value = county.id;
+              document.getElementById('id_county').dispatchEvent(new Event('change'));
+            } else if (type === 'constituency' && data.results.constituencies.length > 0) {
+              const constituency = data.results.constituencies[0];
+              document.getElementById('id_constituency').value = constituency.id;
+              document.getElementById('id_constituency').dispatchEvent(new Event('change'));
+            } else if (type === 'ward' && data.results.wards.length > 0) {
+              const ward = data.results.wards[0];
+              document.getElementById('id_ward').value = ward.id;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error searching geography:', error);
+        });
+    }
+    
+    // GBV Categories functionality
+    function initializeGBVCategories() {
+      const gbvSelect = document.querySelector('.gbv-categories-select-wrapper select');
+      const selectionCount = document.getElementById('gbv-selection-count');
+      
+      if (gbvSelect) {
+        // Update selection count and visual feedback
+        function updateGBVSelection() {
+          const selectedCount = this.selectedOptions.length;
+          const totalCount = this.options.length;
+          const selectedCategoriesDisplay = document.getElementById('selected-categories-display');
+          const selectedCategoriesList = document.getElementById('selected-categories-list');
+          
+          if (selectedCount > 0) {
+            this.style.borderColor = '#28a745';
+            selectionCount.innerHTML = `
+              <small class="text-success">
+                <i class="ni ni-check-bold text-success me-1"></i>
+                ${selectedCount} of ${totalCount} GBV categories selected
+              </small>
+            `;
+            
+            // Show selected categories
+            const selectedNames = Array.from(this.selectedOptions).map(option => option.text);
+            selectedCategoriesList.textContent = selectedNames.join(', ');
+            selectedCategoriesDisplay.style.display = 'block';
+          } else {
+            this.style.borderColor = '#dee2e6';
+            selectionCount.innerHTML = `
+              <small class="text-muted">
+                <i class="ni ni-info text-info me-1"></i>
+                Select all applicable GBV categories that this facility specializes in.
+              </small>
+            `;
+            
+            // Hide selected categories display
+            selectedCategoriesDisplay.style.display = 'none';
+          }
+        }
+        
+        // Add event listeners
+        gbvSelect.addEventListener('change', updateGBVSelection);
+        
+        // Initialize on page load
+        updateGBVSelection.call(gbvSelect);
+        
+        // Add keyboard navigation hints
+        gbvSelect.setAttribute('aria-describedby', 'gbv-selection-count');
+        gbvSelect.setAttribute('aria-multiselectable', 'true');
+        
+        // Add Select All and Clear All functionality
+        const selectAllBtn = document.getElementById('select-all-gbv');
+        const clearAllBtn = document.getElementById('clear-all-gbv');
+        
+        if (selectAllBtn) {
+          selectAllBtn.addEventListener('click', function() {
+            Array.from(gbvSelect.options).forEach(option => {
+              option.selected = true;
+            });
+            gbvSelect.dispatchEvent(new Event('change'));
+          });
+        }
+        
+        if (clearAllBtn) {
+          clearAllBtn.addEventListener('click', function() {
+            Array.from(gbvSelect.options).forEach(option => {
+              option.selected = false;
+            });
+            gbvSelect.dispatchEvent(new Event('change'));
+          });
+        }
+      }
+    }
+    
+
+  </script>
+  
+  <!-- Google Places API -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_places_api_key }}&libraries=places&callback=function(){}">
+  </script>
+{% endblock content %}

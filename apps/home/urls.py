@@ -8,21 +8,21 @@ from apps.home import views
 
 urlpatterns = [
 
-    # The home page (public)
-    path('', views.index, name='home'),
+    # The landing page for unauthenticated users
+    path('', views.landing_page, name='landing'),
     
-    # Protected dashboard
-    path('dashboard/', views.dashboard, name='dashboard'),
+    # The home page (dashboard) for authenticated users
+    path('dashboard/', views.index, name='home'),
 
     # Main resource pages
-    path('facilities/', views.community_facilities, name='facilities'),
-    path('facilities/add/', views.add_facility, name='add_facility'),
+    # NOTE: facilities/ URLs are handled by apps.facilities.urls
+    # path('facilities/', views.community_facilities, name='facilities'),
+    # path('facilities/add/', views.add_facility, name='add_facility'),
     path('services/', views.services_programs, name='services'),
     path('services/add/', views.add_service, name='add_service'),
     path('human-resources/', views.human_resources, name='human_resources'),
     path('human-resources/add/', views.add_staff, name='add_staff'),
-    path('infrastructure/', views.infrastructure, name='infrastructure'),
-    path('infrastructure/add/', views.add_equipment, name='add_equipment'),
+    path('infrastructure/', views.infrastructure, name='infrastructure'),  # Infrastructure page
 
     # Protected pages that should be handled by home app
     path('profile/', views.pages, name='profile'),
@@ -34,6 +34,6 @@ urlpatterns = [
     path('notifications/', views.pages, name='notifications'),
     path('tables/', views.pages, name='tables'),
     path('upgrade/', views.pages, name='upgrade'),
-    path('help/', views.pages, name='help'),
+    path('help/', views.help_page, name='help'),
 
 ]

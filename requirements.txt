@@ -1,16 +1,39 @@
-django==4.2.8
-gunicorn==21.2.0
-whitenoise==6.6.0
-python-dotenv==1.0.1
-django-admin-gradient
-djangorestframework
-drf-yasg
-python-decouple
-pytest==7.4.3
-pytest-django==4.7.0
-pytest-json-report==1.5.0
-redis==5.0.1
-django-redis==5.4.0
-psycopg2-binary==2.9.9
-celery==5.3.4
-django-extensions==3.2.3
+# Django and REST Framework
+Django>=4.2.0,<5.0
+djangorestframework>=3.14.0,<4.0
+django-cors-headers>=4.0.0,<5.0
+
+# Swagger/OpenAPI Documentation
+drf-yasg>=1.21.0,<2.0
+
+# Database and ORM
+psycopg2-binary>=2.9.0,<3.0  # PostgreSQL adapter
+django-filter>=23.0,<24.0
+
+# Authentication and Security
+django-allauth>=0.54.0,<1.0
+djangorestframework-simplejwt>=5.2.0,<6.0
+
+# Real-time Communication
+channels>=4.0.0,<5.0
+channels-redis>=4.1.0,<5.0
+redis>=4.5.0,<5.0
+
+# Utilities
+python-dotenv>=1.0.0,<2.0
+Pillow>=9.5.0,<11.0  # Image processing
+whitenoise>=6.5.0,<7.0  # Static file serving
+
+# Development and Testing
+django-debug-toolbar>=4.1.0,<4.2.0
+pytest-django>=4.5.0,<5.0
+requests>=2.31.0,<3.0  # For API testing
+
+# Production
+gunicorn>=21.0.0,<22.0
+uvicorn>=0.23.0,<1.0
+
+# Optional: Additional features
+django-extensions>=3.2.0,<4.0
+django-crispy-forms>=2.0,<3.0
+crispy-bootstrap5>=0.7,<1.0

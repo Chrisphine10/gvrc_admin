@@ -1,0 +1,367 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+.music-form-card {
+    border-left: 4px solid var(--gvrc-primary);
+}
+
+.form-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.form-section h5 {
+    color: var(--gvrc-primary);
+    border-bottom: 2px solid var(--gvrc-primary);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.duration-input {
+    max-width: 200px;
+}
+
+.help-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.file-upload-section {
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.file-upload-section:hover {
+    border-color: var(--gvrc-primary);
+    background: #e3f2fd;
+}
+
+.file-upload-section.dragover {
+    border-color: var(--gvrc-primary);
+    background: #e3f2fd;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: var(--gvrc-primary);
+    margin-bottom: 15px;
+}
+
+.file-info {
+    margin-top: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.audio-preview {
+    margin-top: 15px;
+}
+
+.form-error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'music:music_list' %}">Music</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% if music %}Edit{% else %}Add{% endif %} Track</li>
+          </ol>
+        </nav>
+        <h1 class="h3 mb-0">{{ page_title }}</h1>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'music:music_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Music
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card music-form-card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-{% if music %}edit{% else %}plus-circle{% endif %} text-primary"></i> 
+                        {% if music %}Edit{% else %}Add New{% endif %} Music Track
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" id="musicForm">
+                        {% csrf_token %}
+                        
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <h5><i class="fas fa-info-circle"></i> Basic Information</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.name.id_for_label }}" class="form-control-label">Track Name *</label>
+                                        {{ form.name }}
+                                        {% if form.name.errors %}
+                                            <div class="form-error">{{ form.name.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="help-text">Enter the name of the music track</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.artist.id_for_label }}" class="form-control-label">Artist</label>
+                                        {{ form.artist }}
+                                        {% if form.artist.errors %}
+                                            <div class="form-error">{{ form.artist.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="help-text">Enter the artist or creator name</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.description.id_for_label }}" class="form-control-label">Description</label>
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                    <div class="form-error">{{ form.description.errors.0 }}</div>
+                                {% endif %}
+                                <div class="help-text">Optional description of the music track</div>
+                            </div>
+                        </div>
+
+                        <!-- Media Information -->
+                        <div class="form-section">
+                            <h5><i class="fas fa-music"></i> Media Information</h5>
+                            
+                            <!-- File Upload Section -->
+                            <div class="file-upload-section" id="fileUploadSection">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h6>Upload Music File</h6>
+                                <p class="text-muted">Drag and drop your music file here or click to browse</p>
+                                <div class="form-group">
+                                    {{ form.music_file }}
+                                    {% if form.music_file.errors %}
+                                        <div class="form-error">{{ form.music_file.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="help-text">
+                                    Supported formats: MP3, WAV, OGG, M4A, FLAC (Max: 50MB)
+                                </div>
+                                <div id="fileInfo" class="file-info" style="display: none;">
+                                    <strong>Selected file:</strong> <span id="fileName"></span>
+                                    <br><small id="fileSize"></small>
+                                </div>
+                                <div id="audioPreview" class="audio-preview" style="display: none;">
+                                    <audio controls style="width: 100%;">
+                                        <source id="audioSource" src="" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center my-3">
+                                <span class="text-muted">- OR -</span>
+                            </div>
+                            
+                            <!-- External Link Section -->
+                            <div class="form-group">
+                                <label for="{{ form.link.id_for_label }}" class="form-control-label">External Music Link</label>
+                                {{ form.link }}
+                                {% if form.link.errors %}
+                                    <div class="form-error">{{ form.link.errors.0 }}</div>
+                                {% endif %}
+                                <div class="help-text">Enter the URL to an external music file or streaming service</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.genre.id_for_label }}" class="form-control-label">Genre</label>
+                                        {{ form.genre }}
+                                        {% if form.genre.errors %}
+                                            <div class="form-error">{{ form.genre.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="help-text">Select the music genre</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.duration.id_for_label }}" class="form-control-label">Duration</label>
+                                        {{ form.duration }}
+                                        {% if form.duration.errors %}
+                                            <div class="form-error">{{ form.duration.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="help-text">Format: HH:MM:SS or MM:SS</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Errors -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <!-- Submit Buttons -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save"></i> {% if music %}Update{% else %}Save{% endif %} Music Track
+                            </button>
+                            <a href="{% url 'music:music_list' %}" class="btn btn-secondary btn-lg ml-3">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('musicForm');
+    const fileInput = document.getElementById('{{ form.music_file.id_for_label }}');
+    const fileUploadSection = document.getElementById('fileUploadSection');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const audioPreview = document.getElementById('audioPreview');
+    const audioSource = document.getElementById('audioSource');
+    const linkInput = document.getElementById('{{ form.link.id_for_label }}');
+    
+    // File upload handling
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Show file info
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.style.display = 'block';
+            
+            // Show audio preview if it's an audio file
+            if (file.type.startsWith('audio/')) {
+                const url = URL.createObjectURL(file);
+                audioSource.src = url;
+                audioPreview.style.display = 'block';
+            } else {
+                audioPreview.style.display = 'none';
+            }
+            
+            // Clear external link when file is selected
+            linkInput.value = '';
+        } else {
+            fileInfo.style.display = 'none';
+            audioPreview.style.display = 'none';
+        }
+    });
+    
+    // Drag and drop functionality
+    fileUploadSection.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        fileUploadSection.classList.add('dragover');
+    });
+    
+    fileUploadSection.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        fileUploadSection.classList.remove('dragover');
+    });
+    
+    fileUploadSection.addEventListener('drop', function(e) {
+        e.preventDefault();
+        fileUploadSection.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            fileInput.dispatchEvent(new Event('change'));
+        }
+    });
+    
+    // Clear link when file is selected and vice versa
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            linkInput.value = '';
+        }
+    });
+    
+    linkInput.addEventListener('input', function() {
+        if (this.value.trim()) {
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            audioPreview.style.display = 'none';
+        }
+    });
+    
+    // Form validation
+    form.addEventListener('submit', function(e) {
+        const hasFile = fileInput.files.length > 0;
+        const hasLink = linkInput.value.trim();
+        
+        if (!hasFile && !hasLink) {
+            e.preventDefault();
+            alert('Please provide either a music file upload or an external link.');
+            return false;
+        }
+    });
+    
+    // Auto-format duration input
+    document.getElementById('{{ form.duration.id_for_label }}').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^0-9:]/g, '');
+        
+        // Auto-format as user types
+        if (value.length === 2 && !value.includes(':')) {
+            value += ':';
+        } else if (value.length === 5 && value.split(':').length === 2) {
+            value += ':';
+        }
+        
+        e.target.value = value;
+    });
+    
+    // Helper function to format file size
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+});
+</script>
+{% endblock %}

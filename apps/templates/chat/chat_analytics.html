@@ -1,0 +1,837 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Chat Analytics {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  .analytics-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid #e9ecef;
+  }
+  
+  .analytics-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 300px;
+    margin: 1rem 0;
+  }
+  
+  .metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2d3748;
+  }
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .trend-indicator {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  
+  .trend-up {
+    color: #38a169;
+  }
+  
+  .trend-down {
+    color: #e53e3e;
+  }
+  
+  .trend-neutral {
+    color: #718096;
+  }
+  
+  .filter-section {
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .time-range-btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .time-range-btn.active {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .top-admins-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .admin-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .admin-row:last-child {
+    border-bottom: none;
+  }
+  
+  .admin-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .admin-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-weight: bold;
+    color: #6c757d;
+  }
+  
+  .admin-stats {
+    text-align: right;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-info pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-2">
+            <div class="col-lg-6 col-7">
+              <h6 class="h3 text-white d-inline-block mb-0">
+                <i class="fas fa-chart-line me-2"></i>
+                Chat Analytics & Insights
+              </h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'chat:conversation_list' %}">Emergency Chat</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Analytics</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-lg-6 col-5 text-right">
+              <button class="btn btn-sm btn-neutral" onclick="refreshAnalytics()">
+                <i class="fas fa-sync-alt me-1"></i>Refresh
+              </button>
+              <button class="btn btn-sm btn-neutral" onclick="exportAnalytics()">
+                <i class="fas fa-download me-1"></i>Export
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      
+      <!-- Time Range Filters -->
+      <div class="filter-section">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h6 class="mb-2">Time Range</h6>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-primary time-range-btn active" onclick="setTimeRange('7d')">7 Days</button>
+              <button type="button" class="btn btn-outline-primary time-range-btn" onclick="setTimeRange('30d')">30 Days</button>
+              <button type="button" class="btn btn-outline-primary time-range-btn" onclick="setTimeRange('90d')">90 Days</button>
+              <button type="button" class="btn btn-outline-primary time-range-btn" onclick="setTimeRange('1y')">1 Year</button>
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <div class="form-group">
+              <label for="custom-date-range" class="form-label">Custom Range</label>
+              <div class="input-group">
+                <input type="date" class="form-control" id="start-date">
+                <span class="input-group-text">to</span>
+                <input type="date" class="form-control" id="end-date">
+                <button class="btn btn-primary" type="button" onclick="applyCustomRange()">Apply</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Metrics -->
+      <div class="stats-grid">
+        <div class="card analytics-card">
+          <div class="card-body text-center">
+            <div class="metric-value" id="total-conversations">-</div>
+            <div class="metric-label">Total Conversations</div>
+            <div class="trend-indicator" id="conversations-trend">
+              <i class="fas fa-minus"></i> <span>No change</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card analytics-card">
+          <div class="card-body text-center">
+            <div class="metric-value" id="active-conversations">-</div>
+            <div class="metric-label">Active Conversations</div>
+            <div class="trend-indicator" id="active-trend">
+              <i class="fas fa-minus"></i> <span>No change</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card analytics-card">
+          <div class="card-body text-center">
+            <div class="metric-value" id="avg-response-time">-</div>
+            <div class="metric-label">Avg Response Time</div>
+            <div class="trend-indicator" id="response-trend">
+              <i class="fas fa-minus"></i> <span>No change</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card analytics-card">
+          <div class="card-body text-center">
+            <div class="metric-value" id="resolution-rate">-</div>
+            <div class="metric-label">Resolution Rate</div>
+            <div class="trend-indicator" id="resolution-trend">
+              <i class="fas fa-minus"></i> <span>No change</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Conversation Trends</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="conversationsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Conversation Status Distribution</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="statusChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Metrics Row -->
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Response Time Analysis</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="responseTimeChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Priority Distribution</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="priorityChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Performers Row -->
+      <div class="row mt-4">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Top Admin Performers</h5>
+            </div>
+            <div class="card-body">
+              <div id="top-admins-container">
+                <!-- Top admins will be loaded here -->
+                <div class="text-center text-muted">
+                  <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+                  <p>Loading admin performance data...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Peak Activity Hours</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="activityHoursChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Analytics -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">Detailed Analytics</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="text-center">
+                    <div class="metric-value text-primary" id="total-messages">-</div>
+                    <div class="metric-label">Total Messages</div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="text-center">
+                    <div class="metric-value text-success" id="mobile-messages">-</div>
+                    <div class="metric-label">Mobile Messages</div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="text-center">
+                    <div class="metric-value text-info" id="admin-messages">-</div>
+                    <div class="metric-label">Admin Messages</div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="text-center">
+                    <div class="metric-value text-warning" id="avg-messages-per-conversation">-</div>
+                    <div class="metric-label">Avg Messages/Conversation</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let currentTimeRange = '7d';
+  let charts = {};
+
+  // Load analytics on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    loadAnalytics();
+    setDefaultDates();
+  });
+
+  // Set default date range
+  function setDefaultDates() {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
+    
+    document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
+    document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
+  }
+
+  // Set time range
+  function setTimeRange(range) {
+    currentTimeRange = range;
+    
+    // Update active button
+    document.querySelectorAll('.time-range-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Update date inputs
+    const endDate = new Date();
+    const startDate = new Date();
+    
+    switch(range) {
+      case '7d':
+        startDate.setDate(startDate.getDate() - 7);
+        break;
+      case '30d':
+        startDate.setDate(startDate.getDate() - 30);
+        break;
+      case '90d':
+        startDate.setDate(startDate.getDate() - 90);
+        break;
+      case '1y':
+        startDate.setFullYear(startDate.getFullYear() - 1);
+        break;
+    }
+    
+    document.getElementById('end-date').value = endDate.toISOString().split('T')[0];
+    document.getElementById('start-date').value = startDate.toISOString().split('T')[0];
+    
+    loadAnalytics();
+  }
+
+  // Apply custom date range
+  function applyCustomRange() {
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+    
+    if (!startDate || !endDate) {
+      showToast('Please select both start and end dates', 'warning');
+      return;
+    }
+    
+    if (new Date(startDate) >= new Date(endDate)) {
+      showToast('Start date must be before end date', 'warning');
+      return;
+    }
+    
+    currentTimeRange = 'custom';
+    document.querySelectorAll('.time-range-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    loadAnalytics();
+  }
+
+  // Load analytics data
+  function loadAnalytics() {
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+    
+    const params = new URLSearchParams({
+      start_date: startDate,
+      end_date: endDate,
+      time_range: currentTimeRange
+    });
+
+    fetch(`/chat/admin/analytics/?${params}`, {
+      headers: {
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      updateMetrics(data);
+      updateCharts(data);
+      updateTopAdmins(data.top_admins || []);
+    })
+    .catch(error => {
+      console.error('Error loading analytics:', error);
+      showToast('Error loading analytics data', 'error');
+    });
+  }
+
+  // Update key metrics
+  function updateMetrics(data) {
+    document.getElementById('total-conversations').textContent = data.total_conversations || 0;
+    document.getElementById('active-conversations').textContent = data.active_conversations || 0;
+    document.getElementById('avg-response-time').textContent = formatResponseTime(data.avg_response_time || 0);
+    document.getElementById('resolution-rate').textContent = formatPercentage(data.resolution_rate || 0);
+    
+    document.getElementById('total-messages').textContent = data.total_messages || 0;
+    document.getElementById('mobile-messages').textContent = data.mobile_messages || 0;
+    document.getElementById('admin-messages').textContent = data.admin_messages || 0;
+    document.getElementById('avg-messages-per-conversation').textContent = (data.avg_messages_per_conversation || 0).toFixed(1);
+    
+    // Update trends
+    updateTrend('conversations-trend', data.conversations_trend);
+    updateTrend('active-trend', data.active_trend);
+    updateTrend('response-trend', data.response_trend);
+    updateTrend('resolution-trend', data.resolution_trend);
+  }
+
+  // Update trend indicators
+  function updateTrend(elementId, trend) {
+    const element = document.getElementById(elementId);
+    if (!trend) return;
+    
+    const icon = trend.direction === 'up' ? 'fa-arrow-up' : 
+                 trend.direction === 'down' ? 'fa-arrow-down' : 'fa-minus';
+    const color = trend.direction === 'up' ? 'trend-up' : 
+                  trend.direction === 'down' ? 'trend-down' : 'trend-neutral';
+    const text = trend.direction === 'up' ? `+${trend.value}%` : 
+                 trend.direction === 'down' ? `${trend.value}%` : 'No change';
+    
+    element.innerHTML = `<i class="fas ${icon}"></i> <span>${text}</span>`;
+    element.className = `trend-indicator ${color}`;
+  }
+
+  // Update charts
+  function updateCharts(data) {
+    // Conversations trend chart
+    updateConversationsChart(data.conversations_trend_data || []);
+    
+    // Status distribution chart
+    updateStatusChart(data.status_distribution || {});
+    
+    // Response time chart
+    updateResponseTimeChart(data.response_time_data || []);
+    
+    // Priority distribution chart
+    updatePriorityChart(data.priority_distribution || {});
+    
+    // Activity hours chart
+    updateActivityHoursChart(data.activity_hours || []);
+  }
+
+  // Update conversations trend chart
+  function updateConversationsChart(data) {
+    const ctx = document.getElementById('conversationsChart');
+    
+    if (charts.conversations) {
+      charts.conversations.destroy();
+    }
+    
+    charts.conversations = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.map(d => d.date),
+        datasets: [{
+          label: 'Conversations',
+          data: data.map(d => d.count),
+          borderColor: '#007bff',
+          backgroundColor: 'rgba(0, 123, 255, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Update status distribution chart
+  function updateStatusChart(data) {
+    const ctx = document.getElementById('statusChart');
+    
+    if (charts.status) {
+      charts.status.destroy();
+    }
+    
+    const labels = Object.keys(data);
+    const values = Object.values(data);
+    const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545'];
+    
+    charts.status = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors.slice(0, labels.length),
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  }
+
+  // Update response time chart
+  function updateResponseTimeChart(data) {
+    const ctx = document.getElementById('responseTimeChart');
+    
+    if (charts.responseTime) {
+      charts.responseTime.destroy();
+    }
+    
+    charts.responseTime = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(d => d.range),
+        datasets: [{
+          label: 'Response Time',
+          data: data.map(d => d.count),
+          backgroundColor: '#28a745',
+          borderColor: '#28a745',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // Update priority distribution chart
+  function updatePriorityChart(data) {
+    const ctx = document.getElementById('priorityChart');
+    
+    if (charts.priority) {
+      charts.priority.destroy();
+    }
+    
+    const labels = Object.keys(data);
+    const values = Object.values(data);
+    const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745'];
+    
+    charts.priority = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Conversations',
+          data: values,
+          backgroundColor: colors.slice(0, labels.length),
+          borderColor: colors.slice(0, labels.length),
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // Update activity hours chart
+  function updateActivityHoursChart(data) {
+    const ctx = document.getElementById('activityHoursChart');
+    
+    if (charts.activityHours) {
+      charts.activityHours.destroy();
+    }
+    
+    charts.activityHours = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.map(d => d.hour + ':00'),
+        datasets: [{
+          label: 'Activity',
+          data: data.map(d => d.count),
+          borderColor: '#17a2b8',
+          backgroundColor: 'rgba(23, 162, 184, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  // Update top admins
+  function updateTopAdmins(admins) {
+    const container = document.getElementById('top-admins-container');
+    
+    if (admins.length === 0) {
+      container.innerHTML = `
+        <div class="text-center text-muted">
+          <i class="fas fa-users fa-2x mb-2"></i>
+          <p>No admin performance data available</p>
+        </div>
+      `;
+      return;
+    }
+    
+    container.innerHTML = admins.map((admin, index) => `
+      <div class="admin-row">
+        <div class="admin-info">
+          <div class="admin-avatar">${admin.username.charAt(0).toUpperCase()}</div>
+          <div>
+            <div class="fw-bold">${admin.username}</div>
+            <small class="text-muted">${admin.conversations_handled} conversations</small>
+          </div>
+        </div>
+        <div class="admin-stats">
+          <div class="fw-bold text-success">${admin.avg_response_time}min</div>
+          <small class="text-muted">avg response</small>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Format response time
+  function formatResponseTime(minutes) {
+    if (minutes < 60) {
+      return `${Math.round(minutes)}m`;
+    } else {
+      const hours = Math.floor(minutes / 60);
+      const mins = Math.round(minutes % 60);
+      return `${hours}h ${mins}m`;
+    }
+  }
+
+  // Format percentage
+  function formatPercentage(value) {
+    return `${(value * 100).toFixed(1)}%`;
+  }
+
+  // Refresh analytics
+  function refreshAnalytics() {
+    loadAnalytics();
+  }
+
+  // Export analytics
+  function exportAnalytics() {
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+    
+    const params = new URLSearchParams({
+      start_date: startDate,
+      end_date: endDate,
+      time_range: currentTimeRange,
+      format: 'csv'
+    });
+    
+    window.open(`/chat/admin/analytics/export/?${params}`, '_blank');
+  }
+
+  // Get CSRF token
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  // Show toast notification
+  function showToast(message, type = 'info') {
+    const toastContainer = document.querySelector('.toast-container') || createToastContainer();
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+      <div class="toast-header">
+        <i class="toast-icon fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+        <span class="toast-message">${message}</span>
+        <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+      </div>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      if (toast.parentElement) {
+        toast.remove();
+      }
+    }, 5000);
+  }
+
+  // Create toast container if it doesn't exist
+  function createToastContainer() {
+    const container = document.createElement('div');
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+    return container;
+  }
+
+  // Auto-refresh every 5 minutes
+  setInterval(() => {
+    loadAnalytics();
+  }, 300000);
+
+</script>
+{% endblock javascripts %}

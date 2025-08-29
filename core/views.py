@@ -10,7 +10,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 import json
 import logging
-from .models import User, Post
+from ..apps.core.models import User, Post
 from .utils import handle_errors, validate_json
 
 logger = logging.getLogger('myproject')

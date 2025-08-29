@@ -1,130 +1,227 @@
-{% extends 'layouts/base-fullscreen.html' %}
+{% extends 'layouts/base-auth.html' %}
 
-{% block title %} Register {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block title %} Create Account {% endblock title %}
 
 {% block content %}
 
     <!-- Page content -->
-    <div class="container mt--8 pb-5">
-      <!-- Table -->
-      <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-        
-          <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5">
-              <div class="text-muted text-center mt-2 mb-4">
-                <strong>GVRC Admin - Sign UP</strong>
+    <div class="container" style="min-height: 80vh; display: flex; align-items: center;">
+      <div class="row justify-content-center w-100">
+        <div class="col-lg-5 col-md-7">
+          <div class="gvrc-auth-card">
+            <div class="card-header">
+              <div class="gvrc-logo-container">
+                <div class="gvrc-logo">
+                  <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo" class="hodi-logo" style="width: 60px; height: 60px; object-fit: contain;">
+                </div>
+                <h1 class="gvrc-brand-text">Join Hodi Admin</h1>
+                <p class="gvrc-brand-subtitle">Hodi App Management Access</p>
               </div>
             </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
-
-                {% if msg %}
-                  {% if success %}
-                    <small class="text-success">{{ msg | safe }}</small>
-                  {% else %}
-                    <small class="text-danger">{{ msg }}</small>
-                  {% endif %}
-                {% else %}
-                  <p>Create your account</p>
-                {% endif %}  
+            <div class="card-body">
               
-              </div>
+              {% if msg %}
+                {% if success %}
+                  <div class="gvrc-alert gvrc-alert-success" id="register-success-msg">
+                    <i class="fas fa-check-circle me-2"></i>{{ msg | safe }}
+                  </div>
+                  <div class="text-center">
+                    <a href="{% url 'login' %}" class="gvrc-btn-primary">
+                      <i class="fas fa-sign-in-alt me-2"></i>Sign In Now
+                    </a>
+                  </div>
+                {% else %}
+                  <div class="gvrc-alert gvrc-alert-danger" id="register-error-msg">
+                    <i class="fas fa-exclamation-triangle me-2"></i>{{ msg }}
+                  </div>
+                {% endif %}
+              {% else %}
+                <div class="text-center mb-4">
+                  <h3 class="text-dark mb-2">Create Your Account</h3>
+                  <p class="text-muted">Join our healthcare facility management system</p>
+                </div>
+              {% endif %}
 
               {% if not success %}
 
-                <form method="POST">
-
+                <form method="POST" id="register-form">
                   {% csrf_token %}
             
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative mb-3">
+                  <div class="gvrc-form-group">
+                    <div class="gvrc-input-group input-group">
                       <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        <span class="input-group-text">
+                          <i class="fas fa-user"></i>
+                        </span>
                       </div>
-                      {{ form.username }}
+                      {{ form.full_name }}
                     </div>
-                    {% if form.username.errors %}
-                      <small class="text-danger">{{ form.username.errors.0 }}</small>
+                    {% if form.full_name.errors %}
+                      <small class="text-danger mt-1 d-block">{{ form.full_name.errors.0 }}</small>
                     {% endif %}
                   </div>
 
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative mb-3">
+                  <div class="gvrc-form-group">
+                    <div class="gvrc-input-group input-group">
                       <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                        <span class="input-group-text">
+                          <i class="fas fa-envelope"></i>
+                        </span>
                       </div>
                       {{ form.email }}
                     </div>
                     {% if form.email.errors %}
-                      <small class="text-danger">{{ form.email.errors.0 }}</small>
+                      <small class="text-danger mt-1 d-block">{{ form.email.errors.0 }}</small>
                     {% endif %}
                   </div>
 
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative">
+                  <div class="gvrc-form-group">
+                    <div class="gvrc-input-group input-group">
                       <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                        <span class="input-group-text">
+                          <i class="fas fa-phone"></i>
+                        </span>
+                      </div>
+                      {{ form.phone_number }}
+                    </div>
+                    {% if form.phone_number.errors %}
+                      <small class="text-danger mt-1 d-block">{{ form.phone_number.errors.0 }}</small>
+                    {% endif %}
+                  </div>
+
+                  <div class="gvrc-form-group">
+                    <div class="gvrc-input-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fas fa-lock"></i>
+                        </span>
                       </div>
                       {{ form.password1 }}
                     </div>
                     {% if form.password1.errors %}
-                      <small class="text-danger">{{ form.password1.errors.0 }}</small>
+                      <small class="text-danger mt-1 d-block">{{ form.password1.errors.0 }}</small>
                     {% endif %}
                   </div>
 
-                  <div class="form-group">
-                    <div class="input-group input-group-alternative">
+                  <div class="gvrc-form-group">
+                    <div class="gvrc-input-group input-group">
                       <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                        <span class="input-group-text">
+                          <i class="fas fa-lock"></i>
+                        </span>
                       </div>
                       {{ form.password2 }}
                     </div>
                     {% if form.password2.errors %}
-                      <small class="text-danger">{{ form.password2.errors.0 }}</small>
+                      <small class="text-danger mt-1 d-block">{{ form.password2.errors.0 }}</small>
                     {% endif %}
                   </div>
 
-                  <div class="row my-4">
-                    <div class="col-12">
-                      <div class="custom-control custom-control-alternative custom-checkbox">
-                        <input class="custom-control-input" id="customCheckRegister" type="checkbox" required>
-                        <label class="custom-control-label" for="customCheckRegister">
-                          <span class="text-muted">I agree with the <a href="#!">Terms and Conditions</a></span>
-                        </label>
-                      </div>
-                    </div>
+                  <div class="gvrc-checkbox">
+                    <input type="checkbox" id="agreeTerms" name="agree_terms" required>
+                    <label for="agreeTerms">
+                      I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                    </label>
                   </div>
+                  
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary mt-4">Create account</button>
+                    <button type="submit" class="gvrc-btn-primary w-100" id="register-submit-btn">
+                      <i class="fas fa-user-plus me-2"></i>Create Healthcare Account
+                    </button>
+                  </div>
+                  
+                  <div class="text-center mt-3">
+                    <p class="text-muted mb-0">
+                      Already have an account? 
+                      <a href="{% url 'login' %}" class="text-primary font-weight-bold">Sign In</a>
+                    </p>
                   </div>
                 </form>
 
-              {% endif %}  
-  
+              {% endif %}
             </div>
           </div>
-
+          
+          {% if not success %}
+          <div class="gvrc-footer-links">
+            <a href="{% url 'login' %}">
+              <i class="fas fa-sign-in-alt me-1"></i>Already have an account?
+            </a>
+            <a href="{% url 'password_reset' %}">
+              <i class="fas fa-question-circle me-1"></i>Need Help?
+            </a>
+          </div>
+          {% endif %}
         </div>
       </div>
-
-      <div class="row mt-3">
-        <div class="col-3"></div>
-        <div class="col-3">
-          <a href="{% url 'login' %}" class="text-light"><small>Login</small></a>
-        </div>
-        <div class="col-3 text-right">
-          <a href="#" class="text-light"><small>Need Help?</small></a>
-        </div>
-      </div>
-
     </div>
-  </div>
 
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle success message
+    const successMsg = document.getElementById('register-success-msg');
+    if (successMsg && window.authToastManager) {
+        const successText = successMsg.textContent.trim();
+        window.authToastManager.success(successText, 'Account Created');
+        
+        // Hide the success message after showing toast
+        setTimeout(function() {
+            successMsg.style.display = 'none';
+        }, 1000);
+    }
+    
+    // Handle error message
+    const errorMsg = document.getElementById('register-error-msg');
+    if (errorMsg && window.authToastManager) {
+        const errorText = errorMsg.textContent.trim();
+        window.authToastManager.error(errorText, 'Registration Error');
+        
+        // Hide the error message after showing toast
+        setTimeout(function() {
+            errorMsg.style.display = 'none';
+        }, 1000);
+    }
+    
+    // Handle form submission with loading state
+    const registerForm = document.getElementById('register-form');
+    const submitBtn = document.getElementById('register-submit-btn');
+    
+    if (registerForm && submitBtn) {
+        registerForm.addEventListener('submit', function() {
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
+            submitBtn.disabled = true;
+            
+            // Re-enable button after 5 seconds as fallback
+            setTimeout(function() {
+                submitBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i>Create Healthcare Account';
+                submitBtn.disabled = false;
+            }, 5000);
+        });
+    }
+    
+    // Handle form validation errors and show them as toasts
+    const formErrors = document.querySelectorAll('.text-danger');
+    formErrors.forEach(function(error) {
+        if (error.textContent.trim() && window.authToastManager) {
+            window.authToastManager.error(error.textContent.trim(), 'Validation Error');
+        }
+    });
+    
+    // Real-time form validation with toast feedback
+    const formInputs = registerForm ? registerForm.querySelectorAll('input, select, textarea') : [];
+    formInputs.forEach(function(input) {
+        input.addEventListener('blur', function() {
+            const errorElement = this.parentElement.parentElement.querySelector('.text-danger');
+            if (errorElement && errorElement.textContent.trim() && window.authToastManager) {
+                window.authToastManager.error(errorElement.textContent.trim(), 'Validation Error');
+            }
+        });
+    });
+});
+</script>
+{% endblock javascripts %}

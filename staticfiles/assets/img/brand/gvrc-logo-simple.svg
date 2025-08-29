@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180" height="50" viewBox="0 0 180 50"
+    xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="180" height="50" fill="#ffffff" rx="5"/>
+
+    <!-- Main icon - protective shield with heart -->
+    <circle cx="25" cy="25" r="20" fill="#3498db" opacity="0.1"/>
+    <path d="M15 15 L25 10 L35 15 L35 23 C35 28 25 35 25 35 S15 28 15 23 Z" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
+
+    <!-- Heart in center -->
+    <path d="M22 19 C21.5 17.5 20 17.5 19.5 19 C19 17.5 17.5 17.5 17 19 C16.5 20.5 18 22 19.5 24 C21 22 22.5 20.5 22 19 Z
+           M31 19 C30.5 17.5 29 17.5 28.5 19 C28 17.5 26.5 17.5 26 19 C25.5 20.5 27 22 28.5 24 C30 22 31.5 20.5 31 19 Z" fill="#e74c3c"/>
+
+    <!-- Plus sign for medical -->
+    <rect x="23" y="17" width="4" height="8" fill="white"/>
+    <rect x="21" y="19" width="8" height="4" fill="white"/>
+
+    <!-- Text -->
+    <text x="45" y="20" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2c3e50">GVRC Admin</text>
+    <text x="45" y="32" font-family="Arial, sans-serif" font-size="8" fill="#7f8c8d">Multi-Institutional GBV Response</text>
+    <text x="45" y="42" font-family="Arial, sans-serif" font-size="8" fill="#7f8c8d">Platform for Kenya</text>
+</svg>

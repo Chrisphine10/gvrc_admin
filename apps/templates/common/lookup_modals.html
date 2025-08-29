@@ -1,0 +1,775 @@
+<!-- Operational Status Modals -->
+
+<!-- Add Operational Status Modal -->
+<div class="modal fade" id="addOperationalStatusModal" tabindex="-1" aria-labelledby="addOperationalStatusModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addOperationalStatusModalLabel">Add Operational Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_operational_status' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="status_name" class="form-label">Status Name *</label>
+            <input type="text" class="form-control" id="status_name" name="status_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="sort_order" class="form-label">Sort Order</label>
+            <input type="number" class="form-control" id="sort_order" name="sort_order" value="0">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Status</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for Operational Status -->
+{% for s in operational_statuses %}
+  <!-- Edit Operational Status Modal -->
+  <div class="modal fade" id="editOperationalStatusModal{{ s.operational_status_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Operational Status</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_operational_status' s.operational_status_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_status_name_{{ s.operational_status_id }}" class="form-label">Status Name *</label>
+              <input type="text" class="form-control" id="edit_status_name_{{ s.operational_status_id }}" name="status_name" value="{{ s.status_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_description_{{ s.operational_status_id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_description_{{ s.operational_status_id }}" name="description" rows="3">{{ s.description }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="edit_sort_order_{{ s.operational_status_id }}" class="form-label">Sort Order</label>
+              <input type="number" class="form-control" id="edit_sort_order_{{ s.operational_status_id }}" name="sort_order" value="{{ s.sort_order }}">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Status</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Operational Status Modal -->
+  <div class="modal fade" id="deleteOperationalStatusModal{{ s.operational_status_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Operational Status</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the operational status "<strong>{{ s.status_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_operational_status' s.operational_status_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Status</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Contact Type Modals -->
+
+<!-- Add Contact Type Modal -->
+<div class="modal fade" id="addContactTypeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Contact Type</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_contact_type' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="type_name" class="form-label">Type Name *</label>
+            <input type="text" class="form-control" id="type_name" name="type_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="validation_regex" class="form-label">Validation Regex</label>
+            <input type="text" class="form-control" id="validation_regex" name="validation_regex" placeholder="e.g., ^[0-9]{10}$">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Type</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for Contact Type -->
+{% for c in contact_types %}
+  <!-- Edit Contact Type Modal -->
+  <div class="modal fade" id="editContactTypeModal{{ c.contact_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Contact Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_contact_type' c.contact_type_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_type_name_{{ c.contact_type_id }}" class="form-label">Type Name *</label>
+              <input type="text" class="form-control" id="edit_type_name_{{ c.contact_type_id }}" name="type_name" value="{{ c.type_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_validation_regex_{{ c.contact_type_id }}" class="form-label">Validation Regex</label>
+              <input type="text" class="form-control" id="edit_validation_regex_{{ c.contact_type_id }}" name="validation_regex" value="{{ c.validation_regex }}">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Type</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Contact Type Modal -->
+  <div class="modal fade" id="deleteContactTypeModal{{ c.contact_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Contact Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the contact type "<strong>{{ c.type_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_contact_type' c.contact_type_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Type</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Service Category Modals -->
+
+<!-- Add Service Category Modal -->
+<div class="modal fade" id="addServiceCategoryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Service Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_service_category' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="category_name" class="form-label">Category Name *</label>
+            <input type="text" class="form-control" id="category_name" name="category_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="icon_url" class="form-label">Icon URL</label>
+            <input type="url" class="form-control" id="icon_url" name="icon_url" placeholder="https://example.com/icon.png">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for Service Category -->
+{% for sc in service_categories %}
+  <!-- Edit Service Category Modal -->
+  <div class="modal fade" id="editServiceCategoryModal{{ sc.service_category_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Service Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_service_category' sc.service_category_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_category_name_{{ sc.service_category_id }}" class="form-label">Category Name *</label>
+              <input type="text" class="form-control" id="edit_category_name_{{ sc.service_category_id }}" name="category_name" value="{{ sc.category_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_description_{{ sc.service_category_id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_description_{{ sc.service_category_id }}" name="description" rows="3">{{ sc.description }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="edit_icon_url_{{ sc.service_category_id }}" class="form-label">Icon URL</label>
+              <input type="url" class="form-control" id="edit_icon_url_{{ sc.service_category_id }}" name="icon_url" value="{{ sc.icon_url }}">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Category</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Service Category Modal -->
+  <div class="modal fade" id="deleteServiceCategoryModal{{ sc.service_category_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Service Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the service category "<strong>{{ sc.category_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_service_category' sc.service_category_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Category</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Owner Type Modals -->
+
+<!-- Add Owner Type Modal -->
+<div class="modal fade" id="addOwnerTypeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Owner Type</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_owner_type' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="owner_type_name" class="form-label">Type Name *</label>
+            <input type="text" class="form-control" id="owner_type_name" name="type_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="owner_description" class="form-label">Description</label>
+            <textarea class="form-control" id="owner_description" name="description" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Type</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for Owner Type -->
+{% for o in owner_types %}
+  <!-- Edit Owner Type Modal -->
+  <div class="modal fade" id="editOwnerTypeModal{{ o.owner_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Owner Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_owner_type' o.owner_type_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_owner_type_name_{{ o.owner_type_id }}" class="form-label">Type Name *</label>
+              <input type="text" class="form-control" id="edit_owner_type_name_{{ o.owner_type_id }}" name="type_name" value="{{ o.type_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_owner_description_{{ o.owner_type_id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_owner_description_{{ o.owner_type_id }}" name="description" rows="3">{{ o.description }}</textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Type</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Owner Type Modal -->
+  <div class="modal fade" id="deleteOwnerTypeModal{{ o.owner_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Owner Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the owner type "<strong>{{ o.type_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_owner_type' o.owner_type_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Type</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- GBV Category Modals -->
+
+<!-- Add GBV Category Modal -->
+<div class="modal fade" id="addGBVCategoryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add GBV Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_gbv_category' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="gbv_category_name" class="form-label">Category Name *</label>
+            <input type="text" class="form-control" id="gbv_category_name" name="category_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="gbv_description" class="form-label">Description</label>
+            <textarea class="form-control" id="gbv_description" name="description" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="gbv_icon_url" class="form-label">Icon URL</label>
+            <input type="url" class="form-control" id="gbv_icon_url" name="icon_url" placeholder="https://example.com/icon.png">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for GBV Category -->
+{% for g in gbv_categories %}
+  <!-- Edit GBV Category Modal -->
+  <div class="modal fade" id="editGBVCategoryModal{{ g.gbv_category_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit GBV Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_gbv_category' g.gbv_category_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_gbv_category_name_{{ g.gbv_category_id }}" class="form-label">Category Name *</label>
+              <input type="text" class="form-control" id="edit_gbv_category_name_{{ g.gbv_category_id }}" name="category_name" value="{{ g.category_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_gbv_description_{{ g.gbv_category_id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_gbv_description_{{ g.gbv_category_id }}" name="description" rows="3">{{ g.description }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="edit_gbv_icon_url_{{ g.gbv_category_id }}" class="form-label">Icon URL</label>
+              <input type="url" class="form-control" id="edit_gbv_icon_url_{{ g.gbv_category_id }}" name="icon_url" value="{{ g.icon_url }}">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Category</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete GBV Category Modal -->
+  <div class="modal fade" id="deleteGBVCategoryModal{{ g.gbv_category_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete GBV Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the GBV category "<strong>{{ g.category_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_gbv_category' g.gbv_category_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Category</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Infrastructure Type Modals -->
+
+<!-- Add Infrastructure Type Modal -->
+<div class="modal fade" id="addInfrastructureTypeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Infrastructure Type</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_infrastructure_type' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="infra_type_name" class="form-label">Type Name *</label>
+            <input type="text" class="form-control" id="infra_type_name" name="type_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="infra_description" class="form-label">Description</label>
+            <textarea class="form-control" id="infra_description" name="description" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Type</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for Infrastructure Type -->
+{% for i in infrastructure_types %}
+  <!-- Edit Infrastructure Type Modal -->
+  <div class="modal fade" id="editInfrastructureTypeModal{{ i.infrastructure_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Infrastructure Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_infrastructure_type' i.infrastructure_type_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_infra_type_name_{{ i.infrastructure_type_id }}" class="form-label">Type Name *</label>
+              <input type="text" class="form-control" id="edit_infra_type_name_{{ i.infrastructure_type_id }}" name="type_name" value="{{ i.type_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_infra_description_{{ i.infrastructure_type_id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_infra_description_{{ i.infrastructure_type_id }}" name="description" rows="3">{{ i.description }}</textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Type</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Infrastructure Type Modal -->
+  <div class="modal fade" id="deleteInfrastructureTypeModal{{ i.infrastructure_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Infrastructure Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the infrastructure type "<strong>{{ i.type_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_infrastructure_type' i.infrastructure_type_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Type</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Condition Status Modals -->
+
+<!-- Add Condition Status Modal -->
+<div class="modal fade" id="addConditionStatusModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Condition Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_condition_status' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="condition_status_name" class="form-label">Status Name *</label>
+            <input type="text" class="form-control" id="condition_status_name" name="status_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="condition_description" class="form-label">Description</label>
+            <textarea class="form-control" id="condition_description" name="description" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Status</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for Condition Status -->
+{% for cs in condition_statuses %}
+  <!-- Edit Condition Status Modal -->
+  <div class="modal fade" id="editConditionStatusModal{{ cs.condition_status_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Condition Status</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_condition_status' cs.condition_status_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_condition_status_name_{{ cs.condition_status_id }}" class="form-label">Status Name *</label>
+              <input type="text" class="form-control" id="edit_condition_status_name_{{ cs.condition_status_id }}" name="status_name" value="{{ cs.status_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_condition_description_{{ cs.condition_status_id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_condition_description_{{ cs.condition_status_id }}" name="description" rows="3">{{ cs.description }}</textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Status</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Condition Status Modal -->
+  <div class="modal fade" id="deleteConditionStatusModal{{ cs.condition_status_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Condition Status</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the condition status "<strong>{{ cs.status_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_condition_status' cs.condition_status_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Status</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Document Type Modals -->
+
+<!-- Add Document Type Modal -->
+<div class="modal fade" id="addDocumentTypeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Document Type</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'common:add_document_type' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="doc_type_name" class="form-label">Type Name *</label>
+            <input type="text" class="form-control" id="doc_type_name" name="type_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="allowed_extensions" class="form-label">Allowed Extensions</label>
+            <input type="text" class="form-control" id="allowed_extensions" name="allowed_extensions" placeholder="pdf,jpg,png">
+          </div>
+          <div class="mb-3">
+            <label for="max_file_size_mb" class="form-label">Max File Size (MB)</label>
+            <input type="number" class="form-control" id="max_file_size_mb" name="max_file_size_mb" value="10" min="1">
+          </div>
+          <div class="mb-3">
+            <label for="doc_description" class="form-label">Description</label>
+            <textarea class="form-control" id="doc_description" name="description" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Type</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit and Delete Modals for Document Type -->
+{% for d in document_types %}
+  <!-- Edit Document Type Modal -->
+  <div class="modal fade" id="editDocumentTypeModal{{ d.document_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Document Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST" action="{% url 'common:edit_document_type' d.document_type_id %}">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="edit_doc_type_name_{{ d.document_type_id }}" class="form-label">Type Name *</label>
+              <input type="text" class="form-control" id="edit_doc_type_name_{{ d.document_type_id }}" name="type_name" value="{{ d.type_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_allowed_extensions_{{ d.document_type_id }}" class="form-label">Allowed Extensions</label>
+              <input type="text" class="form-control" id="edit_allowed_extensions_{{ d.document_type_id }}" name="allowed_extensions" value="{{ d.allowed_extensions }}">
+            </div>
+            <div class="mb-3">
+              <label for="edit_max_file_size_mb_{{ d.document_type_id }}" class="form-label">Max File Size (MB)</label>
+              <input type="number" class="form-control" id="edit_max_file_size_mb_{{ d.document_type_id }}" name="max_file_size_mb" value="{{ d.max_file_size_mb }}" min="1">
+            </div>
+            <div class="mb-3">
+              <label for="edit_doc_description_{{ d.document_type_id }}" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_doc_description_{{ d.document_type_id }}" name="description" rows="3">{{ d.description }}</textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Type</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Document Type Modal -->
+  <div class="modal fade" id="deleteDocumentTypeModal{{ d.document_type_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Document Type</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the document type "<strong>{{ d.type_name }}</strong>"?</p>
+          <p class="text-danger">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <form method="POST" action="{% url 'common:delete_document_type' d.document_type_id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Type</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}

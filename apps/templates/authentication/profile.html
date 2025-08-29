@@ -1,0 +1,231 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} My Hodi Profile {% endblock title %}
+
+{% block content %}
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h6 class="mb-0">My Hodi Profile</h6>
+          </div>
+          <div class="card-body">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+            
+            <div class="row">
+              <!-- Profile Information -->
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="mb-0">Profile Information</h6>
+                  </div>
+                  <div class="card-body">
+                    <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="profile_form" value="1">
+                      
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Full Name</label>
+                            {{ form.full_name }}
+                            {% if form.full_name.errors %}
+                              <div class="invalid-feedback d-block">
+                                {% for error in form.full_name.errors %}
+                                  {{ error }}
+                                {% endfor %}
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Email</label>
+                            <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                            <small class="form-text text-muted">Email cannot be changed</small>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Phone Number</label>
+                            {{ form.phone_number }}
+                            {% if form.phone_number.errors %}
+                              <div class="invalid-feedback d-block">
+                                {% for error in form.phone_number.errors %}
+                                  {{ error }}
+                                {% endfor %}
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Department</label>
+                            {{ form.department }}
+                            {% if form.department.errors %}
+                              <div class="invalid-feedback d-block">
+                                {% for error in form.department.errors %}
+                                  {{ error }}
+                                {% endfor %}
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Job Title</label>
+                            {{ form.job_title }}
+                            {% if form.job_title.errors %}
+                              <div class="invalid-feedback d-block">
+                                {% for error in form.job_title.errors %}
+                                  {{ error }}
+                                {% endfor %}
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="form-control-label">Avatar URL</label>
+                            {{ form.avatar_url }}
+                            {% if form.avatar_url.errors %}
+                              <div class="invalid-feedback d-block">
+                                {% for error in form.avatar_url.errors %}
+                                  {{ error }}
+                                {% endfor %}
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="form-control-label">Bio</label>
+                        {{ form.bio }}
+                        {% if form.bio.errors %}
+                          <div class="invalid-feedback d-block">
+                            {% for error in form.bio.errors %}
+                              {{ error }}
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                      </div>
+                      
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Profile Summary & Password Change -->
+              <div class="col-lg-4">
+                <!-- Profile Summary -->
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <h6 class="mb-0">Profile Summary</h6>
+                  </div>
+                  <div class="card-body text-center">
+                    <div class="avatar avatar-xl rounded-circle mb-3">
+                      <img src="{{ user.get_avatar_url }}" alt="User Avatar" class="rounded-circle" style="width: 100px; height: 100px; object-fit: contain;">
+                    </div>
+                    <h5 class="mb-1">{{ user.full_name }}</h5>
+                    <p class="text-sm text-muted mb-2">{{ user.email }}</p>
+                    {% if profile and profile.job_title %}
+                      <p class="text-sm text-muted mb-1">{{ profile.job_title }}</p>
+                    {% endif %}
+                    {% if profile and profile.department %}
+                      <p class="text-sm text-muted mb-3">{{ profile.department }}</p>
+                    {% endif %}
+                    <div class="text-left">
+                      <p class="text-sm mb-1"><strong>Member since:</strong> {{ user.created_at|date:"M Y" }}</p>
+                      <p class="text-sm mb-1"><strong>Last login:</strong> {{ user.last_login|date:"M d, Y H:i"|default:"Never" }}</p>
+                      <p class="text-sm mb-0"><strong>Status:</strong> 
+                        {% if user.is_active %}
+                          <span class="badge badge-success">Active</span>
+                        {% else %}
+                          <span class="badge badge-danger">Inactive</span>
+                        {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Password Change -->
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="mb-0">Change Password</h6>
+                  </div>
+                  <div class="card-body">
+                    <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="password_form" value="1">
+                      
+                      <div class="form-group">
+                        <label class="form-control-label">Current Password</label>
+                        {{ password_form.current_password }}
+                        {% if password_form.current_password.errors %}
+                          <div class="invalid-feedback d-block">
+                            {% for error in password_form.current_password.errors %}
+                              {{ error }}
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="form-control-label">New Password</label>
+                        {{ password_form.new_password1 }}
+                        {% if password_form.new_password1.errors %}
+                          <div class="invalid-feedback d-block">
+                            {% for error in password_form.new_password1.errors %}
+                              {{ error }}
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="form-control-label">Confirm New Password</label>
+                        {{ password_form.new_password2 }}
+                        {% if password_form.new_password2.errors %}
+                          <div class="invalid-feedback d-block">
+                            {% for error in password_form.new_password2.errors %}
+                              {{ error }}
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                      </div>
+                      
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-warning btn-block">Change Password</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

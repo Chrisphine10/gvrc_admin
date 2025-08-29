@@ -1,0 +1,242 @@
+[
+    {
+        "model": "lookups.operationalstatus",
+        "pk": 1,
+        "fields": {
+            "status_name": "Operational"
+        }
+    },
+    {
+        "model": "lookups.operationalstatus",
+        "pk": 2,
+        "fields": {
+            "status_name": "Non-Operational"
+        }
+    },
+    {
+        "model": "lookups.operationalstatus",
+        "pk": 3,
+        "fields": {
+            "status_name": "Under Maintenance"
+        }
+    },
+    {
+        "model": "lookups.operationalstatus",
+        "pk": 4,
+        "fields": {
+            "status_name": "Temporarily Closed"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 1,
+        "fields": {
+            "type_name": "Phone"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 2,
+        "fields": {
+            "type_name": "Email"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 3,
+        "fields": {
+            "type_name": "Emergency Contact"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 4,
+        "fields": {
+            "type_name": "WhatsApp"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 5,
+        "fields": {
+            "type_name": "Primary Contact"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 6,
+        "fields": {
+            "type_name": "Manager"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 7,
+        "fields": {
+            "type_name": "Director"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 8,
+        "fields": {
+            "type_name": "Supervisor"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 9,
+        "fields": {
+            "type_name": "Staff"
+        }
+    },
+    {
+        "model": "lookups.contacttype",
+        "pk": 10,
+        "fields": {
+            "type_name": "Administrative Contact"
+        }
+    },
+    {
+        "model": "lookups.servicecategory",
+        "pk": 1,
+        "fields": {
+            "category_name": "Health Services"
+        }
+    },
+    {
+        "model": "lookups.servicecategory",
+        "pk": 2,
+        "fields": {
+            "category_name": "Security Services"
+        }
+    },
+    {
+        "model": "lookups.servicecategory",
+        "pk": 3,
+        "fields": {
+            "category_name": "Legal Services"
+        }
+    },
+    {
+        "model": "lookups.servicecategory",
+        "pk": 4,
+        "fields": {
+            "category_name": "Counseling Services"
+        }
+    },
+    {
+        "model": "lookups.servicecategory",
+        "pk": 5,
+        "fields": {
+            "category_name": "Emergency Services"
+        }
+    },
+    {
+        "model": "lookups.ownertype",
+        "pk": 1,
+        "fields": {
+            "type_name": "Public"
+        }
+    },
+    {
+        "model": "lookups.ownertype",
+        "pk": 2,
+        "fields": {
+            "type_name": "Private"
+        }
+    },
+    {
+        "model": "lookups.ownertype",
+        "pk": 3,
+        "fields": {
+            "type_name": "Faith-Based"
+        }
+    },
+    {
+        "model": "lookups.ownertype",
+        "pk": 4,
+        "fields": {
+            "type_name": "NGO"
+        }
+    },
+    {
+        "model": "lookups.ownertype",
+        "pk": 5,
+        "fields": {
+            "type_name": "Community-Owned"
+        }
+    },
+    {
+        "model": "lookups.gbvcategory",
+        "pk": 1,
+        "fields": {
+            "category_name": "Physical Violence",
+            "description": "Physical harm or injury inflicted on a person"
+        }
+    },
+    {
+        "model": "lookups.gbvcategory",
+        "pk": 2,
+        "fields": {
+            "category_name": "Sexual Violence",
+            "description": "Any sexual act or attempt to obtain a sexual act by violence or coercion"
+        }
+    },
+    {
+        "model": "lookups.gbvcategory",
+        "pk": 3,
+        "fields": {
+            "category_name": "Emotional/Psychological Violence",
+            "description": "Verbal abuse, threats, intimidation, or other psychological harm"
+        }
+    },
+    {
+        "model": "lookups.gbvcategory",
+        "pk": 4,
+        "fields": {
+            "category_name": "Economic Violence",
+            "description": "Control over financial resources, employment, or economic opportunities"
+        }
+    },
+    {
+        "model": "lookups.documenttype",
+        "pk": 1,
+        "fields": {
+            "type_name": "Policy Document",
+            "description": "Official policy or procedure documents"
+        }
+    },
+    {
+        "model": "lookups.documenttype",
+        "pk": 2,
+        "fields": {
+            "type_name": "Training Material",
+            "description": "Training guides, manuals, or educational materials"
+        }
+    },
+    {
+        "model": "lookups.documenttype",
+        "pk": 3,
+        "fields": {
+            "type_name": "Report",
+            "description": "Incident reports, case studies, or research reports"
+        }
+    },
+    {
+        "model": "lookups.documenttype",
+        "pk": 4,
+        "fields": {
+            "type_name": "Form",
+            "description": "Official forms, applications, or templates"
+        }
+    },
+    {
+        "model": "lookups.documenttype",
+        "pk": 5,
+        "fields": {
+            "type_name": "Reference Material",
+            "description": "Reference guides, directories, or informational materials"
+        }
+    }
+]

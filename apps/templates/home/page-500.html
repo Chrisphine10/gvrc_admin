@@ -1,6 +1,6 @@
 {% extends 'layouts/base-fullscreen.html' %}
 
-{% block title %} Error 500 {% endblock title %}
+{% block title %} Error 404 {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -15,27 +15,22 @@
             <div class="card-header bg-transparent pb-5">
 
               <div class="text-muted text-center mt-2 mb-3">
-                <strong>GVRC Admin - Error 500</strong>
+                Oups! Error 500      
               </div>
 
               <div class="text-center mb-4">
-                <div class="mb-4">
-                  <i class="ni ni-settings text-warning" style="font-size: 3rem;"></i>
-                </div>
-                <h4 class="text-white">Server Error</h4>
-                <p class="text-light">
-                  Something went wrong on our end. Please try again later or contact support.
-                </p>
+                Server error, please contact support - <a href="{% url 'landing' %}">Home</a>.
               </div>
 
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-6">
-              <a href="/" class="text-light"><small>Home</small></a>
+                              <a href="{% url 'landing' %}" class="text-light"><small>Home</small></a>
             </div>
             <div class="col-6 text-right">
-              <a href="#" class="text-light"><small>Contact Support</small></a>
+              <a target="_blank" 
+                 href="#" class="text-light"><small>Get Support</small></a>
             </div>
           </div>
         </div>
@@ -45,4 +40,4 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %} 
+{% block javascripts %}{% endblock javascripts %}

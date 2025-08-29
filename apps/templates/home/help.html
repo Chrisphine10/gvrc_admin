@@ -1,201 +1,228 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
-{% block title %}Help Center - GVRC Admin{% endblock %}
+{% block title %}Help & Documentation{% endblock %}
+
+{% block stylesheets %}
+<style>
+.help-section {
+    margin-bottom: 2rem;
+}
+
+.help-card {
+    border-left: 4px solid var(--gvrc-primary);
+    margin-bottom: 1rem;
+}
+
+.feature-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.feature-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.feature-list li:last-child {
+    border-bottom: none;
+}
+
+.feature-list i {
+    color: var(--gvrc-primary);
+    margin-right: 0.5rem;
+    width: 20px;
+}
+
+
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4"><i class="fas fa-question-circle mr-2"></i>GVRC Admin Help Center</h1>
-            
-            <div class="alert alert-info">
-                <h5><i class="fas fa-info-circle mr-2"></i>About GVRC Admin</h5>
-                <p class="mb-0">
-                    GVRC Admin is a centralized directory and administrative system for managing community-based facilities 
-                    including health facilities, police stations, CBOs, safe houses, legal aid centers, gender desks, 
-                    and other community organizations.
-                </p>
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Help & Documentation</li>
+                </ol>
+            </nav>
+            <h1 class="h3 mb-0">Help & Documentation</h1>
+            <p class="text-muted">Complete guide to using the Hodi Admin Management System</p>
+        </div>
+    </div>
+
+
+
+    <!-- Dashboard -->
+    <div class="help-section" id="dashboard">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-home text-primary"></i> Dashboard</h2>
             </div>
+            <div class="card-body">
+                <p>The Dashboard is your main control center. Here you can:</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-chart-bar"></i> View system overview and key metrics</li>
+                    <li><i class="fas fa-clock"></i> See recent activities and updates</li>
+                    <li><i class="fas fa-users"></i> Access quick user management</li>
+                    <li><i class="fas fa-building"></i> Manage facilities and services</li>
+                    <li><i class="fas fa-file-alt"></i> Access documents and content</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <h3>Community Facility Types</h3>
-                    
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-hospital mr-2"></i>Health Facilities</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Manage healthcare facilities and medical services:</p>
-                            <ul>
-                                <li>Hospitals, Clinics, Dispensaries</li>
-                                <li>Health Centers, Laboratories, Pharmacies</li>
-                                <li>Medical staff and equipment tracking</li>
-                                <li>Health service availability monitoring</li>
-                            </ul>
-                        </div>
+    <!-- Data Management -->
+    <div class="help-section" id="data-management">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-database text-primary"></i> Data Management</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-users text-primary"></i> User Management</h5>
+                        <p>Manage system users and permissions:</p>
+                        <ul class="feature-list">
+                            <li>Create new user accounts</li>
+                            <li>Set user roles and permissions</li>
+                            <li>Activate/deactivate accounts</li>
+                            <li>Reset passwords</li>
+                        </ul>
                     </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-shield-alt mr-2"></i>Security & Police Facilities</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Track police stations and security services:</p>
-                            <ul>
-                                <li>Police Stations and Police Posts</li>
-                                <li>Security Offices and Personnel</li>
-                                <li>Emergency response coordination</li>
-                                <li>Security equipment and resources</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-hands-helping mr-2"></i>Community Organizations</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Manage community-based organizations and support services:</p>
-                            <ul>
-                                <li>Community-Based Organizations (CBOs)</li>
-                                <li>Non-Governmental Organizations (NGOs)</li>
-                                <li>Faith-Based Organizations</li>
-                                <li>Community Centers and Youth Centers</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-home mr-2"></i>Support & Protection Services</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Track support and protection facilities:</p>
-                            <ul>
-                                <li>Safe Houses and Shelters</li>
-                                <li>Legal Aid Centers</li>
-                                <li>Gender Desks and Women Centers</li>
-                                <li>Counseling and Rehabilitation Centers</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3>System Modules</h3>
-                    
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-building mr-2"></i>Community Facilities Management</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Manage all types of community-based facilities:</p>
-                            <ul>
-                                <li>Add and update facility profiles</li>
-                                <li>Track facility types and ownership</li>
-                                <li>Monitor facility status and compliance</li>
-                                <li>Manage contact information and operating hours</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-hands-helping mr-2"></i>Services & Programs</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Track services offered by community facilities:</p>
-                            <ul>
-                                <li>Health, Security, and Legal Services</li>
-                                <li>Counseling and Protection Services</li>
-                                <li>Education, Training, and Advocacy</li>
-                                <li>Emergency and Referral Services</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-users mr-2"></i>Human Resources</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Manage staff across all facility types:</p>
-                            <ul>
-                                <li>Medical, Security, and Legal Staff</li>
-                                <li>Counselors, Social Workers, Psychologists</li>
-                                <li>Administrative and Support Personnel</li>
-                                <li>Volunteers and Community Workers</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5><i class="fas fa-ambulance mr-2"></i>Operational Equipment</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Manage operational equipment and emergency vehicles:</p>
-                            <ul>
-                                <li>Ambulances and Emergency Vehicles</li>
-                                <li>Medical and Diagnostic Equipment</li>
-                                <li>Communication and Security Equipment</li>
-                                <li>Maintenance and Operational Tracking</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3>Data Entry Guidelines</h3>
-                    <div class="card">
-                        <div class="card-body">
-                            <h6>Best Practices:</h6>
-                            <ul>
-                                <li>Always verify facility registration numbers for accuracy</li>
-                                <li>Keep contact information and emergency contacts up to date</li>
-                                <li>Regularly update service availability status</li>
-                                <li>Maintain accurate staff records and qualifications</li>
-                                <li>Document infrastructure changes and maintenance</li>
-                                <li>Track target populations and operating hours</li>
-                            </ul>
-                        </div>
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-building text-primary"></i> Facility Management</h5>
+                        <p>Manage facilities and their services:</p>
+                        <ul class="feature-list">
+                            <li>Add new facilities</li>
+                            <li>Set facility locations and coordinates</li>
+                            <li>Configure available services</li>
+                            <li>Manage facility contacts</li>
+                        </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="col-md-4">
-                    <h3>Quick Links</h3>
-                    <div class="list-group">
-                        <a href="/facilities/" class="list-group-item list-group-item-action">
-                            <i class="fas fa-building mr-2"></i>Manage Community Facilities
-                        </a>
-                        <a href="/services/" class="list-group-item list-group-item-action">
-                            <i class="fas fa-hands-helping mr-2"></i>Manage Services & Programs
-                        </a>
-                        <a href="/human-resources/" class="list-group-item list-group-item-action">
-                            <i class="fas fa-users mr-2"></i>Manage Staff
-                        </a>
-                        <a href="/infrastructure/" class="list-group-item list-group-item-action">
-                            <i class="fas fa-ambulance mr-2"></i>Manage Operational Equipment
-                        </a>
-                        <a href="/admin/" class="list-group-item list-group-item-action">
-                            <i class="fas fa-cog mr-2"></i>Admin Panel
-                        </a>
+    <!-- Content Management -->
+    <div class="help-section">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-folder text-primary"></i> Content Management</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-file-alt text-primary"></i> Documents</h5>
+                        <p>Organize and manage system documents:</p>
+                        <ul class="feature-list">
+                            <li>Upload files and documents</li>
+                            <li>Organize by categories and tags</li>
+                            <li>Set access permissions</li>
+                            <li>Search and retrieve files</li>
+                        </ul>
                     </div>
+                    <div class="col-lg-6">
+                        <h5><i class="fas fa-music text-primary"></i> Music Library</h5>
+                        <p>Manage audio content and playlists:</p>
+                        <ul class="feature-list">
+                            <li>Upload audio files</li>
+                            <li>Create and organize playlists</li>
+                            <li>Add metadata and descriptions</li>
+                            <li>Track usage analytics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <h6><i class="fas fa-headset mr-2"></i>Support</h6>
-                        </div>
-                        <div class="card-body">
-                            <p class="small">
-                                For technical support or access requests, contact:
-                            </p>
-                            <ul class="list-unstyled small">
-                                <li><i class="fas fa-envelope mr-1"></i>admin@gvrc.com</li>
-                                <li><i class="fas fa-phone mr-1"></i>+254 XXX XXX XXX</li>
-                            </ul>
-                        </div>
+    <!-- Navigation Guide -->
+    <div class="help-section">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-compass text-primary"></i> How to Navigate</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5>Sidebar Menu</h5>
+                        <p>Use the left sidebar to navigate between different sections:</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-home"></i> <strong>Dashboard:</strong> Main overview page</li>
+                            <li><i class="fas fa-users"></i> <strong>Users:</strong> Manage user accounts</li>
+                            <li><i class="fas fa-building"></i> <strong>Facilities:</strong> Manage facilities</li>
+                            <li><i class="fas fa-file-alt"></i> <strong>Documents:</strong> File management</li>
+                            <li><i class="fas fa-music"></i> <strong>Music:</strong> Audio library</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5>Common Actions</h5>
+                        <p>Look for these buttons to perform actions:</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-plus text-success"></i> <strong>Add New:</strong> Create new records</li>
+                            <li><i class="fas fa-edit text-primary"></i> <strong>Edit:</strong> Modify existing records</li>
+                            <li><i class="fas fa-trash text-danger"></i> <strong>Delete:</strong> Remove records</li>
+                            <li><i class="fas fa-search text-info"></i> <strong>Search:</strong> Find specific records</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Getting Started -->
+    <div class="help-section">
+        <div class="card help-card">
+            <div class="card-header">
+                <h2 class="h4 mb-0"><i class="fas fa-rocket text-primary"></i> Getting Started</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5>First Steps</h5>
+                        <ol>
+                            <li class="mb-2">Login with your credentials</li>
+                            <li class="mb-2">Explore the Dashboard overview</li>
+                            <li class="mb-2">Check your user profile and permissions</li>
+                            <li class="mb-2">Familiarize yourself with the sidebar menu</li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5>Need Help?</h5>
+                        <p>If you encounter issues:</p>
+                        <ul class="feature-list">
+                            <li>Check this help page first</li>
+                            <li>Contact your system administrator</li>
+                            <li>Look for help icons (?) on pages</li>
+                            <li>Use the search function to find features</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+$(document).ready(function() {
+    // Smooth scrolling for anchor links
+    $('a[href^="#"]').on('click', function(event) {
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+            event.preventDefault();
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top - 100
+            }, 1000);
+        }
+    });
+});
+</script>
+{% endblock %}

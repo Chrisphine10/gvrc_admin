@@ -1,0 +1,706 @@
+{% extends 'layouts/base-auth.html' %}
+
+{% block title %}Hodi - GBV Directory Management System{% endblock title %}
+
+{% block stylesheets %}
+<style>
+  /* Override the base template's overflow restriction */
+  body.gvrc-auth-bg {
+    overflow: auto !important;
+    overflow-x: hidden;
+  }
+  
+  .main-content {
+    overflow: visible !important;
+  }
+
+  /* Ensure html and body allow scrolling */
+  html {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  /* Force scrolling to work */
+  body {
+    min-height: 100vh;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ffffff;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08) 1px, transparent 1px),
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 2px, transparent 2px);
+    background-size: 60px 60px, 80px 80px, 120px 120px;
+    animation: float 30s ease-in-out infinite;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 2rem;
+  }
+
+  .hero-logo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .hero-logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+    font-weight: 400;
+    color: #f8f9fa;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    opacity: 0.9;
+    line-height: 1.8;
+    color: #e9ecef;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: white;
+    color: #667eea;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-secondary:hover {
+    background: white;
+    color: #667eea;
+    transform: translateY(-3px);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-indicator i {
+    font-size: 2rem;
+    color: white;
+    opacity: 0.8;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(1deg); }
+  }
+
+  .section {
+    padding: 5rem 0;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #2d3748;
+  }
+
+  .section-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 4rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: white;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  }
+
+  .feature-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2d3748;
+  }
+
+  .feature-description {
+    color: #718096;
+    line-height: 1.6;
+  }
+
+  .stats-section {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stats-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.05) 2px, transparent 2px),
+      radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.05) 2px, transparent 2px);
+    background-size: 100px 100px, 80px 80px;
+    animation: float 40s ease-in-out infinite reverse;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    border-color: #667eea;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    color: #4a5568;
+    font-weight: 500;
+  }
+
+  .cta-section {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 1px, transparent 1px),
+      radial-gradient(circle at 70% 30%, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 70px 70px, 90px 90px;
+    animation: float 35s ease-in-out infinite;
+  }
+
+  .cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-description {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: #a0aec0;
+    text-align: center;
+    padding: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 25% 75%, rgba(102, 126, 234, 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 75% 25%, rgba(118, 75, 162, 0.1) 1px, transparent 1px);
+    background-size: 60px 60px, 80px 80px;
+    animation: float 50s ease-in-out infinite reverse;
+  }
+
+  .footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+  }
+
+  .footer-description {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: #cbd5e0;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+    }
+    
+    .hero-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .hero-logo {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .hero-logo img {
+      width: 60px;
+      height: 60px;
+    }
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="hero-logo">
+      <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo">
+    </div>
+    <h1 class="hero-title">Hodi</h1>
+    <p class="hero-subtitle">GBV Directory Management System</p>
+    <p class="hero-description">
+      Empowering survivors through comprehensive resource management. 
+      Connecting GBV survivors with essential services across Kenya.
+    </p>
+    <div class="hero-buttons">
+      <a href="{% url 'login' %}" class="btn btn-primary">
+        <i class="fas fa-sign-in-alt me-2"></i>Access System
+      </a>
+      <a href="#features" class="btn btn-secondary">
+        <i class="fas fa-info-circle me-2"></i>Learn More
+      </a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="section">
+  <div class="container">
+    <h2 class="section-title">Key Features</h2>
+    <p class="section-subtitle">
+      Everything you need to manage GBV support services effectively across Kenya
+    </p>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-hospital"></i>
+        </div>
+        <h3 class="feature-title">Facility Management</h3>
+        <p class="feature-description">
+          Comprehensive tracking of GBV support facilities, their services, and operational status across all counties.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3 class="feature-title">Service Provider Directory</h3>
+        <p class="feature-description">
+          Manage and connect with healthcare professionals, counselors, and support staff across the network.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-cogs"></i>
+        </div>
+        <h3 class="feature-title">Service Management</h3>
+        <p class="feature-description">
+          Track and manage GBV support services, programs, and specialized care across the support network.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3 class="feature-title">Analytics & Reporting</h3>
+        <p class="feature-description">
+          Comprehensive analytics for service delivery, resource allocation, and survivor support tracking.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-map-marked-alt"></i>
+        </div>
+        <h3 class="feature-title">Geographic Coverage</h3>
+        <p class="feature-description">
+          Full coverage across Kenya's counties with detailed mapping of support services and facilities.
+        </p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="feature-title">Secure & Confidential</h3>
+        <p class="feature-description">
+          Role-based access control and secure authentication ensuring survivor privacy and data protection.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="section stats-section">
+  <div class="container">
+    <h2 class="section-title">System Overview</h2>
+    <p class="section-subtitle">
+      Managing GBV support services and healthcare facilities across Kenya
+    </p>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">{{ total_facilities|default:0 }}</div>
+        <div class="stat-label">Support Facilities</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ operational_facilities|default:0 }}</div>
+        <div class="stat-label">Active Services</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ total_counties|default:0 }}</div>
+        <div class="stat-label">Counties Covered</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="section cta-section">
+  <div class="container">
+    <h2 class="cta-title">Ready to Make a Difference?</h2>
+    <p class="cta-description">
+      Join healthcare professionals and support workers across Kenya in providing better care for GBV survivors.
+    </p>
+    <div class="hero-buttons">
+      <a href="{% url 'login' %}" class="btn btn-primary">
+        <i class="fas fa-sign-in-alt me-2"></i>Access System
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-logo">Hodi</div>
+      <p class="footer-description">
+        GBV Directory Management System powered by Hodi Admin
+      </p>
+      <p class="footer-description">
+        Empowering survivors through comprehensive resource management
+      </p>
+      <p>&copy; 2024 All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+  // Debug scrolling issues
+  console.log('Landing page loaded');
+  console.log('Body overflow:', getComputedStyle(document.body).overflow);
+  console.log('HTML overflow:', getComputedStyle(document.documentElement).overflow);
+  console.log('Main content overflow:', getComputedStyle(document.querySelector('.main-content')).overflow);
+  
+  // Force enable scrolling
+  document.body.style.overflow = 'auto';
+  document.documentElement.style.overflow = 'auto';
+  document.querySelector('.main-content').style.overflow = 'visible';
+  
+  // Ensure scrolling is enabled
+  document.addEventListener('DOMContentLoaded', function() {
+    // Force enable scrolling after page loads
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    
+    // Remove any scroll prevention
+    document.body.style.position = 'static';
+    document.documentElement.style.position = 'static';
+    
+    console.log('Scrolling should now be enabled');
+  });
+
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // Add scroll-triggered animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  // Observe all feature cards and stat cards
+  document.querySelectorAll('.feature-card, .stat-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
+  });
+</script>
+{% endblock javascripts %}

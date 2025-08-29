@@ -1,248 +1,385 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
-{% block title %}Infrastructure & Equipment - GVRC Admin{% endblock %}
+{% block title %} Infrastructure {% endblock title %}
 
 {% block content %}
-<div class="header bg-warning pb-6">
-  <div class="container-fluid">
-    <div class="header-body">
-      <div class="row align-items-center py-4">
-        <div class="col-lg-6 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0">Infrastructure & Equipment</h6>
-          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-              <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-              <li class="breadcrumb-item active" aria-current="page">Infrastructure & Equipment</li>
-            </ol>
-          </nav>
-        </div>
-        <div class="col-lg-6 col-5 text-right">
-          <a href="/infrastructure/add/" class="btn btn-sm btn-neutral">
-            <i class="fas fa-plus"></i> Add Equipment
+  <div class="container-fluid py-4">
+    
+    <!-- Header with breadcrumb navigation -->
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Infrastructure</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+          <a href="{% url 'facilities:facility_list' %}" class="btn btn-primary me-2">
+            <i class="fas fa-building"></i> Manage Facilities
           </a>
-          <a href="/admin/facilities/facility_infrastructure/" class="btn btn-sm btn-neutral">
-            <i class="fas fa-cog"></i> Admin Panel
+          <a href="{% url 'facilities:facility_create' %}" class="btn btn-success">
+            <i class="ni ni-fat-add"></i> Add Facility
           </a>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- Page content -->
-<div class="container-fluid mt--6">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <!-- Card header -->
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Infrastructure & Equipment Directory</h3>
-              <p class="text-sm text-muted mb-0">
-                Total: {{ total_count }} equipment items found
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Search and Filters -->
-        <div class="card-header border-0 bg-light">
-          <form method="get" class="row">
-            <div class="col-md-3">
-              <div class="form-group">
-                <label class="form-control-label">Search</label>
-                <input type="text" name="search" class="form-control" placeholder="Search equipment..." value="{{ search }}">
+    <!-- Statistics Cards -->
+    <div class="row">
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Total Infrastructure</h5>
+                <span class="h2 font-weight-bold mb-0">{{ total_infrastructure }}</span>
               </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label class="form-control-label">Category</label>
-                <select name="category" class="form-control">
-                  <option value="">All Categories</option>
-                  {% for value, label in equipment_categories %}
-                  <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label class="form-control-label">Facility</label>
-                <select name="facility_name" class="form-control">
-                  <option value="">All Facilities</option>
-                  {% for facility in facilities %}
-                  <option value="{{ facility.name }}" {% if facility.name == selected_facility_name %}selected{% endif %}>{{ facility.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label class="form-control-label">Condition</label>
-                <select name="condition" class="form-control">
-                  <option value="">All Conditions</option>
-                  {% for value, label in equipment_conditions %}
-                  <option value="{{ value }}" {% if value == selected_condition %}selected{% endif %}>{{ label }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label class="form-control-label">&nbsp;</label>
-                <div>
-                  <button type="submit" class="btn btn-warning btn-sm">
-                    <i class="fas fa-search"></i> Search
-                  </button>
-                  <a href="/infrastructure/" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-times"></i> Clear
-                  </a>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                  <i class="ni ni-building"></i>
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
-
-        <!-- Light table -->
-        <div class="table-responsive">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col" class="sort" data-sort="equipment">Equipment Name</th>
-                <th scope="col" class="sort" data-sort="facility">Facility</th>
-                <th scope="col" class="sort" data-sort="category">Category</th>
-                <th scope="col" class="sort" data-sort="condition">Condition</th>
-                <th scope="col" class="sort" data-sort="status">Status</th>
-                <th scope="col" class="sort" data-sort="details">Details</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="list">
-              {% for equipment in page_obj %}
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="name mb-0 text-sm">{{ equipment.equipment_name }}</span>
-                      {% if equipment.registration_number %}
-                      <span class="text-muted">Reg: {{ equipment.registration_number }}</span>
-                      {% endif %}
-                    </div>
-                  </div>
-                </th>
-                <td>
-                  <div class="text-sm">
-                    <div><strong>{{ equipment.facility.name }}</strong></div>
-                    <div class="text-muted">{{ equipment.facility.get_facility_type_display }}</div>
-                  </div>
-                </td>
-                <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-warning"></i>
-                    <span class="status">{{ equipment.get_category_display }}</span>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Available</h5>
+                <span class="h2 font-weight-bold mb-0">{{ available_infrastructure }}</span>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2">
+                    <i class="fas fa-arrow-up"></i> 
+                    {% if total_infrastructure > 0 %}
+                      {% widthratio available_infrastructure total_infrastructure 100 %}%
+                    {% else %}
+                      0%
+                    {% endif %}
                   </span>
-                </td>
-                <td>
-                  {% if equipment.condition == 'excellent' %}
-                  <span class="badge badge-success">{{ equipment.get_condition_display }}</span>
-                  {% elif equipment.condition == 'good' %}
-                  <span class="badge badge-info">{{ equipment.get_condition_display }}</span>
-                  {% elif equipment.condition == 'fair' %}
-                  <span class="badge badge-warning">{{ equipment.get_condition_display }}</span>
-                  {% else %}
-                  <span class="badge badge-danger">{{ equipment.get_condition_display }}</span>
-                  {% endif %}
-                </td>
-                <td>
-                  {% if equipment.is_operational %}
-                  <span class="badge badge-success">Operational</span>
-                  {% else %}
-                  <span class="badge badge-danger">Non-Operational</span>
-                  {% endif %}
-                </td>
-                <td>
-                  <div class="text-sm">
-                    <div>Qty: {{ equipment.quantity }}</div>
-                    {% if equipment.model_year %}
-                    <div class="text-muted">Year: {{ equipment.model_year }}</div>
+                  <span class="text-nowrap">of total</span>
+                </p>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                  <i class="ni ni-check-bold"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Unavailable</h5>
+                <span class="h2 font-weight-bold mb-0">{{ unavailable_infrastructure }}</span>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-warning mr-2">
+                    <i class="fas fa-arrow-up"></i> 
+                    {% if total_infrastructure > 0 %}
+                      {% widthratio unavailable_infrastructure total_infrastructure 100 %}%
+                    {% else %}
+                      0%
                     {% endif %}
-                    {% if equipment.capacity %}
-                    <div class="text-muted">{{ equipment.capacity }}</div>
-                    {% endif %}
-                  </div>
-                </td>
-                <td class="text-right">
-                  <div class="dropdown">
-                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="/admin/facilities/facility_infrastructure/{{ equipment.id }}/change/">
-                        <i class="fas fa-edit"></i> Edit
-                      </a>
-                      <a class="dropdown-item" href="/admin/facilities/facility_infrastructure/{{ equipment.id }}/">
-                        <i class="fas fa-eye"></i> View Details
-                      </a>
+                  </span>
+                  <span class="text-nowrap">of total</span>
+                </p>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                  <i class="ni ni-time-alarm"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Infrastructure Types</h5>
+                <span class="h2 font-weight-bold mb-0">{{ infrastructure_types.count }}</span>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-info mr-2">
+                    <i class="fas fa-tag"></i> 
+                    Categories
+                  </span>
+                </p>
+              </div>
+              <div class="col-auto">
+                <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                  <i class="ni ni-tag"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infrastructure by Type Summary -->
+    {% if infrastructure_by_type %}
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="mb-0">Infrastructure by Type</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                {% for type_name, type_data in infrastructure_by_type.items %}
+                  <div class="col-md-4 mb-3">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                        <h5 class="card-title text-primary">{{ type_name }}</h5>
+                        <div class="row text-center">
+                          <div class="col-6">
+                            <h4 class="text-dark">{{ type_data.items|length }}</h4>
+                            <small class="text-muted">items</small>
+                          </div>
+                          <div class="col-6">
+                            <h4 class="text-success">{{ type_data.good_condition }}</h4>
+                            <small class="text-muted">good condition</small>
+                          </div>
+                        </div>
+                        {% if type_data.total_capacity > 0 %}
+                          <div class="mt-2">
+                            <small class="text-muted">
+                              Capacity: {{ type_data.total_capacity }} | 
+                              Utilization: {{ type_data.total_utilization }}
+                            </small>
+                          </div>
+                        {% endif %}
+                      </div>
                     </div>
                   </div>
-                </td>
-              </tr>
-              {% empty %}
-              <tr>
-                <td colspan="7" class="text-center py-4">
-                  <div class="text-muted">
-                    <i class="fas fa-search fa-2x mb-3"></i>
-                    <p>No equipment found matching your criteria.</p>
-                    <a href="/infrastructure/" class="btn btn-sm btn-warning">Clear Filters</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Search and Filters -->
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Infrastructure List</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Search and Filter Form -->
+            <form method="get" class="mb-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="search">Search</label>
+                    <input type="text" class="form-control" id="search" name="search" 
+                           placeholder="Search infrastructure..." value="{{ search }}">
                   </div>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="infrastructure_type">Infrastructure Type</label>
+                    <select class="form-control" id="infrastructure_type" name="infrastructure_type">
+                      <option value="">All Types</option>
+                      {% for type in infrastructure_types %}
+                        <option value="{{ type.infrastructure_type_id }}" 
+                                {% if selected_infrastructure_type == type.infrastructure_type_id|stringformat:"s" %}selected{% endif %}>
+                          {{ type.type_name }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="condition">Condition</label>
+                    <select class="form-control" id="condition" name="condition">
+                      <option value="">All Conditions</option>
+                      {% for condition in condition_statuses %}
+                        <option value="{{ condition.condition_status_id }}" 
+                                {% if selected_condition == condition.condition_status_id|stringformat:"s" %}selected{% endif %}>
+                          {{ condition.status_name }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>&nbsp;</label>
+                                         <div>
+                       <button type="submit" class="btn btn-primary me-2">
+                         <i class="fas fa-search"></i> Filter
+                       </button>
+                       <a href="{% url 'infrastructure' %}" class="btn btn-secondary">
+                         <i class="fas fa-times"></i> Clear
+                       </a>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </form>
 
-        <!-- Pagination -->
-        {% if page_obj.has_other_pages %}
-        <div class="card-footer py-4">
-          <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end mb-0">
-              {% if page_obj.has_previous %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility_name %}&facility_name={{ selected_facility_name }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
+            <!-- Infrastructure Table -->
+            {% if infrastructure_list %}
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Infrastructure</th>
+                      <th scope="col">Facility</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Condition</th>
+                      <th scope="col">Capacity</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Location</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in infrastructure_list %}
+                      <tr>
+                        <th scope="row">
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">
+                                {% if item.description %}
+                                  {{ item.description|truncatechars:50 }}
+                                {% else %}
+                                  {{ item.infrastructure_type.type_name }}
+                                {% endif %}
+                              </span>
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <span class="name mb-0 text-sm">
+                            <a href="{% url 'facilities:facility_detail' item.facility.facility_id %}" class="text-primary">
+                              {{ item.facility.facility_name }}
+                            </a>
+                          </span>
+                        </td>
+                        <td>
+                          <span class="badge badge-info">{{ item.infrastructure_type.type_name }}</span>
+                        </td>
+                        <td>
+                          {% if item.condition_status.status_name in 'Good,Excellent' %}
+                            <span class="badge badge-success">{{ item.condition_status.status_name }}</span>
+                          {% elif item.condition_status.status_name == 'Fair' %}
+                            <span class="badge badge-warning">{{ item.condition_status.status_name }}</span>
+                          {% else %}
+                            <span class="badge badge-danger">{{ item.condition_status.status_name }}</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          {% if item.capacity %}
+                            <span class="text-sm">{{ item.capacity }}</span>
+                            {% if item.current_utilization %}
+                              <br><small class="text-muted">Used: {{ item.current_utilization }}</small>
+                            {% endif %}
+                          {% else %}
+                            <span class="text-muted">-</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          {% if item.is_available %}
+                            <span class="badge badge-success">Available</span>
+                          {% else %}
+                            <span class="badge badge-warning">Unavailable</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          <div class="media align-items-center">
+                            <div class="media-body">
+                              <span class="name mb-0 text-sm">{{ item.facility.ward.ward_name }}</span>
+                              <br><small class="text-muted">{{ item.facility.ward.constituency.county.county_name }}</small>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Pagination -->
+              {% if page_obj.has_other_pages %}
+                <nav aria-label="Infrastructure pagination">
+                  <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_infrastructure_type %}&infrastructure_type={{ selected_infrastructure_type }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}">
+                          <i class="fas fa-angle-left"></i>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                      </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="page-item active">
+                          <span class="page-link">{{ num }}</span>
+                        </li>
+                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if selected_infrastructure_type %}&infrastructure_type={{ selected_infrastructure_type }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}">{{ num }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_infrastructure_type %}&infrastructure_type={{ selected_infrastructure_type }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}">
+                          <i class="fas fa-angle-right"></i>
+                                                     <span class="sr-only">Next</span>
+                        </a>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </nav>
               {% endif %}
-
-              {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                <li class="page-item active">
-                  <span class="page-link">{{ num }}</span>
-                </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility_name %}&facility_name={{ selected_facility_name }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}">{{ num }}</a>
-                </li>
-                {% endif %}
-              {% endfor %}
-
-              {% if page_obj.has_next %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_facility_name %}&facility_name={{ selected_facility_name }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}">
-                  <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
+            {% else %}
+              <div class="text-center py-4">
+                <i class="ni ni-building text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">No Infrastructure Found</h4>
+                <p class="text-muted">
+                  {% if search or selected_infrastructure_type or selected_condition %}
+                    No infrastructure matches your current filters.
+                  {% else %}
+                    No infrastructure has been added to facilities yet.
+                  {% endif %}
+                </p>
+                <a href="{% url 'facilities:facility_list' %}" class="btn btn-primary">
+                  <i class="fas fa-building"></i> View Facilities
                 </a>
-              </li>
-              {% endif %}
-            </ul>
-          </nav>
+              </div>
+            {% endif %}
+          </div>
         </div>
-        {% endif %}
       </div>
     </div>
   </div>
-</div>
-{% endblock %}
+{% endblock content %}
+
+{% block javascripts %}{% endblock javascripts %}

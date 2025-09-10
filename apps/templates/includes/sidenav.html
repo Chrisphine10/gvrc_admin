@@ -3,8 +3,8 @@
     <!-- Brand -->
     <div class="sidenav-header  align-items-center">
               <a class="navbar-brand" href="{% url 'landing' %}">
-        <img src="/static/assets/img/brand/hodi app logo.png" class="navbar-brand-img" alt="Hodi Admin - Hodi App Management Dashboard" style="max-height: 40px;">
-        <span class="navbar-brand-text ms-2 fw-bold text-primary">Hodi Admin</span>
+        <img src="{% if app_settings %}{{ app_settings.get_logo_url }}{% else %}/static/assets/img/brand/hodi app logo.png{% endif %}" class="navbar-brand-img" alt="{% if app_settings %}{{ app_settings.logo_alt_text }}{% else %}Hodi Admin - Hodi App Management Dashboard{% endif %}" style="max-height: 40px;">
+        <span class="navbar-brand-text ms-2 fw-bold text-primary">{% if app_settings %}{{ app_settings.site_name }}{% else %}Hodi Admin{% endif %}</span>
       </a>
     </div>
     <div class="navbar-inner">
@@ -146,6 +146,14 @@
               <span class="nav-link-text">Documents</span>
             </a>
           </li>
+          
+          <!-- Document Analytics -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'document_analytics' in segment %} active {% endif %}" href="{% url 'documents:document_analytics' %}">
+              <i class="ni ni-chart-bar-32 text-info"></i>
+              <span class="nav-link-text">Document Analytics</span>
+            </a>
+          </li>
         </ul>
 
         <!-- Divider -->
@@ -247,6 +255,14 @@
           <span class="docs-normal">System</span>
         </h6>
         <ul class="navbar-nav mb-md-3">
+          <!-- Application Settings -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'settings' in segment %} active {% endif %}" href="{% url 'common:application_settings' %}">
+              <i class="ni ni-settings-gear-65 text-primary"></i>
+              <span class="nav-link-text">Application Settings</span>
+            </a>
+          </li>
+
           <!-- Help -->
           <li class="nav-item">
             <a class="nav-link {% if 'help' in segment %} active {% endif %}" href="{% url 'help' %}">

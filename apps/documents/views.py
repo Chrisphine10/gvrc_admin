@@ -112,7 +112,7 @@ def document_create(request):
                 document.save()
                 
                 messages.success(request, f'Document "{document.title}" created successfully.')
-                return redirect('document_detail', document_id=document.document_id)
+                return redirect('documents:document_list')
                 
             except Exception as e:
                 messages.error(request, f'Error creating document: {str(e)}')
@@ -128,6 +128,7 @@ def document_create(request):
     context = {
         'segment': 'documents',
         'page_title': 'Create New Document',
+        'action': 'Create',
         'form': form,
         'document_types': DocumentType.objects.all().order_by('type_name'),
         'gbv_categories': GBVCategory.objects.all().order_by('category_name'),
@@ -151,7 +152,7 @@ def document_edit(request, document_id):
             try:
                 document = form.save()
                 messages.success(request, f'Document "{document.title}" updated successfully.')
-                return redirect('document_detail', document_id=document.document_id)
+                return redirect('documents:document_list')
                 
             except Exception as e:
                 messages.error(request, f'Error updating document: {str(e)}')
@@ -166,6 +167,7 @@ def document_edit(request, document_id):
     context = {
         'segment': 'documents',
         'page_title': f'Edit Document: {document.title}',
+        'action': 'Edit',
         'form': form,
         'document': document,
         'document_types': DocumentType.objects.all().order_by('type_name'),
@@ -278,7 +280,7 @@ def document_analytics(request):
     counts_json = json.dumps(counts, cls=DjangoJSONEncoder)
     
     context = {
-        'segment': 'documents',
+        'segment': 'document_analytics',
         'page_title': 'Document Analytics',
         'total_documents': total_documents,
         'public_documents': public_documents,

@@ -74,13 +74,22 @@
 
   <!-- Facility Data (Django template data) -->
   <script type="application/json" id="facilities-data">
-    {{ facilities_with_coords|safe }}
+    {{ facilities_with_coords_json|safe }}
   </script>
 
   <!-- Map JavaScript -->
   <script>
     // Get facility data from Django template
     const facilitiesData = JSON.parse(document.getElementById('facilities-data').textContent);
+    console.log('Facilities data loaded:', facilitiesData);
+    console.log('Number of facilities:', facilitiesData.length);
+    
+    // Check if Google Maps API is loaded
+    if (typeof google === 'undefined' || !google.maps) {
+      console.error('Google Maps API not loaded!');
+    } else {
+      console.log('Google Maps API loaded successfully');
+    }
     
     let map;
     let markers = [];
@@ -88,11 +97,24 @@
     
     // Initialize Google Maps
     function initMap() {
-      // Default center (Kenya)
-      const defaultCenter = { lat: -1.2921, lng: 36.8219 };
+      console.log('Initializing Google Maps...');
+      try {
+        // Check if map container exists
+        const mapElement = document.getElementById('facility-map');
+        if (!mapElement) {
+          console.error('Map container with id "facility-map" not found!');
+          return;
+        }
+        console.log('Map container found:', mapElement);
+        
+        // Clear any loading content
+        mapElement.innerHTML = '';
+        
+        // Default center (Kenya)
+        const defaultCenter = { lat: -1.2921, lng: 36.8219 };
       
       // Create map
-      map = new google.maps.Map(document.getElementById('facility-map'), {
+      map = new google.maps.Map(mapElement, {
         zoom: 7,
         center: defaultCenter,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -119,13 +141,20 @@
       if (markers.length > 0) {
         fitMapToMarkers();
       }
+      
+      console.log('Map initialized successfully with', markers.length, 'markers');
+      } catch (error) {
+        console.error('Error initializing map:', error);
+      }
     }
     
     // Add markers for all facilities with coordinates
     function addFacilityMarkers() {
-      facilitiesData.forEach(function(facilityData) {
+      console.log('Adding markers for', facilitiesData.length, 'facilities');
+      facilitiesData.forEach(function(facilityData, index) {
         const facility = facilityData.facility;
         const coords = facilityData.coordinates;
+        console.log(`Creating marker ${index + 1}:`, facility.facility_name, coords);
         
         // Create marker
         const marker = new google.maps.Marker({
@@ -184,7 +213,10 @@
         
         // Store marker reference
         markers.push(marker);
+        console.log(`Marker ${index + 1} created and added to map`);
       });
+      
+      console.log('Total markers created:', markers.length);
     }
     
     // Center map function
@@ -264,6 +296,21 @@
   
   <!-- Google Maps API -->
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"
+    onerror="console.error('Failed to load Google Maps API')">
+  </script>
+  
+  <!-- Fallback if Google Maps fails to load -->
+  <script>
+    // Set a timeout to check if Google Maps loaded
+    setTimeout(function() {
+      if (typeof google === 'undefined' || !google.maps) {
+        console.error('Google Maps API failed to load within timeout');
+        const mapElement = document.getElementById('facility-map');
+        if (mapElement) {
+          mapElement.innerHTML = '<div class="alert alert-danger m-4">Failed to load Google Maps. Please check your internet connection and try again.</div>';
+        }
+      }
+    }, 10000); // 10 second timeout
   </script>
 {% endblock content %}

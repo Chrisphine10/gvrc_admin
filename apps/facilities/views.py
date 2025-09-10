@@ -9,6 +9,10 @@ from django.contrib import messages
 from django.db.models import Q, Count
 from django.db import transaction
 from django.conf import settings
+from apps.authentication.permissions import (
+    permission_required, role_required, any_role_required,
+    staff_required, superuser_required
+)
 from .models import Facility, FacilityContact, FacilityService, FacilityOwner, FacilityCoordinate, FacilityGBVCategory, FacilityInfrastructure
 from .forms import (
     FacilityForm, FacilityContactForm, FacilityServiceForm, FacilityOwnerForm, 
@@ -19,7 +23,7 @@ from apps.geography.models import County
 from apps.lookups.models import OperationalStatus, ServiceCategory
 
 
-@login_required
+@permission_required('view_facilities')
 def facility_list(request):
     """List all facilities with comprehensive data"""
     # Get base queryset with all related data
@@ -81,7 +85,7 @@ def facility_list(request):
     return render(request, 'facilities/facility_list.html', context)
 
 
-@login_required
+@permission_required('view_facilities')
 def facility_detail(request, facility_id):
     """Show facility details with all related data"""
     facility = get_object_or_404(
@@ -119,29 +123,51 @@ def facility_detail(request, facility_id):
     return render(request, 'facilities/facility_detail.html', context)
 
 
-@login_required
+@permission_required('view_facilities')
 def facility_map(request):
     """Show facilities on a map with coordinates"""
     facilities = Facility.objects.filter(
         is_active=True
     ).select_related(
-        'ward__constituency__county'
+        'ward__constituency__county',
+        'operational_status'
     ).prefetch_related(
         'facilitycoordinate_set'
     )
     
-    # Filter facilities with coordinates
+    # Filter facilities with coordinates and serialize for JavaScript
     facilities_with_coords = []
     for facility in facilities:
-        coords = facility.facilitycoordinate_set.first()
+        coords = facility.facilitycoordinate_set.filter(is_active=True).first()
         if coords and coords.latitude and coords.longitude:
             facilities_with_coords.append({
-                'facility': facility,
-                'coordinates': coords,
+                'facility': {
+                    'facility_id': facility.facility_id,
+                    'facility_name': facility.facility_name,
+                    'registration_number': facility.registration_number,
+                    'ward': {
+                        'ward_name': facility.ward.ward_name,
+                        'constituency': {
+                            'county': {
+                                'county_name': facility.ward.constituency.county.county_name
+                            }
+                        }
+                    },
+                    'operational_status': {
+                        'status_name': facility.operational_status.status_name
+                    }
+                },
+                'coordinates': {
+                    'latitude': float(coords.latitude),
+                    'longitude': float(coords.longitude)
+                }
             })
+    
+    import json
     
     context = {
         'facilities_with_coords': facilities_with_coords,
+        'facilities_with_coords_json': json.dumps(facilities_with_coords),
         'total_facilities': facilities.count(),
         'facilities_with_coords_count': len(facilities_with_coords),
         'segment': 'facility_map',
@@ -151,7 +177,7 @@ def facility_map(request):
     return render(request, 'facilities/facility_map.html', context)
 
 
-@login_required
+@permission_required('add_facilities')
 def facility_create(request):
     """Create a new facility with all related data"""
     if request.method == 'POST':
@@ -247,7 +273,7 @@ def facility_create(request):
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" created successfully!')
-                    return redirect('facilities:facility_detail', facility_id=facility.facility_id)
+                    return redirect('facilities:facility_list')
                     
             except Exception as e:
                 messages.error(request, f'Error creating facility: {str(e)}')
@@ -279,7 +305,7 @@ def facility_create(request):
     return render(request, 'facilities/facility_form.html', context)
 
 
-@login_required
+@permission_required('change_facilities')
 def facility_update(request, facility_id):
     """Update an existing facility with all related data"""
     facility = get_object_or_404(Facility, facility_id=facility_id, is_active=True)
@@ -400,7 +426,7 @@ def facility_update(request, facility_id):
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" updated successfully!')
-                    return redirect('facilities:facility_detail', facility_id=facility.facility_id)
+                    return redirect('facilities:facility_list')
                     
             except Exception as e:
                 messages.error(request, f'Error updating facility: {str(e)}')

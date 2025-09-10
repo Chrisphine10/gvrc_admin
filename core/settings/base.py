@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third party apps
+    "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -83,6 +85,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "apps.authentication.permissions.user_permissions_context",
+                "apps.common.context_processors.chat_notifications",
+                "apps.common.context_processors.application_settings",
             ],
         },
     },
@@ -201,3 +206,25 @@ CHAT_SETTINGS = {
     'AUTO_ASSIGN_LIMIT': 5,  # Max conversations per admin
     'TYPING_INDICATOR_TIMEOUT': 5,  # seconds
 }
+
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = [
+    "http://34.226.180.10",
+    "https://hodi.co.ke",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_ALL_ORIGINS = False  # Set to False for security
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]

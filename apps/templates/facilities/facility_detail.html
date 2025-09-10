@@ -34,7 +34,7 @@
                   </div>
                   <div>
                     <h4 class="mb-0">{{ facility.facility_name }}</h4>
-                    <p class="text-sm text-secondary mb-0">Registration: {{ facility.registration_number }}</p>
+                    <p class="text-sm text-dark mb-0">Registration: {{ facility.registration_number }}</p>
                   </div>
                 </div>
               </div>
@@ -125,7 +125,10 @@
               {% endfor %}
             </div>
             {% else %}
-            <p class="text-secondary mb-0">No GBV categories specified</p>
+            <p class="text-dark mt-2 mb-0">
+              <i class="ni ni-info text-info me-1"></i>
+              No GBV categories specified
+            </p>
             {% endif %}
           </div>
         </div>
@@ -142,24 +145,24 @@
               <div class="col-3">
                 <div class="border-end">
                   <h4 class="font-weight-bolder text-info">{{ services.count }}</h4>
-                  <p class="text-sm text-secondary mb-0">Services</p>
+                  <p class="text-sm text-dark mb-0">Services</p>
                 </div>
               </div>
               <div class="col-3">
                 <div class="border-end">
                   <h4 class="font-weight-bolder text-warning">{{ contacts.count }}</h4>
-                  <p class="text-sm text-secondary mb-0">Contacts</p>
+                  <p class="text-sm text-dark mb-0">Contacts</p>
                 </div>
               </div>
               <div class="col-3">
                 <div class="border-end">
                   <h4 class="font-weight-bolder text-success">{{ owners.count }}</h4>
-                  <p class="text-sm text-secondary mb-0">Owners</p>
+                  <p class="text-sm text-dark mb-0">Owners</p>
                 </div>
               </div>
               <div class="col-3">
                 <h4 class="font-weight-bolder text-warning">{{ infrastructure.count }}</h4>
-                <p class="text-sm text-secondary mb-0">Infrastructure</p>
+                <p class="text-sm text-dark mb-0">Infrastructure</p>
               </div>
             </div>
           </div>
@@ -174,28 +177,28 @@
           <div class="card-header pb-0">
             <ul class="nav nav-tabs nav-tabs-line nav-tabs-color-primary w-100" role="tablist">
               <li class="nav-item" role="presentation">
-                <a class="nav-link active" data-bs-toggle="tab" href="#services-tab" role="tab">
+                <a class="nav-link active" data-toggle="tab" href="#services-tab" role="tab">
                   <i class="ni ni-settings-gear-65 me-1"></i>Services ({{ services.count }})
                 </a>
               </li>
               <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#contacts-tab" role="tab">
+                <a class="nav-link" data-toggle="tab" href="#contacts-tab" role="tab">
                   <i class="ni ni-mobile-button me-1"></i>Contacts ({{ contacts.count }})
                 </a>
               </li>
               <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#owners-tab" role="tab">
+                <a class="nav-link" data-toggle="tab" href="#owners-tab" role="tab">
                   <i class="ni ni-single-02 me-1"></i>Ownership ({{ owners.count }})
                 </a>
               </li>
               <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#infrastructure-tab" role="tab">
+                <a class="nav-link" data-toggle="tab" href="#infrastructure-tab" role="tab">
                   <i class="ni ni-building me-1"></i>Infrastructure ({{ infrastructure.count }})
                 </a>
               </li>
               {% if coordinates %}
               <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#location-tab" role="tab">
+                <a class="nav-link" data-toggle="tab" href="#location-tab" role="tab">
                   <i class="ni ni-pin-3 me-1"></i>Location
                 </a>
               </li>
@@ -235,7 +238,7 @@
                 {% else %}
                 <div class="text-center py-4">
                   <i class="ni ni-settings-gear-65 text-muted" style="font-size: 3rem;"></i>
-                  <p class="text-secondary mt-2 mb-0">No services registered</p>
+                  <p class="text-dark mt-2 mb-0">No services registered</p>
                   <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-primary btn-sm mt-2">
                     <i class="fas fa-plus"></i> Add Service
                   </a>
@@ -288,7 +291,7 @@
                 {% else %}
                 <div class="text-center py-4">
                   <i class="ni ni-mobile-button text-muted" style="font-size: 3rem;"></i>
-                  <p class="text-secondary mt-2 mb-0">No contact information available</p>
+                  <p class="text-dark mt-2 mb-0">No contact information available</p>
                   <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-primary btn-sm mt-2">
                     <i class="fas fa-plus"></i> Add Contact
                   </a>
@@ -323,7 +326,7 @@
                 {% else %}
                 <div class="text-center py-4">
                   <i class="ni ni-single-02 text-muted" style="font-size: 3rem;"></i>
-                  <p class="text-secondary mt-2 mb-0">No ownership information available</p>
+                  <p class="text-dark mt-2 mb-0">No ownership information available</p>
                   <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-primary btn-sm mt-2">
                     <i class="fas fa-plus"></i> Add Owner
                   </a>
@@ -371,7 +374,7 @@
                 {% else %}
                 <div class="text-center py-4">
                   <i class="ni ni-building text-muted" style="font-size: 3rem;"></i>
-                  <p class="text-secondary mt-2 mb-0">No infrastructure information available</p>
+                  <p class="text-dark mt-2 mb-0">No infrastructure information available</p>
                   <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-primary btn-sm mt-2">
                     <i class="fas fa-plus"></i> Add Infrastructure
                   </a>
@@ -484,4 +487,19 @@
     </div>
     {% endif %}
   </div>
+
+  <!-- Tab functionality JavaScript -->
+  <script>
+    $(document).ready(function() {
+      // Initialize Bootstrap 4 tabs using the standard Bootstrap method
+      $('a[data-toggle="tab"]').on('click', function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+        console.log('Tab switched to:', $(this).attr('href'));
+      });
+      
+      // Ensure tabs are properly initialized
+      $('.nav-link.active').tab('show');
+    });
+  </script>
 {% endblock content %}

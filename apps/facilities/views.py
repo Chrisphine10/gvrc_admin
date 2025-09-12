@@ -24,7 +24,7 @@ from apps.geography.models import County
 from apps.lookups.models import OperationalStatus, ServiceCategory
 
 
-# @permission_required('view_facilities')  # Temporarily disabled for testing
+@permission_required('view_facilities')
 def facility_list(request):
     """List all facilities with comprehensive data"""
     # Get base queryset with all related data

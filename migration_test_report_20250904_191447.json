@@ -1,0 +1,82 @@
+{
+  "summary": {
+    "total_tests": 6,
+    "passed_tests": 1,
+    "failed_tests": 5,
+    "success_rate": 16.666666666666664,
+    "total_duration": 0.386587,
+    "timestamp": "2025-09-04T19:14:47.287360"
+  },
+  "test_results": [
+    {
+      "test_name": "Database Connection",
+      "status": "FAIL",
+      "message": "Connection failed: no such function: version",
+      "timestamp": "2025-09-04T19:14:46.901175",
+      "duration": 0.0006527900695800781
+    },
+    {
+      "test_name": "Database Performance",
+      "status": "FAIL",
+      "message": "Performance test failed: no such table: facilities_facility",
+      "timestamp": "2025-09-04T19:14:46.903049",
+      "duration": 0.0018157958984375
+    },
+    {
+      "test_name": "Web Endpoint: Home page",
+      "status": "FAIL",
+      "message": "Status: 400",
+      "timestamp": "2025-09-04T19:14:46.998823",
+      "duration": null
+    },
+    {
+      "test_name": "Web Endpoint: Admin interface",
+      "status": "FAIL",
+      "message": "Status: 400",
+      "timestamp": "2025-09-04T19:14:47.076241",
+      "duration": null
+    },
+    {
+      "test_name": "Web Endpoint: Data architecture API",
+      "status": "FAIL",
+      "message": "Status: 400",
+      "timestamp": "2025-09-04T19:14:47.142246",
+      "duration": null
+    },
+    {
+      "test_name": "Web Endpoint: Facilities API",
+      "status": "FAIL",
+      "message": "Status: 400",
+      "timestamp": "2025-09-04T19:14:47.222084",
+      "duration": null
+    },
+    {
+      "test_name": "Web Endpoints Overall",
+      "status": "FAIL",
+      "message": "0/4 endpoints working",
+      "timestamp": "2025-09-04T19:14:47.222125",
+      "duration": 0.31895923614501953
+    },
+    {
+      "test_name": "Data Architecture Models",
+      "status": "FAIL",
+      "message": "Model test failed: RawDataRecord() got unexpected keyword arguments: 'data_source'",
+      "timestamp": "2025-09-04T19:14:47.246336",
+      "duration": 0.024167299270629883
+    },
+    {
+      "test_name": "Standalone Integration",
+      "status": "FAIL",
+      "message": "Integration test failed: 'StandaloneDataArchitecture' object has no attribute 'enhance_facility'",
+      "timestamp": "2025-09-04T19:14:47.249171",
+      "duration": 0.002744436264038086
+    },
+    {
+      "test_name": "JSON Field Functionality",
+      "status": "PASS",
+      "message": "Complex JSON operations successful - Found 0 sources with filters",
+      "timestamp": "2025-09-04T19:14:47.286930",
+      "duration": 0.029323816299438477
+    }
+  ]
+}

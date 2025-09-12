@@ -48,23 +48,22 @@
               {% endfor %}
             {% endif %}
 
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
               {% csrf_token %}
               
               <!-- Basic Information -->
               <div class="row">
                 <div class="col-lg-8">
                   <div class="form-group">
-                    <label for="title" class="form-control-label">Document Title *</label>
-                    <input 
-                      type="text" 
-                      class="form-control" 
-                      id="title" 
-                      name="title" 
-                      value="{{ document.title|default:'' }}" 
-                      placeholder="Enter document title"
-                      required
-                    >
+                    <label for="{{ form.title.id_for_label }}" class="form-control-label">Document Title *</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                      <div class="text-danger">
+                        {% for error in form.title.errors %}
+                          <small>{{ error }}</small>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                     <small class="form-text text-muted">
                       Provide a clear, descriptive title for the document.
                     </small>
@@ -72,15 +71,15 @@
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group">
-                    <label for="document_type" class="form-control-label">Document Type *</label>
-                    <select class="form-control" id="document_type" name="document_type" required>
-                      <option value="">Select Document Type</option>
-                      {% for doc_type in document_types %}
-                        <option value="{{ doc_type.id }}" {% if document.document_type.id == doc_type.id %}selected{% endif %}>
-                          {{ doc_type.type_name }}
-                        </option>
-                      {% endfor %}
-                    </select>
+                    <label for="{{ form.document_type.id_for_label }}" class="form-control-label">Document Type *</label>
+                    {{ form.document_type }}
+                    {% if form.document_type.errors %}
+                      <div class="text-danger">
+                        {% for error in form.document_type.errors %}
+                          <small>{{ error }}</small>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                     <small class="form-text text-muted">
                       Choose the appropriate category for this document.
                     </small>
@@ -89,32 +88,60 @@
               </div>
 
               <div class="form-group">
-                <label for="description" class="form-control-label">Description</label>
-                <textarea 
-                  class="form-control" 
-                  id="description" 
-                  name="description" 
-                  rows="3" 
-                  placeholder="Provide a brief description of the document content..."
-                >{{ document.description|default:'' }}</textarea>
+                <label for="{{ form.description.id_for_label }}" class="form-control-label">Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                  <div class="text-danger">
+                    {% for error in form.description.errors %}
+                      <small>{{ error }}</small>
+                    {% endfor %}
+                  </div>
+                {% endif %}
                 <small class="form-text text-muted">
                   Describe what this document contains and its purpose.
                 </small>
               </div>
 
-              <!-- File Information -->
+              <!-- File Upload Section -->
+              <div class="form-group">
+                <label for="{{ form.file.id_for_label }}" class="form-control-label">Upload Document File</label>
+                <div class="custom-file">
+                  {{ form.file }}
+                  <label class="custom-file-label" for="{{ form.file.id_for_label }}" id="file-label">
+                    Choose file...
+                  </label>
+                </div>
+                {% if form.file.errors %}
+                  <div class="text-danger">
+                    {% for error in form.file.errors %}
+                      <small>{{ error }}</small>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                <small class="form-text text-muted">
+                  Upload a document file (PDF, DOC, DOCX, TXT, RTF, or ODT). Maximum size: 10MB.
+                </small>
+                <div id="file-preview" class="mt-2" style="display: none;">
+                  <div class="alert alert-info">
+                    <i class="fas fa-file"></i>
+                    <span id="file-info"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- File Information (Legacy) -->
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="file_url" class="form-control-label">File URL</label>
-                    <input 
-                      type="url" 
-                      class="form-control" 
-                      id="file_url" 
-                      name="file_url" 
-                      value="{{ document.file_url|default:'' }}" 
-                      placeholder="https://example.com/document.pdf"
-                    >
+                    <label for="{{ form.external_url.id_for_label }}" class="form-control-label">File URL</label>
+                    {{ form.external_url }}
+                    {% if form.external_url.errors %}
+                      <div class="text-danger">
+                        {% for error in form.external_url.errors %}
+                          <small>{{ error }}</small>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                     <small class="form-text text-muted">
                       Optional: Provide a direct link to the document file.
                     </small>
@@ -122,31 +149,31 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="file_name" class="form-control-label">File Name</label>
+                    <label class="form-control-label">File Name</label>
                     <input 
                       type="text" 
                       class="form-control" 
-                      id="file_name" 
-                      name="file_name" 
-                      value="{{ document.file_name|default:'' }}" 
+                      id="file_name_display" 
                       placeholder="document.pdf"
+                      readonly
                     >
                     <small class="form-text text-muted">
-                      Optional: Specify the original filename.
+                      Original filename will be displayed after upload.
                     </small>
                   </div>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="content" class="form-control-label">Document Content</label>
-                <textarea 
-                  class="form-control" 
-                  id="content" 
-                  name="content" 
-                  rows="6" 
-                  placeholder="Enter the document content or text here..."
-                >{{ document.content|default:'' }}</textarea>
+                <label for="{{ form.content.id_for_label }}" class="form-control-label">Document Content</label>
+                {{ form.content }}
+                {% if form.content.errors %}
+                  <div class="text-danger">
+                    {% for error in form.content.errors %}
+                      <small>{{ error }}</small>
+                    {% endfor %}
+                  </div>
+                {% endif %}
                 <small class="form-text text-muted">
                   For text-based documents, you can enter the content directly here.
                 </small>
@@ -156,15 +183,15 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="gbv_category" class="form-control-label">GBV Category</label>
-                    <select class="form-control" id="gbv_category" name="gbv_category">
-                      <option value="">Select GBV Category</option>
-                      {% for category in gbv_categories %}
-                        <option value="{{ category.id }}" {% if document.gbv_category.id == category.id %}selected{% endif %}>
-                          {{ category.category_name }}
-                        </option>
-                      {% endfor %}
-                    </select>
+                    <label for="{{ form.gbv_category.id_for_label }}" class="form-control-label">GBV Category</label>
+                    {{ form.gbv_category }}
+                    {% if form.gbv_category.errors %}
+                      <div class="text-danger">
+                        {% for error in form.gbv_category.errors %}
+                          <small>{{ error }}</small>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                     <small class="form-text text-muted">
                       Optional: Categorize by Gender-Based Violence type if applicable.
                     </small>
@@ -172,15 +199,15 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="image_url" class="form-control-label">Image URL</label>
-                    <input 
-                      type="url" 
-                      class="form-control" 
-                      id="image_url" 
-                      name="image_url" 
-                      value="{{ document.image_url|default:'' }}" 
-                      placeholder="https://example.com/image.jpg"
-                    >
+                    <label for="{{ form.image_url.id_for_label }}" class="form-control-label">Image URL</label>
+                    {{ form.image_url }}
+                    {% if form.image_url.errors %}
+                      <div class="text-danger">
+                        {% for error in form.image_url.errors %}
+                          <small>{{ error }}</small>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                     <small class="form-text text-muted">
                       Optional: Provide a link to a related image or thumbnail.
                     </small>
@@ -188,32 +215,23 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                <label for="external_url" class="form-control-label">External URL</label>
-                <input 
-                  type="url" 
-                  class="form-control" 
-                  id="external_url" 
-                  name="external_url" 
-                  value="{{ document.external_url|default:'' }}" 
-                  placeholder="https://example.com/external-link"
-                >
-                <small class="form-text text-muted">
-                  Optional: Link to an external resource or related website.
-                </small>
-              </div>
-
               <!-- Settings -->
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
                     <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="is_public" name="is_public"
-                             {% if document.is_public %}checked{% endif %}>
-                      <label class="custom-control-label" for="is_public">
+                      {{ form.is_public }}
+                      <label class="custom-control-label" for="{{ form.is_public.id_for_label }}">
                         Make this document public
                       </label>
                     </div>
+                    {% if form.is_public.errors %}
+                      <div class="text-danger">
+                        {% for error in form.is_public.errors %}
+                          <small>{{ error }}</small>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                     <small class="form-text text-muted">
                       Public documents are visible to all users. Private documents are restricted.
                     </small>
@@ -297,29 +315,132 @@
 {% block javascripts %}
   <script>
     $(document).ready(function() {
+      // File upload preview and validation
+      $('#{{ form.file.id_for_label }}').on('change', function(e) {
+        const file = e.target.files[0];
+        const filePreview = $('#file-preview');
+        const fileInfo = $('#file-info');
+        const fileLabel = $('#file-label');
+        const fileNameDisplay = $('#file_name_display');
+        
+        if (file) {
+          // Update file label
+          fileLabel.text(file.name);
+          
+          // Show file preview
+          const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+          const fileExtension = file.name.split('.').pop().toLowerCase();
+          const allowedExtensions = ['pdf', 'doc', 'docx', 'txt', 'rtf', 'odt'];
+          
+          let fileIcon = 'fas fa-file';
+          if (fileExtension === 'pdf') fileIcon = 'fas fa-file-pdf text-danger';
+          else if (['doc', 'docx'].includes(fileExtension)) fileIcon = 'fas fa-file-word text-primary';
+          else if (fileExtension === 'txt') fileIcon = 'fas fa-file-alt text-secondary';
+          
+          fileInfo.html(`
+            <i class="${fileIcon}"></i>
+            <strong>${file.name}</strong> 
+            <span class="text-muted">(${fileSize} MB)</span>
+            <br>
+            <small class="text-muted">Type: ${fileExtension.toUpperCase()}</small>
+          `);
+          
+          // Update filename display
+          fileNameDisplay.val(file.name);
+          
+          // Validate file
+          if (!allowedExtensions.includes(fileExtension)) {
+            filePreview.removeClass('alert-info').addClass('alert-danger');
+            fileInfo.append('<br><small class="text-danger">⚠️ File type not allowed. Please upload a document file.</small>');
+          } else if (file.size > 10 * 1024 * 1024) { // 10MB limit
+            filePreview.removeClass('alert-info').addClass('alert-warning');
+            fileInfo.append('<br><small class="text-warning">⚠️ File size exceeds 10MB limit.</small>');
+          } else {
+            filePreview.removeClass('alert-danger alert-warning').addClass('alert-success');
+            fileInfo.append('<br><small class="text-success">✓ File ready for upload</small>');
+          }
+          
+          filePreview.show();
+        } else {
+          // Reset when no file selected
+          fileLabel.text('Choose file...');
+          filePreview.hide();
+          fileNameDisplay.val('');
+        }
+      });
+      
       // Form validation
       $('form').on('submit', function(e) {
-        const title = $('#title').val().trim();
-        const documentType = $('#document_type').val();
+        const title = $('#{{ form.title.id_for_label }}').val().trim();
+        const documentType = $('#{{ form.document_type.id_for_label }}').val();
+        const file = $('#{{ form.file.id_for_label }}')[0].files[0];
+        const content = $('#{{ form.content.id_for_label }}').val().trim();
+        const externalUrl = $('#{{ form.external_url.id_for_label }}').val().trim();
         
+        // Clear previous validation errors
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        
+        let hasErrors = false;
+        
+        // Validate title
         if (!title) {
-          e.preventDefault();
-          alert('Document title is required.');
-          $('#title').focus();
-          return false;
+          $('#{{ form.title.id_for_label }}').addClass('is-invalid');
+          $('#{{ form.title.id_for_label }}').after('<div class="invalid-feedback">Document title is required.</div>');
+          hasErrors = true;
+        } else if (title.length < 3) {
+          $('#{{ form.title.id_for_label }}').addClass('is-invalid');
+          $('#{{ form.title.id_for_label }}').after('<div class="invalid-feedback">Document title must be at least 3 characters long.</div>');
+          hasErrors = true;
         }
         
+        // Validate document type
         if (!documentType) {
-          e.preventDefault();
-          alert('Document type is required.');
-          $('#document_type').focus();
-          return false;
+          $('#{{ form.document_type.id_for_label }}').addClass('is-invalid');
+          $('#{{ form.document_type.id_for_label }}').after('<div class="invalid-feedback">Document type is required.</div>');
+          hasErrors = true;
         }
         
-        if (title.length < 3) {
+        // Validate that at least one content source is provided
+        if (!file && !content && !externalUrl) {
+          // Add error to all three fields
+          $('#{{ form.file.id_for_label }}').addClass('is-invalid');
+          $('#{{ form.content.id_for_label }}').addClass('is-invalid');
+          $('#{{ form.external_url.id_for_label }}').addClass('is-invalid');
+          
+          $('#{{ form.file.id_for_label }}').after('<div class="invalid-feedback">Please provide either a file upload, content, or external URL.</div>');
+          $('#{{ form.content.id_for_label }}').after('<div class="invalid-feedback">Please provide either a file upload, content, or external URL.</div>');
+          $('#{{ form.external_url.id_for_label }}').after('<div class="invalid-feedback">Please provide either a file upload, content, or external URL.</div>');
+          
+          hasErrors = true;
+        }
+        
+        // Validate file if provided
+        if (file) {
+          const fileExtension = file.name.split('.').pop().toLowerCase();
+          const allowedExtensions = ['pdf', 'doc', 'docx', 'txt', 'rtf', 'odt'];
+          
+          if (!allowedExtensions.includes(fileExtension)) {
+            $('#{{ form.file.id_for_label }}').addClass('is-invalid');
+            $('#{{ form.file.id_for_label }}').after('<div class="invalid-feedback">File type not allowed. Please upload a document file (PDF, DOC, DOCX, TXT, RTF, or ODT).</div>');
+            hasErrors = true;
+          } else if (file.size > 10 * 1024 * 1024) { // 10MB limit
+            $('#{{ form.file.id_for_label }}').addClass('is-invalid');
+            $('#{{ form.file.id_for_label }}').after('<div class="invalid-feedback">File size exceeds the maximum allowed size of 10 MB.</div>');
+            hasErrors = true;
+          }
+        }
+        
+        if (hasErrors) {
           e.preventDefault();
-          alert('Document title must be at least 3 characters long.');
-          $('#title').focus();
+          // Scroll to first error
+          const firstError = $('.is-invalid').first();
+          if (firstError.length) {
+            $('html, body').animate({
+              scrollTop: firstError.offset().top - 100
+            }, 500);
+            firstError.focus();
+          }
           return false;
         }
       });
@@ -328,6 +449,12 @@
       setTimeout(function() {
         $('.alert').fadeOut('slow');
       }, 5000);
+      
+      // Clear validation errors on input
+      $('input, textarea, select').on('input change', function() {
+        $(this).removeClass('is-invalid');
+        $(this).siblings('.invalid-feedback').remove();
+      });
     });
   </script>
 {% endblock javascripts %}

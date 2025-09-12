@@ -989,3 +989,60 @@ class NotificationViewSet(viewsets.ViewSet):
             'message': 'All notifications marked as read',
             'count': count
         })
+    
+    @swagger_auto_schema(
+        operation_id="admin_notifications_unread_conversations",
+        operation_description="Get unread conversations for notification dropdown",
+        responses={
+            200: openapi.Response('Unread conversations data', openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'unread_conversations': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT)),
+                    'total_unread_count': openapi.Schema(type=openapi.TYPE_INTEGER),
+                    'unread_conversations_count': openapi.Schema(type=openapi.TYPE_INTEGER)
+                }
+            )),
+            403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Admin API"]
+    )
+    @action(detail=False, methods=['get'], url_path='unread-conversations')
+    def unread_conversations(self, request):
+        """Get unread conversations for notification dropdown"""
+        try:
+            # Get unread conversations for admin
+            unread_conversations = Conversation.objects.filter(
+                unread_count_admin__gt=0
+            ).select_related(
+                'mobile_session', 'assigned_admin', 'last_message_by'
+            ).order_by('-last_message_at')[:5]  # Limit to 5 most recent
+            
+            # Calculate total unread count
+            total_unread_count = sum(conv.unread_count_admin for conv in unread_conversations)
+            
+            # Serialize conversations
+            conversations_data = []
+            for conv in unread_conversations:
+                conversations_data.append({
+                    'conversation_id': conv.conversation_id,
+                    'subject': conv.subject,
+                    'last_message': conv.last_message,
+                    'last_message_at': conv.last_message_at,
+                    'unread_count_admin': conv.unread_count_admin,
+                    'priority': conv.priority,
+                    'status': conv.status,
+                    'device_id': conv.mobile_session.device_id if conv.mobile_session else 'Unknown',
+                    'priority_display': conv.get_priority_display(),
+                    'conversation_url': f"/chat/conversations/{conv.conversation_id}/"
+                })
+            
+            return Response({
+                'unread_conversations': conversations_data,
+                'total_unread_count': total_unread_count,
+                'unread_conversations_count': len(unread_conversations)
+            })
+        except Exception as e:
+            return Response({
+                'error': 'Failed to fetch unread conversations',
+                'detail': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

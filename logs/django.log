@@ -17719,3 +17719,1107 @@ INFO 2025-08-27 11:51:06,612 basehttp 30528 26728 "GET /swagger/?format=openapi 
 INFO 2025-08-27 11:52:12,313 autoreload 14636 32336 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
 INFO 2025-08-27 11:52:12,320 autoreload 30528 37528 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\admin.py changed, reloading.
 INFO 2025-08-27 11:56:15,438 autoreload 17880 1736 Watching for file changes with StatReloader
+INFO 2025-08-27 11:58:14,288 autoreload 38416 45004 Watching for file changes with StatReloader
+DEBUG 2025-08-27 11:58:18,247 backends 17880 13512 Retrieved user by ID: 2
+INFO 2025-08-27 11:58:18,379 basehttp 17880 13512 "GET /common/geography/ HTTP/1.1" 200 106912
+DEBUG 2025-08-27 11:58:18,750 backends 17880 20944 Retrieved user by ID: 2
+DEBUG 2025-08-27 11:58:18,751 backends 17880 13512 Retrieved user by ID: 2
+INFO 2025-08-27 11:58:18,767 basehttp 17880 13512 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+INFO 2025-08-27 11:58:18,785 basehttp 17880 20944 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+DEBUG 2025-08-27 12:02:23,370 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:23,381 basehttp 17880 20944 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-08-27 12:02:24,691 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:24,709 basehttp 17880 20944 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-08-27 12:02:25,515 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:25,540 basehttp 17880 20944 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 12:02:26,720 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:26,781 basehttp 17880 20944 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-08-27 12:02:27,471 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:27,513 basehttp 17880 20944 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-08-27 12:02:27,912 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:27,954 basehttp 17880 20944 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-08-27 12:02:29,396 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:29,446 basehttp 17880 20944 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-08-27 12:02:30,524 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:30,546 basehttp 17880 20944 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-08-27 12:02:31,256 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:31,271 basehttp 17880 20944 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-08-27 12:02:31,965 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:31,977 basehttp 17880 20944 "GET /infrastructure/ HTTP/1.1" 200 40134
+DEBUG 2025-08-27 12:02:32,996 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:33,046 basehttp 17880 20944 "GET /common/lookups/ HTTP/1.1" 200 262196
+DEBUG 2025-08-27 12:02:49,338 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:49,360 basehttp 17880 20944 "GET /documents/ HTTP/1.1" 200 38850
+DEBUG 2025-08-27 12:02:50,930 backends 17880 20944 Retrieved user by ID: 2
+INFO 2025-08-27 12:02:50,960 basehttp 17880 20944 "GET /documents/create/ HTTP/1.1" 200 44512
+INFO 2025-08-27 23:21:47,194 basehttp 17880 45920 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-08-27 23:21:47,293 basehttp 17880 45920 "GET /static/drf-yasg/style.css HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,299 basehttp 17880 45920 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,309 basehttp 17880 16848 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,310 basehttp 17880 28960 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,314 basehttp 17880 42560 "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,316 basehttp 17880 7652 "GET /static/drf-yasg/immutable.min.js HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,316 basehttp 17880 44952 "GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,761 basehttp 17880 7652 "GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 304 0
+INFO 2025-08-27 23:21:47,792 basehttp 17880 44952 "GET /swagger/?format=openapi HTTP/1.1" 200 76176
+INFO 2025-09-03 10:48:36,403 autoreload 23840 26684 Watching for file changes with StatReloader
+INFO 2025-09-03 10:48:43,273 basehttp 23840 27308 "GET / HTTP/1.1" 200 27349
+INFO 2025-09-03 10:48:43,586 basehttp 23840 4760 "GET /static/assets/css/gvrc-auth.css HTTP/1.1" 200 7477
+INFO 2025-09-03 10:48:43,630 basehttp 23840 21240 "GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 200 57180
+INFO 2025-09-03 10:48:43,640 basehttp 23840 27308 "GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 200 9015
+INFO 2025-09-03 10:48:43,652 basehttp 23840 4760 "GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 200 80650
+INFO 2025-09-03 10:48:43,687 basehttp 23840 15132 "GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 200 455973
+INFO 2025-09-03 10:48:43,696 basehttp 23840 17720 "GET /static/assets/img/brand/hodi%20app%20logo.png HTTP/1.1" 200 113086
+INFO 2025-09-03 10:48:43,751 basehttp 23840 3196 "GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 200 88145
+INFO 2025-09-03 10:48:43,979 basehttp 23840 3196 "GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 76084
+INFO 2025-09-03 10:48:44,431 basehttp 23840 3196 "GET /favicon.ico HTTP/1.1" 301 0
+INFO 2025-09-03 10:48:44,446 basehttp 23840 3196 "GET /static/assets/img/icons/common/favicon.ico HTTP/1.1" 200 15406
+INFO 2025-09-03 10:48:45,444 views 23840 3196 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-03 10:48:45,445 views 23840 3196 Login page accessed
+INFO 2025-09-03 10:48:45,551 basehttp 23840 3196 "GET /login/ HTTP/1.1" 200 16058
+INFO 2025-09-03 10:49:00,368 views 23840 22044 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-03 10:49:00,371 forms 23840 22044 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-09-03 10:49:00,372 backends 23840 22044 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-09-03 10:49:01,309 backends 23840 22044 Password verification successful for user: admin@hodi.ke
+INFO 2025-09-03 10:49:01,310 forms 23840 22044 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-09-03 10:49:01,310 forms 23840 22044 Authentication successful for email: admin@hodi.ke
+INFO 2025-09-03 10:49:01,310 views 23840 22044 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-09-03 10:49:01,310 views 23840 22044 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-09-03 10:49:01,311 backends 23840 22044 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-09-03 10:49:01,318 backends 23840 22044 User session created successfully: QJkhcMa8guf29pUY1UnsFoiJCLyDm39w3OjZcYI_aYQ for user: admin@hodi.ke
+DEBUG 2025-09-03 10:49:01,319 views 23840 22044 User session created: QJkhcMa8guf29pUY1UnsFoiJCLyDm39w3OjZcYI_aYQ
+INFO 2025-09-03 10:49:01,338 views 23840 22044 User admin@hodi.ke successfully logged in and redirected
+INFO 2025-09-03 10:49:01,351 basehttp 23840 22044 "POST /login/ HTTP/1.1" 302 0
+DEBUG 2025-09-03 10:49:01,374 backends 23840 22044 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:01,587 basehttp 23840 22044 "GET /dashboard/ HTTP/1.1" 200 65440
+INFO 2025-09-03 10:49:01,640 basehttp 23840 22044 "GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 200 166436
+INFO 2025-09-03 10:49:01,646 basehttp 23840 22216 "GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 200 124734
+INFO 2025-09-03 10:49:01,649 basehttp 23840 24612 "GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 200 173325
+INFO 2025-09-03 10:49:01,651 basehttp 23840 10272 "GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 200 266315
+INFO 2025-09-03 10:49:01,665 basehttp 23840 23952 "GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 200 3886
+INFO 2025-09-03 10:49:01,667 basehttp 23840 22216 "GET /static/assets/img/theme/team-5.jpg HTTP/1.1" 200 166436
+INFO 2025-09-03 10:49:01,676 basehttp 23840 16004 "GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 200 13026
+INFO 2025-09-03 10:49:01,683 basehttp 23840 22044 "GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 200 21706
+INFO 2025-09-03 10:49:02,048 basehttp 23840 22044 "GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 200 8580
+DEBUG 2025-09-03 10:49:04,937 backends 23840 22044 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:04,992 basehttp 23840 22044 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-09-03 10:49:09,507 backends 23840 14648 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:09,586 basehttp 23840 14648 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-09-03 10:49:14,369 backends 23840 14648 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:14,380 basehttp 23840 14648 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-09-03 10:49:18,203 backends 23840 18132 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:18,261 basehttp 23840 18132 "GET /users/ HTTP/1.1" 200 47230
+DEBUG 2025-09-03 10:49:21,717 backends 23840 18132 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:21,724 basehttp 23840 18132 "GET /chat/ HTTP/1.1" 200 50256
+DEBUG 2025-09-03 10:49:21,815 backends 23840 3332 Retrieved user by ID: 2
+DEBUG 2025-09-03 10:49:21,816 backends 23840 18132 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:21,843 basehttp 23840 3332 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-03 10:49:21,875 basehttp 23840 18132 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-03 10:49:27,433 backends 23840 18132 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:27,483 basehttp 23840 18132 "GET /roles/ HTTP/1.1" 200 55125
+DEBUG 2025-09-03 10:49:30,779 backends 23840 18132 Retrieved user by ID: 2
+INFO 2025-09-03 10:49:30,838 basehttp 23840 18132 "GET /dashboard/ HTTP/1.1" 200 65440
+INFO 2025-09-10 07:01:12,536 autoreload 4496 7276 Watching for file changes with StatReloader
+INFO 2025-09-10 07:01:16,318 basehttp 4496 26020 "GET / HTTP/1.1" 200 27349
+INFO 2025-09-10 07:01:16,974 basehttp 4496 14660 "GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 200 57180
+INFO 2025-09-10 07:01:17,067 basehttp 4496 16824 "GET /static/assets/img/brand/hodi%20app%20logo.png HTTP/1.1" 200 113086
+INFO 2025-09-10 07:01:17,091 basehttp 4496 25784 "GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 200 455973
+INFO 2025-09-10 07:01:17,098 basehttp 4496 3524 "GET /static/assets/css/gvrc-auth.css HTTP/1.1" 200 7477
+INFO 2025-09-10 07:01:17,114 basehttp 4496 26020 "GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 200 9015
+INFO 2025-09-10 07:01:17,121 basehttp 4496 848 "GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 200 88145
+INFO 2025-09-10 07:01:17,269 basehttp 4496 848 "GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 200 80650
+INFO 2025-09-10 07:01:18,268 basehttp 4496 848 "GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 76084
+INFO 2025-09-10 07:01:18,393 basehttp 4496 848 "GET /static/assets/img/icons/common/favicon.ico HTTP/1.1" 200 15406
+INFO 2025-09-10 07:01:20,142 basehttp 4496 848 "GET /favicon.ico HTTP/1.1" 301 0
+INFO 2025-09-10 07:01:25,729 views 4496 848 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-10 07:01:25,744 views 4496 848 Login page accessed
+INFO 2025-09-10 07:01:25,823 basehttp 4496 848 "GET /login/ HTTP/1.1" 200 16058
+INFO 2025-09-10 07:01:28,442 views 4496 30268 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-10 07:01:28,450 forms 4496 30268 Attempting authentication for email: superadmin@example.com
+DEBUG 2025-09-10 07:01:28,451 backends 4496 30268 Attempting to authenticate user with email: superadmin@example.com
+WARNING 2025-09-10 07:01:28,460 backends 4496 30268 Authentication failed - User not found or inactive: superadmin@example.com
+WARNING 2025-09-10 07:01:29,173 forms 4496 30268 Authentication failed for email: superadmin@example.com - Invalid credentials
+WARNING 2025-09-10 07:01:29,174 views 4496 30268 Form validation failed for email: superadmin@example.com
+DEBUG 2025-09-10 07:01:29,185 views 4496 30268 Form errors: <ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Invalid email or password.</li></ul></li></ul>
+INFO 2025-09-10 07:01:29,190 basehttp 4496 30268 "POST /login/ HTTP/1.1" 200 16577
+INFO 2025-09-10 07:01:49,592 views 4496 30692 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-10 07:01:49,594 forms 4496 30692 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-09-10 07:01:49,594 backends 4496 30692 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-09-10 07:01:50,151 backends 4496 30692 Password verification successful for user: admin@hodi.ke
+INFO 2025-09-10 07:01:50,151 forms 4496 30692 Non-staff user authenticated: admin@hodi.ke
+INFO 2025-09-10 07:01:50,153 forms 4496 30692 Authentication successful for email: admin@hodi.ke
+INFO 2025-09-10 07:01:50,153 views 4496 30692 Successful login for user: admin@hodi.ke (ID: 2)
+WARNING 2025-09-10 07:01:50,153 views 4496 30692 Non-staff user login attempt: admin@hodi.ke
+DEBUG 2025-09-10 07:01:50,154 backends 4496 30692 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-09-10 07:01:50,162 backends 4496 30692 User session created successfully: dvB8D6bhLIzhdi33oL7nYItHEl84Bvf1TTtvo1J6w48 for user: admin@hodi.ke
+DEBUG 2025-09-10 07:01:50,163 views 4496 30692 User session created: dvB8D6bhLIzhdi33oL7nYItHEl84Bvf1TTtvo1J6w48
+INFO 2025-09-10 07:01:50,183 views 4496 30692 User admin@hodi.ke successfully logged in and redirected
+INFO 2025-09-10 07:01:50,199 basehttp 4496 30692 "POST /login/ HTTP/1.1" 302 0
+DEBUG 2025-09-10 07:01:50,234 backends 4496 30692 Retrieved user by ID: 2
+INFO 2025-09-10 07:01:50,364 basehttp 4496 30692 "GET /dashboard/ HTTP/1.1" 200 65440
+INFO 2025-09-10 07:01:50,486 basehttp 4496 30692 "GET /static/assets/img/theme/team-1.jpg HTTP/1.1" 200 166436
+INFO 2025-09-10 07:01:50,518 basehttp 4496 29032 "GET /static/assets/img/theme/team-2.jpg HTTP/1.1" 200 266315
+INFO 2025-09-10 07:01:50,762 basehttp 4496 12496 "GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 200 3886
+INFO 2025-09-10 07:01:50,764 basehttp 4496 29392 "GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 200 13026
+INFO 2025-09-10 07:01:50,770 basehttp 4496 29032 "GET /static/assets/img/theme/team-3.jpg HTTP/1.1" 200 173325
+INFO 2025-09-10 07:01:50,778 basehttp 4496 30692 "GET /static/assets/img/theme/team-4.jpg HTTP/1.1" 200 124734
+INFO 2025-09-10 07:01:50,786 basehttp 4496 19016 "GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 200 21706
+INFO 2025-09-10 07:01:50,798 basehttp 4496 27252 "GET /static/assets/img/theme/team-5.jpg HTTP/1.1" 200 166436
+INFO 2025-09-10 07:01:51,312 basehttp 4496 27252 "GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 200 8580
+DEBUG 2025-09-10 07:01:59,256 backends 4496 8904 Retrieved user by ID: 2
+INFO 2025-09-10 07:01:59,306 basehttp 4496 8904 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-09-10 07:02:04,298 backends 4496 8904 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:04,328 basehttp 4496 8904 "GET /facilities/map/ HTTP/1.1" 200 39427
+DEBUG 2025-09-10 07:02:05,524 backends 4496 8904 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:05,539 basehttp 4496 8904 "GET /services/ HTTP/1.1" 200 39776
+DEBUG 2025-09-10 07:02:07,268 backends 4496 25784 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:07,284 basehttp 4496 25784 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-09-10 07:02:10,967 backends 4496 25784 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:10,978 basehttp 4496 25784 "GET /infrastructure/ HTTP/1.1" 200 40134
+DEBUG 2025-09-10 07:02:13,122 backends 4496 25784 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:13,202 basehttp 4496 25784 "GET /common/lookups/ HTTP/1.1" 200 262824
+DEBUG 2025-09-10 07:02:20,310 backends 4496 29968 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:20,341 basehttp 4496 29968 "GET /music/ HTTP/1.1" 200 38682
+DEBUG 2025-09-10 07:02:23,139 backends 4496 29968 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:23,198 basehttp 4496 29968 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-09-10 07:02:25,528 backends 4496 29968 Retrieved user by ID: 2
+INFO 2025-09-10 07:02:25,558 basehttp 4496 29968 "GET /facilities/map/ HTTP/1.1" 200 39427
+INFO 2025-09-10 07:04:27,476 autoreload 4496 7276 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:04:28,847 autoreload 3192 8788 Watching for file changes with StatReloader
+INFO 2025-09-10 07:04:37,535 autoreload 3192 8788 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-09-10 07:04:39,045 autoreload 3352 20504 Watching for file changes with StatReloader
+INFO 2025-09-10 07:04:45,268 autoreload 3352 20504 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-09-10 07:04:46,724 autoreload 22140 26960 Watching for file changes with StatReloader
+INFO 2025-09-10 07:05:00,108 autoreload 22140 26960 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\models.py changed, reloading.
+INFO 2025-09-10 07:05:02,057 autoreload 14772 19124 Watching for file changes with StatReloader
+INFO 2025-09-10 07:05:08,640 autoreload 14772 19124 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-09-10 07:05:09,578 autoreload 30316 23672 Watching for file changes with StatReloader
+INFO 2025-09-10 07:05:12,725 autoreload 30316 23672 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\api\serializers.py changed, reloading.
+INFO 2025-09-10 07:05:13,833 autoreload 29992 23736 Watching for file changes with StatReloader
+INFO 2025-09-10 07:05:17,733 autoreload 29992 23736 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:05:18,753 autoreload 24736 29128 Watching for file changes with StatReloader
+INFO 2025-09-10 07:11:32,855 autoreload 24736 29128 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\models.py changed, reloading.
+INFO 2025-09-10 07:11:35,039 autoreload 24996 27916 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:11:47,697 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:11:47,936 basehttp 24996 10568 "GET / HTTP/1.1" 302 0
+DEBUG 2025-09-10 07:11:47,958 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:11:48,140 basehttp 24996 10568 "GET /dashboard/ HTTP/1.1" 200 65440
+DEBUG 2025-09-10 07:11:56,837 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:11:56,901 basehttp 24996 10568 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-09-10 07:11:58,945 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:11:58,976 basehttp 24996 10568 "GET /facilities/map/ HTTP/1.1" 200 40271
+DEBUG 2025-09-10 07:12:10,361 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:12:10,404 basehttp 24996 10568 "GET /facilities/ HTTP/1.1" 200 58188
+DEBUG 2025-09-10 07:12:12,475 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:12:12,527 basehttp 24996 10568 "GET /facilities/1/ HTTP/1.1" 200 43654
+DEBUG 2025-09-10 07:14:35,293 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:14:35,503 basehttp 24996 10568 "GET /facilities/1/ HTTP/1.1" 200 47406
+INFO 2025-09-10 07:14:40,933 basehttp 24996 10568 "GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2 HTTP/1.1" 200 75936
+DEBUG 2025-09-10 07:14:59,995 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:15:00,084 basehttp 24996 10568 "GET /facilities/map/?facility=1 HTTP/1.1" 200 40271
+DEBUG 2025-09-10 07:15:08,359 backends 24996 10568 Retrieved user by ID: 2
+INFO 2025-09-10 07:15:08,423 basehttp 24996 10568 "GET /facilities/map/ HTTP/1.1" 200 40271
+DEBUG 2025-09-10 07:15:34,698 backends 24996 5112 Retrieved user by ID: 2
+INFO 2025-09-10 07:15:34,751 basehttp 24996 5112 "GET /facilities/map/ HTTP/1.1" 200 40271
+INFO 2025-09-10 07:16:10,199 autoreload 24996 27916 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\models.py changed, reloading.
+INFO 2025-09-10 07:16:12,740 autoreload 21848 29544 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:16:20,003 backends 21848 21092 Retrieved user by ID: 2
+INFO 2025-09-10 07:16:20,391 basehttp 21848 21092 "GET /facilities/map/ HTTP/1.1" 200 40271
+INFO 2025-09-10 07:19:06,219 autoreload 21848 29544 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:19:08,462 autoreload 12244 24252 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:23:37,131 backends 12244 21368 Retrieved user by ID: 2
+INFO 2025-09-10 07:23:37,487 basehttp 12244 21368 "GET /facilities/map/ HTTP/1.1" 200 42195
+INFO 2025-09-10 07:23:48,932 autoreload 12244 24252 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:23:49,966 autoreload 28328 28180 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:23:56,726 backends 28328 25736 Retrieved user by ID: 2
+INFO 2025-09-10 07:23:56,926 basehttp 28328 25736 "GET /facilities/5/ HTTP/1.1" 200 44084
+DEBUG 2025-09-10 07:24:02,556 backends 28328 21848 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:02,582 basehttp 28328 21848 "GET /facilities/map/ HTTP/1.1" 200 42195
+DEBUG 2025-09-10 07:24:15,081 backends 28328 4976 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:15,126 basehttp 28328 4976 "GET /facilities/2/ HTTP/1.1" 200 44093
+DEBUG 2025-09-10 07:24:17,704 backends 28328 4976 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:17,715 basehttp 28328 4976 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-09-10 07:24:18,906 backends 28328 4976 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:18,921 basehttp 28328 4976 "GET /infrastructure/ HTTP/1.1" 200 43571
+DEBUG 2025-09-10 07:24:22,097 backends 28328 24332 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:22,132 basehttp 28328 24332 "GET /music/ HTTP/1.1" 200 38682
+DEBUG 2025-09-10 07:24:27,390 backends 28328 24332 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:27,425 basehttp 28328 24332 "GET /users/ HTTP/1.1" 200 46473
+DEBUG 2025-09-10 07:24:36,765 backends 28328 24332 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:36,788 basehttp 28328 24332 "GET /users/2/ HTTP/1.1" 200 34382
+DEBUG 2025-09-10 07:24:41,027 backends 28328 24332 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:41,047 basehttp 28328 24332 "GET /facilities/map/ HTTP/1.1" 200 42195
+DEBUG 2025-09-10 07:24:41,691 backends 28328 24332 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:41,790 basehttp 28328 24332 "GET /dashboard/ HTTP/1.1" 200 66805
+DEBUG 2025-09-10 07:24:47,492 backends 28328 20740 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:47,529 basehttp 28328 20740 "GET /users/ HTTP/1.1" 200 46473
+DEBUG 2025-09-10 07:24:51,737 backends 28328 20740 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:51,776 basehttp 28328 20740 "GET /facilities/ HTTP/1.1" 200 58944
+DEBUG 2025-09-10 07:24:54,609 backends 28328 31408 Retrieved user by ID: 2
+INFO 2025-09-10 07:24:54,639 basehttp 28328 31408 "GET /facilities/map/ HTTP/1.1" 200 42195
+INFO 2025-09-10 07:25:05,104 autoreload 28328 28180 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:25:06,240 autoreload 24332 30804 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:26:50,206 backends 24332 31024 Retrieved user by ID: 2
+INFO 2025-09-10 07:26:50,860 basehttp 24332 31024 "GET /facilities/ HTTP/1.1" 200 58944
+INFO 2025-09-10 07:27:53,614 autoreload 24332 30804 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-10 07:27:54,826 autoreload 23160 31276 Watching for file changes with StatReloader
+INFO 2025-09-10 07:28:00,890 autoreload 23160 31276 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:28:04,512 autoreload 31688 11516 Watching for file changes with StatReloader
+INFO 2025-09-10 07:28:09,980 autoreload 31688 11516 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:28:12,122 autoreload 24844 14352 Watching for file changes with StatReloader
+INFO 2025-09-10 07:28:18,634 autoreload 24844 14352 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:28:22,233 autoreload 10488 14216 Watching for file changes with StatReloader
+INFO 2025-09-10 07:28:31,262 autoreload 10488 14216 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-09-10 07:28:33,021 autoreload 9272 30928 Watching for file changes with StatReloader
+INFO 2025-09-10 07:28:37,024 autoreload 9272 30928 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-09-10 07:28:38,842 autoreload 18888 29824 Watching for file changes with StatReloader
+INFO 2025-09-10 07:28:46,850 autoreload 18888 29824 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-09-10 07:28:49,655 autoreload 27676 31720 Watching for file changes with StatReloader
+INFO 2025-09-10 07:29:30,804 autoreload 27676 31720 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py changed, reloading.
+INFO 2025-09-10 07:29:33,770 autoreload 28172 8376 Watching for file changes with StatReloader
+INFO 2025-09-10 07:29:38,102 autoreload 28172 8376 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:29:40,324 autoreload 3004 16476 Watching for file changes with StatReloader
+INFO 2025-09-10 07:30:38,451 autoreload 3004 16476 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:30:39,408 autoreload 27312 17652 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:33:32,760 backends 27312 20600 Retrieved user by ID: 2
+INFO 2025-09-10 07:33:33,055 basehttp 27312 20600 "GET /facilities/ HTTP/1.1" 200 58944
+DEBUG 2025-09-10 07:33:37,696 backends 27312 20600 Retrieved user by ID: 2
+INFO 2025-09-10 07:33:37,737 basehttp 27312 20600 "GET /facilities/ HTTP/1.1" 200 58944
+DEBUG 2025-09-10 07:33:45,184 backends 27312 7008 Retrieved user by ID: 2
+INFO 2025-09-10 07:33:45,242 basehttp 27312 7008 "GET /facilities/1/ HTTP/1.1" 200 46759
+DEBUG 2025-09-10 07:37:30,334 backends 27312 26272 Retrieved user by ID: 2
+INFO 2025-09-10 07:37:30,479 basehttp 27312 26272 "GET /facilities/1/ HTTP/1.1" 200 46759
+DEBUG 2025-09-10 07:37:35,120 backends 27312 26272 Retrieved user by ID: 2
+INFO 2025-09-10 07:37:35,208 basehttp 27312 26272 "GET /facilities/1/ HTTP/1.1" 200 46759
+DEBUG 2025-09-10 07:40:36,547 backends 27312 28316 Retrieved user by ID: 2
+INFO 2025-09-10 07:40:36,708 basehttp 27312 28316 "GET /facilities/1/ HTTP/1.1" 200 46759
+DEBUG 2025-09-10 07:40:40,440 backends 27312 28316 Retrieved user by ID: 2
+INFO 2025-09-10 07:40:40,499 basehttp 27312 28316 "GET /facilities/1/ HTTP/1.1" 200 46759
+DEBUG 2025-09-10 07:40:50,770 backends 27312 23636 Retrieved user by ID: 2
+INFO 2025-09-10 07:40:50,884 basehttp 27312 23636 "GET /facilities/ HTTP/1.1" 200 58944
+DEBUG 2025-09-10 07:41:14,318 backends 27312 31692 Retrieved user by ID: 2
+INFO 2025-09-10 07:41:14,431 basehttp 27312 31692 "GET /facilities/ HTTP/1.1" 200 58944
+DEBUG 2025-09-10 07:41:17,667 backends 27312 31692 Retrieved user by ID: 2
+INFO 2025-09-10 07:41:17,727 basehttp 27312 31692 "GET /facilities/1/ HTTP/1.1" 200 46759
+DEBUG 2025-09-10 07:41:24,041 backends 27312 21664 Retrieved user by ID: 2
+INFO 2025-09-10 07:41:24,096 basehttp 27312 21664 "GET /facilities/2/ HTTP/1.1" 200 44093
+DEBUG 2025-09-10 07:43:28,399 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:43:28,491 basehttp 27312 31588 "GET /facilities/2/ HTTP/1.1" 200 44093
+DEBUG 2025-09-10 07:43:31,075 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:43:31,122 basehttp 27312 31588 "GET /facilities/2/ HTTP/1.1" 200 44093
+DEBUG 2025-09-10 07:43:33,487 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:43:33,519 basehttp 27312 31588 "GET /facilities/2/ HTTP/1.1" 200 44093
+DEBUG 2025-09-10 07:43:40,969 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:43:40,986 basehttp 27312 31588 "GET /common/geography/constituency/1/ HTTP/1.1" 200 31715
+DEBUG 2025-09-10 07:43:48,210 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:43:48,241 basehttp 27312 31588 "GET /common/geography/ward/1/ HTTP/1.1" 200 32056
+DEBUG 2025-09-10 07:43:58,240 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:43:58,703 basehttp 27312 31588 "GET /facilities/2/edit/ HTTP/1.1" 200 122215
+DEBUG 2025-09-10 07:43:59,317 backends 27312 31588 Retrieved user by ID: 2
+WARNING 2025-09-10 07:43:59,338 log 27312 31588 Bad Request: /geography/api/search/
+WARNING 2025-09-10 07:43:59,339 basehttp 27312 31588 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-09-10 07:44:16,511 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:16,521 basehttp 27312 31588 "GET /help/ HTTP/1.1" 200 38688
+DEBUG 2025-09-10 07:44:19,189 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:19,205 basehttp 27312 31588 "GET /analytics/ HTTP/1.1" 200 31934
+DEBUG 2025-09-10 07:44:24,790 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:24,817 basehttp 27312 31588 "GET /facilities/map/ HTTP/1.1" 200 42195
+DEBUG 2025-09-10 07:44:34,019 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:34,077 basehttp 27312 31588 "GET /facilities/ HTTP/1.1" 200 58944
+DEBUG 2025-09-10 07:44:35,207 backends 27312 31588 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:35,276 basehttp 27312 31588 "GET /dashboard/ HTTP/1.1" 200 66805
+DEBUG 2025-09-10 07:44:49,741 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:49,770 basehttp 27312 14812 "GET /facilities/map/ HTTP/1.1" 200 42195
+DEBUG 2025-09-10 07:44:52,388 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:52,400 basehttp 27312 14812 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-09-10 07:44:53,528 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:53,541 basehttp 27312 14812 "GET /infrastructure/ HTTP/1.1" 200 43571
+DEBUG 2025-09-10 07:44:56,553 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:44:56,570 basehttp 27312 14812 "GET /infrastructure/ HTTP/1.1" 200 43571
+DEBUG 2025-09-10 07:45:04,657 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:45:04,712 basehttp 27312 14812 "GET /common/lookups/ HTTP/1.1" 200 262196
+DEBUG 2025-09-10 07:45:06,212 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:45:06,233 basehttp 27312 14812 "GET /infrastructure/ HTTP/1.1" 200 43571
+DEBUG 2025-09-10 07:45:07,210 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:45:07,225 basehttp 27312 14812 "GET /human-resources/ HTTP/1.1" 200 38270
+DEBUG 2025-09-10 07:45:08,570 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:45:08,587 basehttp 27312 14812 "GET /infrastructure/ HTTP/1.1" 200 43571
+DEBUG 2025-09-10 07:45:09,883 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:45:09,899 basehttp 27312 14812 "GET /human-resources/ HTTP/1.1" 200 38270
+INFO 2025-09-10 07:45:13,572 basehttp 27312 14812 "GET /human-resources/add/ HTTP/1.1" 302 0
+DEBUG 2025-09-10 07:45:13,591 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:45:13,628 basehttp 27312 14812 "GET /facilities/ HTTP/1.1" 200 58944
+DEBUG 2025-09-10 07:45:16,383 backends 27312 14812 Retrieved user by ID: 2
+INFO 2025-09-10 07:45:16,806 basehttp 27312 14812 "GET /facilities/create/ HTTP/1.1" 200 122282
+DEBUG 2025-09-10 07:45:17,174 backends 27312 14812 Retrieved user by ID: 2
+WARNING 2025-09-10 07:45:17,181 log 27312 14812 Bad Request: /geography/api/search/
+WARNING 2025-09-10 07:45:17,181 basehttp 27312 14812 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-09-10 07:48:54,998 backends 27312 31672 Retrieved user by ID: 2
+INFO 2025-09-10 07:48:55,657 basehttp 27312 31672 "GET /facilities/create/ HTTP/1.1" 200 120470
+DEBUG 2025-09-10 07:48:56,919 backends 27312 31672 Retrieved user by ID: 2
+WARNING 2025-09-10 07:48:56,942 log 27312 31672 Bad Request: /geography/api/search/
+WARNING 2025-09-10 07:48:56,944 basehttp 27312 31672 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-09-10 07:48:59,765 backends 27312 31672 Retrieved user by ID: 2
+INFO 2025-09-10 07:48:59,798 basehttp 27312 31672 "GET /chat/ HTTP/1.1" 200 48823
+DEBUG 2025-09-10 07:49:00,344 backends 27312 1376 Retrieved user by ID: 2
+DEBUG 2025-09-10 07:49:00,349 backends 27312 31672 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:00,446 basehttp 27312 1376 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 07:49:00,474 basehttp 27312 31672 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-10 07:49:02,481 backends 27312 12244 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:02,607 basehttp 27312 12244 "GET /music/ HTTP/1.1" 200 37249
+DEBUG 2025-09-10 07:49:04,418 backends 27312 12244 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:04,477 basehttp 27312 12244 "GET /facilities/map/ HTTP/1.1" 200 40762
+DEBUG 2025-09-10 07:49:07,136 backends 27312 12244 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:07,170 basehttp 27312 12244 "GET /analytics/ HTTP/1.1" 200 30501
+DEBUG 2025-09-10 07:49:09,369 backends 27312 12244 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:09,434 basehttp 27312 12244 "GET /documents/ HTTP/1.1" 200 37417
+DEBUG 2025-09-10 07:49:12,298 backends 27312 20656 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:12,432 basehttp 27312 20656 "GET /facilities/ HTTP/1.1" 200 57511
+DEBUG 2025-09-10 07:49:17,695 backends 27312 20656 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:18,256 basehttp 27312 20656 "GET /facilities/create/ HTTP/1.1" 200 120470
+DEBUG 2025-09-10 07:49:18,701 backends 27312 20656 Retrieved user by ID: 2
+WARNING 2025-09-10 07:49:18,710 log 27312 20656 Bad Request: /geography/api/search/
+WARNING 2025-09-10 07:49:18,715 basehttp 27312 20656 "GET /geography/api/search/?q= HTTP/1.1" 400 55
+DEBUG 2025-09-10 07:49:25,199 backends 27312 25308 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:25,233 basehttp 27312 25308 "GET /documents/ HTTP/1.1" 200 37417
+DEBUG 2025-09-10 07:49:26,967 backends 27312 25308 Retrieved user by ID: 2
+INFO 2025-09-10 07:49:27,066 basehttp 27312 25308 "GET /documents/create/ HTTP/1.1" 200 43079
+DEBUG 2025-09-10 07:50:32,295 backends 27312 10616 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:32,318 basehttp 27312 10616 "GET /chat/ HTTP/1.1" 200 48823
+DEBUG 2025-09-10 07:50:33,307 backends 27312 10616 Retrieved user by ID: 2
+DEBUG 2025-09-10 07:50:33,365 backends 27312 8304 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:33,420 basehttp 27312 10616 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+INFO 2025-09-10 07:50:33,467 basehttp 27312 8304 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-09-10 07:50:35,744 backends 27312 8304 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:35,827 basehttp 27312 8304 "GET /chat/ HTTP/1.1" 200 48823
+DEBUG 2025-09-10 07:50:36,636 backends 27312 17732 Retrieved user by ID: 2
+DEBUG 2025-09-10 07:50:36,691 backends 27312 18708 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:36,757 basehttp 27312 17732 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+INFO 2025-09-10 07:50:36,779 basehttp 27312 18708 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+DEBUG 2025-09-10 07:50:38,268 backends 27312 18708 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:38,323 basehttp 27312 18708 "GET /chat/ HTTP/1.1" 200 48823
+DEBUG 2025-09-10 07:50:38,938 backends 27312 18708 Retrieved user by ID: 2
+DEBUG 2025-09-10 07:50:38,941 backends 27312 17732 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:39,199 basehttp 27312 17732 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 07:50:39,329 basehttp 27312 18708 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-10 07:50:41,637 backends 27312 18708 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:41,729 basehttp 27312 18708 "GET /chat/ HTTP/1.1" 200 48823
+DEBUG 2025-09-10 07:50:42,374 backends 27312 17732 Retrieved user by ID: 2
+DEBUG 2025-09-10 07:50:42,377 backends 27312 18708 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:42,426 basehttp 27312 17732 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 07:50:42,498 basehttp 27312 18708 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-10 07:50:46,510 backends 27312 18708 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:46,568 basehttp 27312 18708 "GET /chat/ HTTP/1.1" 200 48823
+DEBUG 2025-09-10 07:50:47,259 backends 27312 10752 Retrieved user by ID: 2
+DEBUG 2025-09-10 07:50:47,260 backends 27312 4864 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:47,577 basehttp 27312 4864 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 07:50:47,644 basehttp 27312 10752 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-10 07:50:49,882 backends 27312 10752 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:50,059 basehttp 27312 10752 "GET /chat/conversation/12/ HTTP/1.1" 200 73515
+DEBUG 2025-09-10 07:50:50,639 backends 27312 4864 Retrieved user by ID: 2
+DEBUG 2025-09-10 07:50:50,640 backends 27312 10752 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:50,779 basehttp 27312 4864 "GET /chat/admin/conversations/12/ HTTP/1.1" 200 2735
+INFO 2025-09-10 07:50:50,982 basehttp 27312 10752 "GET /chat/admin/conversations/12/messages/ HTTP/1.1" 200 2188
+DEBUG 2025-09-10 07:50:54,946 backends 27312 10752 Retrieved user by ID: 2
+INFO 2025-09-10 07:50:55,132 basehttp 27312 10752 "GET /dashboard/ HTTP/1.1" 200 65372
+INFO 2025-09-10 07:52:03,209 autoreload 27312 17652 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:52:05,663 autoreload 29760 30284 Watching for file changes with StatReloader
+INFO 2025-09-10 07:52:13,618 autoreload 29760 30284 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:52:14,823 autoreload 11864 21528 Watching for file changes with StatReloader
+INFO 2025-09-10 07:52:25,091 autoreload 11864 21528 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:52:26,051 autoreload 25324 17624 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:53:08,484 backends 25324 30208 Retrieved user by ID: 2
+INFO 2025-09-10 07:53:08,637 basehttp 25324 30208 "GET /documents/ HTTP/1.1" 200 37417
+DEBUG 2025-09-10 07:53:11,215 backends 25324 30208 Retrieved user by ID: 2
+INFO 2025-09-10 07:53:11,308 basehttp 25324 30208 "GET /documents/create/ HTTP/1.1" 200 46489
+INFO 2025-09-10 07:56:07,988 autoreload 14772 15636 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:56:18,324 backends 25324 31280 Retrieved user by ID: 2
+INFO 2025-09-10 07:56:18,433 basehttp 25324 31280 "GET /documents/create/ HTTP/1.1" 200 46830
+DEBUG 2025-09-10 07:56:39,198 backends 25324 17884 Retrieved user by ID: 2
+INFO 2025-09-10 07:56:39,282 basehttp 25324 17884 "POST /documents/create/ HTTP/1.1" 200 47783
+DEBUG 2025-09-10 07:56:48,873 backends 25324 12344 Retrieved user by ID: 2
+INFO 2025-09-10 07:56:48,905 basehttp 25324 12344 "GET /documents/ HTTP/1.1" 200 41881
+DEBUG 2025-09-10 07:57:30,818 backends 25324 11676 Retrieved user by ID: 2
+INFO 2025-09-10 07:57:30,843 basehttp 25324 11676 "GET /documents/1/edit/ HTTP/1.1" 200 47195
+INFO 2025-09-10 07:57:33,526 autoreload 14772 15636 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:57:34,342 autoreload 25324 17624 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:57:34,514 autoreload 31308 8800 Watching for file changes with StatReloader
+INFO 2025-09-10 07:57:35,703 autoreload 31356 31288 Watching for file changes with StatReloader
+INFO 2025-09-10 07:57:37,177 autoreload 31308 8800 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+DEBUG 2025-09-10 07:57:37,779 backends 31356 3536 Retrieved user by ID: 2
+INFO 2025-09-10 07:57:37,961 basehttp 31356 3536 "GET /documents/1/edit/ HTTP/1.1" 200 47195
+INFO 2025-09-10 07:57:38,117 autoreload 30184 15172 Watching for file changes with StatReloader
+INFO 2025-09-10 07:57:42,151 autoreload 30184 15172 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:57:42,198 autoreload 31356 31288 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:57:43,445 autoreload 19716 29700 Watching for file changes with StatReloader
+INFO 2025-09-10 07:57:43,476 autoreload 24004 15404 Watching for file changes with StatReloader
+INFO 2025-09-10 07:57:46,316 autoreload 19716 29700 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:57:46,410 autoreload 24004 15404 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:57:47,351 autoreload 21696 9272 Watching for file changes with StatReloader
+INFO 2025-09-10 07:57:47,416 autoreload 18648 16636 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:57:53,173 backends 21696 11676 Retrieved user by ID: 2
+INFO 2025-09-10 07:57:53,338 basehttp 21696 11676 "GET /documents/analytics/ HTTP/1.1" 200 41497
+INFO 2025-09-10 07:57:57,647 autoreload 18648 16636 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:57:58,005 autoreload 21696 9272 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\facilities\views.py changed, reloading.
+INFO 2025-09-10 07:57:58,633 autoreload 22180 30560 Watching for file changes with StatReloader
+INFO 2025-09-10 07:57:59,096 autoreload 19856 22980 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:59:34,454 backends 22180 3348 Retrieved user by ID: 2
+INFO 2025-09-10 07:59:34,819 basehttp 22180 3348 "GET /documents/analytics/ HTTP/1.1" 200 41801
+INFO 2025-09-10 07:59:37,541 autoreload 19856 22980 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:59:37,552 autoreload 22180 30560 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:59:38,968 autoreload 22308 7260 Watching for file changes with StatReloader
+INFO 2025-09-10 07:59:38,982 autoreload 24764 24480 Watching for file changes with StatReloader
+DEBUG 2025-09-10 07:59:40,141 backends 22308 30100 Retrieved user by ID: 2
+INFO 2025-09-10 07:59:40,294 basehttp 22308 30100 "GET /facilities/ HTTP/1.1" 200 57815
+DEBUG 2025-09-10 07:59:42,853 backends 22308 30100 Retrieved user by ID: 2
+INFO 2025-09-10 07:59:42,959 basehttp 22308 30100 "GET /facilities/1/ HTTP/1.1" 200 45630
+INFO 2025-09-10 07:59:46,074 autoreload 24764 24480 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:59:46,807 autoreload 22308 7260 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\documents\views.py changed, reloading.
+INFO 2025-09-10 07:59:47,071 autoreload 21992 10052 Watching for file changes with StatReloader
+INFO 2025-09-10 07:59:48,196 autoreload 31720 7848 Watching for file changes with StatReloader
+DEBUG 2025-09-10 08:00:00,655 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:00:00,895 basehttp 21992 30632 "GET /facilities/1/ HTTP/1.1" 200 45630
+DEBUG 2025-09-10 08:00:17,180 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:00:17,204 basehttp 21992 30632 "GET /common/geography/constituency/1/ HTTP/1.1" 200 30586
+DEBUG 2025-09-10 08:00:20,798 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:00:20,841 basehttp 21992 30632 "GET /common/geography/ward/1/ HTTP/1.1" 200 30927
+DEBUG 2025-09-10 08:00:23,863 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:00:23,944 basehttp 21992 30632 "GET /facilities/?county=1 HTTP/1.1" 200 57823
+DEBUG 2025-09-10 08:00:33,243 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:00:33,286 basehttp 21992 30632 "GET /facilities/?county=2 HTTP/1.1" 200 43272
+DEBUG 2025-09-10 08:00:38,773 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:00:38,802 basehttp 21992 30632 "GET /facilities/map/ HTTP/1.1" 200 41066
+DEBUG 2025-09-10 08:00:45,821 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:00:45,879 basehttp 21992 30632 "GET /facilities/4/ HTTP/1.1" 200 42964
+DEBUG 2025-09-10 08:03:51,379 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:03:51,511 basehttp 21992 30632 "GET /facilities/4/ HTTP/1.1" 200 43053
+DEBUG 2025-09-10 08:03:55,916 backends 21992 30632 Retrieved user by ID: 2
+INFO 2025-09-10 08:03:55,953 basehttp 21992 30632 "GET /facilities/4/ HTTP/1.1" 200 43053
+DEBUG 2025-09-10 08:04:51,866 backends 21992 25364 Retrieved user by ID: 2
+INFO 2025-09-10 08:04:52,066 basehttp 21992 25364 "GET /facilities/4/ HTTP/1.1" 200 43053
+DEBUG 2025-09-10 08:04:54,731 backends 21992 25364 Retrieved user by ID: 2
+INFO 2025-09-10 08:04:54,773 basehttp 21992 25364 "GET /facilities/4/ HTTP/1.1" 200 43053
+DEBUG 2025-09-10 08:05:10,921 backends 21992 13076 Retrieved user by ID: 2
+INFO 2025-09-10 08:05:11,086 basehttp 21992 13076 "GET /facilities/4/ HTTP/1.1" 200 43038
+DEBUG 2025-09-10 08:05:15,494 backends 21992 13076 Retrieved user by ID: 2
+INFO 2025-09-10 08:05:15,567 basehttp 21992 13076 "GET /facilities/4/ HTTP/1.1" 200 43033
+DEBUG 2025-09-10 08:06:11,296 backends 21992 30564 Retrieved user by ID: 2
+INFO 2025-09-10 08:06:11,475 basehttp 21992 30564 "GET /facilities/4/ HTTP/1.1" 200 43013
+DEBUG 2025-09-10 08:06:19,088 backends 21992 29516 Retrieved user by ID: 2
+INFO 2025-09-10 08:06:19,223 basehttp 21992 29516 "GET /facilities/ HTTP/1.1" 200 57815
+DEBUG 2025-09-10 08:07:33,649 backends 21992 7732 Retrieved user by ID: 2
+INFO 2025-09-10 08:07:33,722 basehttp 21992 7732 "GET /facilities/map/ HTTP/1.1" 200 41066
+DEBUG 2025-09-10 08:07:35,286 backends 21992 7732 Retrieved user by ID: 2
+INFO 2025-09-10 08:07:35,340 basehttp 21992 7732 "GET /facilities/ HTTP/1.1" 200 57740
+DEBUG 2025-09-10 08:07:57,546 backends 21992 32564 Retrieved user by ID: 2
+INFO 2025-09-10 08:07:57,679 basehttp 21992 32564 "GET /facilities/ HTTP/1.1" 200 57740
+DEBUG 2025-09-10 08:08:01,004 backends 21992 32564 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:01,031 basehttp 21992 32564 "GET /chat/ HTTP/1.1" 200 49127
+DEBUG 2025-09-10 08:08:01,387 backends 21992 32564 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:08:01,414 backends 21992 32484 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:01,432 basehttp 21992 32484 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 08:08:01,453 basehttp 21992 32564 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-10 08:08:09,294 backends 21992 31944 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:09,322 basehttp 21992 31944 "GET /chat/ HTTP/1.1" 200 49127
+DEBUG 2025-09-10 08:08:09,683 backends 21992 31944 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:08:09,684 backends 21992 31788 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:09,718 basehttp 21992 31788 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 08:08:09,747 basehttp 21992 31944 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-10 08:08:11,705 backends 21992 31944 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:11,723 basehttp 21992 31944 "GET /chat/ HTTP/1.1" 200 49127
+DEBUG 2025-09-10 08:08:12,040 backends 21992 31944 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:08:12,042 backends 21992 31788 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:12,076 basehttp 21992 31788 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 08:08:12,113 basehttp 21992 31944 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+DEBUG 2025-09-10 08:08:25,156 backends 21992 31944 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:25,208 basehttp 21992 31944 "GET /documents/ HTTP/1.1" 200 42185
+DEBUG 2025-09-10 08:08:27,243 backends 21992 31944 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:27,263 basehttp 21992 31944 "GET /services/ HTTP/1.1" 200 43522
+DEBUG 2025-09-10 08:08:55,759 backends 21992 31944 Retrieved user by ID: 2
+INFO 2025-09-10 08:08:55,775 basehttp 21992 31944 "GET /human-resources/ HTTP/1.1" 200 37141
+INFO 2025-09-10 08:09:01,963 basehttp 21992 31944 "GET /swagger/ HTTP/1.1" 200 2207
+INFO 2025-09-10 08:09:02,532 basehttp 21992 30660 "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 200 2093
+INFO 2025-09-10 08:09:02,539 basehttp 21992 30660 "GET /static/drf-yasg/swagger-ui-init.js HTTP/1.1" 200 15480
+INFO 2025-09-10 08:09:02,553 basehttp 21992 31788 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui.css HTTP/1.1" 200 145206
+INFO 2025-09-10 08:09:02,573 basehttp 21992 31944 "GET /static/drf-yasg/style.css HTTP/1.1" 200 1047
+INFO 2025-09-10 08:09:02,591 basehttp 21992 12208 "GET /static/drf-yasg/immutable.min.js HTTP/1.1" 200 56904
+INFO 2025-09-10 08:09:02,685 basehttp 21992 31784 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-standalone-preset.js HTTP/1.1" 200 322863
+INFO 2025-09-10 08:09:02,713 basehttp 21992 32612 "GET /static/drf-yasg/swagger-ui-dist/swagger-ui-bundle.js HTTP/1.1" 200 1046583
+INFO 2025-09-10 08:09:02,926 basehttp 21992 32612 "GET /static/drf-yasg/swagger-ui-dist/favicon-32x32.png HTTP/1.1" 200 628
+INFO 2025-09-10 08:09:03,786 basehttp 21992 19016 "GET /swagger/?format=openapi HTTP/1.1" 200 75916
+DEBUG 2025-09-10 08:09:17,523 backends 21992 17268 Retrieved user by ID: 2
+INFO 2025-09-10 08:09:17,579 basehttp 21992 17268 "GET /dashboard/ HTTP/1.1" 200 66431
+DEBUG 2025-09-10 08:09:22,951 backends 21992 17268 Retrieved user by ID: 2
+INFO 2025-09-10 08:09:22,971 basehttp 21992 17268 "GET /analytics/ HTTP/1.1" 200 30805
+DEBUG 2025-09-10 08:09:24,672 backends 21992 31660 Retrieved user by ID: 2
+INFO 2025-09-10 08:09:24,721 basehttp 21992 31660 "GET /dashboard/ HTTP/1.1" 200 66431
+DEBUG 2025-09-10 08:09:26,568 backends 21992 31660 Retrieved user by ID: 2
+INFO 2025-09-10 08:09:26,645 basehttp 21992 31660 "GET /admin/ HTTP/1.1" 302 0
+DEBUG 2025-09-10 08:09:26,663 backends 21992 31660 Retrieved user by ID: 2
+INFO 2025-09-10 08:09:26,716 basehttp 21992 31660 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3712
+INFO 2025-09-10 08:09:26,814 basehttp 21992 31660 "GET /static/admin/css/base.css HTTP/1.1" 200 21310
+INFO 2025-09-10 08:09:26,822 basehttp 21992 31836 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2929
+INFO 2025-09-10 08:09:26,822 basehttp 21992 2460 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2694
+INFO 2025-09-10 08:09:26,845 basehttp 21992 31048 "GET /static/admin/css/login.css HTTP/1.1" 200 958
+INFO 2025-09-10 08:09:26,847 basehttp 21992 22360 "GET /static/admin/css/responsive.css HTTP/1.1" 200 18559
+INFO 2025-09-10 08:09:26,990 basehttp 21992 22360 "GET /static/admin/js/theme.js HTTP/1.1" 200 1943
+INFO 2025-09-10 08:09:26,991 basehttp 21992 31048 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-09-10 08:11:34,982 autoreload 31720 7848 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-10 08:11:35,056 autoreload 21992 10052 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-10 08:11:36,985 autoreload 30868 11596 Watching for file changes with StatReloader
+INFO 2025-09-10 08:11:36,986 autoreload 24080 29920 Watching for file changes with StatReloader
+INFO 2025-09-10 08:12:40,903 autoreload 24080 29920 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\chat\views.py changed, reloading.
+INFO 2025-09-10 08:12:41,010 autoreload 30868 11596 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\chat\views.py changed, reloading.
+INFO 2025-09-10 08:12:42,556 autoreload 7548 10620 Watching for file changes with StatReloader
+INFO 2025-09-10 08:12:42,844 autoreload 12080 26092 Watching for file changes with StatReloader
+INFO 2025-09-10 08:16:56,674 autoreload 12080 26092 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-10 08:16:56,730 autoreload 7548 10620 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-10 08:16:58,367 autoreload 2112 19996 Watching for file changes with StatReloader
+INFO 2025-09-10 08:16:58,421 autoreload 23576 27312 Watching for file changes with StatReloader
+INFO 2025-09-10 08:17:04,372 autoreload 2112 19996 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\chat\views.py changed, reloading.
+INFO 2025-09-10 08:17:04,358 autoreload 23576 27312 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\chat\views.py changed, reloading.
+INFO 2025-09-10 08:17:06,142 autoreload 3688 28488 Watching for file changes with StatReloader
+INFO 2025-09-10 08:17:06,276 autoreload 31316 15492 Watching for file changes with StatReloader
+DEBUG 2025-09-10 08:17:10,375 backends 3688 31960 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:10,769 basehttp 3688 31960 "GET /dashboard/ HTTP/1.1" 200 64961
+INFO 2025-09-10 08:17:11,842 basehttp 3688 31960 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 200 14076
+WARNING 2025-09-10 08:17:12,138 log 3688 16412 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:12,142 basehttp 3688 16412 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:17:14,486 backends 3688 31960 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:14,535 basehttp 3688 31960 "GET /chat/ HTTP/1.1" 200 47657
+INFO 2025-09-10 08:17:14,983 basehttp 3688 31960 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+DEBUG 2025-09-10 08:17:15,292 backends 3688 31960 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:17:15,325 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:15,401 basehttp 3688 31960 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 4049
+INFO 2025-09-10 08:17:15,414 basehttp 3688 24280 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:17:15,439 log 3688 17684 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:15,440 basehttp 3688 17684 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:17:18,577 log 3688 24280 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:17:18,579 basehttp 3688 24280 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:17:18,638 log 3688 25100 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:18,638 basehttp 3688 25100 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:17:20,746 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:20,807 basehttp 3688 24280 "GET /chat/conversation/12/ HTTP/1.1" 200 72349
+INFO 2025-09-10 08:17:21,208 basehttp 3688 24280 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+DEBUG 2025-09-10 08:17:21,437 backends 3688 31960 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:17:21,438 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:21,497 basehttp 3688 31960 "GET /chat/admin/conversations/12/ HTTP/1.1" 200 2735
+WARNING 2025-09-10 08:17:21,542 log 3688 28660 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:21,544 basehttp 3688 28660 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:17:21,571 basehttp 3688 24280 "GET /chat/admin/conversations/12/messages/ HTTP/1.1" 200 2188
+WARNING 2025-09-10 08:17:24,682 log 3688 30808 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:24,683 basehttp 3688 30808 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:17:26,429 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:26,447 basehttp 3688 24280 "GET /chat/admin/conversations/12/messages/?after=97 HTTP/1.1" 200 186
+DEBUG 2025-09-10 08:17:26,490 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:26,533 basehttp 3688 24280 "POST /chat/admin/conversations/12/send-message/ HTTP/1.1" 201 310
+WARNING 2025-09-10 08:17:27,736 log 3688 21456 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:27,736 basehttp 3688 21456 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:17:30,772 log 3688 31888 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:30,772 basehttp 3688 31888 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:17:32,566 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:32,592 basehttp 3688 24280 "GET /chat/admin/conversations/12/messages/?after=97 HTTP/1.1" 200 496
+DEBUG 2025-09-10 08:17:32,609 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:32,622 basehttp 3688 24280 "POST /chat/admin/conversations/12/messages/read/ HTTP/1.1" 200 47
+DEBUG 2025-09-10 08:17:32,640 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:32,657 basehttp 3688 24280 "GET /chat/admin/conversations/12/ HTTP/1.1" 200 2932
+WARNING 2025-09-10 08:17:33,851 log 3688 21868 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:33,852 basehttp 3688 21868 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:17:37,600 log 3688 32224 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:37,601 basehttp 3688 32224 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:17:38,561 backends 3688 24280 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:38,586 basehttp 3688 24280 "GET /chat/admin/conversations/12/messages/?after=112 HTTP/1.1" 200 186
+WARNING 2025-09-10 08:17:41,917 log 3688 24280 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:17:41,930 basehttp 3688 24280 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:17:41,977 log 3688 31960 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:17:41,979 basehttp 3688 31960 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:17:42,574 backends 3688 31960 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:42,590 basehttp 3688 31960 "GET /chat/admin/conversations/12/messages/?after=112 HTTP/1.1" 200 186
+DEBUG 2025-09-10 08:17:47,579 backends 3688 31960 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:47,608 basehttp 3688 31960 "GET /chat/admin/conversations/12/messages/?after=112 HTTP/1.1" 200 186
+DEBUG 2025-09-10 08:17:47,896 backends 3688 31960 Retrieved user by ID: 2
+INFO 2025-09-10 08:17:47,940 basehttp 3688 31960 "GET /services/ HTTP/1.1" 200 42052
+INFO 2025-09-10 08:17:48,381 basehttp 3688 31960 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+WARNING 2025-09-10 08:17:48,711 log 3688 10992 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:48,712 basehttp 3688 10992 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:17:52,599 log 3688 32368 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:52,600 basehttp 3688 32368 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:17:56,618 log 3688 32216 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:17:56,619 basehttp 3688 32216 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:18:00,614 log 3688 30296 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:18:00,615 basehttp 3688 30296 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:18:04,669 log 3688 28068 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:18:04,671 basehttp 3688 28068 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:18:08,785 log 3688 28928 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:18:08,786 basehttp 3688 28928 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:18:19,621 log 3688 30148 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:18:19,621 basehttp 3688 30148 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:18:39,586 log 3688 12672 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:18:39,588 basehttp 3688 12672 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:18:49,594 log 3688 11300 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:18:49,595 basehttp 3688 11300 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:19:09,609 log 3688 31148 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:19:09,611 basehttp 3688 31148 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:19:19,618 log 3688 28436 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:19:19,620 basehttp 3688 28436 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:19:39,601 log 3688 24412 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:19:39,602 basehttp 3688 24412 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:19:49,426 log 3688 32752 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:19:49,428 basehttp 3688 32752 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:19:49,548 log 3688 28240 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:19:49,549 basehttp 3688 28240 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:19:49,587 log 3688 32752 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:19:49,590 basehttp 3688 32752 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:20:09,587 log 3688 25348 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:20:09,588 basehttp 3688 25348 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:20:16,361 log 3688 25348 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:20:16,362 basehttp 3688 25348 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:20:16,403 log 3688 6244 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:20:16,404 basehttp 3688 6244 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:20:17,640 backends 3688 6244 Retrieved user by ID: 2
+INFO 2025-09-10 08:20:17,736 basehttp 3688 6244 "GET /facilities/ HTTP/1.1" 200 56270
+INFO 2025-09-10 08:20:18,164 basehttp 3688 6244 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+WARNING 2025-09-10 08:20:18,537 log 3688 8820 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:18,545 basehttp 3688 8820 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:20:21,483 log 3688 31976 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:20:21,486 basehttp 3688 31976 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:20:21,524 log 3688 31848 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:20:21,525 basehttp 3688 31848 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:20:21,591 log 3688 24384 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:21,593 basehttp 3688 24384 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:20:22,895 backends 3688 31848 Retrieved user by ID: 2
+INFO 2025-09-10 08:20:22,937 basehttp 3688 31848 "GET /facilities/map/ HTTP/1.1" 200 39596
+WARNING 2025-09-10 08:20:23,428 log 3688 23912 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:23,429 basehttp 3688 23912 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:20:23,431 basehttp 3688 23912 - Broken pipe from ('127.0.0.1', 57029)
+WARNING 2025-09-10 08:20:26,520 log 3688 29800 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:26,521 basehttp 3688 29800 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:20:26,627 backends 3688 31848 Retrieved user by ID: 2
+INFO 2025-09-10 08:20:26,639 basehttp 3688 31848 "GET /chat/ HTTP/1.1" 200 47657
+DEBUG 2025-09-10 08:20:26,945 backends 3688 31848 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:20:26,947 backends 3688 31976 Retrieved user by ID: 2
+INFO 2025-09-10 08:20:26,972 basehttp 3688 31976 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:20:26,980 log 3688 1616 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:26,980 basehttp 3688 1616 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:20:26,996 basehttp 3688 31848 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 3992
+WARNING 2025-09-10 08:20:30,035 log 3688 31204 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:30,036 basehttp 3688 31204 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:20:33,596 log 3688 14248 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:33,597 basehttp 3688 14248 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:20:37,600 log 3688 21024 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:37,601 basehttp 3688 21024 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:20:41,601 log 3688 26284 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:41,602 basehttp 3688 26284 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:20:45,643 log 3688 31304 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:20:45,644 basehttp 3688 31304 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:20:57,608 backends 3688 24152 Retrieved user by ID: 2
+INFO 2025-09-10 08:20:57,635 basehttp 3688 24152 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:20:57,645 log 3688 20740 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:20:57,647 basehttp 3688 20740 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:21:16,589 log 3688 20740 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:21:16,590 basehttp 3688 20740 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:21:27,577 backends 3688 20740 Retrieved user by ID: 2
+INFO 2025-09-10 08:21:27,602 basehttp 3688 20740 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:21:27,621 log 3688 24152 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:21:27,621 basehttp 3688 24152 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:21:46,591 log 3688 24152 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:21:46,592 basehttp 3688 24152 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:21:57,576 backends 3688 24152 Retrieved user by ID: 2
+INFO 2025-09-10 08:21:57,600 basehttp 3688 24152 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:21:57,611 log 3688 20740 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:21:57,612 basehttp 3688 20740 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:22:16,588 log 3688 20740 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:22:16,588 basehttp 3688 20740 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:22:27,569 backends 3688 20740 Retrieved user by ID: 2
+INFO 2025-09-10 08:22:27,604 basehttp 3688 20740 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:22:27,621 log 3688 24152 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:22:27,622 basehttp 3688 24152 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:22:46,620 log 3688 8328 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:22:46,621 basehttp 3688 8328 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:22:57,612 backends 3688 31108 Retrieved user by ID: 2
+INFO 2025-09-10 08:22:57,656 basehttp 3688 31108 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:22:57,674 log 3688 16936 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:22:57,676 basehttp 3688 16936 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:23:17,043 log 3688 11200 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:23:17,050 basehttp 3688 11200 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:23:27,642 backends 3688 31060 Retrieved user by ID: 2
+INFO 2025-09-10 08:23:27,705 basehttp 3688 31060 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:23:27,730 log 3688 13368 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:23:27,736 basehttp 3688 13368 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:23:46,654 log 3688 15828 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:23:46,655 basehttp 3688 15828 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:24:10,907 backends 3688 27528 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:10,961 basehttp 3688 27528 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:24:10,983 log 3688 19608 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:24:10,999 basehttp 3688 19608 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:24:25,685 log 3688 23008 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:24:25,713 basehttp 3688 23008 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:24:25,996 log 3688 6580 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:24:26,070 basehttp 3688 6580 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:24:26,140 log 3688 23008 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:24:26,145 basehttp 3688 23008 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:24:26,820 backends 3688 23008 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:26,856 basehttp 3688 23008 "GET /chat/ HTTP/1.1" 200 47657
+INFO 2025-09-10 08:24:28,037 basehttp 3688 23008 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+DEBUG 2025-09-10 08:24:28,336 backends 3688 23008 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:24:28,340 backends 3688 6580 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:28,471 basehttp 3688 23008 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 3992
+INFO 2025-09-10 08:24:28,506 basehttp 3688 6580 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:24:28,617 log 3688 29996 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:28,621 basehttp 3688 29996 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:24:32,269 log 3688 31892 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:32,308 basehttp 3688 31892 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:24:35,351 log 3688 14584 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:35,352 basehttp 3688 14584 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:24:35,896 backends 3688 15456 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:36,019 basehttp 3688 15456 "GET /chat/ HTTP/1.1" 200 47657
+DEBUG 2025-09-10 08:24:36,717 backends 3688 15456 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:24:36,750 backends 3688 29496 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:36,875 basehttp 3688 15456 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 3992
+WARNING 2025-09-10 08:24:36,933 log 3688 14376 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:36,943 basehttp 3688 14376 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:24:36,956 basehttp 3688 29496 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-10 08:24:36,958 basehttp 3688 14376 - Broken pipe from ('127.0.0.1', 53096)
+DEBUG 2025-09-10 08:24:39,899 backends 3688 23272 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:39,982 basehttp 3688 23272 "GET /facilities/ HTTP/1.1" 200 56270
+WARNING 2025-09-10 08:24:40,726 log 3688 32440 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:40,738 basehttp 3688 32440 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:24:43,963 log 3688 32744 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:43,965 basehttp 3688 32744 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:24:47,041 log 3688 24924 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:47,048 basehttp 3688 24924 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:24:50,094 log 3688 30876 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:50,095 basehttp 3688 30876 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:24:50,397 backends 3688 29800 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:50,443 basehttp 3688 29800 "GET /facilities/map/ HTTP/1.1" 200 39596
+WARNING 2025-09-10 08:24:50,887 log 3688 31588 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:50,887 basehttp 3688 31588 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:24:53,752 backends 3688 29800 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:53,842 basehttp 3688 29800 "GET /facilities/ HTTP/1.1" 200 56270
+WARNING 2025-09-10 08:24:54,468 log 3688 30536 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:54,469 basehttp 3688 30536 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:24:56,586 backends 3688 29800 Retrieved user by ID: 2
+INFO 2025-09-10 08:24:56,615 basehttp 3688 29800 "GET /services/ HTTP/1.1" 200 42052
+WARNING 2025-09-10 08:24:57,108 log 3688 7036 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:24:57,109 basehttp 3688 7036 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:00,216 log 3688 6832 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:00,218 basehttp 3688 6832 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:02,275 backends 3688 16468 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:02,382 basehttp 3688 16468 "GET /human-resources/ HTTP/1.1" 200 35671
+WARNING 2025-09-10 08:25:02,946 log 3688 1692 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:02,948 basehttp 3688 1692 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:05,959 backends 3688 16468 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:05,990 basehttp 3688 16468 "GET /infrastructure/ HTTP/1.1" 200 40972
+WARNING 2025-09-10 08:25:06,868 log 3688 26440 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:06,874 basehttp 3688 26440 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:10,722 log 3688 30056 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:10,723 basehttp 3688 30056 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:14,881 log 3688 31072 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:14,882 basehttp 3688 31072 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:15,406 backends 3688 31412 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:15,500 basehttp 3688 31412 "GET /common/lookups/ HTTP/1.1" 200 293496
+INFO 2025-09-10 08:25:15,812 basehttp 3688 31412 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+WARNING 2025-09-10 08:25:18,837 log 3688 23524 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:18,838 basehttp 3688 23524 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:20,508 backends 3688 31820 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:20,552 basehttp 3688 31820 "GET /common/geography/ HTTP/1.1" 200 104313
+DEBUG 2025-09-10 08:25:20,996 backends 3688 12344 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:25:21,003 backends 3688 31820 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:21,062 basehttp 3688 12344 "GET /geography/api/constituencies/ HTTP/1.1" 200 27177
+WARNING 2025-09-10 08:25:21,098 log 3688 13380 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:21,106 basehttp 3688 13380 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:25:21,172 basehttp 3688 31820 "GET /geography/api/counties/ HTTP/1.1" 200 2194
+WARNING 2025-09-10 08:25:24,382 log 3688 15496 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:24,383 basehttp 3688 15496 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:26,919 backends 3688 31820 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:26,956 basehttp 3688 31820 "GET /chat/ HTTP/1.1" 200 47657
+DEBUG 2025-09-10 08:25:27,402 backends 3688 31820 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:25:27,410 backends 3688 12344 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:27,487 basehttp 3688 12344 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+WARNING 2025-09-10 08:25:27,518 log 3688 31380 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:27,521 basehttp 3688 31380 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:25:27,570 basehttp 3688 31820 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 3992
+WARNING 2025-09-10 08:25:30,737 log 3688 7332 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:30,741 basehttp 3688 7332 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:33,771 log 3688 18436 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:33,772 basehttp 3688 18436 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:34,783 backends 3688 31840 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:34,828 basehttp 3688 31840 "GET /documents/ HTTP/1.1" 200 40715
+WARNING 2025-09-10 08:25:35,266 log 3688 31580 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:35,267 basehttp 3688 31580 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:36,878 backends 3688 31840 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:36,959 basehttp 3688 31840 "GET /documents/analytics/ HTTP/1.1" 200 40331
+WARNING 2025-09-10 08:25:37,378 log 3688 6540 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:37,379 basehttp 3688 6540 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:40,434 log 3688 23176 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:40,435 basehttp 3688 23176 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:43,493 log 3688 30856 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:43,495 basehttp 3688 30856 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:46,549 log 3688 30232 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:46,550 basehttp 3688 30232 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:25:47,746 backends 3688 31840 Retrieved user by ID: 2
+INFO 2025-09-10 08:25:47,810 basehttp 3688 31840 "GET /users/ HTTP/1.1" 200 43874
+WARNING 2025-09-10 08:25:48,305 log 3688 22468 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:48,306 basehttp 3688 22468 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:51,547 log 3688 30428 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:51,549 basehttp 3688 30428 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:54,904 log 3688 32144 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:54,906 basehttp 3688 32144 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:25:58,568 log 3688 15804 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:25:58,572 basehttp 3688 15804 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:26:02,421 log 3688 24076 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:26:02,421 basehttp 3688 24076 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:26:06,464 log 3688 23580 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:26:06,464 basehttp 3688 23580 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:26:18,276 log 3688 31840 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:26:18,277 basehttp 3688 31840 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:26:36,581 log 3688 31840 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:26:36,602 basehttp 3688 31840 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:26:48,265 log 3688 31840 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:26:48,265 basehttp 3688 31840 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:27:06,510 log 3688 15680 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:27:06,511 basehttp 3688 15680 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:27:15,690 log 3688 26460 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:27:15,691 basehttp 3688 26460 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:27:15,779 backends 3688 26460 Retrieved user by ID: 2
+INFO 2025-09-10 08:27:15,817 basehttp 3688 26460 "GET /roles/ HTTP/1.1" 200 52526
+INFO 2025-09-10 08:27:16,222 basehttp 3688 26460 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+WARNING 2025-09-10 08:27:18,558 log 3688 15032 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:18,559 basehttp 3688 15032 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:27:18,610 backends 3688 26460 Retrieved user by ID: 2
+INFO 2025-09-10 08:27:18,633 basehttp 3688 26460 "GET /services/ HTTP/1.1" 200 42052
+WARNING 2025-09-10 08:27:20,642 log 3688 31856 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:20,643 basehttp 3688 31856 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:27:22,485 backends 3688 32288 Retrieved user by ID: 2
+INFO 2025-09-10 08:27:22,519 basehttp 3688 32288 "GET /profile/ HTTP/1.1" 200 34903
+WARNING 2025-09-10 08:27:25,203 log 3688 30408 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:25,203 basehttp 3688 30408 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:27:27,129 backends 3688 32288 Retrieved user by ID: 2
+INFO 2025-09-10 08:27:27,154 basehttp 3688 32288 "GET /services/ HTTP/1.1" 200 42052
+WARNING 2025-09-10 08:27:28,682 log 3688 12180 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:28,683 basehttp 3688 12180 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:27:29,243 backends 3688 32288 Retrieved user by ID: 2
+INFO 2025-09-10 08:27:29,289 basehttp 3688 32288 "GET /dashboard/ HTTP/1.1" 200 64961
+WARNING 2025-09-10 08:27:31,489 log 3688 2464 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:31,489 basehttp 3688 2464 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:27:38,954 log 3688 30212 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:38,954 basehttp 3688 30212 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:27:39,443 backends 3688 8284 Retrieved user by ID: 2
+INFO 2025-09-10 08:27:39,458 basehttp 3688 8284 "GET /help/ HTTP/1.1" 200 36089
+DEBUG 2025-09-10 08:27:42,023 backends 3688 30660 Retrieved user by ID: 2
+INFO 2025-09-10 08:27:42,076 basehttp 3688 30660 "GET /profile/ HTTP/1.1" 200 34903
+WARNING 2025-09-10 08:27:44,077 log 3688 31044 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:44,078 basehttp 3688 31044 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:27:49,005 log 3688 29732 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:49,007 basehttp 3688 29732 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:27:57,454 log 3688 31556 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:27:57,454 basehttp 3688 31556 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:28:03,383 log 3688 25444 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:28:03,384 basehttp 3688 25444 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:28:09,480 log 3688 19068 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:28:09,480 basehttp 3688 19068 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:28:12,597 log 3688 7008 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:28:12,598 basehttp 3688 7008 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:28:17,507 log 3688 25784 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:28:17,508 basehttp 3688 25784 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:28:42,602 log 3688 7008 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:28:42,602 basehttp 3688 7008 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:28:47,719 log 3688 7008 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:28:47,721 basehttp 3688 7008 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:29:12,632 log 3688 32308 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:29:12,634 basehttp 3688 32308 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:29:17,622 log 3688 32464 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:29:17,623 basehttp 3688 32464 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+INFO 2025-09-10 08:29:23,274 autoreload 3688 28488 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\models.py changed, reloading.
+INFO 2025-09-10 08:29:23,617 autoreload 31316 15492 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\models.py changed, reloading.
+INFO 2025-09-10 08:29:25,145 autoreload 14352 32280 Watching for file changes with StatReloader
+INFO 2025-09-10 08:29:25,688 autoreload 26456 30752 Watching for file changes with StatReloader
+WARNING 2025-09-10 08:29:42,641 log 14352 10752 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:29:42,645 basehttp 14352 10752 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:29:47,595 log 14352 10752 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:29:47,597 basehttp 14352 10752 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:30:12,617 log 14352 24388 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:30:12,619 basehttp 14352 24388 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:30:17,643 log 14352 24388 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:30:17,648 basehttp 14352 24388 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:30:42,589 log 14352 26560 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:30:42,590 basehttp 14352 26560 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:30:47,602 log 14352 26560 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:30:47,604 basehttp 14352 26560 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+INFO 2025-09-10 08:30:49,359 autoreload 26456 30752 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:30:49,405 autoreload 14352 32280 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:30:50,919 autoreload 28088 21280 Watching for file changes with StatReloader
+INFO 2025-09-10 08:30:50,931 autoreload 31116 25888 Watching for file changes with StatReloader
+WARNING 2025-09-10 08:31:17,690 log 31116 7944 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:31:17,698 basehttp 31116 7944 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+INFO 2025-09-10 08:31:32,243 autoreload 28088 21280 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:31:33,042 autoreload 31116 25888 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:31:33,733 autoreload 15492 6468 Watching for file changes with StatReloader
+INFO 2025-09-10 08:31:34,444 autoreload 10432 14824 Watching for file changes with StatReloader
+INFO 2025-09-10 08:35:48,078 autoreload 15492 6468 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-10 08:35:48,479 autoreload 10432 14824 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-10 08:35:52,981 autoreload 24384 20560 Watching for file changes with StatReloader
+INFO 2025-09-10 08:35:52,982 autoreload 16764 31108 Watching for file changes with StatReloader
+INFO 2025-09-10 08:37:04,235 autoreload 24384 20560 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\models.py changed, reloading.
+INFO 2025-09-10 08:37:04,609 autoreload 16764 31108 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\models.py changed, reloading.
+INFO 2025-09-10 08:37:07,857 autoreload 27312 31124 Watching for file changes with StatReloader
+INFO 2025-09-10 08:37:07,989 autoreload 17348 13288 Watching for file changes with StatReloader
+INFO 2025-09-10 08:37:16,481 autoreload 27312 31124 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:37:16,697 autoreload 17348 13288 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:37:21,345 autoreload 6852 31116 Watching for file changes with StatReloader
+INFO 2025-09-10 08:37:22,390 autoreload 27176 17600 Watching for file changes with StatReloader
+INFO 2025-09-10 08:37:41,525 autoreload 27176 17600 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:37:41,579 autoreload 6852 31116 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:37:48,834 autoreload 1816 29732 Watching for file changes with StatReloader
+INFO 2025-09-10 08:37:49,557 autoreload 11292 684 Watching for file changes with StatReloader
+INFO 2025-09-10 08:38:22,719 autoreload 11292 684 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:38:23,088 autoreload 1816 29732 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:38:26,171 autoreload 21992 30064 Watching for file changes with StatReloader
+INFO 2025-09-10 08:38:26,340 autoreload 16884 19944 Watching for file changes with StatReloader
+INFO 2025-09-10 08:39:18,510 autoreload 16884 19944 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:39:19,250 autoreload 21992 30064 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:39:23,589 autoreload 9380 26776 Watching for file changes with StatReloader
+INFO 2025-09-10 08:39:23,880 autoreload 9340 29764 Watching for file changes with StatReloader
+INFO 2025-09-10 08:39:35,714 autoreload 9340 29764 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:39:36,276 autoreload 9380 26776 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:39:39,116 autoreload 29092 32160 Watching for file changes with StatReloader
+INFO 2025-09-10 08:39:39,469 autoreload 13784 24412 Watching for file changes with StatReloader
+INFO 2025-09-10 08:40:48,761 autoreload 29092 32160 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:40:48,774 autoreload 13784 24412 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:40:51,982 autoreload 7532 21660 Watching for file changes with StatReloader
+INFO 2025-09-10 08:40:52,186 autoreload 19356 23908 Watching for file changes with StatReloader
+INFO 2025-09-10 08:41:39,906 autoreload 19356 23908 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:41:40,397 autoreload 7532 21660 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:41:43,182 autoreload 5344 15076 Watching for file changes with StatReloader
+INFO 2025-09-10 08:41:43,772 autoreload 32584 32576 Watching for file changes with StatReloader
+INFO 2025-09-10 08:41:57,158 autoreload 5344 15076 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:41:57,228 autoreload 32584 32576 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\views.py changed, reloading.
+INFO 2025-09-10 08:42:00,168 autoreload 26288 26476 Watching for file changes with StatReloader
+INFO 2025-09-10 08:42:00,200 autoreload 32736 25312 Watching for file changes with StatReloader
+INFO 2025-09-10 08:42:27,772 autoreload 26288 26476 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\urls.py changed, reloading.
+INFO 2025-09-10 08:42:27,777 autoreload 32736 25312 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\urls.py changed, reloading.
+INFO 2025-09-10 08:42:30,271 autoreload 3192 25840 Watching for file changes with StatReloader
+INFO 2025-09-10 08:42:30,400 autoreload 24452 28748 Watching for file changes with StatReloader
+INFO 2025-09-10 08:42:35,832 autoreload 3192 25840 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\urls.py changed, reloading.
+INFO 2025-09-10 08:42:38,653 autoreload 32488 23108 Watching for file changes with StatReloader
+INFO 2025-09-10 08:42:44,186 autoreload 24452 28748 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\urls.py changed, reloading.
+INFO 2025-09-10 08:42:44,211 autoreload 32488 23108 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\urls.py changed, reloading.
+INFO 2025-09-10 08:42:47,169 autoreload 28900 32152 Watching for file changes with StatReloader
+INFO 2025-09-10 08:42:47,215 autoreload 17792 24388 Watching for file changes with StatReloader
+INFO 2025-09-10 08:43:16,606 autoreload 28900 32152 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\admin.py changed, reloading.
+WARNING 2025-09-10 08:43:17,415 log 17792 12676 Not Found: /api/chat/notifications/unread-conversations/
+INFO 2025-09-10 08:43:17,427 autoreload 17792 24388 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\admin.py changed, reloading.
+WARNING 2025-09-10 08:43:17,428 basehttp 17792 12676 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+INFO 2025-09-10 08:43:20,355 autoreload 32512 29840 Watching for file changes with StatReloader
+INFO 2025-09-10 08:43:21,253 autoreload 19996 27768 Watching for file changes with StatReloader
+WARNING 2025-09-10 08:44:19,459 log 32512 29936 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:44:19,460 basehttp 32512 29936 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:45:10,704 log 32512 1828 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:45:10,716 basehttp 32512 1828 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:45:11,140 log 32512 1828 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:45:11,144 basehttp 32512 1828 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:45:23,328 log 32512 1828 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:45:23,338 basehttp 32512 1828 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:45:23,468 log 32512 18700 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:45:23,474 basehttp 32512 18700 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:45:23,670 log 32512 1828 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:45:23,673 basehttp 32512 1828 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:45:23,722 log 32512 18700 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:45:23,725 basehttp 32512 18700 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:45:24,430 backends 32512 18700 Retrieved user by ID: 2
+ERROR 2025-09-10 08:45:24,727 log 32512 18700 Internal Server Error: /profile/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\module_loading.py", line 30, in import_string
+    return cached_import(module_path, class_name)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\module_loading.py", line 16, in cached_import
+    return getattr(module, class_name)
+AttributeError: module 'apps.common.context_processors' has no attribute 'chat_notifications'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 286, in wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 417, in profile_view
+    return render(request, 'authentication/profile.html', context)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\base.py", line 173, in render
+    with context.bind_template(self):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\context.py", line 251, in bind_template
+    processors = template.engine.template_context_processors + self._processors
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\engine.py", line 116, in template_context_processors
+    return tuple(import_string(path) for path in context_processors)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\engine.py", line 116, in <genexpr>
+    return tuple(import_string(path) for path in context_processors)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\module_loading.py", line 32, in import_string
+    raise ImportError(
+ImportError: Module "apps.common.context_processors" does not define a "chat_notifications" attribute/class
+ERROR 2025-09-10 08:45:24,738 basehttp 32512 18700 "GET /profile/ HTTP/1.1" 500 139066
+INFO 2025-09-10 08:45:29,773 autoreload 32512 29840 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\urls.py changed, reloading.
+INFO 2025-09-10 08:45:30,716 autoreload 19996 27768 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\urls.py changed, reloading.
+INFO 2025-09-10 08:45:31,752 autoreload 24448 30428 Watching for file changes with StatReloader
+INFO 2025-09-10 08:45:32,771 autoreload 31452 32352 Watching for file changes with StatReloader
+DEBUG 2025-09-10 08:45:32,907 backends 24448 32316 Retrieved user by ID: 2
+ERROR 2025-09-10 08:45:33,011 log 24448 32316 Internal Server Error: /profile/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\module_loading.py", line 30, in import_string
+    return cached_import(module_path, class_name)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\module_loading.py", line 16, in cached_import
+    return getattr(module, class_name)
+AttributeError: module 'apps.common.context_processors' has no attribute 'chat_notifications'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 286, in wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\views.py", line 417, in profile_view
+    return render(request, 'authentication/profile.html', context)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\base.py", line 173, in render
+    with context.bind_template(self):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\context.py", line 251, in bind_template
+    processors = template.engine.template_context_processors + self._processors
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\engine.py", line 116, in template_context_processors
+    return tuple(import_string(path) for path in context_processors)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\template\engine.py", line 116, in <genexpr>
+    return tuple(import_string(path) for path in context_processors)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\module_loading.py", line 32, in import_string
+    raise ImportError(
+ImportError: Module "apps.common.context_processors" does not define a "chat_notifications" attribute/class
+ERROR 2025-09-10 08:45:33,034 basehttp 24448 32316 "GET /profile/ HTTP/1.1" 500 139066
+WARNING 2025-09-10 08:46:15,882 log 24448 32120 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:15,894 basehttp 24448 32120 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:46:16,341 autoreload 24448 30428 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\common\context_processors.py changed, reloading.
+DEBUG 2025-09-10 08:46:17,348 backends 31452 22480 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:17,682 basehttp 31452 22480 "GET /help/ HTTP/1.1" 200 36772
+INFO 2025-09-10 08:46:18,130 basehttp 31452 22480 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+WARNING 2025-09-10 08:46:18,553 log 31452 23896 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:18,578 basehttp 31452 23896 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:46:19,369 autoreload 20028 31472 Watching for file changes with StatReloader

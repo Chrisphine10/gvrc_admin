@@ -211,7 +211,7 @@
                             </span>
                             {% endfor %}
                             {% if facility.facilitygbvcategory_set.count > 2 %}
-                            <span class="text-xs text-secondary">+{{ facility.facilitygbvcategory_set.count|add:"-2" }} more</span>
+                            <span class="text-xs text-dark">+{{ facility.facilitygbvcategory_set.count|add:"-2" }} more</span>
                             {% endif %}
                           </div>
                           {% endif %}
@@ -228,7 +228,7 @@
                         {{ facility.operational_status.status_name }}
                       </span>
                       {% else %}
-                      <span class="text-xs text-secondary">-</span>
+                      <span class="text-xs text-dark">-</span>
                       {% endif %}
                     </td>
                     <td class="align-middle text-center text-sm">
@@ -238,10 +238,10 @@
                            class="badge badge-sm bg-gradient-info text-decoration-none mb-1">
                           {{ facility.ward.constituency.county.county_name }}
                         </a>
-                        <span class="text-xs text-secondary">{{ facility.ward.ward_name }}</span>
+                        <span class="text-xs text-dark">{{ facility.ward.ward_name }}</span>
                       </div>
                       {% else %}
-                      <span class="text-xs text-secondary">-</span>
+                      <span class="text-xs text-dark">-</span>
                       {% endif %}
                     </td>
                     <td class="align-middle text-center">
@@ -250,7 +250,7 @@
                         <span class="text-xs font-weight-bold text-success">
                           {{ facility.facilityservice_set.count }} Service{{ facility.facilityservice_set.count|pluralize }}
                         </span>
-                        <small class="text-xs text-secondary">
+                        <small class="text-xs text-dark">
                           {% for service in facility.facilityservice_set.all|slice:":2" %}
                             {{ service.service_name|default:service.service_category.category_name }}{% if not forloop.last %}, {% endif %}
                           {% endfor %}
@@ -258,7 +258,7 @@
                         </small>
                       </div>
                       {% else %}
-                      <span class="text-xs text-secondary">No services</span>
+                      <span class="text-xs text-dark">No services</span>
                       {% endif %}
                     </td>
                     <td class="align-middle text-center">
@@ -268,13 +268,13 @@
                           {{ facility.facilitycontact_set.count }} Contact{{ facility.facilitycontact_set.count|pluralize }}
                         </span>
                         {% for contact in facility.facilitycontact_set.all|slice:":1" %}
-                        <small class="text-xs text-secondary">
+                        <small class="text-xs text-dark">
                           {{ contact.contact_type.type_name }}: {{ contact.contact_value|truncatechars:15 }}
                         </small>
                         {% endfor %}
                       </div>
                       {% else %}
-                      <span class="text-xs text-secondary">No contacts</span>
+                      <span class="text-xs text-dark">No contacts</span>
                       {% endif %}
                     </td>
                     <td class="align-middle">

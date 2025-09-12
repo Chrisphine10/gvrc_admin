@@ -1,0 +1,13 @@
+[Unit]
+Description=GVRC Admin Gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn/gvrc-admin.sock
+# Our service won't need permissions for the socket, since it
+# inherits the file descriptor from systemd.
+SocketUser=www-data
+# Optionally restrict the socket permissions even more.
+# SocketMode=600
+
+[Install]
+WantedBy=sockets.target

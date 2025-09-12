@@ -204,7 +204,9 @@
         "pk": 1,
         "fields": {
             "type_name": "Policy Document",
-            "description": "Official policy or procedure documents"
+            "description": "Official policy or procedure documents",
+            "allowed_extensions": "[\"pdf\", \"doc\", \"docx\"]",
+            "max_file_size_mb": 10
         }
     },
     {
@@ -212,7 +214,9 @@
         "pk": 2,
         "fields": {
             "type_name": "Training Material",
-            "description": "Training guides, manuals, or educational materials"
+            "description": "Training guides, manuals, or educational materials",
+            "allowed_extensions": "[\"pdf\", \"doc\", \"docx\", \"ppt\", \"pptx\"]",
+            "max_file_size_mb": 15
         }
     },
     {
@@ -220,7 +224,9 @@
         "pk": 3,
         "fields": {
             "type_name": "Report",
-            "description": "Incident reports, case studies, or research reports"
+            "description": "Incident reports, case studies, or research reports",
+            "allowed_extensions": "[\"pdf\", \"doc\", \"docx\", \"xls\", \"xlsx\"]",
+            "max_file_size_mb": 10
         }
     },
     {
@@ -228,7 +234,9 @@
         "pk": 4,
         "fields": {
             "type_name": "Form",
-            "description": "Official forms, applications, or templates"
+            "description": "Official forms, applications, or templates",
+            "allowed_extensions": "[\"pdf\", \"doc\", \"docx\", \"xls\", \"xlsx\"]",
+            "max_file_size_mb": 5
         }
     },
     {
@@ -236,7 +244,9 @@
         "pk": 5,
         "fields": {
             "type_name": "Reference Material",
-            "description": "Reference guides, directories, or informational materials"
+            "description": "Reference guides, directories, or informational materials",
+            "allowed_extensions": "[\"pdf\", \"doc\", \"docx\", \"txt\", \"rtf\"]",
+            "max_file_size_mb": 10
         }
     }
 ]

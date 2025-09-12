@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_134541_81ff5c46",
+  "data": {
+    "facility_name": "Mombasa Community Center 10",
+    "facility_type": "Community Center",
+    "county": "Mombasa",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000009"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.137544",
+  "checksum": "3eff03307adb355208c3459f29bc2a61723e43cb851c3fa8ef8b009fa28b2edf"
+}

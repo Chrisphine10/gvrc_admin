@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "total_facilities": 6417,
+    "facilities_with_coordinates": 1925,
+    "facilities_without_coordinates": 4492,
+    "counties": 49,
+    "wards": 190,
+    "last_updated": "2025-09-12T09:41:00Z"
+  },
+  "facilities": [
+    {
+      "id": 40808,
+      "name": "BARINGO COUNTY REFERRAL HOSPITAL",
+      "code": "KMPDC_000001",
+      "registration_number": "GK-004476",
+      "operational_status": "Operational",
+      "ward": "Baringo Ward",
+      "constituency": "Baringo Central",
+      "county": "Baringo",
+      "address": "Located in BARINGO County",
+      "description": "KMPDC Licensed HOSPITAL LEVEL 4 - LEVEL 4",
+      "has_coordinates": 

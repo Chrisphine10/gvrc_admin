@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_545869_a796066e",
+  "data": {
+    "facility_name": "Malindi Hospital 23",
+    "facility_type": "Hospital",
+    "county": "Malindi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000022"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.78,
+      "longitude": 36.22
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.549141",
+  "checksum": "15667aeab5a8859f049434a934ecae7223ea588d4560d13bdf5929e6778ac0fc"
+}

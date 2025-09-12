@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185512_993030_30503562",
+  "data": {
+    "facility_name": "Eldoret Community Center 5",
+    "facility_type": "Community Center",
+    "county": "Eldoret",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000004"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.96,
+      "longitude": 36.04
+    }
+  },
+  "stored_at": "2025-09-09T18:55:12.996199",
+  "checksum": "dd6b26c955d4c94b023b5eb68c85098575b7788091ddee22af9e5f03aceff4ba"
+}

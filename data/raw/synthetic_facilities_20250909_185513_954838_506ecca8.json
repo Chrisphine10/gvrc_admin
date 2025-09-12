@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_954838_506ecca8",
+  "data": {
+    "facility_name": "Eldoret Dispensary 37",
+    "facility_type": "Dispensary",
+    "county": "Eldoret",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000036"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.64,
+      "longitude": 36.36
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.957536",
+  "checksum": "610ce3afee35b9147630f60b3fdf842808b4817273186fafa98f9e116f55181e"
+}

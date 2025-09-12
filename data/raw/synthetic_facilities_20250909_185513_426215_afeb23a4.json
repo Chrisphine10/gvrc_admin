@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_426215_afeb23a4",
+  "data": {
+    "facility_name": "Kisumu Clinic 19",
+    "facility_type": "Clinic",
+    "county": "Kisumu",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000018"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.428057",
+  "checksum": "0fabc9bd8897a1201905e129fbb2a6cb97e1acf2d06c25787c65ba29ddf0e717"
+}

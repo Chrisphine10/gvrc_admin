@@ -1,0 +1,6381 @@
+{
+  "timestamp": "2025-09-12T12:48:15.846004",
+  "data": {
+    "total_facilities": 708,
+    "facilities": [
+      {
+        "facility_name": "1. KWALE",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MSAMBWENI",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MSAMBWENI -",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0727575818",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MIVUMONI",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DIANI-",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0722840310",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RAMISI-",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0718797787",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MATUGA",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KWALE-",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0713221746",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOMBANI-",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0725551141",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TIWI-",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0711975849",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NG'OMBENI-",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0700858917",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KINANGO",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KINANGO P/STN -",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0722869448",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KURANZE",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "VIGURUNGANI -",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0722432147",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NDAVAYA P/STN -",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0720784353",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TSUNZA P/STN (NOT YET GAZZETED)-",
+        "facility_type": "Police Station",
+        "county": "Unknown",
+        "subcounty": "Unknown",
+        "region": "REGION",
+        "contact": "0722901698",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAMBURU",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SAMBURU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TARU-",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SAMBURU",
+        "region": "REGION",
+        "contact": "0720714336",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAMBURU  -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SAMBURU  -0722913975",
+        "region": "REGION",
+        "contact": "0722913975",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MACKINNON -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MACKINNON - 0720974340",
+        "region": "REGION",
+        "contact": "0720974340",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAVIRIVIRINI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MAVIRIVIRINI - 0720827761",
+        "region": "REGION",
+        "contact": "0720827761",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BOFU-",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BOFU- 0727552628",
+        "region": "REGION",
+        "contact": "0727552628",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LUNGALUNGA",
+        "facility_type": "Police Post",
+        "county": "SAMBURU",
+        "subcounty": "LUNGALUNGA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LUNGALUNGA -",
+        "facility_type": "Police Post",
+        "county": "SAMBURU",
+        "subcounty": "LUNGALUNGA",
+        "region": "REGION",
+        "contact": "0711587483",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAMBA-",
+        "facility_type": "Police Post",
+        "county": "SAMBURU",
+        "subcounty": "MAMBA- 0722225813",
+        "region": "REGION",
+        "contact": "0722225813",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SHIMONI-",
+        "facility_type": "Police Post",
+        "county": "SAMBURU",
+        "subcounty": "SHIMONI- 0727417253",
+        "region": "REGION",
+        "contact": "0727417253",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SHIMBAHILLS",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SHIMBAHILLS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KUBO -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SHIMBAHILLS",
+        "region": "REGION",
+        "contact": "0712528562",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LUKORE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SHIMBAHILLS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURANI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURANI - 0788892258",
+        "region": "REGION",
+        "contact": "0788892258",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TIRIBE P/BASE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURANI - 0788892258",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "2. KILIFI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "2. KILIFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILIFI NORTH",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "2. KILIFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILIFI-",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "2. KILIFI",
+        "region": "REGION",
+        "contact": "0721312775",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGERENYA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "NGERENYA - 0720668909",
+        "region": "REGION",
+        "contact": "0720668909",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MATSANGONI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MATSANGONI - 0721213619",
+        "region": "REGION",
+        "contact": "0721213619",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILIFI SOUTH",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KILIFI SOUTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MTWAPA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KILIFI SOUTH",
+        "region": "REGION",
+        "contact": "0725647844",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TAKAUNGU -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KILIFI SOUTH",
+        "region": "REGION",
+        "contact": "0720934932",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIJIPWA - 0711 686 462",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KIJIPWA - 0711 686 462",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NDONYA - 0718 799 835",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "NDONYA - 0718 799 835",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RABAI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "RABAI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RABAI P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "RABAI",
+        "region": "REGION",
+        "contact": "0721990352",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BONDORA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "RABAI",
+        "region": "REGION",
+        "contact": "0721129921",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMBE RIBE -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KAMBE RIBE - 0722560379",
+        "region": "REGION",
+        "contact": "0722560379",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOKOTONI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KAMBE RIBE - 0722560379",
+        "region": "REGION",
+        "contact": "0718747048",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAZERUS  -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MAZERUS  - 0721208864",
+        "region": "REGION",
+        "contact": "0721208864",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHONYI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "CHONYI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHASIMBA -/",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "CHONYI",
+        "region": "REGION",
+        "contact": "0716087120",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BANDA RA SALAMA - 0721 665 106",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "CHONYI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KALOLENI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KALOLENI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARIAKANI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KALOLENI",
+        "region": "REGION",
+        "contact": "0720650511",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KALOLENI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KALOLENI - 0728684517",
+        "region": "REGION",
+        "contact": "0728684517",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GOTANI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "GOTANI - 0723652467",
+        "region": "REGION",
+        "contact": "0723652467",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GANZE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "GANZE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GANZE -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "GANZE",
+        "region": "REGION",
+        "contact": "0725529849",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "JARIBUNI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "GANZE",
+        "region": "REGION",
+        "contact": "0720246294",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "VITENGENI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "VITENGENI - 0721248449",
+        "region": "REGION",
+        "contact": "0721248449",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BAMBA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BAMBA - 0714255232",
+        "region": "REGION",
+        "contact": "0714255232",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MALINDI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MALINDI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MALINDI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MALINDI",
+        "region": "REGION",
+        "contact": "0723100742",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WATAMU -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "WATAMU -0722236166",
+        "region": "REGION",
+        "contact": "0722236166",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIZINGO -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KIZINGO - 0720926927",
+        "region": "REGION",
+        "contact": "0720926927",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAKUYUNI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KAKUYUNI - 0724144502",
+        "region": "REGION",
+        "contact": "0724144502",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LANGOBAYA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LANGOBAYA - 0722686303",
+        "region": "REGION",
+        "contact": "0722686303",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAGARINI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MAGARINI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARERENI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MAGARINI",
+        "region": "REGION",
+        "contact": "0703337761",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGOMENI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MAGARINI",
+        "region": "REGION",
+        "contact": "0729057274",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GONGONI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "GONGONI -0720576200",
+        "region": "REGION",
+        "contact": "0720576200",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BARICHO -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "GONGONI -0720576200",
+        "region": "REGION",
+        "contact": "0798111061",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARAFA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MARAFA - 0712742228",
+        "region": "REGION",
+        "contact": "0712742228",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMBI YA WAYA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MARAFA - 0712742228",
+        "region": "REGION",
+        "contact": "0721538001",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ADU -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "ADU - 0706596060",
+        "region": "REGION",
+        "contact": "0706596060",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "3. MARSABIT",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "3. MARSABIT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LOIYANGALANI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LOIYANGALANI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LOIYANGALANI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LOIYANGALANI - 0712921226",
+        "region": "REGION",
+        "contact": "0712921226",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MT KULAL -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MT KULAL - 0723238487",
+        "region": "REGION",
+        "contact": "0723238487",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SOUTH HORR -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SOUTH HORR - 0723274586",
+        "region": "REGION",
+        "contact": "0723274586",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KARGI -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KARGI - 0715753206",
+        "region": "REGION",
+        "contact": "0715753206",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARSABIT SOUTH",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MARSABIT SOUTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARSABIT SOUTH HQTS",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MARSABIT SOUTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAISAMIS P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LAISAMIS P/STN - 0721776109",
+        "region": "REGION",
+        "contact": "0721776109",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LOGLOGO P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LOGLOGO P/STN - 0721301401",
+        "region": "REGION",
+        "contact": "0721301401",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KORR P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KORR P/STN - 0710983629",
+        "region": "REGION",
+        "contact": "0710983629",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DUKANA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DUKANA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DUKANA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DUKANA P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DUKANA P/STN - 0722977961",
+        "region": "REGION",
+        "contact": "0722977961",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DUKANA P/STN - 0722977961",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SABAREI P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SABAREI P/STN - 0725220388",
+        "region": "REGION",
+        "contact": "0725220388",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SABAREI P/STN - 0725220388",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NORTH HORR",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "NORTH HORR",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NORTH HORR -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "NORTH HORR - 0713493364",
+        "region": "REGION",
+        "contact": "0713493364",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DARATE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DARATE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ILLERET P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "ILLERET P/STN - 0725483222",
+        "region": "REGION",
+        "contact": "0725483222",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARSABIT NORTH",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MARSABIT NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARSABIT NORTH HQRS",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MARSABIT NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TURBI P/STN -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "TURBI P/STN - 0721386728",
+        "region": "REGION",
+        "contact": "0721386728",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAIKONA P/STN-",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MAIKONA P/STN- 0723298322",
+        "region": "REGION",
+        "contact": "0723298322",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOYALE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MOYALE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANYATTA P/BASE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MANYATTA P/BASE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ODDA P/BASE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "ODDA P/BASE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NANA P/BASE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "NANA P/BASE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GODOMA P/BASE",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "GODOMA P/BASE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SOLOLO",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "SOLOLO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARSABIT CENTRAL",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "MARSABIT CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KARARE -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "KARARE - 0725370625",
+        "region": "REGION",
+        "contact": "0725370625",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "4. GARISSA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "4. GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAGDERA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "4. GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MODOGASHE - 0723-485-166",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "4. GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAGDERA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LAGDERA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BENANE - 0723-428-531",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LAGDERA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HULUGHO",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "HULUGHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HULUGHO - 0725-351-114",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "HULUGHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HULUGHO",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "HULUGHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BODHAI - 0721-334-462",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "HULUGHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HULUGHO",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "HULUGHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SANGAILU - 0721-220-090",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "HULUGHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DADAAB",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DADAAB - 0724-965-368",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SERETHO",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DADAAB",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "IFO - 0702-025-731",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DADAAB",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DERTU - 0710-665-136",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DADAAB",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DAGAHALEY - 0729-681-683",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "DADAAB",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LIBOI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LIBOI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LIBOI - 0724-341-882",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LIBOI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LIBOI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LIBOI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LIBOI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LIBOI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KULAN - 0717-528-694",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "LIBOI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURA EAST",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURA EAST - 0703-346-366",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURA EAST",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURA EAST",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NANIGHI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURA EAST",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GALMAGALA - 0702-757-097",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BURA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "FAFI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HAGADERA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "FAFI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HAGADERA - 0721-859-657",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ALINJUGUR - 0723-612-283",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "FAFI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HAGADERA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GITHUTHEY - 0746-628-817",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "FAFI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HAGADERA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMBIOS - 0725-748-432",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "FAFI",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HAGADERA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BOREHOLE 5 - 0726-842-697",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "FAFI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "IJARA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "IJARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MASALANI - 0720-431-458",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "IJARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "IJARA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "IJARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "IJARA - 0722-267-414",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "IJARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BALAMBALA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BALAMBALA - 0720-359-632",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BALAMBALA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "JARAJARA - 0725-755-129",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BALAMBALA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DUJIS - 0723-454-518",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BALAMBALA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAKA - 0713-942-457",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BALAMBALA",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAKA -",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KUNO - 0714-971-494",
+        "facility_type": "Police Station",
+        "county": "SAMBURU",
+        "subcounty": "BALAMBALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GARISSA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GARISSA P/STN - 0713-587-271",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GARISSA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SANKURI - 0720-400-785",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GARISSA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "IFTIN - 0720-359-632",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GARISSA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIFT VALLEY",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "5. NAROK",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TRANSMARA WEST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILGORIS -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA WEST",
+        "region": "REGION",
+        "contact": "0722695190",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ENOOSAEN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ENOOSAEN - 0723533033",
+        "region": "REGION",
+        "contact": "0723533033",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ENOOSAEN - 0723533033",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NIL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NIL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SHARTUKA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SHARTUKA - 0714043580",
+        "region": "REGION",
+        "contact": "0714043580",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SHARTUKA - 0714043580",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAROK CENTRAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAROK -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK CENTRAL",
+        "region": "REGION",
+        "contact": "0720088259",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LONDON -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK CENTRAL",
+        "region": "REGION",
+        "contact": "0722135374",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EWASO NGIRO -,",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EWASO NGIRO -,0720536833",
+        "region": "REGION",
+        "contact": "0720536833",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NKARETA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NKARETA - 0727373536",
+        "region": "REGION",
+        "contact": "0727373536",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLCHORRO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLCHORRO -0722413952",
+        "region": "REGION",
+        "contact": "0722413952",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAASAI MARA UNIVERSITY-",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAASAI MARA UNIVERSITY-0720404758",
+        "region": "REGION",
+        "contact": "0720404758",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAKUTIEK",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAKUTIEK",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ENASAMPULAI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAKUTIEK",
+        "region": "REGION",
+        "contact": "0710329401",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAROK SOUTH",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK SOUTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLOLULUNGA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK SOUTH",
+        "region": "REGION",
+        "contact": "0725312415",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLESHAPAN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK SOUTH",
+        "region": "REGION",
+        "contact": "0724442714",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NKOBEN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NKOBEN - 0786856882",
+        "region": "REGION",
+        "contact": "0786856882",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MELELO - 0721-748762",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MELELO - 0721-748762",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIMOGORO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MELELO - 0721-748762",
+        "region": "REGION",
+        "contact": "0723926197",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLMEKENYU -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLMEKENYU - 0723916890",
+        "region": "REGION",
+        "contact": "0723916890",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAROOSURA  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROOSURA  - 0724796126",
+        "region": "REGION",
+        "contact": "0724796126",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EWASO NGIRO - 0720-381897",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROOSURA  - 0724796126",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGOSWANI-",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NGOSWANI- 0720361302",
+        "region": "REGION",
+        "contact": "0720361302",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TENDWET -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TENDWET - 0721478340",
+        "region": "REGION",
+        "contact": "0721478340",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TENDWET - 0721478340",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ENTASEKERA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ENTASEKERA - 0722970379",
+        "region": "REGION",
+        "contact": "0722970379",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MORIJO - 0724-425192",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ENTASEKERA - 0722970379",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAROK EAST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NTULELE -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK EAST",
+        "region": "REGION",
+        "contact": "0720551140",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SUSWA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SUSWA - 0721576566",
+        "region": "REGION",
+        "contact": "0721576566",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SUSWA - 0721576566",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAIREGIE ENKARE  -",
+        "facility_type": "Police Post",
+        "county": "GARISSA",
+        "subcounty": "NAIREGIE ENKARE  -0718766071",
+        "region": "REGION",
+        "contact": "0718766071",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ILDAMAT",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ILDAMAT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GAZETTED BUT NOT OPERATIONAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ILDAMAT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAROK WEST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MULOT  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK WEST",
+        "region": "REGION",
+        "contact": "0795035025",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ILMOTIOOK",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARARIANDA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MARARIANDA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NKOILALE -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NKOILALE - 0713177278",
+        "region": "REGION",
+        "contact": "0713177278",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLOLAIMUTIA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NKOILALE - 0713177278",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLPOSMORU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLPOSMORU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TALEX -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TALEX -0727871908",
+        "region": "REGION",
+        "contact": "0727871908",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TRANSMARA SOUTH",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA SOUTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LOLGORIAN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA SOUTH",
+        "region": "REGION",
+        "contact": "0722301570",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NKARARO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA SOUTH",
+        "region": "REGION",
+        "contact": "0721953203",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ANGATA BARRIKOI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ANGATA BARRIKOI -0722913298",
+        "region": "REGION",
+        "contact": "0722913298",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLDONYOROCK -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ANGATA BARRIKOI -0722913298",
+        "region": "REGION",
+        "contact": "0720947008",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMARTI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EMARTI - 0714161807",
+        "region": "REGION",
+        "contact": "0714161807",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ESOIT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EMARTI - 0714161807",
+        "region": "REGION",
+        "contact": "0705209410",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KERINKAN  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KERINKAN  - 0723642467",
+        "region": "REGION",
+        "contact": "0723642467",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KERINKAN  - 0723642467",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAROK NORTH",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAROK NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLOKURTO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLOKURTO -0702284455",
+        "region": "REGION",
+        "contact": "0702284455",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TIPIS -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLOKURTO -0702284455",
+        "region": "REGION",
+        "contact": "0721957050",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIPTANGICH",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIPTANGICH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ENABELBEL -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ENABELBEL - 0725835123",
+        "region": "REGION",
+        "contact": "0725835123",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLPOSIMORU -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLPOSIMORU - 0720972469",
+        "region": "REGION",
+        "contact": "0720972469",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLPOSIMORU - 0722 567885",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLPOSIMORU - 0720972469",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLORROPIL -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLORROPIL - 0720328507",
+        "region": "REGION",
+        "contact": "0720328507",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NARIANDA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLORROPIL - 0720328507",
+        "region": "REGION",
+        "contact": "0728979896",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TRANSMARA EAST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMURUA DIKIRR -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA EAST",
+        "region": "REGION",
+        "contact": "0722578541",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NJIPSHIP",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TRANSMARA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MURKAN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MURKAN - 0728913587",
+        "region": "REGION",
+        "contact": "0728913587",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ABOSSI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ABOSSI - 0723455447",
+        "region": "REGION",
+        "contact": "0723455447",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOGOR -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ABOSSI - 0723455447",
+        "region": "REGION",
+        "contact": "0725302962",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ILKERIN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ILKERIN - 0734936435",
+        "region": "REGION",
+        "contact": "0734936435",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "6. WEST POKOT",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "6. WEST POKOT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "6. WEST POKOT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "POKOT CENTRAL HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "POKOT CENTRAL HQRS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARICH -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MARICH - 0722665016",
+        "region": "REGION",
+        "contact": "0722665016",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WAKOR",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "WAKOR",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TURKWEL -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TURKWEL - 0713951924",
+        "region": "REGION",
+        "contact": "0713951924",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TAMKAL -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TAMKAL - 0725798678",
+        "region": "REGION",
+        "contact": "0725798678",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SIGOR -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SIGOR - 0723320431",
+        "region": "REGION",
+        "contact": "0723320431",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LOMUT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LOMUT - 0720537684",
+        "region": "REGION",
+        "contact": "0720537684",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHESEGON",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHESEGON",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "POKOT NORTH HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "POKOT NORTH HQRS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ALALE -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ALALE - 0721457001",
+        "region": "REGION",
+        "contact": "0721457001",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAUYAPONG -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NAUYAPONG - 0789181644",
+        "region": "REGION",
+        "contact": "0789181644",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIWAWA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIWAWA - 0724910449",
+        "region": "REGION",
+        "contact": "0724910449",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KASEI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KASEI - 0725941425",
+        "region": "REGION",
+        "contact": "0725941425",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "POKOT SOUTH HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "POKOT SOUTH HQRS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABICHBICH -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABICHBICH - 0720117653",
+        "region": "REGION",
+        "contact": "0720117653",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPSAIT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPSAIT -0725150419",
+        "region": "REGION",
+        "contact": "0725150419",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHEPKONO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHEPKONO -0706787447",
+        "region": "REGION",
+        "contact": "0706787447",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TAPACH -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TAPACH -0721860445",
+        "region": "REGION",
+        "contact": "0721860445",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIPKOMO HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIPKOMO HQRS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHEPARERIA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHEPARERIA - 0722982130",
+        "region": "REGION",
+        "contact": "0722982130",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHEPKOPEGH -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHEPKOPEGH - 0728916585",
+        "region": "REGION",
+        "contact": "0728916585",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ORTUM -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ORTUM - 0724627764",
+        "region": "REGION",
+        "contact": "0724627764",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KACHELIBA HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KACHELIBA HQRS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KACHELIBA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KACHELIBA 0720881656",
+        "region": "REGION",
+        "contact": "0720881656",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KANYERUS -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KANYERUS -0720766729",
+        "region": "REGION",
+        "contact": "0720766729",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KONYAO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KONYAO - 0724896271",
+        "region": "REGION",
+        "contact": "0724896271",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WEST POKOT HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "WEST POKOT HQRS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAKUTANO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKUTANO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MURKWIJIT",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MURKWIJIT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KONGELAI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KONGELAI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAIBOS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAIBOS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SIYOI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SIYOI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SOOK",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SOOK",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUTEMBUR",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUTEMBUR",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KANYARKWAT",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KANYARKWAT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KATIKOMOR",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KATIKOMOR",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KERINGET",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KERINGET",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIFT VALLEY",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "7. ELGEIYO MARAKWET",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SCPC MARAKWET WEST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPSOWAR -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPSOWAR - 0720750051",
+        "region": "REGION",
+        "contact": "0720750051",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPTABUK -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPTABUK - 0729718090",
+        "region": "REGION",
+        "contact": "0729718090",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHEPTONGEI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHEPTONGEI - 0721903181",
+        "region": "REGION",
+        "contact": "0721903181",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIMNAI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIMNAI - 0707177857",
+        "region": "REGION",
+        "contact": "0707177857",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPCHEROP -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPCHEROP - 0720354119",
+        "region": "REGION",
+        "contact": "0720354119",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMOI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAMOI - 0722575374",
+        "region": "REGION",
+        "contact": "0722575374",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPTERIT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPTERIT - 0723804440",
+        "region": "REGION",
+        "contact": "0723804440",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPKANYAR -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPKANYAR -",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHEBIEMIT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHEBIEMIT - 0720381571",
+        "region": "REGION",
+        "contact": "0720381571",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "JEMUNANDA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "JEMUNANDA - 0722594716",
+        "region": "REGION",
+        "contact": "0722594716",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPTALAMWA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPTALAMWA - 0721268322",
+        "region": "REGION",
+        "contact": "0721268322",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPSAIT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPSAIT - 0727658166",
+        "region": "REGION",
+        "contact": "0727658166",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHEBORORWA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHEBORORWA - 0712965387",
+        "region": "REGION",
+        "contact": "0712965387",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHESUMAN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHESUMAN - 0713250191",
+        "region": "REGION",
+        "contact": "0713250191",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ARROR",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ARROR",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "P/STN",
+        "facility_type": "Police Post",
+        "county": "GARISSA",
+        "subcounty": "P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIFT VALLEY",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "8. BARINGO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "C/ HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARIGAT",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MARIGAT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SCPC HQTRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MARIGAT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARIGAT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MARIGAT - 0720285721",
+        "region": "REGION",
+        "contact": "0720285721",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LOBOI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LOBOI - 0729031136",
+        "region": "REGION",
+        "contact": "0729031136",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUKUTANI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUKUTANI - 0722404788",
+        "region": "REGION",
+        "contact": "0722404788",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOSURO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MOSURO - 0791366293",
+        "region": "REGION",
+        "contact": "0791366293",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOCHONGOI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MOCHONGOI - 0726174301",
+        "region": "REGION",
+        "contact": "0726174301",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABEL -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABEL - 0799781435",
+        "region": "REGION",
+        "contact": "0799781435",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIMORIOT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIMORIOT - 0721138343",
+        "region": "REGION",
+        "contact": "0721138343",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TUYIOBEI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TUYIOBEI - 0717596786",
+        "region": "REGION",
+        "contact": "0717596786",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ARABAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ARABAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOGOTIO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MOGOTIO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOGOTIO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MOGOTIO - 0725333591",
+        "region": "REGION",
+        "contact": "0725333591",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MOGOTIO - 0725333591",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMINING -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EMINING - 0748508611",
+        "region": "REGION",
+        "contact": "0748508611",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EMINING - 0748508611",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIMNORONG -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIMNORONG - 0721950436",
+        "region": "REGION",
+        "contact": "0721950436",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIMNORONG - 0721950436",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SIRWA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SIRWA - 0724445718",
+        "region": "REGION",
+        "contact": "0724445718",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SIRWA - 0724445718",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KISANANA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KISANANA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KISANANA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLKOKWE -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLKOKWE -0723588580",
+        "region": "REGION",
+        "contact": "0723588580",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OLKOKWE -0723588580",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAJI MOTO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAJI MOTO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAJI MOTO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOIBATEK",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KOIBATEK",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ELDAMA  RAVINE  - 0712-835-239",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ELDAMA  RAVINE  - 0712-835-239",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAKUTANO - 0723-845-471",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKUTANO - 0723-845-471",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TIMBOROA - 0712-508-686",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TIMBOROA - 0712-508-686",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TORONGO - 0712-508-686",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TORONGO - 0712-508-686",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ESAGERI - 0712-521-387",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ESAGERI - 0712-521-387",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GATARAKWA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GATARAKWA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAJI MAZURI - 0721-450-587",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAJI MAZURI - 0721-450-587",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EQUATOR PATROL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EQUATOR PATROL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SEGUTON PATROL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SEGUTON PATROL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAPDENING PATROL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAPDENING PATROL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TIATY WEST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TIATY WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHEMOLINGOT -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TIATY WEST",
+        "region": "REGION",
+        "contact": "0726920682",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGINYANG -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NGINYANG - 0728571206",
+        "region": "REGION",
+        "contact": "0728571206",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOLOWA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KOLOWA - 0722160188",
+        "region": "REGION",
+        "contact": "0722160188",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BARINGO CENTRAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BARINGO CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABARNET - 0725 823 774",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABARNET - 0725 823 774",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SERETUNIN,SALAWA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABARNET - 0725 823 774",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SACHO - 0724 677 493",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SACHO - 0724 677 493",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TENGES - 0721 866 652",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TENGES - 0721 866 652",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BARINGO NORTH",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BARINGO NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BARWESA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BARINGO NORTH",
+        "region": "REGION",
+        "contact": "0721653063",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABARTONJO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABARTONJO - 0727314134",
+        "region": "REGION",
+        "contact": "0727314134",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KASISIT",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABARTONJO - 0727314134",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIPSARMAN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIPSARMAN -",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "POI,BARTOLIMO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIPSARMAN -",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LORUK -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LORUK -0720491888",
+        "region": "REGION",
+        "contact": "0720491888",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "YATYA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LORUK -0720491888",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KINYACH -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KINYACH -0729989830",
+        "region": "REGION",
+        "contact": "0729989830",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BARTABWA,KAPTURO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KINYACH -0729989830",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TIATY EAST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TIATY EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TANGULBEI  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TANGULBEI  - 0722731644",
+        "region": "REGION",
+        "contact": "0722731644",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHURO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CHURO - 0729321461",
+        "region": "REGION",
+        "contact": "0729321461",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "9. HOMA BAY",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "9. HOMA BAY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HOMABAY P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "9. HOMA BAY",
+        "region": "REGION",
+        "contact": "0726494802",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABUNDE -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "9. HOMA BAY",
+        "region": "REGION",
+        "contact": "0700749170",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RODI P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RODI P/STN - 0726229938",
+        "region": "REGION",
+        "contact": "0726229938",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARINDI   -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RODI P/STN - 0726229938",
+        "region": "REGION",
+        "contact": "0725311010",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RANGWE P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RANGWE P/STN - 0729086968",
+        "region": "REGION",
+        "contact": "0729086968",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ASUMBI P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ASUMBI P/STN - 0724424832",
+        "region": "REGION",
+        "contact": "0724424832",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NYAWITA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ASUMBI P/STN - 0724424832",
+        "region": "REGION",
+        "contact": "0727630188",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NDIRU P/STN  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NDIRU P/STN  - 0729170971",
+        "region": "REGION",
+        "contact": "0729170971",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OMOYA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NDIRU P/STN  - 0729170971",
+        "region": "REGION",
+        "contact": "0729887018",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ONYIEGE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ONYIEGE 0708512164",
+        "region": "REGION",
+        "contact": "0708512164",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGEGU P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NGEGU P/STN - 0726415008",
+        "region": "REGION",
+        "contact": "0726415008",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ODIENYA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NGEGU P/STN - 0726415008",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NDHIWA P/STN  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NDHIWA P/STN  - 0724168871",
+        "region": "REGION",
+        "contact": "0724168871",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OMBO  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NDHIWA P/STN  - 0724168871",
+        "region": "REGION",
+        "contact": "0735552652",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMATA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAMATA - 0721770095",
+        "region": "REGION",
+        "contact": "0721770095",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MIGORI  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MIGORI  - 0727963331",
+        "region": "REGION",
+        "contact": "0727963331",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "UNGA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "UNGA - 0706317413",
+        "region": "REGION",
+        "contact": "0706317413",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOBODO P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KOBODO P/STN - 0722911754",
+        "region": "REGION",
+        "contact": "0722911754",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAGINA P/STN  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAGINA P/STN  - 0728834986",
+        "region": "REGION",
+        "contact": "0728834986",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGUKU P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NGUKU P/STN - 0725645163",
+        "region": "REGION",
+        "contact": "0725645163",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOBAMABA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KOBAMABA P/STN - 0726336123",
+        "region": "REGION",
+        "contact": "0726336123",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIAT P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIAT P/STN - 0726336123",
+        "region": "REGION",
+        "contact": "0726336123",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "PALA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "PALA P/STN - 0726933920",
+        "region": "REGION",
+        "contact": "0726933920",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OYUGIS P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OYUGIS P/STN - 0725930634",
+        "region": "REGION",
+        "contact": "0725930634",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RAGWE P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OYUGIS P/STN - 0725930634",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOSELE P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KOSELE P/STN - 0700293332",
+        "region": "REGION",
+        "contact": "0700293332",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NYANGIELEP/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NYANGIELEP/STN - 0729901924",
+        "region": "REGION",
+        "contact": "0729901924",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAGUNGA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAGUNGA P/STN - 0721592749",
+        "region": "REGION",
+        "contact": "0721592749",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NYANDIWA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NYANDIWA P/STN - 0721321462",
+        "region": "REGION",
+        "contact": "0721321462",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NYAGWETHE -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NYANDIWA P/STN - 0721321462",
+        "region": "REGION",
+        "contact": "0112994126",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NYATOTO P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NYATOTO P/STN - 0722638128",
+        "region": "REGION",
+        "contact": "0722638128",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GINGO P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NYATOTO P/STN - 0722638128",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MBITA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MBITA P/STN - 0721609278",
+        "region": "REGION",
+        "contact": "0721609278",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KASWANGA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KASWANGA P/STN - 0726540852",
+        "region": "REGION",
+        "contact": "0726540852",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LUANDA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LUANDA P/STN - 0720206394",
+        "region": "REGION",
+        "contact": "0720206394",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIPASI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LUANDA P/STN - 0720206394",
+        "region": "REGION",
+        "contact": "0795472501",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OGONGO P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OGONGO P/STN - 0797031885",
+        "region": "REGION",
+        "contact": "0797031885",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GINGO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OGONGO P/STN - 0797031885",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SENA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SENA P/STN - 0725730270",
+        "region": "REGION",
+        "contact": "0725730270",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "REMBA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SENA P/STN - 0725730270",
+        "region": "REGION",
+        "contact": "0718480513",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RINGITI  -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RINGITI  - 0726167108",
+        "region": "REGION",
+        "contact": "0726167108",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KENDUBAY P/STN --",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KENDUBAY P/STN -- 0722347505",
+        "region": "REGION",
+        "contact": "0722347505",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KANYALUO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KENDUBAY P/STN -- 0722347505",
+        "region": "REGION",
+        "contact": "0720307456",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAWEGO P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAWEGO P/STN - 0722211868",
+        "region": "REGION",
+        "contact": "0722211868",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RAKWARO -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAWEGO P/STN - 0722211868",
+        "region": "REGION",
+        "contact": "0721299950",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KADEL P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KADEL P/STN - 0723892454",
+        "region": "REGION",
+        "contact": "0723892454",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KADEL P/STN - 0723892454",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RACHUONYO EAST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RACHUONYO EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OTHORO P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RACHUONYO EAST",
+        "region": "REGION",
+        "contact": "0720599036",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CHABERA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RACHUONYO EAST",
+        "region": "REGION",
+        "contact": "0722923011",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RAMULA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RAMULA 0718790884",
+        "region": "REGION",
+        "contact": "0718790884",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RINGA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RINGA P/STN - 0725535041",
+        "region": "REGION",
+        "contact": "0725535041",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MIKAI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RINGA P/STN - 0725535041",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "10. NAIROBI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "10. NAIROBI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMUKUNJI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "10. NAIROBI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "10. NAIROBI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURUBURU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BURUBURU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CANAAN P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CANAAN P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DANDORA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DANDORA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DANDORA PHASE III",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DANDORA PHASE III",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DANDORA PHASE V",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DANDORA PHASE V",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "JOGOO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "JOGOO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BAHATI P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BAHATI P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HAMZA P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "HAMZA P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CALIFONIA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CALIFONIA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIAMBIU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIAMBIU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BIFRA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BIFRA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOWLEM",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MOWLEM",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BARAKA MOWLEM(KWA MAJI ) P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BARAKA MOWLEM(KWA MAJI ) P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KARIOBANGI SOUTH P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KARIOBANGI SOUTH P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KWA MBAO P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KWA MBAO P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SHAURI MOYO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SHAURI MOYO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAJENGO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAJENGO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CENTRAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CENTRAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GREEN PARK",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GREEN PARK",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LIFE HOUSE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LIFE HOUSE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMUKUNJI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAMUKUNJI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUTHURWAP/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUTHURWAP/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "PARLIAMENT",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "PARLIAMENT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGARA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NGARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KICC",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KICC",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DAGORETTI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DAGORETTI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABETE P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABETE P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABETE P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABETE P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GACHUI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABETE P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MATINI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MATINI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KABETE CAMPUS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KABETE CAMPUS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GITATHURU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GITATHURU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "VET FARM",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "VET FARM",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KANGEMI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KANGEMI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NONE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KANGEMI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WAITHAKA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "WAITHAKA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NONE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "WAITHAKA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIRUTA P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIRUTA P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIRUTA P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIRUTA P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NG'ANDO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIRUTA P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUTHANGARI /PSTN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUTHANGARI /PSTN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAWANGWARE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAWANGWARE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GATINA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GATINA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUTUINI P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUTUINI P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIRIGO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIRIGO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMBAKASI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EMBAKASI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMBAKASI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EMBAKASI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMBAKASI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EMBAKASI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TASSIA P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "TASSIA P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "VILLA FRANCA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "VILLA FRANCA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUKURU P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUKURU P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "IMARA DAIMA P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "IMARA DAIMA P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KWARE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KWARE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MOMBASA ROAD",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MOMBASA ROAD",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GIGIRI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GIGIRI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GIGIRI PSTN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GIGIRI PSTN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SPRING VALLEY",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SPRING VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LORESHO P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LORESHO P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KITSURU P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KITSURU P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LOWER KABETE P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LOWER KABETE P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "PROSECUTION INSTITUTE P/P",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "PROSECUTION INSTITUTE P/P",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KASARANI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KASARANI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAYOLE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAYOLE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAYOLE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAYOLE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAYOLE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAYOLE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAYOLE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MATOPENI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MATOPENI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SOWETO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SOWETO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MASIMBA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MASIMBA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUGENDI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUGENDI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MIHANGO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MIHANGO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MIHANGO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MIHANGO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KARAGITA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KARAGITA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIBIKU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIBIKU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HURLINGHAM",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "HURLINGHAM",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OBAMA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "OBAMA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NJIRU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NJIRU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILIMANI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KILIMANI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KILIMANI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILIMANI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KILIMANI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILELESHWA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KILELESHWA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CAPITAL HILL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CAPITAL HILL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KENYATTA NATIONAL HOSPITAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KENYATTA NATIONAL HOSPITAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GOLF COURSE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "GOLF COURSE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "JAMHURI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "JAMHURI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "JAMHURI P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "JAMHURI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIBRA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIBRA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIBRA P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIBRA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SARANGOMBE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SARANGOMBE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EACC",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EACC",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LANGATA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LANGATA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LANGATA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LANGATA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LANGATA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NYAYO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NYAYO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WEST PARK",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "WEST PARK",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HIGHRISE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "HIGHRISE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HARDY",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "HARDY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAREN PLAINS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAREN PLAINS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BOMAS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BOMAS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAREN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAREN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "AKILA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "AKILA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAW COURTS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LAW COURTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MILIMANI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LAW COURTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LAW COURTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIBRA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIBRA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KIBRA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAKADARA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKADARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKADARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DAGORETTI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DAGORETTI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DAGORETTI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CITY COURTS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CITY COURTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CITY COURTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "CITY COURTS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CITY COURTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "CITY COURTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DEPOTS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DEPOTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DEPOTS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DEPOTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DEPOTS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RUAI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RUAI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RUAI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RUAI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RUAI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "UTAWALA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "UTAWALA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAWEMBILI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAWEMBILI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAMULU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KAMULU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ACACIA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "ACACIA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGUNDU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "NGUNDU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "STAREHE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "STAREHE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "STAREHE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "STAREHE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "(MATHARE)",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "(MATHARE)",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RUARAKA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "(MATHARE)",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "(MATHARE)",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "PANGANI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "PANGANI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "PANGANI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HURUMA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "HURUMA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "HURUMA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MUTHAIGA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUTHAIGA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MUTHAIGA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KARIOBANGI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KARIOBANGI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KARIOBANGI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EASTLEIGH NORTH",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EASTLEIGH NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EASTLEIGH NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MATHARE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MATHARE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MATHARE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOROGOCHO",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KOROGOCHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KOROGOCHO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LUCKY SUMMER",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LUCKY SUMMER",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LUCKY SUMMER",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EASTLEIGH AIRBASE",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "EASTLEIGH AIRBASE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DRIVE- INN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "DRIVE- INN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KSMS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KSMS",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAKADARA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKADARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "HQRS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKADARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKADARA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "INDO AREA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "INDO AREA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "1. LAND MAWE.",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "1. LAND MAWE.",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "2. COMMERCIAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "2. COMMERCIAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LUNGALUNGA",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "LUNGALUNGA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SOUTH B",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SOUTH B",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "1. BALOZI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "1. BALOZI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "2. RICHFIELD",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "2. RICHFIELD",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MAKONGENI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MAKONGENI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KALOLENI",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "KALOLENI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIFT VALLEY",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "11. SAMBURU",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAMBURU EAST",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SCPC HQS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WAMBA -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "WAMBA - 0721746789",
+        "region": "REGION",
+        "contact": "0721746789",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LODUNGUKWE -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "WAMBA - 0721746789",
+        "region": "REGION",
+        "contact": "0724634193",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SERE-OLIPI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SERE-OLIPI -0702531520",
+        "region": "REGION",
+        "contact": "0702531520",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAMBURU CENTRAL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAMBURU CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARALAL P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAMBURU CENTRAL",
+        "region": "REGION",
+        "contact": "0720248032",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARAL P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAMBURU CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SUGUTA P/STN",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SUGUTA P/STN",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SUGUTA P/STN -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SUGUTA P/STN",
+        "region": "REGION",
+        "contact": "0723085372",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAMBURU NORTH",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAMBURU NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SCPC HQS",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAMBURU NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "SAMBURU NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BARAGOI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BARAGOI - 0727652011",
+        "region": "REGION",
+        "contact": "0727652011",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "BARAGOI - 0727652011",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MARTI -",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MARTI - 0726157491",
+        "region": "REGION",
+        "contact": "0726157491",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "GARISSA",
+        "subcounty": "MARTI - 0726157491",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NER",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "NER",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "12. MANDERA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "NER",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA EAST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "NER",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "NER",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA EAST",
+        "facility_type": "Police Post",
+        "county": "MANDERA",
+        "subcounty": "MANDERA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA -",
+        "facility_type": "Police Post",
+        "county": "MANDERA",
+        "subcounty": "MANDERA EAST",
+        "region": "REGION",
+        "contact": "0720246244",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA EAST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NEBOI -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA EAST",
+        "region": "REGION",
+        "contact": "0722169660",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA EAST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA EAST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KHALALIO -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA EAST",
+        "region": "REGION",
+        "contact": "0713397256",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAFEY",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAFEY -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": "0728816890",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAFEY",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SALA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": "0725272058",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAFEY",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ALINGU -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": "0710518537",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "LAFEY",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WARANKARA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "LAFEY",
+        "region": "REGION",
+        "contact": "0705560908",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ARABIA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "ARABIA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ARABIA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "ARABIA",
+        "region": "REGION",
+        "contact": "0723873796",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BANISA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "BANISA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BANISA-",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "BANISA",
+        "region": "REGION",
+        "contact": "0714689624",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BANISA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "BANISA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MALKAMARI -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "BANISA",
+        "region": "REGION",
+        "contact": "0728036221",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BANISA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "BANISA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MALKAMARI",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "BANISA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MALKARUQA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "BANISA",
+        "region": "REGION",
+        "contact": "0720819910",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA WEST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "TAKABA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": "0723321873",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA WEST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "DANDU -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": "0726862872",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA WEST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURDURAS -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": "0725806442",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA WEST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURDURAS",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GITHER -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA WEST",
+        "region": "REGION",
+        "contact": "0725302111",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA NORTH",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RHAMU -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": "0725956957",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA NORTH",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RHAMU",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLLA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": "0715585638",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA NORTH",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RHAMU",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RHAMUDIMTU -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": "0745464328",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA NORTH",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ASHABITO -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA NORTH",
+        "region": "REGION",
+        "contact": "0704430976",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOTULO",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KOTULO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KOTULO MANDERA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KOTULO",
+        "region": "REGION",
+        "contact": "0718045118",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILIWEHIRI",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KILIWEHIRI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KILIWEHIRI -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KILIWEHIRI",
+        "region": "REGION",
+        "contact": "0723384964",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EYMOLE -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KILIWEHIRI",
+        "region": "REGION",
+        "contact": "0741411127",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA CENTRAL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ELWAK -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": "0715891940",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA CENTRAL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SHIMBIR FATUMA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": "0724164256",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA CENTRAL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SHIMBIR FATUMA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "BURMAYO -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": "0723571517",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MANDERA CENTRAL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "WARGADUD",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MANDERA CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "RIFT VALLEY",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "13. KAJIADO",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "RIFT VALLEY",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ISINYA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "ISINYA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KITENGELA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KITENGELA  0789727468",
+        "region": "REGION",
+        "contact": "0789727468",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SIFA FARM PATROL BASE",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "SIFA FARM PATROL BASE",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ISINYA P/STN",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "ISINYA P/STN 0721449017",
+        "region": "REGION",
+        "contact": "0721449017",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLOOSIRKON P/STN -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "OLOOSIRKON P/STN - 0723477510",
+        "region": "REGION",
+        "contact": "0723477510",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KJD  NORTH",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KJD  NORTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "ONGATA RONGAI 0725-889623",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "ONGATA RONGAI 0725-889623",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KISERIAN -0720-043633",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KISERIAN -0720-043633",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NGONG -0725-918744",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "NGONG -0725-918744",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLEKASASI 0722-296560",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "OLEKASASI 0722-296560",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLOOLUA - 0727-356221",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "OLOOLUA - 0727-356221",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MATASIA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MATASIA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "GATAKA",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "GATAKA",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KANDISI",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KANDISI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMBULBUL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "EMBULBUL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KERARAPON",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KERARAPON",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAJIADO CENTRAL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KAJIADO CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAJADO CENTRAL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KAJIADO CENTRAL",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAJIADO WEST",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KAJIADO WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAJADO WEST DIVISIONAL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KAJIADO WEST",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KIBIKO",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KIBIKO",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EWUASO KEDONG",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "EWUASO KEDONG",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLOOLOITIKOSH",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "OLOOLOITIKOSH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SAIKERI",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "SAIKERI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MILE 46",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MILE 46",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "KAJIADO SOUTH",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "KAJIADO SOUTH",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SIMBA CEMENT",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "SIMBA CEMENT",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MASHUURU",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MASHUURU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MASHUURU -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MASHUURU",
+        "region": "REGION",
+        "contact": "0724151746",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NIL",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MASHUURU",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "MASIMBA -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "MASIMBA - 0728067545",
+        "region": "REGION",
+        "contact": "0728067545",
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "EMALI",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "EMALI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "SULTAN HAMUD",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "SULTAN HAMUD",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "OLOILILAI",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "OLOILILAI",
+        "region": "REGION",
+        "contact": null,
+        "source": "GBV Station Pilot"
+      },
+      {
+        "facility_name": "NAMANGA P/STN -",
+        "facility_type": "Police Station",
+        "county": "MANDERA",
+        "subcounty": "OLOILILAI",
+        "region": "REGION",
+        "contact": "0742434760",
+        "source": "GBV Station Pilot"
+      }
+    ],
+    "last_updated": "2025-09-12T09:48:15.845919+00:00"
+  }
+}

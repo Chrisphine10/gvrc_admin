@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185512_956280_a80e8200",
+  "data": {
+    "facility_name": "Kisumu Hospital 3",
+    "facility_type": "Hospital",
+    "county": "Kisumu",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000002"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.98,
+      "longitude": 36.02
+    }
+  },
+  "stored_at": "2025-09-09T18:55:12.959744",
+  "checksum": "36866d684a24a8a568d8b8170d26c421d08b04bf2adaabee8c44301378bc462d"
+}

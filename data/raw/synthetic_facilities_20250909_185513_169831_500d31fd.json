@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_169831_500d31fd",
+  "data": {
+    "facility_name": "Kisumu Health Center 11",
+    "facility_type": "Health Center",
+    "county": "Kisumu",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000010"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.9,
+      "longitude": 36.1
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.173667",
+  "checksum": "6e24e8891bf0dabe0c75862c5cb14d1f89f52ba2e1b1cc8dd82bb965f7cc2956"
+}

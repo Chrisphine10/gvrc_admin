@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_450383_b8dc1ce2",
+  "data": {
+    "facility_name": "Nakuru Community Center 20",
+    "facility_type": "Community Center",
+    "county": "Nakuru",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000019"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.453034",
+  "checksum": "7904cc067f3197a4f337fd4c8e2da24bac980e7b2defda14c7c53eb267dc2a54"
+}

@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_520120_51eb20f0",
+  "data": {
+    "facility_name": "Thika Dispensary 22",
+    "facility_type": "Dispensary",
+    "county": "Thika",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000021"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.79,
+      "longitude": 36.21
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.523060",
+  "checksum": "64d8b1afbce9019221d2a8e418aa2a8320e1eb5a45d9401b52d20fee2c4576ad"
+}

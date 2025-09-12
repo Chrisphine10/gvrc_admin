@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185512_860331_3303da28",
+  "data": {
+    "facility_name": "Nairobi Health Center 1",
+    "facility_type": "Health Center",
+    "county": "Nairobi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000000"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -1.0,
+      "longitude": 36.0
+    }
+  },
+  "stored_at": "2025-09-09T18:55:12.866301",
+  "checksum": "7480084f2df00952dcc9ee12a25a51616e85d9f74442d945365984d2cbe47f64"
+}

@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_917154_810fa881",
+  "data": {
+    "facility_name": "Kisumu Community Center 35",
+    "facility_type": "Community Center",
+    "county": "Kisumu",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000034"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.6599999999999999,
+      "longitude": 36.34
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.920061",
+  "checksum": "3a7c2b62e840133afd1790e465a5c6d1fb26450ab263f506ef1a4db9d8f9d47c"
+}

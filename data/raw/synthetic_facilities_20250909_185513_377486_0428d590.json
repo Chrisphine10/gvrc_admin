@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_377486_0428d590",
+  "data": {
+    "facility_name": "Nairobi Dispensary 17",
+    "facility_type": "Dispensary",
+    "county": "Nairobi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000016"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.84,
+      "longitude": 36.16
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.381535",
+  "checksum": "93e2e3adec0dcc7556bdc9dbf66bfc8b85472536529a7f19283f0daaa0caf400"
+}

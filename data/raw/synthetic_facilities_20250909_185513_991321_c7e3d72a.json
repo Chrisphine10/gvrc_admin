@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_991321_c7e3d72a",
+  "data": {
+    "facility_name": "Malindi Clinic 39",
+    "facility_type": "Clinic",
+    "county": "Malindi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000038"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.992886",
+  "checksum": "eaf3e46ca96727df8b345477d95222795768fa35a207611140ef0b426e4b5fd7"
+}

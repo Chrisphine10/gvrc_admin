@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_796684_8d9852dc",
+  "data": {
+    "facility_name": "Thika Community Center 30",
+    "facility_type": "Community Center",
+    "county": "Thika",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000029"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.799774",
+  "checksum": "31c976c2c06bd27cd52e875249c5f5990cfc04f927c7811d30d8ca2ac6028c75"
+}

@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_698705_1e9890a9",
+  "data": {
+    "facility_name": "Kisumu Dispensary 27",
+    "facility_type": "Dispensary",
+    "county": "Kisumu",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000026"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.74,
+      "longitude": 36.26
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.702680",
+  "checksum": "d5ec781ef70222a3cd59c90387c31df237fe3a00a48032e03312593d75b4d550"
+}

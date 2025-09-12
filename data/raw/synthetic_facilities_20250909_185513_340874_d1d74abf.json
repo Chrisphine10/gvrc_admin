@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_340874_d1d74abf",
+  "data": {
+    "facility_name": "Kitale Health Center 16",
+    "facility_type": "Health Center",
+    "county": "Kitale",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000015"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.85,
+      "longitude": 36.15
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.342823",
+  "checksum": "376e4c6eea1a7e32915f1a9bd1f0ef0ba26bead3798a33cc8bf20c040b45b46e"
+}

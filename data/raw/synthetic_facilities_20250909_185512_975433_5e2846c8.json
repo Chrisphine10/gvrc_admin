@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185512_975433_5e2846c8",
+  "data": {
+    "facility_name": "Nakuru Clinic 4",
+    "facility_type": "Clinic",
+    "county": "Nakuru",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000003"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.97,
+      "longitude": 36.03
+    }
+  },
+  "stored_at": "2025-09-09T18:55:12.977549",
+  "checksum": "dd830a4cbce016d1466ef916957c90ec0ef83a895b2e9ad8c25ab1f1450d02ec"
+}

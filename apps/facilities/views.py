@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.db.models import Q, Count
 from django.db import transaction
 from django.conf import settings
+from django.core.paginator import Paginator
 from .models import Facility, FacilityContact, FacilityService, FacilityOwner, FacilityCoordinate, FacilityGBVCategory, FacilityInfrastructure
 from .forms import (
     FacilityForm, FacilityContactForm, FacilityServiceForm, FacilityOwnerForm, 
@@ -30,7 +31,8 @@ def facility_list(request):
         'facilityservice_set__service_category',
         'facilitycontact_set__contact_type',
         'facilityowner_set__owner_type',
-        'facilitygbvcategory_set__gbv_category'
+        'facilitygbvcategory_set__gbv_category',
+        'facilitycoordinate_set'
     ).filter(is_active=True)
     
     # Search functionality
@@ -59,13 +61,19 @@ def facility_list(request):
     counties_count = County.objects.count()
     wards_count = facilities.values('ward').distinct().count()
     
+    # Add pagination
+    paginator = Paginator(facilities, 50)  # Show 50 facilities per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     # Get filter options
     counties = County.objects.all().order_by('county_name')
     operational_statuses = OperationalStatus.objects.all().order_by('status_name')
     service_categories = ServiceCategory.objects.all().order_by('category_name')
     
     context = {
-        'facilities': facilities,
+        'facilities': page_obj,
+        'page_obj': page_obj,
         'search_query': search_query,
         'selected_county': county_id,
         'selected_status': status_id,

@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_268407_9aeef785",
+  "data": {
+    "facility_name": "Thika Clinic 14",
+    "facility_type": "Clinic",
+    "county": "Thika",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000013"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.87,
+      "longitude": 36.13
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.272097",
+  "checksum": "5fd2f8f3f04e16b3068052f9f942a7ec334c7bff6390bbb66d3c27752d530a76"
+}

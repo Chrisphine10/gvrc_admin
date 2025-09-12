@@ -45,6 +45,7 @@ urlpatterns = [
     
     # Admin/Management API endpoints (authentication required)
     path("api/", include("apps.api.urls")),       # Admin APIs
+    path("data-architecture/", include("apps.data_architecture.urls")), # Enhanced Data Architecture
     
     # Web interface endpoints
     path("chat/", include("apps.chat.urls")),     # Emergency Chat System Web Interface

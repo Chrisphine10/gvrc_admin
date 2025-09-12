@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_304941_a6ba5cf8",
+  "data": {
+    "facility_name": "Malindi Community Center 15",
+    "facility_type": "Community Center",
+    "county": "Malindi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000014"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.86,
+      "longitude": 36.14
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.308605",
+  "checksum": "617e5d43fd33eaaeefface603075d8933e8ff9736e8404b5e18c506f2d6578a3"
+}

@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_236621_2c827db7",
+  "data": {
+    "facility_name": "Eldoret Hospital 13",
+    "facility_type": "Hospital",
+    "county": "Eldoret",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000012"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.88,
+      "longitude": 36.12
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.239259",
+  "checksum": "43dca04047d36a9152bdb8af769000beee907033a839bea030d4125468027404"
+}

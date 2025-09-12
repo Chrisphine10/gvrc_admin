@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185512_921170_e3d3b6a3",
+  "data": {
+    "facility_name": "Mombasa Dispensary 2",
+    "facility_type": "Dispensary",
+    "county": "Mombasa",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000001"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.99,
+      "longitude": 36.01
+    }
+  },
+  "stored_at": "2025-09-09T18:55:12.924676",
+  "checksum": "5dd72f1b14e696e2eaa13a24ce7156c67c9418f33e4b1e80af729cf841fbf6d3"
+}

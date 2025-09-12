@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_846214_e7776c8f",
+  "data": {
+    "facility_name": "Kitale Dispensary 32",
+    "facility_type": "Dispensary",
+    "county": "Kitale",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000031"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.69,
+      "longitude": 36.31
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.850320",
+  "checksum": "cafd44eca0fbb62f9ae47121b06a1ad9c0d91e6b0293dc295e2ad1a206235ad9"
+}

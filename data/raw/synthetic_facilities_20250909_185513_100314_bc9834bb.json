@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_100314_bc9834bb",
+  "data": {
+    "facility_name": "Nairobi Clinic 9",
+    "facility_type": "Clinic",
+    "county": "Nairobi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000008"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.103054",
+  "checksum": "f18620d9ff29aab26a921c0cca945e732506074a980f829fc45fa83b2b14715c"
+}

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "apps.mobile_sessions",
     "apps.chat",
     "apps.mobile",
+    "apps.data_architecture",  # Enhanced Data Architecture
 ]
 
 MIDDLEWARE = [

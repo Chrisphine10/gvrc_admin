@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_408781_4c69be6e",
+  "data": {
+    "facility_name": "Mombasa Hospital 18",
+    "facility_type": "Hospital",
+    "county": "Mombasa",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000017"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.410868",
+  "checksum": "18b5fb4d1688c6e04b94738372dae521ee44e5ce06e9ddee9909930f45b8c68b"
+}

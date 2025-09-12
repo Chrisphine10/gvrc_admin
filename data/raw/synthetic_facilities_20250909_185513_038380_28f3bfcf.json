@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_038380_28f3bfcf",
+  "data": {
+    "facility_name": "Malindi Dispensary 7",
+    "facility_type": "Dispensary",
+    "county": "Malindi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000006"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.94,
+      "longitude": 36.06
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.042552",
+  "checksum": "ebed2c2eaf7fdf6900b96f61e158c0769925b2e4a405d760f733db4c75fffa6b"
+}

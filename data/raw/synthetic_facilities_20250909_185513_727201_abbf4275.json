@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_727201_abbf4275",
+  "data": {
+    "facility_name": "Nakuru Hospital 28",
+    "facility_type": "Hospital",
+    "county": "Nakuru",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000027"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.730434",
+  "checksum": "2375fac052dd19392b1c6774326f1ed8ed1aacc0f6132a58bc375826a29f33c0"
+}

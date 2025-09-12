@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_881601_b9d2e17a",
+  "data": {
+    "facility_name": "Nairobi Hospital 33",
+    "facility_type": "Hospital",
+    "county": "Nairobi",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000032"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.6799999999999999,
+      "longitude": 36.32
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.884469",
+  "checksum": "4df74bd80cf1f8fa940514740389fcf6316ea5a6b0aae63ad8a6149d105fdb9e"
+}

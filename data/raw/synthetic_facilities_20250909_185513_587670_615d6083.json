@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_587670_615d6083",
+  "data": {
+    "facility_name": "Kitale Clinic 24",
+    "facility_type": "Clinic",
+    "county": "Kitale",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000023"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.77,
+      "longitude": 36.23
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.589839",
+  "checksum": "4490e0b4f7b352b223340e439baf307cf84e20ad95019935efe432cfeab6e4b7"
+}

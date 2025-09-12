@@ -1,0 +1,17 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_770889_f97ecfeb",
+  "data": {
+    "facility_name": "Eldoret Clinic 29",
+    "facility_type": "Clinic",
+    "county": "Eldoret",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000028"
+      }
+    ],
+    "source_type": "synthetic_generation"
+  },
+  "stored_at": "2025-09-09T18:55:13.773486",
+  "checksum": "7748d4aae3ce5b336377f0d2b0d8467a389f73216465cddb12e70e4ea2458a23"
+}

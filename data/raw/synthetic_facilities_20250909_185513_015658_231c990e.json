@@ -1,0 +1,21 @@
+{
+  "data_id": "synthetic_facilities_20250909_185513_015658_231c990e",
+  "data": {
+    "facility_name": "Thika Health Center 6",
+    "facility_type": "Health Center",
+    "county": "Thika",
+    "contacts": [
+      {
+        "type": "phone",
+        "value": "+254700000005"
+      }
+    ],
+    "source_type": "synthetic_generation",
+    "coordinates": {
+      "latitude": -0.95,
+      "longitude": 36.05
+    }
+  },
+  "stored_at": "2025-09-09T18:55:13.017872",
+  "checksum": "f5306777b4f27680bc7a0dbe6caf07c315f921d7e83717b7942163372cc2c531"
+}

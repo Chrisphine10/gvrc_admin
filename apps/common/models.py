@@ -6,7 +6,40 @@ Common models for GVRC Admin
 from django.db import models
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth import get_user_model
 import os
+
+User = get_user_model()
+
+
+class TimeStampedModel(models.Model):
+    """Abstract base class with self-updating created_at and updated_at fields."""
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class UserTrackedModel(models.Model):
+    """Abstract base class with user tracking fields."""
+    created_by = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='%(class)s_created'
+    )
+    updated_by = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='%(class)s_updated'
+    )
+
+    class Meta:
+        abstract = True
 
 
 def get_upload_path(instance, filename):

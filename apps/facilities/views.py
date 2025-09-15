@@ -4,6 +4,7 @@ Views for facilities app
 """
 
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, Count
@@ -132,56 +133,89 @@ def facility_detail(request, facility_id):
 
 
 @permission_required('view_facilities')
+@cache_page(60)  # cache for 60 seconds; can be tuned
 def facility_map(request):
     """Show facilities on a map with coordinates"""
-    facilities = Facility.objects.filter(
-        is_active=True
+    # Optional bounding box and limit for performance
+    # bbox format: minLon,minLat,maxLon,maxLat
+    bbox_param = request.GET.get('bbox')
+    limit_param = request.GET.get('limit')
+    try:
+        limit = max(100, min(int(limit_param), 20000)) if limit_param else 5000
+    except Exception:
+        limit = 5000
+
+    coords_qs = FacilityCoordinate.objects.filter(
+        is_active=True,
+        facility__is_active=True,
     ).select_related(
-        'ward__constituency__county',
-        'operational_status'
-    ).prefetch_related(
-        'facilitycoordinate_set'
+        'facility__ward__constituency__county',
+        'facility__operational_status'
     )
-    
-    # Filter facilities with coordinates and serialize for JavaScript
-    facilities_with_coords = []
-    for facility in facilities:
-        coords = facility.facilitycoordinate_set.filter(is_active=True).first()
-        if coords and coords.latitude and coords.longitude:
-            facilities_with_coords.append({
-                'facility': {
-                    'facility_id': facility.facility_id,
-                    'facility_name': facility.facility_name,
-                    'registration_number': facility.registration_number,
-                    'ward': {
-                        'ward_name': facility.ward.ward_name,
-                        'constituency': {
-                            'county': {
-                                'county_name': facility.ward.constituency.county.county_name
-                            }
+
+    # Apply bbox if provided
+    if bbox_param:
+        try:
+            min_lon, min_lat, max_lon, max_lat = [float(x) for x in bbox_param.split(',')]
+            coords_qs = coords_qs.filter(
+                latitude__gte=min_lat,
+                latitude__lte=max_lat,
+                longitude__gte=min_lon,
+                longitude__lte=max_lon,
+            )
+        except Exception:
+            pass
+
+    # Serialize minimal payload
+    rows = coords_qs.values(
+        'facility_id',
+        'facility__facility_name',
+        'facility__registration_number',
+        'facility__ward__ward_name',
+        'facility__ward__constituency__county__county_name',
+        'facility__operational_status__status_name',
+        'latitude',
+        'longitude',
+    )[:limit]
+
+    facilities_with_coords = [
+        {
+            'facility': {
+                'facility_id': r['facility_id'],
+                'facility_name': r['facility__facility_name'],
+                'registration_number': r['facility__registration_number'],
+                'ward': {
+                    'ward_name': r['facility__ward__ward_name'],
+                    'constituency': {
+                        'county': {
+                            'county_name': r['facility__ward__constituency__county__county_name']
                         }
-                    },
-                    'operational_status': {
-                        'status_name': facility.operational_status.status_name
                     }
                 },
-                'coordinates': {
-                    'latitude': float(coords.latitude),
-                    'longitude': float(coords.longitude)
+                'operational_status': {
+                    'status_name': r['facility__operational_status__status_name']
                 }
-            })
-    
+            },
+            'coordinates': {
+                'latitude': float(r['latitude']) if r['latitude'] is not None else None,
+                'longitude': float(r['longitude']) if r['longitude'] is not None else None,
+            }
+        }
+        for r in rows
+        if r['latitude'] is not None and r['longitude'] is not None
+    ]
+
     import json
-    
+
     context = {
         'facilities_with_coords': facilities_with_coords,
         'facilities_with_coords_json': json.dumps(facilities_with_coords),
-        'total_facilities': facilities.count(),
+        'total_facilities': Facility.objects.filter(is_active=True).count(),
         'facilities_with_coords_count': len(facilities_with_coords),
         'segment': 'facility_map',
         'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
     }
-    
+
     return render(request, 'facilities/facility_map.html', context)
 
 

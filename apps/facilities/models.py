@@ -95,6 +95,8 @@ class FacilityCoordinate(models.Model):
             models.Index(fields=['facility']),
             models.Index(fields=['collection_date']),
             models.Index(fields=['is_active']),
+            models.Index(fields=['facility', 'is_active']),
+            models.Index(fields=['is_active', 'latitude', 'longitude']),
         ]
 
 

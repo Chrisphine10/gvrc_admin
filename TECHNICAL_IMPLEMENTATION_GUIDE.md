@@ -33,7 +33,6 @@ DJANGO_SETTINGS_MODULE=core.settings.production python manage.py loaddata sqlite
 ```bash
 # Execute production importer
 python src/scripts/production_json_importer.py
-
 # Or run specific components
 python -m src.etl_pipeline.pipeline --config config/production.yaml
 ```

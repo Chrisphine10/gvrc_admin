@@ -19,6 +19,7 @@ CSRF_TRUSTED_ORIGINS = [
     f"https://{APP_DOMAIN}",
     "https://*.deploypro.dev",
     "http://172.31.47.58:8000",
+    "https://hodi.co.ke",  # Add this line
 ]
 
 # Database

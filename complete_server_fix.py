@@ -77,11 +77,18 @@ def setup_django_environment():
     project_root = Path(__file__).resolve().parent
     sys.path.insert(0, str(project_root))
     
-    # Set Django settings module
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings.postgres')
+    # CRITICAL: Set Django settings module BEFORE importing Django
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings.postgres'
     
     print("✅ Django environment configured")
     print(f"   Settings module: {os.environ['DJANGO_SETTINGS_MODULE']}")
+    
+    # Verify environment variables are set
+    print("🔍 Verifying environment variables:")
+    print(f"   DB_ENGINE: {os.environ.get('DB_ENGINE', 'NOT SET')}")
+    print(f"   DB_HOST: {os.environ.get('DB_HOST', 'NOT SET')}")
+    print(f"   DB_USERNAME: {os.environ.get('DB_USERNAME', 'NOT SET')}")
+    print(f"   DB_PASS: {'SET' if os.environ.get('DB_PASS') else 'NOT SET'}")
     
     # Initialize Django
     django.setup()
@@ -90,8 +97,16 @@ def setup_django_environment():
 def test_database_connectivity():
     """Test database connectivity with proper error handling"""
     try:
+        from django.conf import settings
         from django.db import connection
+        
         print("🔍 Testing database connection...")
+        print(f"   Django settings module: {settings.SETTINGS_MODULE}")
+        print(f"   Database engine: {settings.DATABASES['default']['ENGINE']}")
+        print(f"   Database host: {settings.DATABASES['default']['HOST']}")
+        print(f"   Database name: {settings.DATABASES['default']['NAME']}")
+        print(f"   Database user: {settings.DATABASES['default']['USER']}")
+        print(f"   Database password: {'SET' if settings.DATABASES['default']['PASSWORD'] else 'NOT SET'}")
         
         # Test connection with timeout
         with connection.cursor() as cursor:

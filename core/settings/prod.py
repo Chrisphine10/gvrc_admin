@@ -8,7 +8,7 @@ from .base import *
 DEBUG = False
 
 # HOSTs List
-ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev", "172.31.47.58"]
+ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev", "172.31.47.58", "hodi.co.ke"]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:

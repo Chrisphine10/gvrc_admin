@@ -511,10 +511,19 @@
         </div>
 
         <!-- System Management Section -->
-        {% if user.is_superuser %}
         <div class="settings-section">
           <h4><i class="ni ni-settings-gear-65 text-warning"></i> System Management</h4>
           
+          <!-- Debug Information (remove this after troubleshooting) -->
+          <div class="alert alert-secondary">
+            <strong>Debug Info:</strong><br>
+            User: {{ user.email }}<br>
+            Is Authenticated: {{ user.is_authenticated }}<br>
+            Is Staff: {{ user.is_staff }}<br>
+            Is Superuser: {{ user.is_superuser }}<br>
+          </div>
+          
+          {% if user.is_staff %}
           <div class="row">
             <div class="col-12">
               <div class="alert alert-info">
@@ -539,8 +548,16 @@
               </small>
             </div>
           </div>
+          {% else %}
+          <div class="alert alert-warning">
+            <i class="ni ni-lock-circle-open"></i>
+                <strong>Access Restricted</strong>
+                <p class="mb-0">
+                  This functionality is only available to staff users. Your current user account does not have staff privileges.
+                </p>
+          </div>
+          {% endif %}
         </div>
-        {% endif %}
 
         <!-- Save Button -->
         <div class="settings-section">

@@ -78,7 +78,7 @@ def setup_django_environment():
     sys.path.insert(0, str(project_root))
     
     # CRITICAL: Set Django settings module BEFORE importing Django
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings.postgres'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings.dev'  # Use dev settings instead
     
     print("✅ Django environment configured")
     print(f"   Settings module: {os.environ['DJANGO_SETTINGS_MODULE']}")
@@ -93,6 +93,23 @@ def setup_django_environment():
     # Initialize Django
     django.setup()
     print("✅ Django initialized successfully")
+    
+    # DIRECT FIX: Override Django database settings
+    from django.conf import settings
+    settings.DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'gvrc_db',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres123#',
+            'HOST': 'database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com',
+            'PORT': '5432',
+            'OPTIONS': {
+                'connect_timeout': 60,
+            }
+        }
+    }
+    print("✅ Database configuration overridden directly")
 
 def test_database_connectivity():
     """Test database connectivity with proper error handling"""

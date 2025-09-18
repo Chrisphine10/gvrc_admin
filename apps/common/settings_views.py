@@ -183,9 +183,7 @@ def delete_apple_touch_icon(request):
 @require_http_methods(["POST"])
 def load_default_roles_permissions(request):
     """Load default roles and permissions system"""
-    # Only staff users can access this functionality
-    if not request.user.is_staff:
-        raise PermissionDenied("Only staff users can load default roles and permissions.")
+    # All authenticated users can access this functionality
     
     try:
         # Call the management command to set up roles and permissions

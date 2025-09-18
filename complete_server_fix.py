@@ -56,6 +56,20 @@ def fix_database_config():
     """Fix database configuration by setting correct environment variables"""
     print("📋 Setting database environment variables...")
     
+    # Clear any existing problematic environment variables
+    if 'DB_ENGINE' in os.environ:
+        del os.environ['DB_ENGINE']
+    if 'DB_NAME' in os.environ:
+        del os.environ['DB_NAME']
+    if 'DB_USERNAME' in os.environ:
+        del os.environ['DB_USERNAME']
+    if 'DB_PASS' in os.environ:
+        del os.environ['DB_PASS']
+    if 'DB_HOST' in os.environ:
+        del os.environ['DB_HOST']
+    if 'DB_PORT' in os.environ:
+        del os.environ['DB_PORT']
+    
     # Set the correct database configuration
     os.environ['DB_ENGINE'] = 'postgresql'
     os.environ['DB_NAME'] = 'hodi_db'

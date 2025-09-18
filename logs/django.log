@@ -19225,3 +19225,25 @@ WARNING 2025-09-18 11:54:06,599 log 36988 15584 Not Found: /api/chat/notificatio
 WARNING 2025-09-18 11:54:06,600 basehttp 36988 15584 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
 WARNING 2025-09-18 11:54:08,240 log 36988 39732 Not Found: /ws/notifications/
 WARNING 2025-09-18 11:54:08,242 basehttp 36988 39732 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:54:36,613 log 36988 25220 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:54:36,614 basehttp 36988 25220 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:54:38,274 log 36988 25220 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:54:38,275 basehttp 36988 25220 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:55:06,603 log 36988 30356 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:55:06,603 basehttp 36988 30356 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:55:08,288 log 36988 30356 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:55:08,288 basehttp 36988 30356 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+INFO 2025-09-18 11:55:12,476 autoreload 36988 29116 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\dev.py changed, reloading.
+INFO 2025-09-18 11:55:13,664 autoreload 39840 36152 Watching for file changes with StatReloader
+WARNING 2025-09-18 11:55:35,789 log 39840 35556 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:55:35,805 basehttp 39840 35556 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:55:36,659 log 39840 35556 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:55:36,674 basehttp 39840 35556 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:55:38,301 log 39840 35556 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:55:38,307 basehttp 39840 35556 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:55:49,215 log 39840 35556 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:55:49,216 basehttp 39840 35556 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:56:07,152 log 39840 35556 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:56:07,152 basehttp 39840 35556 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:56:09,171 log 39840 35556 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:56:09,171 basehttp 39840 35556 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312

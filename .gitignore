@@ -7,6 +7,8 @@
 /node_modules/
 build/
 env
+logs/*.log
+
 
 #src
 *.sqlite*

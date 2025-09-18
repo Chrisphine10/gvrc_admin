@@ -113,6 +113,8 @@ def conversation_list(request):
     return render(request, 'chat/conversation_list.html', context)
 
 
+@custom_login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
 def conversation_detail(request, conversation_id):
     """Display individual conversation with chat interface"""
     conversation = get_object_or_404(
@@ -330,6 +332,8 @@ def chat_analytics(request):
     return render(request, 'chat/chat_analytics.html', context)
 
 
+@custom_login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
 def assign_conversation(request, conversation_id):
     """Assign conversation to admin"""
     if request.method == 'POST':
@@ -365,6 +369,8 @@ def assign_conversation(request, conversation_id):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
+@custom_login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
 def update_conversation_status(request, conversation_id):
     """Update conversation status"""
     if request.method == 'PATCH':

@@ -533,6 +533,14 @@
                 </button>
               </form>
               
+              <!-- Quick Test Button -->
+              <form method="post" action="{% url 'common:test_roles_permissions' %}" style="display: inline; margin-left: 10px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-info btn-sm">
+                  <i class="ni ni-badge"></i> Test Current State
+                </button>
+              </form>
+              
               <small class="form-text text-muted mt-2">
                 <i class="ni ni-lock-circle-open"></i>
                 This will create all default roles, permissions, and role-permission assignments in the system.

@@ -182,8 +182,23 @@ def delete_apple_touch_icon(request):
 @require_http_methods(["POST"])
 def load_default_roles_permissions(request):
     """Load default roles and permissions system"""
+    debug_info = []
+    
     try:
+        # Test database connection first
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        debug_info.append("✓ Database connection: OK")
+        
+        # Test model imports
         from apps.authentication.models import UserRole, Permission, RolePermission
+        debug_info.append("✓ Model imports: OK")
+        
+        # Test current state
+        initial_roles = UserRole.objects.count()
+        initial_permissions = Permission.objects.count()
+        debug_info.append(f"✓ Initial state: {initial_roles} roles, {initial_permissions} permissions")
         
         # Create system roles
         roles_data = [
@@ -196,13 +211,19 @@ def load_default_roles_permissions(request):
         ]
         
         roles_created = 0
-        for role_data in roles_data:
-            role, created = UserRole.objects.get_or_create(
-                role_name=role_data['role_name'],
-                defaults=role_data
-            )
-            if created:
-                roles_created += 1
+        for i, role_data in enumerate(roles_data):
+            try:
+                role, created = UserRole.objects.get_or_create(
+                    role_name=role_data['role_name'],
+                    defaults=role_data
+                )
+                if created:
+                    roles_created += 1
+                    debug_info.append(f"✓ Created role: {role.role_name}")
+                else:
+                    debug_info.append(f"- Role already exists: {role.role_name}")
+            except Exception as role_error:
+                debug_info.append(f"✗ Error creating role {role_data['role_name']}: {str(role_error)}")
         
         # Create system permissions
         permissions_data = [
@@ -239,13 +260,19 @@ def load_default_roles_permissions(request):
         ]
         
         permissions_created = 0
-        for perm_data in permissions_data:
-            permission, created = Permission.objects.get_or_create(
-                permission_name=perm_data['permission_name'],
-                defaults=perm_data
-            )
-            if created:
-                permissions_created += 1
+        for i, perm_data in enumerate(permissions_data):
+            try:
+                permission, created = Permission.objects.get_or_create(
+                    permission_name=perm_data['permission_name'],
+                    defaults=perm_data
+                )
+                if created:
+                    permissions_created += 1
+                    debug_info.append(f"✓ Created permission: {permission.permission_name}")
+                else:
+                    debug_info.append(f"- Permission already exists: {permission.permission_name}")
+            except Exception as perm_error:
+                debug_info.append(f"✗ Error creating permission {perm_data['permission_name']}: {str(perm_error)}")
         
         # Assign all permissions to Super Admin role
         role_permissions_created = 0
@@ -254,26 +281,84 @@ def load_default_roles_permissions(request):
             all_permissions = Permission.objects.all()
             
             for permission in all_permissions:
-                role_perm, created = RolePermission.objects.get_or_create(
-                    role=super_admin_role,
-                    permission=permission,
-                    defaults={'granted_by': request.user}
-                )
-                if created:
-                    role_permissions_created += 1
+                try:
+                    role_perm, created = RolePermission.objects.get_or_create(
+                        role=super_admin_role,
+                        permission=permission,
+                        defaults={'granted_by': request.user}
+                    )
+                    if created:
+                        role_permissions_created += 1
+                except Exception as rp_error:
+                    debug_info.append(f"✗ Error assigning permission {permission.permission_name}: {str(rp_error)}")
+            
+            debug_info.append(f"✓ Assigned {role_permissions_created} permissions to Super Admin role")
+            
         except UserRole.DoesNotExist:
-            pass
+            debug_info.append("✗ Super Admin role not found for permission assignment")
+        
+        # Final state
+        final_roles = UserRole.objects.count()
+        final_permissions = Permission.objects.count()
+        debug_info.append(f"✓ Final state: {final_roles} roles, {final_permissions} permissions")
         
         messages.success(
             request, 
             f'Success! Created {roles_created} roles, {permissions_created} permissions, '
-            f'and {role_permissions_created} role-permission assignments.'
+            f'and {role_permissions_created} role-permission assignments.<br><br>'
+            f'<strong>Debug Info:</strong><br>' + '<br>'.join(debug_info)
         )
         
     except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
         messages.error(
             request, 
-            f'Error creating roles and permissions: {str(e)}'
+            f'Error creating roles and permissions: {str(e)}<br><br>'
+            f'<strong>Debug Info:</strong><br>' + '<br>'.join(debug_info) + '<br><br>'
+            f'<strong>Full Error:</strong><br><pre>{error_details}</pre>'
         )
+    
+    return redirect('common:application_settings')
+
+
+@login_required
+@require_http_methods(["POST"])
+def test_roles_permissions(request):
+    """Test current roles and permissions state"""
+    try:
+        from apps.authentication.models import UserRole, Permission, RolePermission
+        
+        # Get counts
+        roles_count = UserRole.objects.count()
+        permissions_count = Permission.objects.count()
+        role_permissions_count = RolePermission.objects.count()
+        
+        # Get role names
+        role_names = list(UserRole.objects.values_list('role_name', flat=True))
+        
+        # Get permission names (first 10)
+        permission_names = list(Permission.objects.values_list('permission_name', flat=True)[:10])
+        
+        # Check Super Admin role
+        super_admin_info = "Not found"
+        try:
+            super_admin = UserRole.objects.get(role_name='Super Admin')
+            super_admin_perms = RolePermission.objects.filter(role=super_admin).count()
+            super_admin_info = f"Exists with {super_admin_perms} permissions"
+        except UserRole.DoesNotExist:
+            pass
+        
+        messages.info(
+            request,
+            f'<strong>Current State:</strong><br>'
+            f'Roles: {roles_count} ({", ".join(role_names) if role_names else "None"})<br>'
+            f'Permissions: {permissions_count} ({", ".join(permission_names) if permission_names else "None"})<br>'
+            f'Role-Permissions: {role_permissions_count}<br>'
+            f'Super Admin: {super_admin_info}'
+        )
+        
+    except Exception as e:
+        messages.error(request, f'Error testing state: {str(e)}')
     
     return redirect('common:application_settings')

@@ -9,6 +9,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core.files.storage import default_storage
+from django.core.management import call_command
+from django.core.exceptions import PermissionDenied
 from .models import ApplicationSettings
 from .forms import ApplicationSettingsForm, ThemePreviewForm
 
@@ -173,5 +175,33 @@ def delete_apple_touch_icon(request):
             
     except Exception as e:
         messages.error(request, f'Error deleting apple touch icon: {str(e)}')
+    
+    return redirect('common:application_settings')
+
+
+@login_required
+@require_http_methods(["POST"])
+def load_default_roles_permissions(request):
+    """Load default roles and permissions system"""
+    # Only superusers can access this functionality
+    if not request.user.is_superuser:
+        raise PermissionDenied("Only superusers can load default roles and permissions.")
+    
+    try:
+        # Call the management command to set up roles and permissions
+        call_command('setup_user_roles', verbosity=0)
+        
+        messages.success(
+            request, 
+            'Default roles and permissions loaded successfully! '
+            'All system roles, permissions, and assignments have been created/updated.'
+        )
+        
+    except Exception as e:
+        messages.error(
+            request, 
+            f'Error loading default roles and permissions: {str(e)}. '
+            'Please check the logs for more details.'
+        )
     
     return redirect('common:application_settings')

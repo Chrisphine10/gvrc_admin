@@ -63,4 +63,5 @@ urlpatterns = [
     path('settings/delete-logo/', settings_views.delete_logo, name='delete_logo'),
     path('settings/delete-favicon/', settings_views.delete_favicon, name='delete_favicon'),
     path('settings/delete-apple-touch-icon/', settings_views.delete_apple_touch_icon, name='delete_apple_touch_icon'),
+    path('settings/load-defaults/', settings_views.load_default_roles_permissions, name='load_default_roles_permissions'),
 ]

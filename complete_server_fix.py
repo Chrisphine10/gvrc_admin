@@ -188,7 +188,7 @@ def manual_permission_setup():
         print("4. Verify network connectivity to AWS RDS")
         print("5. Try connecting with psql manually:")
         print(f"   psql -h hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com -U postgres -d hodi_db")
-            return
+        return
         
         from apps.authentication.models import UserRole, Permission, RolePermission, UserRoleAssignment
         from django.contrib.auth import get_user_model

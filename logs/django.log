@@ -18823,3 +18823,405 @@ INFO 2025-09-10 08:46:18,130 basehttp 31452 22480 "GET /static/assets/js/notific
 WARNING 2025-09-10 08:46:18,553 log 31452 23896 Not Found: /ws/notifications/
 WARNING 2025-09-10 08:46:18,578 basehttp 31452 23896 "GET /ws/notifications/ HTTP/1.1" 404 11663
 INFO 2025-09-10 08:46:19,369 autoreload 20028 31472 Watching for file changes with StatReloader
+WARNING 2025-09-10 08:46:21,757 log 31452 21420 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:21,786 basehttp 31452 21420 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:22,813 backends 31452 22480 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:22,882 basehttp 31452 22480 "GET /analytics/ HTTP/1.1" 200 30018
+WARNING 2025-09-10 08:46:23,712 log 31452 29096 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:23,718 basehttp 31452 29096 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:25,213 backends 31452 22480 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:25,288 basehttp 31452 22480 "GET /infrastructure/ HTTP/1.1" 200 41655
+WARNING 2025-09-10 08:46:26,023 log 31452 6252 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:26,037 basehttp 31452 6252 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:26,385 backends 31452 22480 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:26,430 basehttp 31452 22480 "GET /human-resources/ HTTP/1.1" 200 36354
+WARNING 2025-09-10 08:46:27,217 log 31452 30352 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:27,222 basehttp 31452 30352 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:27,619 backends 31452 7756 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:27,737 basehttp 31452 7756 "GET /services/ HTTP/1.1" 200 42735
+WARNING 2025-09-10 08:46:28,787 log 31452 15656 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:28,855 basehttp 31452 15656 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:30,936 backends 31452 7756 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:31,021 basehttp 31452 7756 "GET /profile/ HTTP/1.1" 200 35586
+WARNING 2025-09-10 08:46:31,788 log 31452 20964 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:31,798 basehttp 31452 20964 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:46:34,891 log 31452 22488 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:34,896 basehttp 31452 22488 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:37,777 backends 31452 19120 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:38,046 basehttp 31452 19120 "GET /facilities/map/ HTTP/1.1" 200 40279
+WARNING 2025-09-10 08:46:38,102 log 31452 17792 Not Found: /ws/notifications/
+INFO 2025-09-10 08:46:38,220 basehttp 31452 17792 - Broken pipe from ('127.0.0.1', 50334)
+WARNING 2025-09-10 08:46:38,726 log 31452 30908 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:38,733 basehttp 31452 30908 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:46:42,009 log 31452 31948 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:42,015 basehttp 31452 31948 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:44,988 backends 31452 19120 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:45,092 basehttp 31452 19120 "GET /common/settings/ HTTP/1.1" 200 50006
+WARNING 2025-09-10 08:46:45,376 log 31452 32716 Not Found: /ws/notifications/
+INFO 2025-09-10 08:46:45,406 basehttp 31452 32716 - Broken pipe from ('127.0.0.1', 50349)
+WARNING 2025-09-10 08:46:46,288 log 31452 16636 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:46,291 basehttp 31452 16636 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:46:50,167 log 31452 21420 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:50,171 basehttp 31452 21420 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:46:53,800 log 31452 11448 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:53,810 basehttp 31452 11448 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:46:55,230 backends 31452 19572 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:55,271 basehttp 31452 19572 "POST /common/settings/ HTTP/1.1" 302 0
+DEBUG 2025-09-10 08:46:55,307 backends 31452 19572 Retrieved user by ID: 2
+INFO 2025-09-10 08:46:55,356 basehttp 31452 19572 "GET /common/settings/ HTTP/1.1" 200 50006
+WARNING 2025-09-10 08:46:57,263 log 31452 31252 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:46:57,266 basehttp 31452 31252 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:47:02,383 backends 31452 17260 Retrieved user by ID: 2
+INFO 2025-09-10 08:47:02,412 basehttp 31452 17260 "POST /common/settings/ HTTP/1.1" 302 0
+DEBUG 2025-09-10 08:47:02,442 backends 31452 17260 Retrieved user by ID: 2
+INFO 2025-09-10 08:47:02,477 basehttp 31452 17260 "GET /common/settings/ HTTP/1.1" 200 50006
+WARNING 2025-09-10 08:47:07,678 log 31452 17600 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:07,683 basehttp 31452 17600 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:18,024 log 31452 30688 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:18,025 basehttp 31452 30688 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:21,628 log 31452 31972 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:21,628 basehttp 31452 31972 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:25,636 log 31452 31624 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:25,639 basehttp 31452 31624 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:29,702 log 31452 29596 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:29,703 basehttp 31452 29596 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:34,093 log 31452 32032 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:34,114 basehttp 31452 32032 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:34,170 log 31452 11928 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:47:34,182 basehttp 31452 11928 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:47:34,248 log 31452 15372 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:47:34,251 basehttp 31452 15372 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:47:34,318 log 31452 11928 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:47:34,320 basehttp 31452 11928 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:47:35,843 backends 31452 11928 Retrieved user by ID: 2
+INFO 2025-09-10 08:47:35,923 basehttp 31452 11928 "GET /common/settings/ HTTP/1.1" 200 49990
+WARNING 2025-09-10 08:47:36,755 log 31452 32736 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:36,783 basehttp 31452 32736 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:40,100 log 31452 2068 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:40,111 basehttp 31452 2068 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:43,203 log 31452 28140 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:43,214 basehttp 31452 28140 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:47:43,218 basehttp 31452 28140 - Broken pipe from ('127.0.0.1', 61011)
+WARNING 2025-09-10 08:47:46,256 log 31452 13600 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:46,257 basehttp 31452 13600 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:49,310 log 31452 32040 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:49,312 basehttp 31452 32040 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:52,360 log 31452 31624 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:52,360 basehttp 31452 31624 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:47:53,912 backends 31452 21640 Retrieved user by ID: 2
+INFO 2025-09-10 08:47:53,933 basehttp 31452 21640 "POST /common/settings/ HTTP/1.1" 302 0
+DEBUG 2025-09-10 08:47:53,963 backends 31452 21640 Retrieved user by ID: 2
+INFO 2025-09-10 08:47:54,024 basehttp 31452 21640 "GET /common/settings/ HTTP/1.1" 200 49998
+WARNING 2025-09-10 08:47:54,614 log 31452 19996 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:54,618 basehttp 31452 19996 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:47:57,931 log 31452 31948 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:47:57,933 basehttp 31452 31948 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:47:59,774 backends 31452 21640 Retrieved user by ID: 2
+INFO 2025-09-10 08:48:00,043 basehttp 31452 21640 "GET /facilities/ HTTP/1.1" 200 56937
+WARNING 2025-09-10 08:48:00,715 log 31452 9340 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:00,719 basehttp 31452 9340 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:48:04,507 log 31452 21280 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:04,507 basehttp 31452 21280 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:48:07,683 backends 31452 21640 Retrieved user by ID: 2
+INFO 2025-09-10 08:48:07,789 basehttp 31452 21640 "GET /facilities/2/ HTTP/1.1" 200 42200
+WARNING 2025-09-10 08:48:10,354 log 31452 19356 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:10,355 basehttp 31452 19356 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:48:12,270 backends 31452 21640 Retrieved user by ID: 2
+INFO 2025-09-10 08:48:12,312 basehttp 31452 21640 "GET /common/geography/constituency/1/ HTTP/1.1" 200 29758
+WARNING 2025-09-10 08:48:14,205 log 31452 32544 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:14,205 basehttp 31452 32544 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:48:14,519 backends 31452 21640 Retrieved user by ID: 2
+INFO 2025-09-10 08:48:14,549 basehttp 31452 21640 "GET /common/geography/ward/4/ HTTP/1.1" 200 28640
+DEBUG 2025-09-10 08:48:17,313 backends 31452 21640 Retrieved user by ID: 2
+INFO 2025-09-10 08:48:17,363 basehttp 31452 21640 "GET /facilities/ HTTP/1.1" 200 56937
+WARNING 2025-09-10 08:48:20,971 log 31452 9584 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:20,977 basehttp 31452 9584 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:48:27,146 log 31452 32184 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:27,149 basehttp 31452 32184 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:48:32,090 log 31452 27344 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:32,090 basehttp 31452 27344 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:48:40,346 log 31452 22408 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:40,348 basehttp 31452 22408 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:48:48,834 log 31452 17452 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:48:48,837 basehttp 31452 17452 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:48:50,120 log 31452 3192 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:50,121 basehttp 31452 3192 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:48:57,884 log 31452 33356 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:48:57,885 basehttp 31452 33356 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:49:20,832 log 31452 33552 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:49:20,833 basehttp 31452 33552 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:49:28,585 log 31452 33552 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:49:28,586 basehttp 31452 33552 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:49:48,597 log 31452 33552 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:49:48,598 basehttp 31452 33552 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:49:58,596 log 31452 33552 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:49:58,598 basehttp 31452 33552 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:50:21,474 log 31452 19012 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:50:21,475 basehttp 31452 19012 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:50:28,595 log 31452 19012 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:50:28,596 basehttp 31452 19012 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:50:48,598 log 31452 19012 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:50:48,599 basehttp 31452 19012 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:51:02,264 log 31452 34144 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:51:02,631 basehttp 31452 34144 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:51:18,718 log 31452 33820 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:51:18,719 basehttp 31452 33820 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:51:29,096 log 31452 34156 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:51:29,098 basehttp 31452 34156 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:52:02,984 log 31452 31560 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:52:02,991 basehttp 31452 31560 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:52:11,431 log 31452 6068 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:52:11,433 basehttp 31452 6068 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:53:10,999 log 31452 14740 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:53:11,001 basehttp 31452 14740 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:53:11,085 log 31452 14740 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:53:11,094 basehttp 31452 14740 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:54:01,586 log 31452 19124 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:54:01,588 basehttp 31452 19124 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:54:01,653 log 31452 13288 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:54:01,655 basehttp 31452 13288 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:54:01,735 log 31452 19124 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:54:01,736 basehttp 31452 19124 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:54:01,797 log 31452 13288 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:54:01,820 basehttp 31452 13288 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-10 08:54:02,382 backends 31452 13288 Retrieved user by ID: 2
+INFO 2025-09-10 08:54:02,596 basehttp 31452 13288 "GET /facilities/ HTTP/1.1" 200 57502
+INFO 2025-09-10 08:54:03,845 basehttp 31452 33968 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 304 0
+WARNING 2025-09-10 08:54:04,287 log 31452 2068 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:04,294 basehttp 31452 2068 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:54:05,664 backends 31452 33968 Retrieved user by ID: 2
+INFO 2025-09-10 08:54:05,770 basehttp 31452 33968 "GET /facilities/map/ HTTP/1.1" 200 40828
+WARNING 2025-09-10 08:54:06,578 log 31452 17260 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:06,602 basehttp 31452 17260 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:54:06,636 basehttp 31452 17260 - Broken pipe from ('127.0.0.1', 55191)
+DEBUG 2025-09-10 08:54:07,167 backends 31452 33968 Retrieved user by ID: 2
+INFO 2025-09-10 08:54:07,328 basehttp 31452 33968 "GET /services/ HTTP/1.1" 200 43284
+WARNING 2025-09-10 08:54:08,128 log 31452 30524 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:08,136 basehttp 31452 30524 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:54:10,651 backends 31452 33968 Retrieved user by ID: 2
+INFO 2025-09-10 08:54:10,712 basehttp 31452 33968 "GET /services/?category=1 HTTP/1.1" 200 43292
+WARNING 2025-09-10 08:54:11,390 log 31452 31392 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:11,396 basehttp 31452 31392 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:54:13,076 backends 31452 21236 Retrieved user by ID: 2
+INFO 2025-09-10 08:54:13,134 basehttp 31452 21236 "GET /services/ HTTP/1.1" 200 43284
+WARNING 2025-09-10 08:54:13,799 log 31452 31436 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:13,805 basehttp 31452 31436 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:54:16,887 log 31452 27948 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:16,889 basehttp 31452 27948 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:54:19,056 backends 31452 21236 Retrieved user by ID: 2
+INFO 2025-09-10 08:54:19,219 basehttp 31452 21236 "GET /facilities/1/ HTTP/1.1" 200 45451
+WARNING 2025-09-10 08:54:20,044 log 31452 27348 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:20,053 basehttp 31452 27348 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:54:23,246 log 31452 32876 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:23,247 basehttp 31452 32876 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-10 08:54:25,493 backends 31452 29940 Retrieved user by ID: 2
+INFO 2025-09-10 08:54:25,593 basehttp 31452 29940 "GET /infrastructure/ HTTP/1.1" 200 42204
+WARNING 2025-09-10 08:54:26,554 log 31452 28872 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:26,561 basehttp 31452 28872 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-10 08:54:26,563 basehttp 31452 28872 - Broken pipe from ('127.0.0.1', 52955)
+WARNING 2025-09-10 08:54:29,677 log 31452 23360 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:29,679 basehttp 31452 23360 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:54:33,185 log 31452 28364 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:33,189 basehttp 31452 28364 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:54:36,996 log 31452 10828 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:36,998 basehttp 31452 10828 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:54:40,920 log 31452 33912 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:40,923 basehttp 31452 33912 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:54:44,906 log 31452 33436 Not Found: /ws/notifications/
+WARNING 2025-09-10 08:54:44,910 basehttp 31452 33436 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-10 08:54:56,699 log 31452 7608 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:54:56,701 basehttp 31452 7608 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:55:15,616 log 31452 34676 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:55:15,619 basehttp 31452 34676 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:55:27,452 log 31452 30428 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:55:27,454 basehttp 31452 30428 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:55:45,612 log 31452 21564 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:55:45,614 basehttp 31452 21564 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:55:58,378 log 31452 31912 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:55:58,388 basehttp 31452 31912 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-10 08:56:16,603 log 31452 34736 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-10 08:56:16,605 basehttp 31452 34736 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+INFO 2025-09-18 11:48:50,207 autoreload 39284 33968 Watching for file changes with StatReloader
+INFO 2025-09-18 11:49:22,782 autoreload 39284 33968 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-18 11:49:23,726 autoreload 5840 23732 Watching for file changes with StatReloader
+INFO 2025-09-18 11:49:29,521 autoreload 5840 23732 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\middleware.py changed, reloading.
+INFO 2025-09-18 11:49:30,570 autoreload 29636 39676 Watching for file changes with StatReloader
+INFO 2025-09-18 11:51:53,278 autoreload 39440 36096 Watching for file changes with StatReloader
+INFO 2025-09-18 11:51:57,033 basehttp 29636 34576 "GET / HTTP/1.1" 200 27349
+INFO 2025-09-18 11:51:57,555 basehttp 29636 29236 "GET /static/assets/img/brand/hodi%20app%20logo.png HTTP/1.1" 200 113086
+INFO 2025-09-18 11:51:57,561 basehttp 29636 29236 "GET /static/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js HTTP/1.1" 200 80650
+INFO 2025-09-18 11:51:57,623 basehttp 29636 36320 "GET /static/assets/css/gvrc-auth.css HTTP/1.1" 200 7477
+INFO 2025-09-18 11:51:57,645 basehttp 29636 34576 "GET /static/assets/vendor/nucleo/css/nucleo.css HTTP/1.1" 200 9015
+INFO 2025-09-18 11:51:57,663 basehttp 29636 21308 "GET /static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css HTTP/1.1" 200 57180
+INFO 2025-09-18 11:51:57,757 basehttp 29636 39916 "GET /static/assets/css/argon.css?v=1.2.0 HTTP/1.1" 200 455973
+INFO 2025-09-18 11:51:57,785 basehttp 29636 39016 "GET /static/assets/vendor/jquery/dist/jquery.min.js HTTP/1.1" 200 88145
+INFO 2025-09-18 11:51:57,919 basehttp 29636 39016 "GET /static/assets/vendor/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 76084
+INFO 2025-09-18 11:51:58,590 basehttp 29636 39016 "GET /favicon.ico HTTP/1.1" 301 0
+INFO 2025-09-18 11:51:58,939 basehttp 29636 39016 "GET /static/assets/img/icons/common/favicon.ico HTTP/1.1" 200 15406
+INFO 2025-09-18 11:51:59,717 views 29636 39016 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-18 11:51:59,718 views 29636 39016 Login page accessed
+INFO 2025-09-18 11:51:59,750 basehttp 29636 39016 "GET /login/ HTTP/1.1" 200 16058
+INFO 2025-09-18 11:52:01,762 views 29636 34184 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-18 11:52:01,768 forms 29636 34184 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-09-18 11:52:01,770 backends 29636 34184 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-09-18 11:52:02,410 backends 29636 34184 Password verification successful for user: admin@hodi.ke
+INFO 2025-09-18 11:52:02,411 forms 29636 34184 Authentication successful for email: admin@hodi.ke
+INFO 2025-09-18 11:52:02,411 views 29636 34184 Successful login for user: admin@hodi.ke (ID: 2)
+DEBUG 2025-09-18 11:52:02,413 backends 29636 34184 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-09-18 11:52:02,431 backends 29636 34184 User session created successfully: cwKLitBmOAGX1Oo3iXCEac4OxxqwFetlkVFpNMUNTFU for user: admin@hodi.ke
+DEBUG 2025-09-18 11:52:02,435 views 29636 34184 User session created: cwKLitBmOAGX1Oo3iXCEac4OxxqwFetlkVFpNMUNTFU
+INFO 2025-09-18 11:52:02,452 views 29636 34184 User admin@hodi.ke successfully logged in and redirected
+INFO 2025-09-18 11:52:02,462 basehttp 29636 34184 "POST /login/ HTTP/1.1" 302 0
+DEBUG 2025-09-18 11:52:02,485 backends 29636 34184 Retrieved user by ID: 2
+ERROR 2025-09-18 11:52:02,561 log 29636 34184 Internal Server Error: /dashboard/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\middleware.py", line 27, in process_request
+    request.user.is_authenticated = True
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\functional.py", line 311, in __setattr__
+    setattr(self._wrapped, name, value)
+AttributeError: can't set attribute 'is_authenticated'
+ERROR 2025-09-18 11:52:02,564 basehttp 29636 34184 "GET /dashboard/ HTTP/1.1" 500 83607
+DEBUG 2025-09-18 11:52:15,767 backends 29636 33324 Retrieved user by ID: 2
+ERROR 2025-09-18 11:52:15,810 log 29636 33324 Internal Server Error: /dashboard/
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\middleware.py", line 27, in process_request
+    request.user.is_authenticated = True
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\functional.py", line 311, in __setattr__
+    setattr(self._wrapped, name, value)
+AttributeError: can't set attribute 'is_authenticated'
+ERROR 2025-09-18 11:52:15,812 basehttp 29636 33324 "GET /dashboard/ HTTP/1.1" 500 83607
+DEBUG 2025-09-18 11:52:16,073 backends 29636 33324 Retrieved user by ID: 2
+ERROR 2025-09-18 11:52:16,105 log 29636 33324 Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\middleware.py", line 27, in process_request
+    request.user.is_authenticated = True
+  File "C:\Users\Ancient\Documents\GitHub\gvrc_dmin\.venv\lib\site-packages\django\utils\functional.py", line 311, in __setattr__
+    setattr(self._wrapped, name, value)
+AttributeError: can't set attribute 'is_authenticated'
+ERROR 2025-09-18 11:52:16,106 basehttp 29636 33324 "GET /favicon.ico HTTP/1.1" 500 83142
+INFO 2025-09-18 11:52:21,120 autoreload 39440 36096 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\middleware.py changed, reloading.
+INFO 2025-09-18 11:52:21,332 autoreload 29636 39676 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\apps\authentication\middleware.py changed, reloading.
+INFO 2025-09-18 11:52:22,981 autoreload 29520 26204 Watching for file changes with StatReloader
+INFO 2025-09-18 11:52:23,074 autoreload 8756 6896 Watching for file changes with StatReloader
+INFO 2025-09-18 11:52:28,566 autoreload 8756 6896 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-18 11:52:28,604 autoreload 29520 26204 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-18 11:52:29,692 autoreload 10968 37776 Watching for file changes with StatReloader
+INFO 2025-09-18 11:52:29,704 autoreload 6100 39068 Watching for file changes with StatReloader
+INFO 2025-09-18 11:52:33,194 autoreload 6100 39068 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-18 11:52:33,228 autoreload 10968 37776 C:\Users\Ancient\Documents\GitHub\gvrc_dmin\core\settings\base.py changed, reloading.
+INFO 2025-09-18 11:52:34,266 autoreload 36988 29116 Watching for file changes with StatReloader
+INFO 2025-09-18 11:52:34,274 autoreload 8528 32448 Watching for file changes with StatReloader
+DEBUG 2025-09-18 11:52:35,989 backends 36988 36824 Retrieved user by ID: 2
+INFO 2025-09-18 11:52:36,240 basehttp 36988 36824 "GET /dashboard/ HTTP/1.1" 200 66193
+INFO 2025-09-18 11:52:36,690 basehttp 36988 36824 "GET /static/assets/vendor/js-cookie/js.cookie.js HTTP/1.1" 200 3886
+INFO 2025-09-18 11:52:36,703 basehttp 36988 9788 "GET /static/assets/js/argon.js?v=1.2.0 HTTP/1.1" 200 21706
+INFO 2025-09-18 11:52:36,713 basehttp 36988 26160 "GET /static/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js HTTP/1.1" 200 13026
+INFO 2025-09-18 11:52:36,782 basehttp 36988 16536 "GET /static/assets/vendor/nucleo/fonts/nucleo-icons.woff2 HTTP/1.1" 200 8580
+INFO 2025-09-18 11:52:36,793 basehttp 36988 33392 "GET /static/assets/js/notifications.js?v=1.0.0 HTTP/1.1" 200 14076
+WARNING 2025-09-18 11:52:36,934 log 36988 22756 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:36,936 basehttp 36988 22756 "GET /ws/notifications/ HTTP/1.1" 404 11663
+INFO 2025-09-18 11:52:36,984 basehttp 36988 33392 "GET /favicon.ico HTTP/1.1" 301 0
+DEBUG 2025-09-18 11:52:39,091 backends 36988 33392 Retrieved user by ID: 2
+INFO 2025-09-18 11:52:39,139 basehttp 36988 33392 "GET /facilities/ HTTP/1.1" 200 57502
+WARNING 2025-09-18 11:52:39,290 log 36988 34436 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:39,290 basehttp 36988 34436 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:52:42,344 log 36988 29884 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:42,345 basehttp 36988 29884 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:52:43,288 log 36988 33392 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:52:43,289 basehttp 36988 33392 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-18 11:52:43,370 backends 36988 33392 Retrieved user by ID: 2
+INFO 2025-09-18 11:52:43,406 basehttp 36988 33392 "GET /facilities/map/ HTTP/1.1" 200 40828
+WARNING 2025-09-18 11:52:43,540 log 36988 30904 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:43,541 basehttp 36988 30904 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:52:46,571 log 36988 10092 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:46,573 basehttp 36988 10092 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:52:49,609 log 36988 10088 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:49,610 basehttp 36988 10088 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:52:51,370 log 36988 24532 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:52:51,371 basehttp 36988 24532 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:52:52,659 log 36988 33872 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:52,660 basehttp 36988 33872 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:52:53,634 log 36988 24532 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:52:53,635 basehttp 36988 24532 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+DEBUG 2025-09-18 11:52:54,168 backends 36988 24532 Retrieved user by ID: 2
+INFO 2025-09-18 11:52:54,187 basehttp 36988 24532 "GET /human-resources/ HTTP/1.1" 200 36903
+WARNING 2025-09-18 11:52:54,337 log 36988 35660 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:54,339 basehttp 36988 35660 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:52:55,732 backends 36988 39604 Retrieved user by ID: 2
+INFO 2025-09-18 11:52:55,752 basehttp 36988 39604 "GET /infrastructure/ HTTP/1.1" 200 42204
+WARNING 2025-09-18 11:52:55,937 log 36988 25356 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:55,939 basehttp 36988 25356 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:52:59,032 log 36988 30556 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:52:59,033 basehttp 36988 30556 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:52:59,562 backends 36988 39604 Retrieved user by ID: 2
+INFO 2025-09-18 11:52:59,808 basehttp 36988 39604 "GET /common/lookups/ HTTP/1.1" 200 295082
+WARNING 2025-09-18 11:53:00,114 log 36988 34400 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:00,116 basehttp 36988 34400 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:01,073 backends 36988 39604 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:01,275 basehttp 36988 39604 "GET /services/ HTTP/1.1" 200 43284
+WARNING 2025-09-18 11:53:01,584 log 36988 39196 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:01,586 basehttp 36988 39196 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:03,225 backends 36988 39604 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:03,276 basehttp 36988 39604 "GET /services/?category=1 HTTP/1.1" 200 43292
+WARNING 2025-09-18 11:53:03,798 log 36988 37136 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:03,798 basehttp 36988 37136 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:05,918 backends 36988 22992 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:05,948 basehttp 36988 22992 "GET /services/?category=1 HTTP/1.1" 200 43292
+WARNING 2025-09-18 11:53:06,394 log 36988 29852 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:06,395 basehttp 36988 29852 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:07,023 backends 36988 22992 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:07,051 basehttp 36988 22992 "GET /services/?category=1 HTTP/1.1" 200 43292
+WARNING 2025-09-18 11:53:07,479 log 36988 20304 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:07,479 basehttp 36988 20304 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:08,028 backends 36988 22992 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:08,092 basehttp 36988 22992 "GET /services/?category=1 HTTP/1.1" 200 43292
+DEBUG 2025-09-18 11:53:09,150 backends 36988 22992 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:09,174 basehttp 36988 22992 "GET /services/?category=1 HTTP/1.1" 200 43292
+WARNING 2025-09-18 11:53:10,369 log 36988 38508 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:10,370 basehttp 36988 38508 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:14,114 backends 36988 22992 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:14,136 basehttp 36988 22992 "GET /chat/ HTTP/1.1" 200 48889
+DEBUG 2025-09-18 11:53:14,327 backends 36988 22992 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:14,328 backends 36988 34112 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:14,364 basehttp 36988 34112 "GET /chat/admin/conversations/stats/ HTTP/1.1" 200 154
+INFO 2025-09-18 11:53:14,395 basehttp 36988 22992 "GET /chat/admin/conversations/?page=1&page_size=20&status=&priority=&admin=&search= HTTP/1.1" 200 3992
+DEBUG 2025-09-18 11:53:16,655 backends 36988 15584 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:16,692 basehttp 36988 15584 "GET /documents/ HTTP/1.1" 200 41947
+DEBUG 2025-09-18 11:53:18,541 backends 36988 15584 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:18,585 basehttp 36988 15584 "GET /music/ HTTP/1.1" 200 37315
+WARNING 2025-09-18 11:53:21,555 log 36988 35968 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:21,557 basehttp 36988 35968 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:21,682 backends 36988 15584 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:21,707 basehttp 36988 15584 "GET /permissions/ HTTP/1.1" 200 87777
+WARNING 2025-09-18 11:53:23,530 log 36988 35960 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:23,531 basehttp 36988 35960 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:53:29,926 log 36988 2368 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:29,927 basehttp 36988 2368 "GET /ws/notifications/ HTTP/1.1" 404 11663
+DEBUG 2025-09-18 11:53:36,390 backends 36988 15584 Retrieved user by ID: 2
+INFO 2025-09-18 11:53:36,415 basehttp 36988 15584 "GET /roles/ HTTP/1.1" 200 50601
+WARNING 2025-09-18 11:53:38,099 log 36988 10144 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:38,099 basehttp 36988 10144 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:53:42,696 log 36988 35500 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:42,696 basehttp 36988 35500 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:53:50,292 log 36988 24800 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:50,292 basehttp 36988 24800 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:53:56,641 log 36988 36436 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:53:56,642 basehttp 36988 36436 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:54:01,682 log 36988 26312 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:54:01,683 basehttp 36988 26312 "GET /ws/notifications/ HTTP/1.1" 404 11663
+WARNING 2025-09-18 11:54:06,599 log 36988 15584 Not Found: /api/chat/notifications/unread-conversations/
+WARNING 2025-09-18 11:54:06,600 basehttp 36988 15584 "GET /api/chat/notifications/unread-conversations/ HTTP/1.1" 404 15312
+WARNING 2025-09-18 11:54:08,240 log 36988 39732 Not Found: /ws/notifications/
+WARNING 2025-09-18 11:54:08,242 basehttp 36988 39732 "GET /ws/notifications/ HTTP/1.1" 404 11663

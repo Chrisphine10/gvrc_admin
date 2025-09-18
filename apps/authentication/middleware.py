@@ -5,36 +5,25 @@ Custom authentication middleware for GVRC Admin
 
 from django.utils.deprecation import MiddlewareMixin
 from django.contrib.auth.models import AnonymousUser
-from .models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class CustomAuthenticationMiddleware(MiddlewareMixin):
     """
-    Middleware to set request.user based on custom authentication
+    Middleware to ensure proper user authentication and session handling
     """
     
     def process_request(self, request):
         """
-        Set request.user based on session data
+        Ensure user is properly authenticated and has correct attributes
         """
-        # Skip if user is already set (e.g., by decorator)
+        # Skip if user is already set and authenticated
         if hasattr(request, 'user') and not isinstance(request.user, AnonymousUser):
+            # The user is already authenticated by Django's authentication middleware
+            # No need to modify is_authenticated or is_anonymous as they are properties
             return None
-            
-        user_id = request.session.get('user_id')
         
-        if user_id:
-            try:
-                user = User.objects.get(user_id=user_id, is_active=True)
-                request.user = user
-                # Add convenience properties to match Django User model
-                request.user.is_authenticated = True
-                request.user.is_anonymous = False
-            except User.DoesNotExist:
-                request.user = AnonymousUser()
-                # Clear invalid session
-                request.session.flush()
-        else:
-            request.user = AnonymousUser()
-        
+        # Let Django's authentication middleware handle the initial authentication
         return None

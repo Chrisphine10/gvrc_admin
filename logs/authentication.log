@@ -4137,3 +4137,63 @@ DEBUG 2025-09-10 08:27:42,023 backends 3688 30660 Retrieved user by ID: 2
 DEBUG 2025-09-10 08:45:24,430 backends 32512 18700 Retrieved user by ID: 2
 DEBUG 2025-09-10 08:45:32,907 backends 24448 32316 Retrieved user by ID: 2
 DEBUG 2025-09-10 08:46:17,348 backends 31452 22480 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:22,813 backends 31452 22480 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:25,213 backends 31452 22480 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:26,385 backends 31452 22480 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:27,619 backends 31452 7756 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:30,936 backends 31452 7756 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:37,777 backends 31452 19120 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:44,988 backends 31452 19120 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:55,230 backends 31452 19572 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:46:55,307 backends 31452 19572 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:47:02,383 backends 31452 17260 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:47:02,442 backends 31452 17260 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:47:35,843 backends 31452 11928 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:47:53,912 backends 31452 21640 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:47:53,963 backends 31452 21640 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:47:59,774 backends 31452 21640 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:48:07,683 backends 31452 21640 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:48:12,270 backends 31452 21640 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:48:14,519 backends 31452 21640 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:48:17,313 backends 31452 21640 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:54:02,382 backends 31452 13288 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:54:05,664 backends 31452 33968 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:54:07,167 backends 31452 33968 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:54:10,651 backends 31452 33968 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:54:13,076 backends 31452 21236 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:54:19,056 backends 31452 21236 Retrieved user by ID: 2
+DEBUG 2025-09-10 08:54:25,493 backends 31452 29940 Retrieved user by ID: 2
+INFO 2025-09-18 11:51:59,717 views 29636 39016 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-18 11:51:59,718 views 29636 39016 Login page accessed
+INFO 2025-09-18 11:52:01,762 views 29636 34184 Login attempt from IP: 127.0.0.1
+DEBUG 2025-09-18 11:52:01,768 forms 29636 34184 Attempting authentication for email: admin@hodi.ke
+DEBUG 2025-09-18 11:52:01,770 backends 29636 34184 Attempting to authenticate user with email: admin@hodi.ke
+INFO 2025-09-18 11:52:02,410 backends 29636 34184 Password verification successful for user: admin@hodi.ke
+INFO 2025-09-18 11:52:02,411 forms 29636 34184 Authentication successful for email: admin@hodi.ke
+INFO 2025-09-18 11:52:02,411 views 29636 34184 Successful login for user: admin@hodi.ke (ID: 2)
+DEBUG 2025-09-18 11:52:02,413 backends 29636 34184 Creating user session for user: admin@hodi.ke from IP: 127.0.0.1
+INFO 2025-09-18 11:52:02,431 backends 29636 34184 User session created successfully: cwKLitBmOAGX1Oo3iXCEac4OxxqwFetlkVFpNMUNTFU for user: admin@hodi.ke
+DEBUG 2025-09-18 11:52:02,435 views 29636 34184 User session created: cwKLitBmOAGX1Oo3iXCEac4OxxqwFetlkVFpNMUNTFU
+INFO 2025-09-18 11:52:02,452 views 29636 34184 User admin@hodi.ke successfully logged in and redirected
+DEBUG 2025-09-18 11:52:02,485 backends 29636 34184 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:15,767 backends 29636 33324 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:16,073 backends 29636 33324 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:35,989 backends 36988 36824 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:39,091 backends 36988 33392 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:43,370 backends 36988 33392 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:54,168 backends 36988 24532 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:55,732 backends 36988 39604 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:52:59,562 backends 36988 39604 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:01,073 backends 36988 39604 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:03,225 backends 36988 39604 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:05,918 backends 36988 22992 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:07,023 backends 36988 22992 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:08,028 backends 36988 22992 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:09,150 backends 36988 22992 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:14,114 backends 36988 22992 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:14,327 backends 36988 22992 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:14,328 backends 36988 34112 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:16,655 backends 36988 15584 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:18,541 backends 36988 15584 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:21,682 backends 36988 15584 Retrieved user by ID: 2
+DEBUG 2025-09-18 11:53:36,390 backends 36988 15584 Retrieved user by ID: 2

@@ -125,6 +125,37 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
+# Template configuration
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            BASE_DIR / 'templates',
+            BASE_DIR / 'apps' / 'templates',
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+# Static files configuration
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'apps' / 'static',
+]
+
+# Media files configuration
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
 # Email backend
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EOF
@@ -282,6 +313,152 @@ with connection.cursor() as cursor:
             print(f'   ❌ {table}: {e}')
 " 2>/dev/null
 
+# Step 9: Create Permanent Settings Fix
+echo ""
+echo "🔧 Step 9: Creating permanent settings fix..."
+
+# Update the postgres.py settings file with correct database configuration
+cat > core/settings/postgres.py << 'EOF'
+# -*- encoding: utf-8 -*-
+"""
+PostgreSQL settings - Default configuration for the project
+"""
+
+from .base import *
+
+DEBUG = False
+
+# HOSTs List
+ALLOWED_HOSTS = ["127.0.0.1", "hodi.co.ke", "localhost", APP_DOMAIN, ".deploypro.dev", ".ngrok-free.app", "a3f602af5f2d.ngrok-free.app", "54.198.204.150", "172.31.47.58"]
+
+# Add here your deployment HOSTS
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:5085",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:5085",
+    f"http://{APP_DOMAIN}",
+    f"https://{APP_DOMAIN}",
+    "https://*.deploypro.dev",
+    "https://*.ngrok-free.app",
+    "http://a3f602af5f2d.ngrok-free.app",
+    "https://a3f602af5f2d.ngrok-free.app",
+    "http://54.198.204.150:8000",
+    "http://172.31.47.58:8000",
+    "https://hodi.co.ke",    
+]
+
+# Database Configuration - PostgreSQL (DIRECT CONFIGURATION)
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "hodi_db",
+        "USER": "postgres",
+        "PASSWORD": "postgres123#",
+        "HOST": "hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com",
+        "PORT": "5432",
+        "OPTIONS": {
+            "connect_timeout": 60,
+        }
+    }
+}
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# Static files configuration
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'apps': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@hodi.co.ke')
+
+# Performance optimizations
+CONN_MAX_AGE = 60  # Database connection pooling
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+
+# Security middleware settings
+SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+
+# Trusted proxy settings (for Nginx)
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+EOF
+
+echo "✅ Created permanent postgres.py settings file"
+
+# Create a .env file with correct database configuration
+cat > .env << 'EOF'
+# Database Configuration
+DB_ENGINE=postgresql
+DB_NAME=hodi_db
+DB_USERNAME=postgres
+DB_PASS=postgres123#
+DB_HOST=hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com
+DB_PORT=5432
+
+# Django Settings
+DJANGO_SETTINGS_MODULE=core.settings.postgres
+SECRET_KEY=your-secret-key-here
+DEBUG=False
+EOF
+
+echo "✅ Created .env file with correct database configuration"
+
 # Clean up temporary settings file
 rm temp_settings.py
 
@@ -306,3 +483,11 @@ echo "4. Check that default data (counties, wards, facilities) is loaded"
 echo ""
 echo "🚀 Your server is now fully configured and ready to use!"
 echo "🔗 Access your application at: https://hodi.co.ke"
+echo ""
+echo "📋 To run the development server:"
+echo "   python manage.py runserver 0.0.0.0:8000"
+echo ""
+echo "📋 To run with production settings:"
+echo "   DJANGO_SETTINGS_MODULE=core.settings.postgres python manage.py runserver 0.0.0.0:8000"
+echo ""
+echo "🔧 All database issues have been permanently fixed!"

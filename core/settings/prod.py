@@ -8,7 +8,7 @@ from .base import *
 DEBUG = False
 
 # HOSTs List
-ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev"]
+ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev", "172.31.47.58"]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
@@ -18,6 +18,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 CSRF_TRUSTED_ORIGINS = [
     f"https://{APP_DOMAIN}",
     "https://*.deploypro.dev",
+    "http://172.31.47.58:8000",
 ]
 
 # Database

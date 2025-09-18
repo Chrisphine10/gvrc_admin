@@ -24,6 +24,10 @@ import json
 from .models import User, UserSession, UserRole, Permission, UserRoleAssignment, UserProfile
 from .forms import LoginForm, SignUpForm, PasswordResetRequestForm, PasswordResetConfirmForm, ProfileEditForm, PasswordChangeForm
 from .backends import create_user_session, CustomUserBackend
+from .permissions import (
+    permission_required, role_required, any_role_required,
+    staff_required, superuser_required, ajax_permission_required, ajax_role_required
+)
 from apps.facilities.models import Facility
 import hashlib
 import json
@@ -284,7 +288,7 @@ def custom_login_required(view_func):
     return wrapper
 
 
-@custom_login_required
+@permission_required('view_users')
 def user_list(request):
     """List all users with comprehensive data"""
     users = User.objects.filter(is_active=True).order_by('full_name')
@@ -436,7 +440,7 @@ def change_password_view(request):
 
 # New views for user role management
 
-@custom_login_required
+@permission_required('view_roles')
 def role_list(request):
     """List all user roles with their permissions"""
     roles = UserRole.objects.annotate(
@@ -487,7 +491,7 @@ def role_detail(request, role_id):
     return render(request, 'authentication/role_detail.html', context)
 
 
-@custom_login_required
+@permission_required('add_roles')
 def role_create(request):
     """Create a new user role"""
     if request.method == 'POST':
@@ -684,7 +688,7 @@ def permission_delete(request, permission_id):
     })
 
 
-@custom_login_required
+@ajax_permission_required('change_roles')
 @require_http_methods(["POST"])
 def assign_permission_to_role(request, role_id):
     """Assign a permission to a role via AJAX"""

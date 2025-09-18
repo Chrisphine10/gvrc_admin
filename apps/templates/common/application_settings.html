@@ -1,0 +1,690 @@
+<!--
+=========================================================
+* Application Settings - Hodi Admin Dashboard
+=========================================================
+* Settings page for logo, favicon, and theme customization
+=========================================================
+-->
+
+{% extends "layouts/base.html" %}
+
+{% block title %}Application Settings{% endblock %}
+
+{% block stylesheets %}
+<style>
+  .color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid #e3e6f0;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+  .theme-preview-card {
+    border: 2px dashed #e3e6f0;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    background: #f8f9fe;
+    margin-top: 20px;
+  }
+  
+  .theme-preview-card.active {
+    border-color: #5e72e4;
+    background: #f0f2ff;
+  }
+  
+  .file-upload-area {
+    border: 2px dashed #e3e6f0;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    background: #f8f9fe;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .file-upload-area:hover {
+    border-color: #5e72e4;
+    background: #f0f2ff;
+  }
+  
+  .file-upload-area.dragover {
+    border-color: #5e72e4;
+    background: #f0f2ff;
+    transform: scale(1.02);
+  }
+  
+  .current-file {
+    background: #e8f5e8;
+    border: 1px solid #28a745;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  .settings-section {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+  }
+  
+  .settings-section h4 {
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .color-input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .color-input-group label {
+    min-width: 120px;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  
+  .color-input-group input[type="color"] {
+    width: 60px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .color-input-group input[type="text"] {
+    flex: 1;
+    margin-left: 10px;
+  }
+  
+  .preview-button {
+    background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .preview-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(94, 114, 228, 0.4);
+  }
+  
+  .reset-button {
+    background: #6c757d;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .reset-button:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+  }
+  
+  .delete-button {
+    background: #dc3545;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .delete-button:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+  }
+  
+  .image-preview {
+    max-width: 200px;
+    max-height: 100px;
+    border-radius: 8px;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .theme-demo {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .theme-demo .btn-primary { background-color: var(--primary-color, #5e72e4); }
+  .theme-demo .btn-success { background-color: var(--success-color, #2dce89); }
+  .theme-demo .btn-warning { background-color: var(--warning-color, #fb6340); }
+  .theme-demo .btn-danger { background-color: var(--danger-color, #f5365c); }
+  .theme-demo .btn-info { background-color: var(--info-color, #11cdef); }
+  
+  .theme-demo .text-primary { color: var(--primary-color, #5e72e4) !important; }
+  .theme-demo .text-success { color: var(--success-color, #2dce89) !important; }
+  .theme-demo .text-warning { color: var(--warning-color, #fb6340) !important; }
+  .theme-demo .text-danger { color: var(--danger-color, #f5365c) !important; }
+  .theme-demo .text-info { color: var(--info-color, #11cdef) !important; }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="container-fluid mt-6">
+  <div class="row">
+    <div class="col-xl-12">
+      
+      <!-- Header -->
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">
+                <i class="ni ni-settings-gear-65 text-primary"></i>
+                Application Settings
+              </h3>
+              <p class="text-sm text-muted mb-0">
+                Customize your application logo, favicon, and theme colors
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form method="post" enctype="multipart/form-data" id="settingsForm">
+        {% csrf_token %}
+        
+        <!-- Basic Settings Section -->
+        <div class="settings-section">
+          <h4><i class="ni ni-badge text-primary"></i> Basic Information</h4>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.site_name.id_for_label }}" class="form-control-label">Site Name</label>
+                {{ form.site_name }}
+                {% if form.site_name.errors %}
+                  <div class="text-danger small mt-1">{{ form.site_name.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.site_tagline.id_for_label }}" class="form-control-label">Site Tagline</label>
+                {{ form.site_tagline }}
+                {% if form.site_tagline.errors %}
+                  <div class="text-danger small mt-1">{{ form.site_tagline.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo Settings Section -->
+        <div class="settings-section">
+          <h4><i class="ni ni-image text-success"></i> Logo Settings</h4>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.logo.id_for_label }}" class="form-control-label">Application Logo</label>
+                <div class="file-upload-area" onclick="document.getElementById('{{ form.logo.id_for_label }}').click()">
+                  <i class="ni ni-image text-muted" style="font-size: 2rem;"></i>
+                  <p class="text-muted mb-0">Click to upload logo</p>
+                  <small class="text-muted">Recommended: 200x60px, PNG/SVG</small>
+                </div>
+                {{ form.logo }}
+                {% if form.logo.errors %}
+                  <div class="text-danger small mt-1">{{ form.logo.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.logo_alt_text.id_for_label }}" class="form-control-label">Logo Alt Text</label>
+                {{ form.logo_alt_text }}
+                {% if form.logo_alt_text.errors %}
+                  <div class="text-danger small mt-1">{{ form.logo_alt_text.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              {% if settings.logo %}
+                <div class="current-file">
+                  <strong>Current Logo:</strong><br>
+                  <img src="{{ settings.logo.url }}" alt="Current logo" class="image-preview">
+                  <br>
+                  <form method="post" action="{% url 'common:delete_logo' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete the current logo?')">
+                      <i class="ni ni-fat-remove"></i> Delete Logo
+                    </button>
+                  </form>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Favicon Settings Section -->
+        <div class="settings-section">
+          <h4><i class="ni ni-favicon text-info"></i> Favicon Settings</h4>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.favicon.id_for_label }}" class="form-control-label">Favicon</label>
+                <div class="file-upload-area" onclick="document.getElementById('{{ form.favicon.id_for_label }}').click()">
+                  <i class="ni ni-favicon text-muted" style="font-size: 2rem;"></i>
+                  <p class="text-muted mb-0">Click to upload favicon</p>
+                  <small class="text-muted">Recommended: 32x32px, ICO/PNG</small>
+                </div>
+                {{ form.favicon }}
+                {% if form.favicon.errors %}
+                  <div class="text-danger small mt-1">{{ form.favicon.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.apple_touch_icon.id_for_label }}" class="form-control-label">Apple Touch Icon</label>
+                <div class="file-upload-area" onclick="document.getElementById('{{ form.apple_touch_icon.id_for_label }}').click()">
+                  <i class="ni ni-mobile-button text-muted" style="font-size: 2rem;"></i>
+                  <p class="text-muted mb-0">Click to upload Apple touch icon</p>
+                  <small class="text-muted">Recommended: 180x180px, PNG</small>
+                </div>
+                {{ form.apple_touch_icon }}
+                {% if form.apple_touch_icon.errors %}
+                  <div class="text-danger small mt-1">{{ form.apple_touch_icon.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            {% if settings.favicon %}
+              <div class="col-md-6">
+                <div class="current-file">
+                  <strong>Current Favicon:</strong><br>
+                  <img src="{{ settings.favicon.url }}" alt="Current favicon" class="image-preview">
+                  <br>
+                  <form method="post" action="{% url 'common:delete_favicon' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete the current favicon?')">
+                      <i class="ni ni-fat-remove"></i> Delete Favicon
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {% endif %}
+            
+            {% if settings.apple_touch_icon %}
+              <div class="col-md-6">
+                <div class="current-file">
+                  <strong>Current Apple Touch Icon:</strong><br>
+                  <img src="{{ settings.apple_touch_icon.url }}" alt="Current apple touch icon" class="image-preview">
+                  <br>
+                  <form method="post" action="{% url 'common:delete_apple_touch_icon' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete the current Apple touch icon?')">
+                      <i class="ni ni-fat-remove"></i> Delete Apple Touch Icon
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Theme Colors Section -->
+        <div class="settings-section">
+          <h4><i class="ni ni-palette text-warning"></i> Theme Colors</h4>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="color-input-group">
+                <label for="{{ form.primary_color.id_for_label }}">Primary Color:</label>
+                <input type="color" id="primary_color_picker" value="{{ form.primary_color.value|default:'#5e72e4' }}" onchange="updateColorInput('primary_color', this.value)">
+                {{ form.primary_color }}
+                {% if form.primary_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.primary_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="color-input-group">
+                <label for="{{ form.secondary_color.id_for_label }}">Secondary Color:</label>
+                <input type="color" id="secondary_color_picker" value="{{ form.secondary_color.value|default:'#8392ab' }}" onchange="updateColorInput('secondary_color', this.value)">
+                {{ form.secondary_color }}
+                {% if form.secondary_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.secondary_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="color-input-group">
+                <label for="{{ form.success_color.id_for_label }}">Success Color:</label>
+                <input type="color" id="success_color_picker" value="{{ form.success_color.value|default:'#2dce89' }}" onchange="updateColorInput('success_color', this.value)">
+                {{ form.success_color }}
+                {% if form.success_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.success_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="color-input-group">
+                <label for="{{ form.warning_color.id_for_label }}">Warning Color:</label>
+                <input type="color" id="warning_color_picker" value="{{ form.warning_color.value|default:'#fb6340' }}" onchange="updateColorInput('warning_color', this.value)">
+                {{ form.warning_color }}
+                {% if form.warning_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.warning_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="color-input-group">
+                <label for="{{ form.danger_color.id_for_label }}">Danger Color:</label>
+                <input type="color" id="danger_color_picker" value="{{ form.danger_color.value|default:'#f5365c' }}" onchange="updateColorInput('danger_color', this.value)">
+                {{ form.danger_color }}
+                {% if form.danger_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.danger_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="color-input-group">
+                <label for="{{ form.info_color.id_for_label }}">Info Color:</label>
+                <input type="color" id="info_color_picker" value="{{ form.info_color.value|default:'#11cdef' }}" onchange="updateColorInput('info_color', this.value)">
+                {{ form.info_color }}
+                {% if form.info_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.info_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="color-input-group">
+                <label for="{{ form.dark_color.id_for_label }}">Dark Color:</label>
+                <input type="color" id="dark_color_picker" value="{{ form.dark_color.value|default:'#212529' }}" onchange="updateColorInput('dark_color', this.value)">
+                {{ form.dark_color }}
+                {% if form.dark_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.dark_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="color-input-group">
+                <label for="{{ form.light_color.id_for_label }}">Light Color:</label>
+                <input type="color" id="light_color_picker" value="{{ form.light_color.value|default:'#f8f9fe' }}" onchange="updateColorInput('light_color', this.value)">
+                {{ form.light_color }}
+                {% if form.light_color.errors %}
+                  <div class="text-danger small mt-1">{{ form.light_color.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt-4">
+            <div class="col-12">
+              <button type="button" class="preview-button" onclick="previewTheme()">
+                <i class="ni ni-image"></i> Preview Theme
+              </button>
+              <button type="button" class="reset-button ml-2" onclick="resetThemeColors()">
+                <i class="ni ni-refresh"></i> Reset to Default
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Theme Options Section -->
+        <div class="settings-section">
+          <h4><i class="ni ni-settings text-purple"></i> Theme Options</h4>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-check">
+                  {{ form.enable_dark_mode }}
+                  <label class="form-check-label" for="{{ form.enable_dark_mode.id_for_label }}">
+                    Enable Dark Mode Toggle
+                  </label>
+                  <small class="form-text text-muted">Allow users to switch between light and dark themes</small>
+                </div>
+                {% if form.enable_dark_mode.errors %}
+                  <div class="text-danger small mt-1">{{ form.enable_dark_mode.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.default_theme.id_for_label }}" class="form-control-label">Default Theme</label>
+                {{ form.default_theme }}
+                {% if form.default_theme.errors %}
+                  <div class="text-danger small mt-1">{{ form.default_theme.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Theme Preview Section -->
+        <div class="settings-section">
+          <h4><i class="ni ni-palette text-info"></i> Theme Preview</h4>
+          
+          <div class="theme-demo" id="themePreview">
+            <div class="row">
+              <div class="col-md-6">
+                <h5>Color Palette</h5>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge badge-primary">Primary</span>
+                  <span class="badge badge-success">Success</span>
+                  <span class="badge badge-warning">Warning</span>
+                  <span class="badge badge-danger">Danger</span>
+                  <span class="badge badge-info">Info</span>
+                </div>
+                
+                <h5>Buttons</h5>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <button class="btn btn-primary btn-sm">Primary</button>
+                  <button class="btn btn-success btn-sm">Success</button>
+                  <button class="btn btn-warning btn-sm">Warning</button>
+                  <button class="btn btn-danger btn-sm">Danger</button>
+                  <button class="btn btn-info btn-sm">Info</button>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <h5>Text Colors</h5>
+                <p class="text-primary">Primary text color</p>
+                <p class="text-success">Success text color</p>
+                <p class="text-warning">Warning text color</p>
+                <p class="text-danger">Danger text color</p>
+                <p class="text-info">Info text color</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="settings-section">
+          <div class="row">
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="ni ni-check-bold"></i> Save Settings
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+  // File upload drag and drop
+  document.querySelectorAll('.file-upload-area').forEach(area => {
+    area.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      area.classList.add('dragover');
+    });
+    
+    area.addEventListener('dragleave', () => {
+      area.classList.remove('dragover');
+    });
+    
+    area.addEventListener('drop', (e) => {
+      e.preventDefault();
+      area.classList.remove('dragover');
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        const input = area.nextElementSibling;
+        input.files = files;
+        updateFilePreview(area, files[0]);
+      }
+    });
+  });
+
+  // File input change handler
+  document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        const area = e.target.previousElementSibling;
+        updateFilePreview(area, e.target.files[0]);
+      }
+    });
+  });
+
+  function updateFilePreview(area, file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.className = 'image-preview';
+      img.style.marginTop = '10px';
+      
+      // Remove existing preview
+      const existingPreview = area.querySelector('.image-preview');
+      if (existingPreview) {
+        existingPreview.remove();
+      }
+      
+      area.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Color picker synchronization
+  function updateColorInput(fieldName, color) {
+    const textInput = document.getElementById(`id_${fieldName}`);
+    if (textInput) {
+      textInput.value = color;
+    }
+  }
+
+  // Preview theme colors
+  function previewTheme() {
+    const colors = {
+      primary: document.getElementById('id_primary_color').value,
+      secondary: document.getElementById('id_secondary_color').value,
+      success: document.getElementById('id_success_color').value,
+      warning: document.getElementById('id_warning_color').value,
+      danger: document.getElementById('id_danger_color').value,
+      info: document.getElementById('id_info_color').value,
+      dark: document.getElementById('id_dark_color').value,
+      light: document.getElementById('id_light_color').value
+    };
+
+    // Update CSS variables
+    const root = document.documentElement;
+    root.style.setProperty('--primary-color', colors.primary);
+    root.style.setProperty('--secondary-color', colors.secondary);
+    root.style.setProperty('--success-color', colors.success);
+    root.style.setProperty('--warning-color', colors.warning);
+    root.style.setProperty('--danger-color', colors.danger);
+    root.style.setProperty('--info-color', colors.info);
+    root.style.setProperty('--dark-color', colors.dark);
+    root.style.setProperty('--light-color', colors.light);
+
+    // Show preview notification
+    showToast('Theme preview updated!', 'success');
+  }
+
+  // Reset theme colors
+  function resetThemeColors() {
+    if (confirm('Are you sure you want to reset all theme colors to default values?')) {
+      const defaultColors = {
+        primary: '#5e72e4',
+        secondary: '#8392ab',
+        success: '#2dce89',
+        warning: '#fb6340',
+        danger: '#f5365c',
+        info: '#11cdef',
+        dark: '#212529',
+        light: '#f8f9fe'
+      };
+
+      // Update form inputs
+      Object.keys(defaultColors).forEach(color => {
+        const textInput = document.getElementById(`id_${color}_color`);
+        const colorPicker = document.getElementById(`${color}_color_picker`);
+        
+        if (textInput) textInput.value = defaultColors[color];
+        if (colorPicker) colorPicker.value = defaultColors[color];
+      });
+
+      // Update preview
+      previewTheme();
+      
+      showToast('Theme colors reset to default!', 'info');
+    }
+  }
+
+  // Toast notification function
+  function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast show`;
+    toast.innerHTML = `
+      <div class="toast-header">
+        <i class="ni ni-${type === 'success' ? 'check-bold' : type === 'error' ? 'fat-remove' : 'info'}-circle text-${type}"></i>
+        <strong class="ms-2">${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+      </div>
+      <div class="toast-body">
+        ${message}
+      </div>
+    `;
+    
+    const container = document.getElementById('toast-container');
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
+
+  // Initialize color pickers on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Sync color pickers with text inputs
+    document.querySelectorAll('input[type="color"]').forEach(picker => {
+      const fieldName = picker.id.replace('_picker', '');
+      const textInput = document.getElementById(`id_${fieldName}`);
+      
+      if (textInput) {
+        picker.value = textInput.value;
+        picker.addEventListener('change', () => {
+          textInput.value = picker.value;
+        });
+      }
+    });
+  });
+</script>
+{% endblock javascripts %}

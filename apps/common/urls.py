@@ -5,6 +5,7 @@ URL patterns for common app
 
 from django.urls import path
 from . import views
+from . import settings_views
 
 app_name = 'common'
 
@@ -54,4 +55,12 @@ urlpatterns = [
     path('lookups/document-type/add/', views.add_document_type, name='add_document_type'),
     path('lookups/document-type/<int:type_id>/edit/', views.edit_document_type, name='edit_document_type'),
     path('lookups/document-type/<int:type_id>/delete/', views.delete_document_type, name='delete_document_type'),
+    
+    # Application Settings
+    path('settings/', settings_views.application_settings, name='application_settings'),
+    path('settings/preview-theme/', settings_views.preview_theme, name='preview_theme'),
+    path('settings/reset-theme/', settings_views.reset_theme_colors, name='reset_theme_colors'),
+    path('settings/delete-logo/', settings_views.delete_logo, name='delete_logo'),
+    path('settings/delete-favicon/', settings_views.delete_favicon, name='delete_favicon'),
+    path('settings/delete-apple-touch-icon/', settings_views.delete_apple_touch_icon, name='delete_apple_touch_icon'),
 ]

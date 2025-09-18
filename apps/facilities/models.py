@@ -79,8 +79,11 @@ class FacilityCoordinate(models.Model):
     collection_date = models.DateField(null=False)
     data_source = models.CharField(max_length=100, blank=True)
     collection_method = models.CharField(max_length=50, blank=True)
+    is_active = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField(default=timezone.now, null=False)
     updated_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_by = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='facility_coordinates_created', db_column='created_by', null=True, blank=True)
+    updated_by = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='facility_coordinates_updated', db_column='updated_by')
     
     def __str__(self):
         return f"{self.facility.facility_name} - {self.latitude}, {self.longitude}"
@@ -91,6 +94,7 @@ class FacilityCoordinate(models.Model):
         indexes = [
             models.Index(fields=['facility']),
             models.Index(fields=['collection_date']),
+            models.Index(fields=['is_active']),
         ]
 
 

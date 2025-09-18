@@ -33,7 +33,7 @@
   --light: #ced4da;
   --lighter: #e9ecef;
   --primary: #5e72e4;
-  --secondary: #f7fafc;
+  --secondary: #6c757d;
   --success: #2dce89;
   --info: #11cdef;
   --warning: #fb6340;
@@ -10418,7 +10418,7 @@ a.text-primary:hover, a.text-primary:focus {
   color: #233dd2 !important; }
 
 .text-secondary {
-  color: #f7fafc !important; }
+  color: #6c757d !important; }
 
 a.text-secondary:hover, a.text-secondary:focus {
   color: #bfd7e7 !important; }

@@ -31,7 +31,7 @@ def main():
         print("1. AWS RDS Security Group - Allow inbound connections on port 5432 from your server IP")
         print("2. Check if RDS instance is in 'available' state")
         print("3. Verify database credentials are correct")
-        print("4. Test with: psql -h database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com -U postgres -d gvrc_db")
+        print("4. Test with: psql -h hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com -U postgres -d hodi_db")
         return False
     
     # Step 3: Fix admin permissions
@@ -58,10 +58,10 @@ def fix_database_config():
     
     # Set the correct database configuration
     os.environ['DB_ENGINE'] = 'postgresql'
-    os.environ['DB_NAME'] = 'gvrc_db'
+    os.environ['DB_NAME'] = 'hodi_db'
     os.environ['DB_USERNAME'] = 'postgres'
     os.environ['DB_PASS'] = 'postgres123#'
-    os.environ['DB_HOST'] = 'database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com'
+    os.environ['DB_HOST'] = 'hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com'
     os.environ['DB_PORT'] = '5432'
     
     print("✅ Database environment variables set:")
@@ -99,10 +99,10 @@ def setup_django_environment():
     settings.DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'gvrc_db',
+            'NAME': 'hodi_db',
             'USER': 'postgres',
             'PASSWORD': 'postgres123#',
-            'HOST': 'database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com',
+            'HOST': 'hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com',
             'PORT': '5432',
             'OPTIONS': {
                 'connect_timeout': 60,
@@ -144,7 +144,7 @@ def test_database_connectivity():
         print("3. Check if database credentials are correct")
         print("4. Verify network connectivity to AWS RDS")
         print("5. Try connecting with psql manually:")
-        print(f"   psql -h database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com -U postgres -d gvrc_db")
+        print(f"   psql -h hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com -U postgres -d hodi_db")
         return False
 
 def fix_admin_permissions():
@@ -181,13 +181,13 @@ def manual_permission_setup():
                     return
         except Exception as db_error:
             print(f"❌ Database connection failed: {str(db_error)}")
-            print("🔧 Database troubleshooting:")
-            print("1. Check if AWS RDS instance is running")
-            print("2. Verify security group allows connections from your server")
-            print("3. Check if database credentials are correct")
-            print("4. Verify network connectivity to AWS RDS")
-            print("5. Try connecting with psql manually:")
-            print(f"   psql -h database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com -U postgres -d gvrc_db")
+        print("🔧 Database troubleshooting:")
+        print("1. Check if AWS RDS instance is running")
+        print("2. Verify security group allows connections from your server")
+        print("3. Check if database credentials are correct")
+        print("4. Verify network connectivity to AWS RDS")
+        print("5. Try connecting with psql manually:")
+        print(f"   psql -h hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com -U postgres -d hodi_db")
             return
         
         from apps.authentication.models import UserRole, Permission, RolePermission, UserRoleAssignment

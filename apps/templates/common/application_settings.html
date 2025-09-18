@@ -533,6 +533,15 @@
                 </button>
               </form>
               
+              <!-- Debug: Show current roles and permissions count -->
+              <div class="mt-3">
+                <small class="text-muted">
+                  <strong>Current Status:</strong><br>
+                  Roles: {{ roles_count|default:"Unknown" }}<br>
+                  Permissions: {{ permissions_count|default:"Unknown" }}
+                </small>
+              </div>
+              
               <small class="form-text text-muted mt-2">
                 <i class="ni ni-lock-circle-open"></i>
                 This action will ensure all default roles and permissions are properly set up in the system.

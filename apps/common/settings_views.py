@@ -35,11 +35,18 @@ def application_settings(request):
     else:
         form = ApplicationSettingsForm(instance=settings_obj)
     
+    # Get current roles and permissions count for debugging
+    from apps.authentication.models import UserRole, Permission
+    roles_count = UserRole.objects.count()
+    permissions_count = Permission.objects.count()
+    
     context = {
         'form': form,
         'settings': settings_obj,
         'segment': 'settings',
         'page_title': 'Application Settings',
+        'roles_count': roles_count,
+        'permissions_count': permissions_count,
     }
     
     return render(request, 'common/application_settings.html', context)
@@ -186,14 +193,49 @@ def load_default_roles_permissions(request):
     # All authenticated users can access this functionality
     
     try:
-        # Call the management command to set up roles and permissions
-        call_command('setup_user_roles', verbosity=0)
+        # Try the management command first
+        from django.core.management import call_command
+        from io import StringIO
+        import sys
         
-        messages.success(
-            request, 
-            'Default roles and permissions loaded successfully! '
-            'All system roles, permissions, and assignments have been created/updated.'
-        )
+        # Capture the output from the management command
+        output = StringIO()
+        old_stdout = sys.stdout
+        sys.stdout = output
+        
+        try:
+            call_command('setup_user_roles', verbosity=2)
+            command_output = output.getvalue()
+            sys.stdout = old_stdout
+            
+            messages.success(
+                request, 
+                f'Default roles and permissions loaded successfully! '
+                f'Command output: {command_output}'
+            )
+            
+        except Exception as cmd_error:
+            sys.stdout = old_stdout
+            messages.error(
+                request, 
+                f'Management command failed: {str(cmd_error)}. '
+                f'Trying direct creation method...'
+            )
+            
+            # Fallback: Try direct creation
+            try:
+                direct_result = create_roles_permissions_directly(request.user)
+                messages.success(
+                    request, 
+                    f'Default roles and permissions created directly! '
+                    f'Result: {direct_result}'
+                )
+            except Exception as direct_error:
+                messages.error(
+                    request, 
+                    f'Both methods failed. Management command error: {str(cmd_error)}. '
+                    f'Direct creation error: {str(direct_error)}'
+                )
         
     except Exception as e:
         messages.error(
@@ -203,3 +245,77 @@ def load_default_roles_permissions(request):
         )
     
     return redirect('common:application_settings')
+
+
+def create_roles_permissions_directly(user):
+    """Direct method to create roles and permissions without management command"""
+    from apps.authentication.models import UserRole, Permission, RolePermission, UserRoleAssignment
+    from django.contrib.auth import get_user_model
+    
+    User = get_user_model()
+    result = []
+    
+    # Create basic roles
+    roles_data = [
+        {'role_name': 'Super Admin', 'description': 'Full system access', 'is_system_role': True},
+        {'role_name': 'System Administrator', 'description': 'System administration', 'is_system_role': True},
+        {'role_name': 'Facility Manager', 'description': 'Can manage facilities', 'is_system_role': True},
+        {'role_name': 'Data Analyst', 'description': 'Can view analytics', 'is_system_role': True},
+        {'role_name': 'Regular User', 'description': 'Basic user access', 'is_system_role': True},
+        {'role_name': 'Content Manager', 'description': 'Can manage documents', 'is_system_role': True}
+    ]
+    
+    roles_created = 0
+    for role_data in roles_data:
+        role, created = UserRole.objects.get_or_create(
+            role_name=role_data['role_name'],
+            defaults=role_data
+        )
+        if created:
+            roles_created += 1
+            result.append(f'Created role: {role.role_name}')
+    
+    # Create basic permissions
+    permissions_data = [
+        {'permission_name': 'view_users', 'resource_name': 'users', 'action_name': 'view', 'description': 'Can view users'},
+        {'permission_name': 'add_users', 'resource_name': 'users', 'action_name': 'add', 'description': 'Can add users'},
+        {'permission_name': 'change_users', 'resource_name': 'users', 'action_name': 'change', 'description': 'Can change users'},
+        {'permission_name': 'delete_users', 'resource_name': 'users', 'action_name': 'delete', 'description': 'Can delete users'},
+        {'permission_name': 'view_facilities', 'resource_name': 'facilities', 'action_name': 'view', 'description': 'Can view facilities'},
+        {'permission_name': 'add_facilities', 'resource_name': 'facilities', 'action_name': 'add', 'description': 'Can add facilities'},
+        {'permission_name': 'change_facilities', 'resource_name': 'facilities', 'action_name': 'change', 'description': 'Can change facilities'},
+        {'permission_name': 'delete_facilities', 'resource_name': 'facilities', 'action_name': 'delete', 'description': 'Can delete facilities'},
+    ]
+    
+    permissions_created = 0
+    for perm_data in permissions_data:
+        permission, created = Permission.objects.get_or_create(
+            permission_name=perm_data['permission_name'],
+            defaults=perm_data
+        )
+        if created:
+            permissions_created += 1
+            result.append(f'Created permission: {permission.permission_name}')
+    
+    # Assign all permissions to Super Admin role
+    try:
+        super_admin_role = UserRole.objects.get(role_name='Super Admin')
+        all_permissions = Permission.objects.all()
+        role_perms_created = 0
+        
+        for permission in all_permissions:
+            role_perm, created = RolePermission.objects.get_or_create(
+                role=super_admin_role,
+                permission=permission,
+                defaults={'granted_by': user}
+            )
+            if created:
+                role_perms_created += 1
+        
+        result.append(f'Assigned {role_perms_created} permissions to Super Admin role')
+        
+    except Exception as e:
+        result.append(f'Error assigning permissions: {str(e)}')
+    
+    result.append(f'Summary: Created {roles_created} roles, {permissions_created} permissions')
+    return '; '.join(result)

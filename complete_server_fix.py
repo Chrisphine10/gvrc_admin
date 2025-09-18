@@ -23,6 +23,17 @@ def main():
     print("\n🔧 Step 2: Setting up Django environment...")
     setup_django_environment()
     
+    # Step 2.5: Test database connectivity
+    print("\n🔧 Step 2.5: Testing database connectivity...")
+    if not test_database_connectivity():
+        print("\n❌ Database connection failed. Please check the troubleshooting steps above.")
+        print("🔧 Common fixes:")
+        print("1. AWS RDS Security Group - Allow inbound connections on port 5432 from your server IP")
+        print("2. Check if RDS instance is in 'available' state")
+        print("3. Verify database credentials are correct")
+        print("4. Test with: psql -h database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com -U postgres -d gvrc_db")
+        return False
+    
     # Step 3: Fix admin permissions
     print("\n🔧 Step 3: Fixing admin permissions...")
     fix_admin_permissions()
@@ -39,6 +50,7 @@ def main():
     print("1. Try logging in with admin@hodi.ke")
     print("2. Test the chat assignment functionality at https://hodi.co.ke/chat/conversation/1/")
     print("3. Verify all admin features are working")
+    return True
 
 def fix_database_config():
     """Fix database configuration by setting correct environment variables"""
@@ -75,6 +87,34 @@ def setup_django_environment():
     django.setup()
     print("✅ Django initialized successfully")
 
+def test_database_connectivity():
+    """Test database connectivity with proper error handling"""
+    try:
+        from django.db import connection
+        print("🔍 Testing database connection...")
+        
+        # Test connection with timeout
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+            result = cursor.fetchone()
+            if result:
+                print("✅ Database connection successful!")
+                return True
+            else:
+                print("❌ Database query failed")
+                return False
+                
+    except Exception as db_error:
+        print(f"❌ Database connection failed: {str(db_error)}")
+        print("🔧 Database troubleshooting:")
+        print("1. Check if AWS RDS instance is running")
+        print("2. Verify security group allows connections from your server")
+        print("3. Check if database credentials are correct")
+        print("4. Verify network connectivity to AWS RDS")
+        print("5. Try connecting with psql manually:")
+        print(f"   psql -h database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com -U postgres -d gvrc_db")
+        return False
+
 def fix_admin_permissions():
     """Fix admin permissions using the management command"""
     try:
@@ -94,6 +134,30 @@ def fix_admin_permissions():
 def manual_permission_setup():
     """Manual permission setup if the command fails"""
     try:
+        print("🔍 Testing database connection before proceeding...")
+        from django.db import connection
+        
+        # Test connection with timeout
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1")
+                result = cursor.fetchone()
+                if result:
+                    print("✅ Database connection successful!")
+                else:
+                    print("❌ Database query failed")
+                    return
+        except Exception as db_error:
+            print(f"❌ Database connection failed: {str(db_error)}")
+            print("🔧 Database troubleshooting:")
+            print("1. Check if AWS RDS instance is running")
+            print("2. Verify security group allows connections from your server")
+            print("3. Check if database credentials are correct")
+            print("4. Verify network connectivity to AWS RDS")
+            print("5. Try connecting with psql manually:")
+            print(f"   psql -h database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com -U postgres -d gvrc_db")
+            return
+        
         from apps.authentication.models import UserRole, Permission, RolePermission, UserRoleAssignment
         from django.contrib.auth import get_user_model
         
@@ -235,7 +299,11 @@ def verify_fixes():
 
 if __name__ == "__main__":
     try:
-        main()
+        success = main()
+        if not success:
+            print("\n❌ Fix script completed with errors.")
+            print("🔧 Please resolve the database connectivity issues and run again.")
+            sys.exit(1)
     except Exception as e:
         print(f"\n❌ CRITICAL ERROR: {str(e)}")
         print("\n🔧 Manual troubleshooting steps:")
@@ -243,4 +311,5 @@ if __name__ == "__main__":
         print("2. Verify database credentials")
         print("3. Check network connectivity to AWS RDS")
         print("4. Ensure Django settings are correct")
+        print("5. Check AWS RDS Security Group settings")
         sys.exit(1)

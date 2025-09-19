@@ -36,11 +36,15 @@ DB_PORT = os.getenv("DB_PORT", None)
 DB_NAME = os.getenv("DB_NAME", None)
 
 if DB_ENGINE and DB_NAME and DB_USERNAME:
-    # Ensure DB_ENGINE doesn't already include the full path
-    if not DB_ENGINE.startswith("django.db.backends."):
-        engine = "django.db.backends." + DB_ENGINE
+    # Clean up DB_ENGINE to prevent double prefixing
+    if DB_ENGINE.startswith("django.db.backends."):
+        # Remove the prefix if it's already there
+        clean_engine = DB_ENGINE.replace("django.db.backends.", "")
     else:
-        engine = DB_ENGINE
+        clean_engine = DB_ENGINE
+    
+    # Build the correct engine path
+    engine = f"django.db.backends.{clean_engine}"
     
     DATABASES = {
         "default": {

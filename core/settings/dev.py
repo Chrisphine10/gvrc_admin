@@ -36,9 +36,15 @@ DB_PORT = os.getenv("DB_PORT", None)
 DB_NAME = os.getenv("DB_NAME", None)
 
 if DB_ENGINE and DB_NAME and DB_USERNAME:
+    # Ensure DB_ENGINE doesn't already include the full path
+    if not DB_ENGINE.startswith("django.db.backends."):
+        engine = "django.db.backends." + DB_ENGINE
+    else:
+        engine = DB_ENGINE
+    
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends." + DB_ENGINE,
+            "ENGINE": engine,
             "NAME": DB_NAME,
             "USER": DB_USERNAME,
             "PASSWORD": DB_PASS,

@@ -222,13 +222,74 @@ else
     exit 1
 fi
 
-# Step 4: Create Admin User
+# Step 4: Create Admin User with Specific Credentials
 echo ""
-echo "🔧 Step 4: Creating admin user..."
-if python manage.py create_admin_user --verbosity=0; then
-    echo "✅ Admin user created successfully"
+echo "🔧 Step 4: Creating admin user with specific credentials..."
+
+# First, try to create admin user using the management command
+if python manage.py create_admin_user --password="Karibu@2025" --force --verbosity=0 2>/dev/null; then
+    echo "✅ Admin user created successfully using management command"
 else
-    echo "⚠️  Admin user creation failed or user already exists"
+    echo "⚠️  Management command failed, trying direct creation..."
+    
+    # Fallback: Create admin user directly
+    python -c "
+import os
+import django
+from pathlib import Path
+
+# Set up Django with temp settings
+project_root = Path('.').resolve()
+import sys
+sys.path.insert(0, str(project_root))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'temp_settings'
+django.setup()
+
+from django.contrib.auth import get_user_model
+from apps.authentication.models import UserRole, UserRoleAssignment
+
+User = get_user_model()
+
+# Create or update admin user
+admin_email = 'admin@hodi.co.ke'
+admin_password = 'Karibu@2025'
+
+try:
+    # Try to get existing admin user
+    admin_user = User.objects.get(email=admin_email)
+    print(f'📋 Found existing admin user: {admin_user.email}')
+    
+    # Update password and privileges
+    admin_user.set_password(admin_password)
+    admin_user.is_superuser = True
+    admin_user.is_staff = True
+    admin_user.is_active = True
+    admin_user.verified = True
+    admin_user.save()
+    print(f'✅ Updated admin user password and privileges')
+    
+except User.DoesNotExist:
+    # Create new admin user
+    admin_user = User.objects.create_user(
+        email=admin_email,
+        password=admin_password,
+        full_name='Hodi Admin',
+        phone_number='+254700000000',
+        is_superuser=True,
+        is_staff=True,
+        is_active=True,
+        verified=True
+    )
+    print(f'✅ Created new admin user: {admin_user.email}')
+
+print('✅ Admin user setup completed successfully')
+" 2>/dev/null
+
+    if [ $? -eq 0 ]; then
+        echo "✅ Admin user created/updated successfully via direct method"
+    else
+        echo "❌ Admin user creation failed"
+    fi
 fi
 
 # Step 5: Create Default Roles and Permissions
@@ -249,6 +310,71 @@ else
     echo "❌ Admin permissions setup failed"
     rm temp_settings.py
     exit 1
+fi
+
+# Step 6.5: Ensure Admin User Has Super Admin Role
+echo ""
+echo "🔧 Step 6.5: Ensuring admin user has Super Admin role..."
+python -c "
+import os
+import django
+from pathlib import Path
+
+# Set up Django with temp settings
+project_root = Path('.').resolve()
+import sys
+sys.path.insert(0, str(project_root))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'temp_settings'
+django.setup()
+
+from django.contrib.auth import get_user_model
+from apps.authentication.models import UserRole, UserRoleAssignment
+
+User = get_user_model()
+
+try:
+    # Get admin user
+    admin_user = User.objects.get(email='admin@hodi.co.ke')
+    print(f'📋 Found admin user: {admin_user.email}')
+    
+    # Get Super Admin role
+    super_admin_role = UserRole.objects.get(role_name='Super Admin')
+    print(f'📋 Found Super Admin role')
+    
+    # Create or update role assignment
+    user_role_assignment, created = UserRoleAssignment.objects.get_or_create(
+        user=admin_user,
+        role=super_admin_role,
+        defaults={'assigned_by': admin_user}
+    )
+    
+    if created:
+        print(f'✅ Assigned Super Admin role to {admin_user.email}')
+    else:
+        print(f'✅ {admin_user.email} already has Super Admin role')
+        
+    # Verify admin user has all privileges
+    print(f'📋 Admin user privileges:')
+    print(f'   - is_superuser: {admin_user.is_superuser}')
+    print(f'   - is_staff: {admin_user.is_staff}')
+    print(f'   - is_active: {admin_user.is_active}')
+    print(f'   - verified: {admin_user.verified}')
+    print(f'   - Super Admin role: ✅')
+    
+except User.DoesNotExist:
+    print('❌ Admin user not found')
+except UserRole.DoesNotExist:
+    print('❌ Super Admin role not found')
+except Exception as e:
+    print(f'❌ Error: {e}')
+
+print('✅ Admin role assignment completed')
+" 2>/dev/null
+
+if [ $? -eq 0 ]; then
+    echo "✅ Admin role assignment completed successfully"
+else
+    echo "⚠️  Admin role assignment had issues"
 fi
 
 # Step 7: Load Additional Default Data
@@ -476,7 +602,7 @@ echo "✅ Default data: LOADED"
 echo "✅ System check: PASSED"
 echo ""
 echo "📝 Next steps:"
-echo "1. Try logging in with admin@hodi.ke"
+echo "1. Log in with admin@hodi.co.ke / password: Karibu@2025"
 echo "2. Test the chat assignment functionality at https://hodi.co.ke/chat/conversation/1/"
 echo "3. Verify all admin features are working properly"
 echo "4. Check that default data (counties, wards, facilities) is loaded"

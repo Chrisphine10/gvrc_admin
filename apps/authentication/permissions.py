@@ -153,7 +153,7 @@ def permission_required(permission_name, redirect_url=None, message=None):
     
     Args:
         permission_name: String permission name required
-        redirect_url: URL to redirect to if permission denied (default: '/login/')
+        redirect_url: URL to redirect to if permission denied (default: '/dashboard/')
         message: Error message to show (default: generic message)
     
     Usage:
@@ -173,7 +173,7 @@ def permission_required(permission_name, redirect_url=None, message=None):
                 if redirect_url:
                     return redirect(redirect_url)
                 else:
-                    return redirect('/login/')
+                    return redirect('/dashboard/')
             
             return view_func(request, *args, **kwargs)
         return wrapper
@@ -186,7 +186,7 @@ def role_required(role_name, redirect_url=None, message=None):
     
     Args:
         role_name: String role name required
-        redirect_url: URL to redirect to if role denied (default: '/login/')
+        redirect_url: URL to redirect to if role denied (default: '/dashboard/')
         message: Error message to show (default: generic message)
     
     Usage:
@@ -206,7 +206,7 @@ def role_required(role_name, redirect_url=None, message=None):
                 if redirect_url:
                     return redirect(redirect_url)
                 else:
-                    return redirect('/login/')
+                    return redirect('/dashboard/')
             
             return view_func(request, *args, **kwargs)
         return wrapper
@@ -219,7 +219,7 @@ def any_role_required(role_names, redirect_url=None, message=None):
     
     Args:
         role_names: List of role names (user needs at least one)
-        redirect_url: URL to redirect to if role denied (default: '/login/')
+        redirect_url: URL to redirect to if role denied (default: '/dashboard/')
         message: Error message to show (default: generic message)
     
     Usage:
@@ -240,7 +240,7 @@ def any_role_required(role_names, redirect_url=None, message=None):
                 if redirect_url:
                     return redirect(redirect_url)
                 else:
-                    return redirect('/login/')
+                    return redirect('/dashboard/')
             
             return view_func(request, *args, **kwargs)
         return wrapper
@@ -252,7 +252,7 @@ def staff_required(redirect_url=None, message=None):
     Decorator to require staff status for a view
     
     Args:
-        redirect_url: URL to redirect to if not staff (default: '/login/')
+        redirect_url: URL to redirect to if not staff (default: '/dashboard/')
         message: Error message to show (default: generic message)
     
     Usage:
@@ -272,7 +272,7 @@ def staff_required(redirect_url=None, message=None):
                 if redirect_url:
                     return redirect(redirect_url)
                 else:
-                    return redirect('/login/')
+                    return redirect('/dashboard/')
             
             return view_func(request, *args, **kwargs)
         return wrapper
@@ -284,7 +284,7 @@ def superuser_required(redirect_url=None, message=None):
     Decorator to require superuser status for a view
     
     Args:
-        redirect_url: URL to redirect to if not superuser (default: '/login/')
+        redirect_url: URL to redirect to if not superuser (default: '/dashboard/')
         message: Error message to show (default: generic message)
     
     Usage:
@@ -304,7 +304,7 @@ def superuser_required(redirect_url=None, message=None):
                 if redirect_url:
                     return redirect(redirect_url)
                 else:
-                    return redirect('/login/')
+                    return redirect('/dashboard/')
             
             return view_func(request, *args, **kwargs)
         return wrapper

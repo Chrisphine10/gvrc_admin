@@ -40,6 +40,10 @@ class Facility(models.Model):
             models.Index(fields=['ward']),
             models.Index(fields=['operational_status']),
             models.Index(fields=['is_active']),
+            models.Index(fields=['facility_name']),  # For search optimization
+            models.Index(fields=['registration_number']),  # For search optimization
+            models.Index(fields=['ward', 'operational_status']),  # Composite index for filtering
+            models.Index(fields=['is_active', 'operational_status']),  # Composite index for active operational facilities
         ]
 
 
@@ -95,6 +99,8 @@ class FacilityCoordinate(models.Model):
             models.Index(fields=['facility']),
             models.Index(fields=['collection_date']),
             models.Index(fields=['is_active']),
+            models.Index(fields=['latitude', 'longitude']),  # Composite index for coordinate queries
+            models.Index(fields=['is_active', 'latitude', 'longitude']),  # For map queries
         ]
 
 

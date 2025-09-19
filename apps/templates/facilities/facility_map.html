@@ -77,10 +77,20 @@
     {{ facilities_with_coords_json|safe }}
   </script>
 
+  <!-- Template Variables -->
+  <script type="application/json" id="template-vars">
+    {
+      "viewport_filtered": {{ viewport_filtered|yesno:"true,false" }},
+      "zoom_level": {{ zoom_level|default:7 }}
+    }
+  </script>
+
   <!-- Map JavaScript -->
   <script>
     // Get facility data from Django template
     const facilitiesData = JSON.parse(document.getElementById('facilities-data').textContent);
+    const templateVars = JSON.parse(document.getElementById('template-vars').textContent);
+    
     console.log('Facilities data loaded:', facilitiesData);
     console.log('Number of facilities:', facilitiesData.length);
     
@@ -94,6 +104,10 @@
     let map;
     let markers = [];
     let infoWindow;
+    let markerClusterer;
+    let isViewportFiltered = templateVars.viewport_filtered;
+    let currentZoom = templateVars.zoom_level;
+    let isLoading = false;
     
     // Initialize Google Maps
     function initMap() {
@@ -134,11 +148,24 @@
       // Create info window
       infoWindow = new google.maps.InfoWindow();
       
-      // Add facility markers
+      // Add facility markers with clustering
       addFacilityMarkers();
       
+      // Initialize marker clustering for better performance
+      if (typeof MarkerClusterer !== 'undefined') {
+        markerClusterer = new MarkerClusterer(map, markers, {
+          imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+          maxZoom: 15,
+          gridSize: 50
+        });
+      }
+      
+      // Add viewport change listener for dynamic loading
+      map.addListener('bounds_changed', debounce(loadFacilitiesInViewport, 1000));
+      map.addListener('zoom_changed', onZoomChanged);
+      
       // Fit map to show all markers if there are any
-      if (markers.length > 0) {
+      if (markers.length > 0 && !isViewportFiltered) {
         fitMapToMarkers();
       }
       
@@ -273,6 +300,156 @@
       }
     }
     
+    // Debounce function for performance
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+    
+    // Load facilities in current viewport
+    function loadFacilitiesInViewport() {
+      if (isLoading) return;
+      
+      const bounds = map.getBounds();
+      if (!bounds) return;
+      
+      const ne = bounds.getNorthEast();
+      const sw = bounds.getSouthWest();
+      const zoom = map.getZoom();
+      
+      // Only reload if zoom level changed significantly or bounds changed significantly
+      if (Math.abs(zoom - currentZoom) < 2 && isViewportFiltered) return;
+      
+      isLoading = true;
+      currentZoom = zoom;
+      
+      // Show loading indicator
+      const mapElement = document.getElementById('facility-map');
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'loading-indicator';
+      loadingDiv.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>';
+      loadingDiv.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;';
+      mapElement.appendChild(loadingDiv);
+      
+      // Fetch facilities in viewport
+      const url = new URL(window.location);
+      url.searchParams.set('ne_lat', ne.lat());
+      url.searchParams.set('ne_lng', ne.lng());
+      url.searchParams.set('sw_lat', sw.lat());
+      url.searchParams.set('sw_lng', sw.lng());
+      url.searchParams.set('zoom', zoom);
+      
+      fetch(url.toString())
+        .then(response => response.text())
+        .then(html => {
+          // Parse the response and extract facility data
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const scriptTag = doc.querySelector('#facilities-data');
+          
+          if (scriptTag) {
+            const newFacilitiesData = JSON.parse(scriptTag.textContent);
+            updateMapMarkers(newFacilitiesData);
+          }
+        })
+        .catch(error => {
+          console.error('Error loading facilities:', error);
+        })
+        .finally(() => {
+          isLoading = false;
+          const loadingIndicator = document.getElementById('loading-indicator');
+          if (loadingIndicator) {
+            loadingIndicator.remove();
+          }
+        });
+    }
+    
+    // Update map markers with new data
+    function updateMapMarkers(newFacilitiesData) {
+      // Clear existing markers
+      markers.forEach(marker => marker.setMap(null));
+      markers = [];
+      
+      if (markerClusterer) {
+        markerClusterer.clearMarkers();
+      }
+      
+      // Add new markers
+      newFacilitiesData.forEach(function(facilityData, index) {
+        const facility = facilityData.facility;
+        const coords = facilityData.coordinates;
+        
+        const marker = new google.maps.Marker({
+          position: { 
+            lat: parseFloat(coords.latitude), 
+            lng: parseFloat(coords.longitude) 
+          },
+          map: map,
+          title: facility.facility_name,
+          icon: {
+            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+              <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="12" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+                <circle cx="16" cy="16" r="6" fill="#ffffff"/>
+                <circle cx="16" cy="16" r="3" fill="#e74c3c"/>
+              </svg>
+            `),
+            scaledSize: new google.maps.Size(32, 32),
+            anchor: new google.maps.Point(16, 16)
+          }
+        });
+        
+        // Create info window content
+        const infoContent = `
+          <div class="facility-info-window">
+            <h6 class="mb-2">${facility.facility_name}</h6>
+            <p class="mb-1"><strong>Registration:</strong> ${facility.registration_number}</p>
+            <p class="mb-1"><strong>Location:</strong> ${facility.ward.ward_name}, ${facility.ward.constituency.county.county_name}</p>
+            <p class="mb-1"><strong>Status:</strong> ${facility.operational_status.status_name}</p>
+            <div class="mt-2">
+              <a href="/facilities/${facility.facility_id}/" class="btn btn-sm btn-primary">View Details</a>
+            </div>
+          </div>
+        `;
+        
+        marker.addListener('click', function() {
+          infoWindow.setContent(infoContent);
+          infoWindow.open(map, marker);
+        });
+        
+        markers.push(marker);
+      });
+      
+      // Update marker clusterer
+      if (markerClusterer) {
+        markerClusterer.addMarkers(markers);
+      }
+      
+      console.log('Updated map with', markers.length, 'markers');
+    }
+    
+    // Handle zoom changes
+    function onZoomChanged() {
+      const zoom = map.getZoom();
+      currentZoom = zoom;
+      
+      // Adjust marker clustering based on zoom level
+      if (markerClusterer) {
+        if (zoom > 12) {
+          markerClusterer.setMaxZoom(15);
+        } else {
+          markerClusterer.setMaxZoom(12);
+        }
+      }
+    }
+    
     // Initialize map when page loads
     document.addEventListener('DOMContentLoaded', function() {
       console.log('Initializing facility map...');
@@ -294,9 +471,12 @@
     });
   </script>
   
+  <!-- MarkerClusterer Library -->
+  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+  
   <!-- Google Maps API -->
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&libraries=geometry"
     onerror="console.error('Failed to load Google Maps API')">
   </script>
   

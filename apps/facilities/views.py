@@ -9,6 +9,11 @@ from django.contrib import messages
 from django.db.models import Q, Count
 from django.db import transaction
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .cache_utils import (
+    get_facility_statistics, get_facilities_by_county, get_facilities_by_status,
+    get_paginated_facilities, invalidate_facility_cache
+)
 from apps.authentication.permissions import (
     permission_required, role_required, any_role_required,
     staff_required, superuser_required
@@ -25,8 +30,8 @@ from apps.lookups.models import OperationalStatus, ServiceCategory
 
 @permission_required('view_facilities')
 def facility_list(request):
-    """List all facilities with comprehensive data"""
-    # Get base queryset with all related data
+    """List all facilities with comprehensive data and pagination for millions of records"""
+    # Get base queryset with optimized queries for large datasets
     facilities = Facility.objects.select_related(
         'ward__constituency__county', 
         'operational_status'
@@ -37,7 +42,7 @@ def facility_list(request):
         'facilitygbvcategory_set__gbv_category'
     ).filter(is_active=True)
     
-    # Search functionality
+    # Search functionality with database-level optimization
     search_query = request.GET.get('search', '')
     if search_query:
         facilities = facilities.filter(
@@ -58,9 +63,26 @@ def facility_list(request):
     if status_id:
         facilities = facilities.filter(operational_status_id=status_id)
     
-    # Get statistics
-    operational_facilities_count = facilities.filter(operational_status__status_name='Operational').count()
-    counties_count = County.objects.count()
+    # Order by facility_id for consistent pagination
+    facilities = facilities.order_by('facility_id')
+    
+    # Implement pagination for millions of records
+    paginator = Paginator(facilities, 50)  # 50 facilities per page for better performance
+    page = request.GET.get('page')
+    
+    try:
+        facilities_page = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page
+        facilities_page = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results
+        facilities_page = paginator.page(paginator.num_pages)
+    
+    # Get statistics efficiently (cached for better performance)
+    stats = get_facility_statistics()
+    operational_facilities_count = stats['operational_facilities']
+    counties_count = stats['counties_count']
     wards_count = facilities.values('ward').distinct().count()
     
     # Get filter options
@@ -69,7 +91,7 @@ def facility_list(request):
     service_categories = ServiceCategory.objects.all().order_by('category_name')
     
     context = {
-        'facilities': facilities,
+        'facilities': facilities_page,  # Use paginated facilities
         'search_query': search_query,
         'selected_county': county_id,
         'selected_status': status_id,
@@ -80,6 +102,13 @@ def facility_list(request):
         'operational_statuses': operational_statuses,
         'service_categories': service_categories,
         'segment': 'facilities',
+        'total_facilities': paginator.count,
+        'total_pages': paginator.num_pages,
+        'current_page': facilities_page.number,
+        'has_previous': facilities_page.has_previous(),
+        'has_next': facilities_page.has_next(),
+        'previous_page_number': facilities_page.previous_page_number() if facilities_page.has_previous() else None,
+        'next_page_number': facilities_page.next_page_number() if facilities_page.has_next() else None,
     }
     
     return render(request, 'facilities/facility_list.html', context)
@@ -125,15 +154,48 @@ def facility_detail(request, facility_id):
 
 @permission_required('view_facilities')
 def facility_map(request):
-    """Show facilities on a map with coordinates"""
+    """Show facilities on a map with coordinates - optimized for millions of records"""
+    # Get viewport parameters for efficient loading
+    ne_lat = request.GET.get('ne_lat')
+    ne_lng = request.GET.get('ne_lng')
+    sw_lat = request.GET.get('sw_lat')
+    sw_lng = request.GET.get('sw_lng')
+    zoom_level = request.GET.get('zoom', 7)
+    
+    # Base queryset with coordinates
     facilities = Facility.objects.filter(
-        is_active=True
+        is_active=True,
+        facilitycoordinate__latitude__isnull=False,
+        facilitycoordinate__longitude__isnull=False
     ).select_related(
         'ward__constituency__county',
         'operational_status'
     ).prefetch_related(
         'facilitycoordinate_set'
     )
+    
+    # Apply viewport filtering if provided (for dynamic loading)
+    if ne_lat and ne_lng and sw_lat and sw_lng:
+        facilities = facilities.filter(
+            facilitycoordinate__latitude__gte=float(sw_lat),
+            facilitycoordinate__latitude__lte=float(ne_lat),
+            facilitycoordinate__longitude__gte=float(sw_lng),
+            facilitycoordinate__longitude__lte=float(ne_lng)
+        )
+    
+    # Limit results based on zoom level for performance
+    zoom_level = int(zoom_level)
+    if zoom_level <= 5:
+        # Country level - show only major facilities
+        facilities = facilities.filter(
+            operational_status__status_name='Operational'
+        )[:1000]  # Limit to 1000 facilities
+    elif zoom_level <= 8:
+        # Regional level - show more facilities
+        facilities = facilities[:5000]  # Limit to 5000 facilities
+    else:
+        # Local level - show all facilities in viewport
+        facilities = facilities[:10000]  # Limit to 10000 facilities
     
     # Filter facilities with coordinates and serialize for JavaScript
     facilities_with_coords = []
@@ -168,10 +230,12 @@ def facility_map(request):
     context = {
         'facilities_with_coords': facilities_with_coords,
         'facilities_with_coords_json': json.dumps(facilities_with_coords),
-        'total_facilities': facilities.count(),
+        'total_facilities': Facility.objects.filter(is_active=True).count(),
         'facilities_with_coords_count': len(facilities_with_coords),
         'segment': 'facility_map',
         'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
+        'viewport_filtered': bool(ne_lat and ne_lng and sw_lat and sw_lng),
+        'zoom_level': zoom_level,
     }
     
     return render(request, 'facilities/facility_map.html', context)
@@ -273,6 +337,8 @@ def facility_create(request):
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" created successfully!')
+                    # Invalidate cache after creating facility
+                    invalidate_facility_cache()
                     return redirect('facilities:facility_list')
                     
             except Exception as e:
@@ -426,6 +492,8 @@ def facility_update(request, facility_id):
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" updated successfully!')
+                    # Invalidate cache after updating facility
+                    invalidate_facility_cache()
                     return redirect('facilities:facility_list')
                     
             except Exception as e:

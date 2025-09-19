@@ -209,19 +209,24 @@ class FacilityDetailView(generics.RetrieveAPIView):
 class FacilityMapView(generics.ListAPIView):
     """
     Get facilities with coordinates for map display.
-    Optimized for mobile app map views with minimal data transfer.
+    Optimized for mobile app map views with minimal data transfer and viewport-based loading.
     """
     serializer_class = FacilityMapSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = CustomPagination
+    pagination_class = None  # No pagination for map data
 
     @swagger_auto_schema(
-        operation_description="Get facilities with GPS coordinates for map display",
+        operation_description="Get facilities with GPS coordinates for map display with viewport-based loading",
         manual_parameters=[
             openapi.Parameter('county', openapi.IN_QUERY, description="Filter by county ID", type=openapi.TYPE_INTEGER),
             openapi.Parameter('constituency', openapi.IN_QUERY, description="Filter by constituency ID", type=openapi.TYPE_INTEGER),
             openapi.Parameter('ward', openapi.IN_QUERY, description="Filter by ward ID", type=openapi.TYPE_INTEGER),
             openapi.Parameter('status', openapi.IN_QUERY, description="Filter by operational status ID", type=openapi.TYPE_INTEGER),
+            openapi.Parameter('ne_lat', openapi.IN_QUERY, description="Northeast latitude for viewport filtering", type=openapi.TYPE_NUMBER),
+            openapi.Parameter('ne_lng', openapi.IN_QUERY, description="Northeast longitude for viewport filtering", type=openapi.TYPE_NUMBER),
+            openapi.Parameter('sw_lat', openapi.IN_QUERY, description="Southwest latitude for viewport filtering", type=openapi.TYPE_NUMBER),
+            openapi.Parameter('sw_lng', openapi.IN_QUERY, description="Southwest longitude for viewport filtering", type=openapi.TYPE_NUMBER),
+            openapi.Parameter('zoom', openapi.IN_QUERY, description="Map zoom level for clustering optimization", type=openapi.TYPE_INTEGER),
         ],
         responses={
             200: FacilityMapSerializer,
@@ -232,15 +237,17 @@ class FacilityMapView(generics.ListAPIView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        """Get only facilities with valid coordinates"""
+        """Get only facilities with valid coordinates, optimized for map display"""
         queryset = Facility.objects.select_related(
-            'ward__constituency__county'
+            'ward__constituency__county',
+            'operational_status'
         ).prefetch_related(
             Prefetch(
                 'facilitycoordinate',
                 queryset=FacilityCoordinate.objects.filter(
                     latitude__isnull=False,
-                    longitude__isnull=False
+                    longitude__isnull=False,
+                    is_active=True
                 ),
                 to_attr='valid_coordinates'
             )
@@ -250,7 +257,22 @@ class FacilityMapView(generics.ListAPIView):
             facilitycoordinate__longitude__isnull=False
         )
 
-        # Apply filters
+        # Apply viewport filtering for performance
+        ne_lat = self.request.query_params.get('ne_lat')
+        ne_lng = self.request.query_params.get('ne_lng')
+        sw_lat = self.request.query_params.get('sw_lat')
+        sw_lng = self.request.query_params.get('sw_lng')
+        zoom_level = int(self.request.query_params.get('zoom', 7))
+        
+        if ne_lat and ne_lng and sw_lat and sw_lng:
+            queryset = queryset.filter(
+                facilitycoordinate__latitude__gte=float(sw_lat),
+                facilitycoordinate__latitude__lte=float(ne_lat),
+                facilitycoordinate__longitude__gte=float(sw_lng),
+                facilitycoordinate__longitude__lte=float(ne_lng)
+            )
+
+        # Apply other filters
         county_id = self.request.query_params.get('county')
         if county_id:
             queryset = queryset.filter(ward__constituency__county_id=county_id)
@@ -266,6 +288,19 @@ class FacilityMapView(generics.ListAPIView):
         status_id = self.request.query_params.get('status')
         if status_id:
             queryset = queryset.filter(operational_status_id=status_id)
+
+        # Limit results based on zoom level for performance
+        if zoom_level <= 5:
+            # Country level - show only major facilities
+            queryset = queryset.filter(
+                operational_status__status_name='Operational'
+            )[:1000]
+        elif zoom_level <= 8:
+            # Regional level - show more facilities
+            queryset = queryset[:5000]
+        else:
+            # Local level - show all facilities in viewport
+            queryset = queryset[:10000]
 
         return queryset.distinct()
 

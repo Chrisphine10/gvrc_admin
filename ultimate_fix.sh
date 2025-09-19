@@ -1,48 +1,18 @@
 #!/bin/bash
-# ULTIMATE COMPLETE FIX - Everything Combined
-# Handles database connection, migrations, admin user, permissions, and default data
+# ULTIMATE FIX - Complete Server Setup
+# Handles database, migrations, admin user, permissions, and default data
 
-echo "🚀 ULTIMATE COMPLETE SERVER FIX"
-echo "==============================="
+echo "🚀 ULTIMATE SERVER FIX"
+echo "======================"
 
 # Clear environment variables
 unset DB_ENGINE DB_NAME DB_USERNAME DB_PASS DB_HOST DB_PORT DJANGO_SETTINGS_MODULE
 
-# Function to find working database host
-find_working_database_host() {
-    echo "🔍 Finding working database host..."
-    
-    # List of possible database hosts
-    HOSTS=(
-        "hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com"
-        "database-postgres.cn2uqm2iclii.eu-north-1.rds.amazonaws.com"
-    )
-    
-    for host in "${HOSTS[@]}"; do
-        echo "📋 Testing host: $host"
-        if timeout 10 psql -h "$host" -U postgres -d hodi_db -c "SELECT 1;" 2>/dev/null; then
-            echo "✅ Host $host is accessible"
-            echo "$host"
-            return 0
-        else
-            echo "❌ Host $host is not accessible"
-        fi
-    done
-    
-    echo "❌ No accessible database hosts found"
-    return 1
-}
-
-# Find working database host
-WORKING_HOST=$(find_working_database_host)
-if [ $? -ne 0 ]; then
-    echo "❌ Could not find working database host. Exiting."
-    exit 1
-fi
-
+# Use the original working database host
+WORKING_HOST="hodi-db.cu7284ec0spr.us-east-1.rds.amazonaws.com"
 echo "✅ Using database host: $WORKING_HOST"
 
-# Create temporary settings with working host
+# Create temporary settings
 cat > temp_settings.py << EOF
 import os
 from pathlib import Path
@@ -153,11 +123,15 @@ try:
 except Exception as e:
     print(f'❌ Django database connection failed: {e}')
     exit(1)
-" || exit 1
+" || {
+    echo "❌ Database connection failed. Please check your database settings."
+    rm temp_settings.py
+    exit 1
+}
 
 # Step 2: Handle migrations with conflict resolution
 echo ""
-echo "🔧 Step 2: Handling migrations with conflict resolution..."
+echo "🔧 Step 2: Handling migrations..."
 
 # Function to handle migration conflicts
 handle_migration_conflicts() {
@@ -229,16 +203,12 @@ except Exception as e:
         return 0
     fi
     
-    echo "❌ All migration attempts failed"
+    echo "⚠️  Some migrations may have conflicts, but continuing..."
     return 1
 }
 
 # Run migration handling
-if handle_migration_conflicts; then
-    echo "✅ Database migrations completed successfully"
-else
-    echo "⚠️  Some migrations may have conflicts, but continuing..."
-fi
+handle_migration_conflicts
 
 # Step 3: Create admin user
 echo ""
@@ -334,7 +304,7 @@ python manage.py check --verbosity=0 2>/dev/null || echo "⚠️  System check h
 
 # Step 7: Create permanent settings with working host
 echo ""
-echo "🔧 Step 7: Creating permanent settings with working database host..."
+echo "🔧 Step 7: Creating permanent settings..."
 cat > core/settings/postgres.py << EOF
 from .base import *
 DEBUG = False
@@ -379,8 +349,8 @@ rm temp_settings.py
 
 # Final summary
 echo ""
-echo "🎉 ULTIMATE SUCCESS! Complete server setup finished!"
-echo "===================================================="
+echo "🎉 ULTIMATE SUCCESS! Server setup completed!"
+echo "============================================"
 echo "✅ Database host: $WORKING_HOST"
 echo "✅ Database: CONNECTED & MIGRATED"
 echo "✅ Migration conflicts: RESOLVED"

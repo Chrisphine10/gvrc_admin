@@ -24,12 +24,18 @@
               </nav>
             </div>
             <div class="col-lg-6 col-5 text-right">
-              <a href="{% url 'facilities:facility_list' %}" class="btn btn-sm btn-neutral">
-                <i class="fas fa-hospital me-1"></i>View Facilities
-              </a>
-              <a href="{% url 'user_list' %}" class="btn btn-sm btn-neutral">
-                <i class="fas fa-users me-1"></i>Manage Users
-              </a>
+              {% if has_permission|default:False %}
+                {% if has_permission user 'view_facilities' %}
+                  <a href="{% url 'facilities:facility_list' %}" class="btn btn-sm btn-neutral">
+                    <i class="fas fa-hospital me-1"></i>View Facilities
+                  </a>
+                {% endif %}
+                {% if has_permission user 'view_users' %}
+                  <a href="{% url 'user_list' %}" class="btn btn-sm btn-neutral">
+                    <i class="fas fa-users me-1"></i>Manage Users
+                  </a>
+                {% endif %}
+              {% endif %}
               <a href="{% url 'help' %}" class="btn btn-sm btn-neutral">
                 <i class="fas fa-question-circle me-1"></i>Help
               </a>
@@ -225,7 +231,9 @@
                   <h3 class="mb-0">Facility Status Overview</h3>
                 </div>
                 <div class="col text-right">
-                  <a href="{% url 'facilities:facility_list' %}" class="btn btn-sm btn-primary">See all facilities</a>
+                  {% if has_permission|default:False and has_permission user 'view_facilities' %}
+                    <a href="{% url 'facilities:facility_list' %}" class="btn btn-sm btn-primary">See all facilities</a>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -318,42 +326,50 @@
             </div>
             <div class="card-body">
               <div class="list-group list-group-flush">
-                <a href="{% url 'facilities:facility_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm bg-gradient-primary text-white rounded-circle mr-3">
-                      <i class="fas fa-hospital"></i>
+                {% if has_permission|default:False and has_permission user 'view_facilities' %}
+                  <a href="{% url 'facilities:facility_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-primary text-white rounded-circle mr-3">
+                        <i class="fas fa-hospital"></i>
+                      </div>
+                      <span>Manage Facilities</span>
                     </div>
-                    <span>Manage Facilities</span>
-                  </div>
-                  <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="{% url 'user_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm bg-gradient-success text-white rounded-circle mr-3">
-                      <i class="fas fa-users"></i>
+                    <i class="fas fa-chevron-right"></i>
+                  </a>
+                {% endif %}
+                {% if has_permission|default:False and has_permission user 'view_users' %}
+                  <a href="{% url 'user_list' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-success text-white rounded-circle mr-3">
+                        <i class="fas fa-users"></i>
+                      </div>
+                      <span>User Management</span>
                     </div>
-                    <span>User Management</span>
-                  </div>
-                  <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="{% url 'user_analytics' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm bg-gradient-info text-white rounded-circle mr-3">
-                      <i class="fas fa-chart-bar"></i>
+                    <i class="fas fa-chevron-right"></i>
+                  </a>
+                {% endif %}
+                {% if has_permission|default:False and has_permission user 'view_users' %}
+                  <a href="{% url 'user_analytics' %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-info text-white rounded-circle mr-3">
+                        <i class="fas fa-chart-bar"></i>
+                      </div>
+                      <span>User Analytics</span>
                     </div>
-                    <span>User Analytics</span>
-                  </div>
-                  <i class="fas fa-chevron-right"></i>
-                </a>
-                <a href="/admin/" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                  <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm bg-gradient-warning text-white rounded-circle mr-3">
-                      <i class="fas fa-cog"></i>
+                    <i class="fas fa-chevron-right"></i>
+                  </a>
+                {% endif %}
+                {% if user.is_staff %}
+                  <a href="/admin/" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                      <div class="icon icon-shape icon-sm bg-gradient-warning text-white rounded-circle mr-3">
+                        <i class="fas fa-cog"></i>
+                      </div>
+                      <span>System Settings</span>
                     </div>
-                    <span>System Settings</span>
-                  </div>
-                  <i class="fas fa-chevron-right"></i>
-                </a>
+                    <i class="fas fa-chevron-right"></i>
+                  </a>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -371,7 +387,9 @@
                   <h3 class="mb-0">Emergency Chat Overview</h3>
                 </div>
                 <div class="col text-right">
-                  <a href="{% url 'chat:conversation_list' %}" class="btn btn-sm btn-primary">View all</a>
+                  {% if user.is_staff %}
+                    <a href="{% url 'chat:conversation_list' %}" class="btn btn-sm btn-primary">View all</a>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -695,7 +713,9 @@
                   <h3 class="mb-0">Recent Facilities</h3>
                 </div>
                 <div class="col text-right">
-                  <a href="{% url 'facilities:facility_list' %}" class="btn btn-sm btn-primary">View all</a>
+                  {% if has_permission|default:False and has_permission user 'view_facilities' %}
+                    <a href="{% url 'facilities:facility_list' %}" class="btn btn-sm btn-primary">View all</a>
+                  {% endif %}
                 </div>
               </div>
             </div>

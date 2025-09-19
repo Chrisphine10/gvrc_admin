@@ -374,8 +374,12 @@ def user_permissions_context(request):
     Template context processor to add user permissions to template context
     """
     if request.user.is_authenticated:
+        # Get permission names as a list for easier template checking
+        permission_names = list(get_user_permissions(request.user).values_list('permission_name', flat=True))
+        
         return {
             'user_permissions': get_user_permissions(request.user),
+            'user_permission_names': permission_names,
             'user_roles': get_user_roles(request.user),
             'has_permission': has_permission,
             'has_role': has_role,

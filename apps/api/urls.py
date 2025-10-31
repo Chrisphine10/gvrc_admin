@@ -3,7 +3,7 @@
 Admin/Management API URLs for GVRC Admin
 """
 
-from django.urls import path
+from django.urls import path, include
 from .views import (
     # Facility endpoints
     FacilityListView, FacilityDetailView, FacilityMapView, FacilitySearchView,
@@ -58,4 +58,6 @@ urlpatterns = [
     # Utility endpoints
     path('status/', api_status, name='api-status'),
     path('hello/', hello_world, name='hello-world'),
+    # Expose mobile endpoints under /api/mobile/ for API consumers and Swagger
+    path('mobile/', include('apps.mobile.urls')),
 ]

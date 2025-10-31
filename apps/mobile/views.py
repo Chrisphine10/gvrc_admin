@@ -1183,6 +1183,14 @@ class MobileDocumentViewSet(viewsets.ViewSet):
         serializer = DocumentSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
+    # Provide a standard `list` method so DefaultRouter exposes `/mobile/documents/`.
+    # The mobile client currently calls `/mobile/documents/` (no `/list/`) which returned 404.
+    # This method delegates to `list_documents` so both `/mobile/documents/` and
+    # `/mobile/documents/list/` behave the same.
+    def list(self, request):
+        """Compatibility wrapper: map default list route to list_documents action."""
+        return self.list_documents(request)
+
 
 class MobileEmergencyViewSet(viewsets.ViewSet):
     """

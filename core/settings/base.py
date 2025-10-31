@@ -211,6 +211,10 @@ CHAT_SETTINGS = {
 CORS_ALLOWED_ORIGINS = [
     "http://34.226.180.10",
     "https://hodi.co.ke",
+    # Allow the plain http origin in case tools or Swagger try http (mixed-content
+    # will still be blocked by browsers when page is https). This is a
+    # compatibility entry to help debugging; prefer using HTTPS in production.
+    "http://hodi.co.ke",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

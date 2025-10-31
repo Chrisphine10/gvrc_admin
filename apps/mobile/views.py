@@ -7,6 +7,7 @@ from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission
+from rest_framework.renderers import JSONRenderer
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.utils import timezone
@@ -956,6 +957,8 @@ class MobileSessionViewSet(viewsets.ViewSet):
     """
     
     permission_classes = []  # No authentication required for session creation
+    # Ensure API responses are JSON (avoid HTML error pages)
+    renderer_classes = [JSONRenderer]
     
     @swagger_auto_schema(
         operation_id="mobile_session_create",
@@ -1022,6 +1025,24 @@ class MobileSessionViewSet(viewsets.ViewSet):
                 return Response(response_serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request):
+        """GET /mobile/sessions/?device_id=... -> return session JSON or 404 JSON
+
+        The mobile client calls GET /mobile/sessions/?device_id=... to retrieve an
+        existing session. Return 200 with session JSON when found, or 404 JSON
+        when not found (client will create a new session).
+        """
+        device_id = request.query_params.get('device_id')
+        if not device_id:
+            return Response({'error': 'Missing device_id', 'message': 'device_id query parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            session = MobileSession.objects.get(device_id=device_id)
+            serializer = MobileSessionSerializer(session, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except MobileSession.DoesNotExist:
+            return Response({'error': 'Not Found', 'message': f'Session not found for device ID: {device_id}'}, status=status.HTTP_404_NOT_FOUND)
     
     @swagger_auto_schema(
         operation_id="mobile_session_end",
@@ -1152,6 +1173,8 @@ class MobileDocumentViewSet(viewsets.ViewSet):
     """
     
     permission_classes = [MobileSessionPermission]
+    # Force JSON responses for API clients (avoid HTML error pages)
+    renderer_classes = [JSONRenderer]
     
     @swagger_auto_schema(
         operation_id="mobile_documents_list",
@@ -1173,15 +1196,70 @@ class MobileDocumentViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'], url_path='list')
     def list_documents(self, request):
         """List documents for mobile app"""
-        document_type = request.query_params.get('document_type', '')
-        
+        # Required: device_id (mobile client relies on it)
+        device_id = request.query_params.get('device_id')
+        if not device_id:
+            return Response({'error': 'Missing device_id', 'message': 'device_id query parameter is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Filters
+        document_type = request.query_params.get('document_type')
+        gbv_category = request.query_params.get('gbv_category')
+        is_public = request.query_params.get('is_public')
+
+        # Pagination
+        try:
+            page = int(request.query_params.get('page', 1))
+            page_size = int(request.query_params.get('page_size', 20))
+        except ValueError:
+            page = 1
+            page_size = 20
+
+        # Enforce reasonable limits
+        if page_size < 1:
+            page_size = 20
+        if page_size > 100:
+            page_size = 100
+
         queryset = Document.objects.filter(is_active=True)
-        
+
+        # Filter by is_public if provided (accept 'true'/'false' case-insensitive)
+        if is_public is not None:
+            is_public_str = str(is_public).lower()
+            if is_public_str in ['true', '1', 'yes']:
+                queryset = queryset.filter(is_public=True)
+            elif is_public_str in ['false', '0', 'no']:
+                queryset = queryset.filter(is_public=False)
+
+        # Filter by document_type (expecting int id)
         if document_type:
-            queryset = queryset.filter(document_type__type_name__icontains=document_type)
-        
-        serializer = DocumentSerializer(queryset, many=True, context={'request': request})
-        return Response(serializer.data)
+            try:
+                dt = int(document_type)
+                queryset = queryset.filter(document_type__document_type_id=dt)
+            except Exception:
+                # fallback: try matching by name
+                queryset = queryset.filter(document_type__type_name__icontains=document_type)
+
+        # Filter by gbv_category (expecting int id)
+        if gbv_category:
+            try:
+                gc = int(gbv_category)
+                queryset = queryset.filter(gbv_category__gbv_category_id=gc)
+            except Exception:
+                # fallback: try matching by name
+                queryset = queryset.filter(gbv_category__category_name__icontains=gbv_category)
+
+        # Ordering: newest first
+        queryset = queryset.order_by('-uploaded_at')
+
+        # Simple pagination (client only needs list; meta optional)
+        start = (page - 1) * page_size
+        end = start + page_size
+        paged_qs = list(queryset[start:end])
+
+        serializer = DocumentSerializer(paged_qs, many=True, context={'request': request})
+
+        # Return results in a shape the client accepts
+        return Response({'results': serializer.data}, status=status.HTTP_200_OK)
 
     # Provide a standard `list` method so DefaultRouter exposes `/mobile/documents/`.
     # The mobile client currently calls `/mobile/documents/` (no `/list/`) which returned 404.

@@ -3,11 +3,14 @@
 Emergency Chat System API Views
 """
 
+import logging
+
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
+from django.http import Http404
 from django.db.models import Q, Count
 from django.utils import timezone
 from drf_yasg.utils import swagger_auto_schema
@@ -25,6 +28,9 @@ from .services import (
 )
 from apps.mobile_sessions.models import MobileSession
 from apps.authentication.models import User
+
+
+logger = logging.getLogger(__name__)
 
 
 class IsStaffUser(permissions.BasePermission):
@@ -47,6 +53,18 @@ class MobileConversationViewSet(viewsets.ViewSet):
     
     permission_classes = []  # No authentication required for mobile users
     
+    def list(self, request, *args, **kwargs):
+        """Router entry point for listing conversations"""
+        return self.list_conversations(request)
+
+    def create(self, request, *args, **kwargs):
+        """Router entry point for creating a conversation"""
+        return self.start_conversation(request)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        """Router entry point for retrieving a conversation"""
+        return self.get_conversation_detail(request, pk=pk)
+
     @swagger_auto_schema(
         operation_id="mobile_conversations_create",
         operation_description="Start a new conversation or retrieve existing one",
@@ -85,6 +103,15 @@ class MobileConversationViewSet(viewsets.ViewSet):
                 return Response(
                     {'error': 'Invalid or inactive device ID'}, 
                     status=status.HTTP_400_BAD_REQUEST
+                )
+            except Exception as exc:
+                logger.exception("Failed to start conversation for device %s", device_id)
+                return Response(
+                    {
+                        'error': 'Failed to start conversation',
+                        'detail': str(exc)
+                    },
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -125,6 +152,15 @@ class MobileConversationViewSet(viewsets.ViewSet):
                 {'error': 'Invalid or inactive device ID'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
+        except Exception as exc:
+            logger.exception("Failed to list conversations for device %s", device_id)
+            return Response(
+                {
+                    'error': 'Failed to list conversations',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="mobile_conversations_detail",
@@ -146,9 +182,21 @@ class MobileConversationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['get'], url_path='detail')
     def get_conversation_detail(self, request, pk=None):
         """Get conversation details with messages"""
-        conversation = get_object_or_404(Conversation, conversation_id=pk)
-        serializer = ConversationDetailSerializer(conversation, context={'request': request})
-        return Response(serializer.data)
+        try:
+            conversation = get_object_or_404(Conversation, conversation_id=pk)
+            serializer = ConversationDetailSerializer(conversation, context={'request': request})
+            return Response(serializer.data)
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to get conversation detail for %s", pk)
+            return Response(
+                {
+                    'error': 'Failed to fetch conversation details',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="mobile_messages_create",
@@ -164,23 +212,35 @@ class MobileConversationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['post'], url_path='send-message')
     def send_message(self, request, pk=None):
         """Send a message in a conversation"""
-        conversation = get_object_or_404(Conversation, conversation_id=pk)
-        
-        serializer = CreateMessageSerializer(data=request.data)
-        if serializer.is_valid():
-            message = MessageService.create_mobile_message(
-                conversation=conversation,
-                content=serializer.validated_data['content'],
-                message_type=serializer.validated_data['message_type'],
-                media_url=serializer.validated_data.get('media_url', ''),
-                is_urgent=serializer.validated_data.get('is_urgent', False),
-                metadata=serializer.validated_data.get('metadata', {})
-            )
+        try:
+            conversation = get_object_or_404(Conversation, conversation_id=pk)
             
-            response_serializer = MessageSerializer(message, context={'request': request})
-            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer = CreateMessageSerializer(data=request.data)
+            if serializer.is_valid():
+                message = MessageService.create_mobile_message(
+                    conversation=conversation,
+                    content=serializer.validated_data['content'],
+                    message_type=serializer.validated_data['message_type'],
+                    media_url=serializer.validated_data.get('media_url', ''),
+                    is_urgent=serializer.validated_data.get('is_urgent', False),
+                    metadata=serializer.validated_data.get('metadata', {})
+                )
+                
+                response_serializer = MessageSerializer(message, context={'request': request})
+                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+            
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to send mobile message for conversation %s", pk)
+            return Response(
+                {
+                    'error': 'Failed to send message',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="mobile_messages_status_update",
@@ -196,21 +256,33 @@ class MobileConversationViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['put'], url_path='messages/(?P<message_id>[^/.]+)/status')
     def update_message_status(self, request, message_id=None):
         """Update message delivery status"""
-        message = get_object_or_404(Message, message_id=message_id)
-        
-        serializer = UpdateMessageStatusSerializer(data=request.data)
-        if serializer.is_valid():
-            new_status = serializer.validated_data['status']
+        try:
+            message = get_object_or_404(Message, message_id=message_id)
             
-            if new_status == 'delivered':
-                MessageService.mark_message_delivered(message)
-            elif new_status == 'read':
-                MessageService.mark_message_read(message)
+            serializer = UpdateMessageStatusSerializer(data=request.data)
+            if serializer.is_valid():
+                new_status = serializer.validated_data['status']
+                
+                if new_status == 'delivered':
+                    MessageService.mark_message_delivered(message)
+                elif new_status == 'read':
+                    MessageService.mark_message_read(message)
+                
+                response_serializer = MessageSerializer(message, context={'request': request})
+                return Response(response_serializer.data)
             
-            response_serializer = MessageSerializer(message, context={'request': request})
-            return Response(response_serializer.data)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to update message status for %s", message_id)
+            return Response(
+                {
+                    'error': 'Failed to update message status',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class AdminConversationViewSet(viewsets.ViewSet):
@@ -402,18 +474,36 @@ class AdminConversationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['post'], url_path='assign')
     def assign_conversation(self, request, pk=None):
         """Assign conversation to an admin"""
-        conversation = get_object_or_404(Conversation, conversation_id=pk)
-        
-        serializer = ConversationAssignmentSerializer(data=request.data)
-        if serializer.is_valid():
-            admin_user_id = serializer.validated_data['admin_user_id']
-            admin_user = User.objects.get(user_id=admin_user_id)
+        try:
+            conversation = get_object_or_404(Conversation, conversation_id=pk)
             
-            conversation = ConversationService.assign_admin_to_conversation(conversation, admin_user)
-            response_serializer = ConversationSerializer(conversation, context={'request': request})
-            return Response(response_serializer.data)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer = ConversationAssignmentSerializer(data=request.data)
+            if serializer.is_valid():
+                admin_user_id = serializer.validated_data['admin_user_id']
+                try:
+                    admin_user = User.objects.get(user_id=admin_user_id)
+                except User.DoesNotExist:
+                    return Response(
+                        {'error': 'Admin user not found'},
+                        status=status.HTTP_404_NOT_FOUND
+                    )
+                
+                conversation = ConversationService.assign_admin_to_conversation(conversation, admin_user)
+                response_serializer = ConversationSerializer(conversation, context={'request': request})
+                return Response(response_serializer.data)
+            
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to assign conversation %s", pk)
+            return Response(
+                {
+                    'error': 'Failed to assign conversation',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_conversations_status_update",
@@ -430,22 +520,34 @@ class AdminConversationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['put'], url_path='status')
     def update_conversation_status(self, request, pk=None):
         """Update conversation status and priority"""
-        conversation = get_object_or_404(Conversation, conversation_id=pk)
-        
-        serializer = ConversationStatusSerializer(data=request.data)
-        if serializer.is_valid():
-            if 'status' in serializer.validated_data:
-                conversation.status = serializer.validated_data['status']
+        try:
+            conversation = get_object_or_404(Conversation, conversation_id=pk)
             
-            if 'priority' in serializer.validated_data:
-                conversation.priority = serializer.validated_data['priority']
+            serializer = ConversationStatusSerializer(data=request.data)
+            if serializer.is_valid():
+                if 'status' in serializer.validated_data:
+                    conversation.status = serializer.validated_data['status']
+                
+                if 'priority' in serializer.validated_data:
+                    conversation.priority = serializer.validated_data['priority']
+                
+                conversation.save()
+                
+                response_serializer = ConversationSerializer(conversation, context={'request': request})
+                return Response(response_serializer.data)
             
-            conversation.save()
-            
-            response_serializer = ConversationSerializer(conversation, context={'request': request})
-            return Response(response_serializer.data)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to update conversation %s status", pk)
+            return Response(
+                {
+                    'error': 'Failed to update conversation status',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_conversations_messages",
@@ -470,38 +572,56 @@ class AdminConversationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['get'], url_path='messages')
     def get_messages(self, request, pk=None):
         """Get messages for a conversation"""
-        conversation = get_object_or_404(Conversation, conversation_id=pk)
+        try:
+            limit = int(request.query_params.get('limit', 50))
+            offset = int(request.query_params.get('offset', 0))
+        except ValueError:
+            return Response(
+                {'error': 'limit and offset must be integers'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
-        # Get messages with pagination
-        limit = int(request.query_params.get('limit', 50))
-        offset = int(request.query_params.get('offset', 0))
-        after_id = request.query_params.get('after')
-        
-        queryset = Message.objects.filter(conversation=conversation).order_by('sent_at')
-        
-        if after_id:
-            queryset = queryset.filter(message_id__gt=after_id)
-        
-        messages = queryset[offset:offset + limit]
-        
-        # Debug information
-        debug_info = {
-            'conversation_id': pk,
-            'total_messages_in_db': Message.objects.count(),
-            'messages_for_conversation': queryset.count(),
-            'limit': limit,
-            'offset': offset,
-            'actual_messages_returned': len(messages)
-        }
-        
-        serializer = MessageSerializer(messages, many=True, context={'request': request})
-        return Response({
-            'results': serializer.data,
-            'count': queryset.count(),
-            'limit': limit,
-            'offset': offset,
-            'debug': debug_info
-        })
+        try:
+            conversation = get_object_or_404(Conversation, conversation_id=pk)
+            
+            after_id = request.query_params.get('after')
+            
+            queryset = Message.objects.filter(conversation=conversation).order_by('sent_at')
+            
+            if after_id:
+                queryset = queryset.filter(message_id__gt=after_id)
+            
+            messages = queryset[offset:offset + limit]
+            
+            # Debug information
+            debug_info = {
+                'conversation_id': pk,
+                'total_messages_in_db': Message.objects.count(),
+                'messages_for_conversation': queryset.count(),
+                'limit': limit,
+                'offset': offset,
+                'actual_messages_returned': len(messages)
+            }
+            
+            serializer = MessageSerializer(messages, many=True, context={'request': request})
+            return Response({
+                'results': serializer.data,
+                'count': queryset.count(),
+                'limit': limit,
+                'offset': offset,
+                'debug': debug_info
+            })
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to fetch messages for conversation %s", pk)
+            return Response(
+                {
+                    'error': 'Failed to fetch messages',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_conversations_messages_create",
@@ -615,23 +735,35 @@ class AdminConversationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['post'], url_path='messages/read')
     def mark_messages_read(self, request, pk=None):
         """Mark messages as read"""
-        conversation = get_object_or_404(Conversation, pk=pk)
-        
-        # Mark all unread mobile messages as read
-        unread_count = Message.objects.filter(
-            conversation=conversation,
-            sender_type='mobile',
-            status__in=['sent', 'delivered']
-        ).update(status='read', read_at=timezone.now())
-        
-        # Update conversation unread count
-        conversation.unread_count_admin = 0
-        conversation.save(update_fields=['unread_count_admin'])
-        
-        return Response({
-            'message': 'Messages marked as read',
-            'count': unread_count
-        })
+        try:
+            conversation = get_object_or_404(Conversation, pk=pk)
+            
+            # Mark all unread mobile messages as read
+            unread_count = Message.objects.filter(
+                conversation=conversation,
+                sender_type='mobile',
+                status__in=['sent', 'delivered']
+            ).update(status='read', read_at=timezone.now())
+            
+            # Update conversation unread count
+            conversation.unread_count_admin = 0
+            conversation.save(update_fields=['unread_count_admin'])
+            
+            return Response({
+                'message': 'Messages marked as read',
+                'count': unread_count
+            })
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to mark messages read for conversation %s", pk)
+            return Response(
+                {
+                    'error': 'Failed to mark messages as read',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_conversations_resolve",
@@ -646,11 +778,23 @@ class AdminConversationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['post'], url_path='resolve')
     def resolve_conversation(self, request, pk=None):
         """Mark conversation as resolved"""
-        conversation = get_object_or_404(Conversation, conversation_id=pk)
-        conversation = ConversationService.mark_conversation_resolved(conversation)
-        
-        response_serializer = ConversationSerializer(conversation, context={'request': request})
-        return Response(response_serializer.data)
+        try:
+            conversation = get_object_or_404(Conversation, conversation_id=pk)
+            conversation = ConversationService.mark_conversation_resolved(conversation)
+            
+            response_serializer = ConversationSerializer(conversation, context={'request': request})
+            return Response(response_serializer.data)
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to resolve conversation %s", pk)
+            return Response(
+                {
+                    'error': 'Failed to resolve conversation',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_conversations_stats",
@@ -717,211 +861,221 @@ class AdminConversationViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'], url_path='analytics')
     def get_analytics(self, request):
         """Get detailed chat analytics and insights"""
-        from datetime import timedelta
-        
-        # Get time range parameters
-        time_range = request.query_params.get('time_range', '7d')
-        start_date = request.query_params.get('start_date')
-        end_date = request.query_params.get('end_date')
-        
-        # Set default dates if not provided
-        if not start_date or not end_date:
-            end_date = timezone.now().date()
-            if time_range == '7d':
-                start_date = end_date - timedelta(days=7)
-            elif time_range == '30d':
-                start_date = end_date - timedelta(days=30)
-            elif time_range == '90d':
-                start_date = end_date - timedelta(days=90)
+        try:
+            from datetime import timedelta
+            
+            # Get time range parameters
+            time_range = request.query_params.get('time_range', '7d')
+            start_date = request.query_params.get('start_date')
+            end_date = request.query_params.get('end_date')
+            
+            # Set default dates if not provided
+            if not start_date or not end_date:
+                end_date = timezone.now().date()
+                if time_range == '7d':
+                    start_date = end_date - timedelta(days=7)
+                elif time_range == '30d':
+                    start_date = end_date - timedelta(days=30)
+                elif time_range == '90d':
+                    start_date = end_date - timedelta(days=90)
+                else:
+                    start_date = end_date - timedelta(days=7)
             else:
-                start_date = end_date - timedelta(days=7)
-        else:
-            # Convert string dates to date objects
-            start_date = timezone.datetime.strptime(start_date, '%Y-%m-%d').date()
-            end_date = timezone.datetime.strptime(end_date, '%Y-%m-%d').date()
-        
-        # Convert to datetime for filtering
-        start_datetime = timezone.make_aware(
-            timezone.datetime.combine(start_date, timezone.datetime.min.time())
-        )
-        end_datetime = timezone.make_aware(
-            timezone.datetime.combine(end_date, timezone.datetime.max.time())
-        )
-        
-        # Get conversations in date range
-        conversations = Conversation.objects.filter(
-            created_at__range=(start_datetime, end_datetime)
-        ).select_related('assigned_admin')
-        
-        # Calculate basic metrics
-        total_conversations = conversations.count()
-        
-        if total_conversations == 0:
-            # No data available - return empty response
-            return Response({
-                'total_conversations': 0,
-                'active_conversations': 0,
-                'avg_response_time': 0,
-                'resolution_rate': 0,
-                'total_messages': 0,
-                'mobile_messages': 0,
-                'admin_messages': 0,
-                'avg_messages_per_conversation': 0,
-                'status_distribution': {},
-                'priority_distribution': {},
-                'conversations_trend_data': [],
-                'top_admins': [],
-                'activity_hours': [],
-            })
-        
-        # Calculate status-based metrics
-        active_conversations = conversations.filter(status='active').count()
-        resolved_conversations = conversations.filter(status='resolved').count()
-        
-        # Calculate resolution rate
-        resolution_rate = resolved_conversations / total_conversations if total_conversations > 0 else 0
-        
-        # Get messages in date range
-        messages = Message.objects.filter(
-            conversation__created_at__range=(start_datetime, end_datetime)
-        )
-        
-        total_messages = messages.count()
-        mobile_messages = messages.filter(sender_type='mobile').count()
-        admin_messages = messages.filter(sender_type='admin').count()
-        
-        # Calculate average messages per conversation
-        avg_messages_per_conversation = total_messages / total_conversations if total_conversations > 0 else 0
-        
-        # Calculate average response time (simplified - only for conversations with admin responses)
-        conversations_with_admin_response = conversations.filter(
-            messages__sender_type='admin'
-        ).distinct()
-        
-        avg_response_time = 0
-        if conversations_with_admin_response.exists():
-            total_response_time = 0
-            response_count = 0
+                # Convert string dates to date objects
+                start_date = timezone.datetime.strptime(start_date, '%Y-%m-%d').date()
+                end_date = timezone.datetime.strptime(end_date, '%Y-%m-%d').date()
             
-            for conversation in conversations_with_admin_response:
-                first_admin_message = conversation.messages.filter(
-                    sender_type='admin'
-                ).order_by('sent_at').first()
-                
-                if first_admin_message:
-                    response_time = (first_admin_message.sent_at - conversation.created_at).total_seconds() / 60
-                    total_response_time += response_time
-                    response_count += 1
+            # Convert to datetime for filtering
+            start_datetime = timezone.make_aware(
+                timezone.datetime.combine(start_date, timezone.datetime.min.time())
+            )
+            end_datetime = timezone.make_aware(
+                timezone.datetime.combine(end_date, timezone.datetime.max.time())
+            )
             
-            if response_count > 0:
-                avg_response_time = round(total_response_time / response_count, 1)
-        
-        # Get status distribution
-        status_distribution = {}
-        if total_conversations > 0:
-            status_counts = conversations.values('status').annotate(
-                count=Count('conversation_id')
-            )
-            status_distribution = {item['status']: item['count'] for item in status_counts}
-        
-        # Get priority distribution
-        priority_distribution = {}
-        if total_conversations > 0:
-            priority_counts = conversations.values('priority').annotate(
-                count=Count('conversation_id')
-            )
-            priority_distribution = {item['priority']: item['count'] for item in priority_counts}
-        
-        # Get conversations trend data (daily) - only if meaningful
-        conversations_trend = []
-        if total_conversations > 0:
-            current_date = start_date
-            while current_date <= end_date:
-                daily_count = conversations.filter(
-                    created_at__date=current_date
-                ).count()
-                conversations_trend.append({
-                    'date': current_date.strftime('%b %d'),
-                    'count': daily_count
+            # Get conversations in date range
+            conversations = Conversation.objects.filter(
+                created_at__range=(start_datetime, end_datetime)
+            ).select_related('assigned_admin')
+            
+            # Calculate basic metrics
+            total_conversations = conversations.count()
+            
+            if total_conversations == 0:
+                # No data available - return empty response
+                return Response({
+                    'total_conversations': 0,
+                    'active_conversations': 0,
+                    'avg_response_time': 0,
+                    'resolution_rate': 0,
+                    'total_messages': 0,
+                    'mobile_messages': 0,
+                    'admin_messages': 0,
+                    'avg_messages_per_conversation': 0,
+                    'status_distribution': {},
+                    'priority_distribution': {},
+                    'conversations_trend_data': [],
+                    'top_admins': [],
+                    'activity_hours': [],
                 })
-                current_date += timedelta(days=1)
-        
-        # Get top admin performers (only if there are assigned conversations)
-        top_admins = []
-        assigned_conversations = conversations.filter(assigned_admin__isnull=False)
-        
-        if assigned_conversations.exists():
-            admin_stats = User.objects.filter(
-                is_staff=True,
-                assigned_conversations__created_at__range=(start_datetime, end_datetime)
-            ).annotate(
-                conversations_handled=Count('assigned_conversations')
-            ).filter(conversations_handled__gt=0).order_by('-conversations_handled')[:5]
             
-            # Calculate average response time for each admin (simplified)
-            for admin in admin_stats:
-                admin_conversations = admin.assigned_conversations.filter(
-                    created_at__range=(start_datetime, end_datetime)
-                )
-                
-                admin_response_time = 0
+            # Calculate status-based metrics
+            active_conversations = conversations.filter(status='active').count()
+            resolved_conversations = conversations.filter(status='resolved').count()
+            
+            # Calculate resolution rate
+            resolution_rate = resolved_conversations / total_conversations if total_conversations > 0 else 0
+            
+            # Get messages in date range
+            messages = Message.objects.filter(
+                conversation__created_at__range=(start_datetime, end_datetime)
+            )
+            
+            total_messages = messages.count()
+            mobile_messages = messages.filter(sender_type='mobile').count()
+            admin_messages = messages.filter(sender_type='admin').count()
+            
+            # Calculate average messages per conversation
+            avg_messages_per_conversation = total_messages / total_conversations if total_conversations > 0 else 0
+            
+            # Calculate average response time (simplified - only for conversations with admin responses)
+            conversations_with_admin_response = conversations.filter(
+                messages__sender_type='admin'
+            ).distinct()
+            
+            avg_response_time = 0
+            if conversations_with_admin_response.exists():
+                total_response_time = 0
                 response_count = 0
                 
-                for conversation in admin_conversations:
+                for conversation in conversations_with_admin_response:
                     first_admin_message = conversation.messages.filter(
                         sender_type='admin'
                     ).order_by('sent_at').first()
                     
                     if first_admin_message:
                         response_time = (first_admin_message.sent_at - conversation.created_at).total_seconds() / 60
-                        admin_response_time += response_time
+                        total_response_time += response_time
                         response_count += 1
                 
                 if response_count > 0:
-                    admin.avg_response_time = round(admin_response_time / response_count, 1)
-                else:
-                    admin.avg_response_time = 0
+                    avg_response_time = round(total_response_time / response_count, 1)
             
-            top_admins = [
-                {
-                    'username': admin.username,
-                    'conversations_handled': admin.conversations_handled,
-                    'avg_response_time': admin.avg_response_time
-                }
-                for admin in admin_stats
-            ]
-        
-        # Get activity hours (simplified - only if meaningful)
-        activity_hours = []
-        if total_conversations > 0:
-            for hour in range(24):
-                hour_count = conversations.filter(
-                    created_at__hour=hour
-                ).count()
-                if hour_count > 0:  # Only include hours with activity
-                    activity_hours.append({
-                        'hour': hour,
-                        'count': hour_count
+            # Get status distribution
+            status_distribution = {}
+            if total_conversations > 0:
+                status_counts = conversations.values('status').annotate(
+                    count=Count('conversation_id')
+                )
+                status_distribution = {item['status']: item['count'] for item in status_counts}
+            
+            # Get priority distribution
+            priority_distribution = {}
+            if total_conversations > 0:
+                priority_counts = conversations.values('priority').annotate(
+                    count=Count('conversation_id')
+                )
+                priority_distribution = {item['priority']: item['count'] for item in priority_counts}
+            
+            # Get conversations trend data (daily) - only if meaningful
+            conversations_trend = []
+            if total_conversations > 0:
+                current_date = start_date
+                while current_date <= end_date:
+                    daily_count = conversations.filter(
+                        created_at__date=current_date
+                    ).count()
+                    conversations_trend.append({
+                        'date': current_date.strftime('%b %d'),
+                        'count': daily_count
                     })
-        
-        # Prepare response data
-        analytics_data = {
-            'total_conversations': total_conversations,
-            'active_conversations': active_conversations,
-            'avg_response_time': avg_response_time,
-            'resolution_rate': resolution_rate,
-            'total_messages': total_messages,
-            'mobile_messages': mobile_messages,
-            'admin_messages': admin_messages,
-            'avg_messages_per_conversation': round(avg_messages_per_conversation, 1),
-            'status_distribution': status_distribution,
-            'priority_distribution': priority_distribution,
-            'conversations_trend_data': conversations_trend,
-            'top_admins': top_admins,
-            'activity_hours': activity_hours,
-        }
-        
-        return Response(analytics_data)
+                    current_date += timedelta(days=1)
+            
+            # Get top admin performers (only if there are assigned conversations)
+            top_admins = []
+            assigned_conversations = conversations.filter(assigned_admin__isnull=False)
+            
+            if assigned_conversations.exists():
+                admin_stats = User.objects.filter(
+                    is_staff=True,
+                    assigned_conversations__created_at__range=(start_datetime, end_datetime)
+                ).annotate(
+                    conversations_handled=Count('assigned_conversations')
+                ).filter(conversations_handled__gt=0).order_by('-conversations_handled')[:5]
+                
+                # Calculate average response time for each admin (simplified)
+                for admin in admin_stats:
+                    admin_conversations = admin.assigned_conversations.filter(
+                        created_at__range=(start_datetime, end_datetime)
+                    )
+                    
+                    admin_response_time = 0
+                    response_count = 0
+                    
+                    for conversation in admin_conversations:
+                        first_admin_message = conversation.messages.filter(
+                            sender_type='admin'
+                        ).order_by('sent_at').first()
+                        
+                        if first_admin_message:
+                            response_time = (first_admin_message.sent_at - conversation.created_at).total_seconds() / 60
+                            admin_response_time += response_time
+                            response_count += 1
+                    
+                    if response_count > 0:
+                        admin.avg_response_time = round(admin_response_time / response_count, 1)
+                    else:
+                        admin.avg_response_time = 0
+                
+                top_admins = [
+                    {
+                        'username': admin.username,
+                        'conversations_handled': admin.conversations_handled,
+                        'avg_response_time': admin.avg_response_time
+                    }
+                    for admin in admin_stats
+                ]
+            
+            # Get activity hours (simplified - only if meaningful)
+            activity_hours = []
+            if total_conversations > 0:
+                for hour in range(24):
+                    hour_count = conversations.filter(
+                        created_at__hour=hour
+                    ).count()
+                    if hour_count > 0:  # Only include hours with activity
+                        activity_hours.append({
+                            'hour': hour,
+                            'count': hour_count
+                        })
+            
+            # Prepare response data
+            analytics_data = {
+                'total_conversations': total_conversations,
+                'active_conversations': active_conversations,
+                'avg_response_time': avg_response_time,
+                'resolution_rate': resolution_rate,
+                'total_messages': total_messages,
+                'mobile_messages': mobile_messages,
+                'admin_messages': admin_messages,
+                'avg_messages_per_conversation': round(avg_messages_per_conversation, 1),
+                'status_distribution': status_distribution,
+                'priority_distribution': priority_distribution,
+                'conversations_trend_data': conversations_trend,
+                'top_admins': top_admins,
+                'activity_hours': activity_hours,
+            }
+            
+            return Response(analytics_data)
+        except Exception as exc:
+            logger.exception("Failed to generate chat analytics")
+            return Response(
+                {
+                    'error': 'Failed to generate chat analytics',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class NotificationViewSet(viewsets.ViewSet):
@@ -943,9 +1097,19 @@ class NotificationViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['get'], url_path='unread')
     def list_unread(self, request):
         """Get unread notifications for admin"""
-        notifications = NotificationService.get_unread_notifications(request.user)
-        serializer = ChatNotificationSerializer(notifications, many=True, context={'request': request})
-        return Response(serializer.data)
+        try:
+            notifications = NotificationService.get_unread_notifications(request.user)
+            serializer = ChatNotificationSerializer(notifications, many=True, context={'request': request})
+            return Response(serializer.data)
+        except Exception as exc:
+            logger.exception("Failed to list unread notifications for user %s", request.user)
+            return Response(
+                {
+                    'error': 'Failed to fetch unread notifications',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_notifications_mark_read",
@@ -960,11 +1124,23 @@ class NotificationViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['post'], url_path='mark-read')
     def mark_read(self, request, pk=None):
         """Mark notification as read"""
-        notification = get_object_or_404(ChatNotification, notification_id=pk, user=request.user)
-        notification = NotificationService.mark_notification_read(notification)
-        
-        serializer = ChatNotificationSerializer(notification, context={'request': request})
-        return Response(serializer.data)
+        try:
+            notification = get_object_or_404(ChatNotification, notification_id=pk, user=request.user)
+            notification = NotificationService.mark_notification_read(notification)
+            
+            serializer = ChatNotificationSerializer(notification, context={'request': request})
+            return Response(serializer.data)
+        except Http404:
+            raise
+        except Exception as exc:
+            logger.exception("Failed to mark notification %s read for user %s", pk, request.user)
+            return Response(
+                {
+                    'error': 'Failed to mark notification as read',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_notifications_mark_all_read",
@@ -984,11 +1160,21 @@ class NotificationViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], url_path='mark-all-read')
     def mark_all_read(self, request):
         """Mark all notifications as read"""
-        count = NotificationService.mark_all_notifications_read(request.user)
-        return Response({
-            'message': 'All notifications marked as read',
-            'count': count
-        })
+        try:
+            count = NotificationService.mark_all_notifications_read(request.user)
+            return Response({
+                'message': 'All notifications marked as read',
+                'count': count
+            })
+        except Exception as exc:
+            logger.exception("Failed to mark all notifications read for user %s", request.user)
+            return Response(
+                {
+                    'error': 'Failed to mark notifications as read',
+                    'detail': str(exc)
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @swagger_auto_schema(
         operation_id="admin_notifications_unread_conversations",
@@ -1042,6 +1228,7 @@ class NotificationViewSet(viewsets.ViewSet):
                 'unread_conversations_count': len(unread_conversations)
             })
         except Exception as e:
+            logger.exception("Failed to fetch unread conversations for user %s", request.user)
             return Response({
                 'error': 'Failed to fetch unread conversations',
                 'detail': str(e)

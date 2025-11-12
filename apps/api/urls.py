@@ -60,4 +60,6 @@ urlpatterns = [
     path('hello/', hello_world, name='hello-world'),
     # Expose mobile endpoints under /api/mobile/ for API consumers and Swagger
     path('mobile/', include('apps.mobile.urls')),
+    # Chat conversation endpoints exposed for Swagger documentation
+    path('', include('apps.chat.api_urls')),
 ]

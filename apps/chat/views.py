@@ -53,14 +53,64 @@ class MobileConversationViewSet(viewsets.ViewSet):
     
     permission_classes = []  # No authentication required for mobile users
     
+    @swagger_auto_schema(
+        operation_id="mobile_chat_conversations_list_router",
+        operation_description="List conversations for a mobile device (requires device_id query parameter).",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID associated with the mobile session (optional for superadmin users)", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation list', MobileConversationListSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
     def list(self, request, *args, **kwargs):
         """Router entry point for listing conversations"""
         return self.list_conversations(request)
 
+    @swagger_auto_schema(
+        operation_id="mobile_chat_conversations_create_router",
+        operation_description="Start a new conversation or retrieve the existing active conversation for a device.",
+        request_body=CreateConversationSerializer,
+        responses={
+            200: openapi.Response('Existing conversation returned', ConversationSerializer),
+            201: openapi.Response('Conversation created', ConversationSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
     def create(self, request, *args, **kwargs):
         """Router entry point for creating a conversation"""
         return self.start_conversation(request)
 
+    @swagger_auto_schema(
+        operation_id="mobile_chat_conversations_retrieve_router",
+        operation_description="Get conversation details including messages. Requires device_id query parameter for mobile users.",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID associated with the mobile session (optional for superadmin users)", type=openapi.TYPE_STRING, required=False
+            ),
+            openapi.Parameter(
+                'limit', openapi.IN_QUERY, description="Number of messages to return", type=openapi.TYPE_INTEGER, default=50
+            ),
+            openapi.Parameter(
+                'offset', openapi.IN_QUERY, description="Number of messages to skip", type=openapi.TYPE_INTEGER, default=0
+            ),
+            openapi.Parameter(
+                'after', openapi.IN_QUERY, description="Only return messages with an ID greater than this value", type=openapi.TYPE_INTEGER
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation details', ConversationDetailSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Mobile Chat API"]
+    )
     def retrieve(self, request, pk=None, *args, **kwargs):
         """Router entry point for retrieving a conversation"""
         return self.get_conversation_detail(request, pk=pk)

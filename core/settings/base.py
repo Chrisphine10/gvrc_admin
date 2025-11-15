@@ -24,11 +24,25 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "TODO_SET_SECRET_KEY")
 APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
 
 
+def _clean_str(value: str) -> str:
+    """Normalize CSV values and drop empties."""
+    if not value:
+        return ""
+    return value.strip()
+
+
 def _clean_origin(origin: str) -> str:
     """Normalize origin strings and drop empties."""
-    if not origin:
-        return ""
-    return origin.strip().rstrip("/")
+    return _clean_str(origin).rstrip("/") if origin else ""
+
+
+def _parse_csv_env(env_name: str) -> set[str]:
+    """Return cleaned non-empty values from a comma-separated env var."""
+    return {
+        _clean_str(item)
+        for item in os.getenv(env_name, "").split(",")
+        if _clean_str(item)
+    }
 
 # Google Maps API Configuration
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "AIzaSyBYKU1YgvaJwUYkFUqYkfwdPuOG5EvA_Bk")
@@ -244,13 +258,17 @@ _default_cors_origins = {
     "https://127.0.0.1:8000",
 }
 
-_extra_cors_origins = {
-    _clean_origin(origin)
-    for origin in os.getenv("CORS_EXTRA_ORIGINS", "").split(",")
-    if _clean_origin(origin)
-}
+_extra_cors_origins = {_clean_origin(origin) for origin in _parse_csv_env("CORS_EXTRA_ORIGINS")}
 
 CORS_ALLOWED_ORIGINS = sorted(_default_cors_origins.union(_extra_cors_origins))
+
+_default_cors_origin_regexes = {
+    r"^https?:\/\/[a-z0-9-]+\.ngrok-free\.app$",
+}
+
+_extra_cors_origin_regexes = _parse_csv_env("CORS_EXTRA_ORIGIN_REGEXES")
+
+CORS_ALLOWED_ORIGIN_REGEXES = sorted(_default_cors_origin_regexes.union(_extra_cors_origin_regexes))
 
 CORS_ALLOW_CREDENTIALS = True
 

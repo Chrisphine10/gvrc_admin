@@ -172,6 +172,12 @@ SWAGGER_SETTINGS = {
     },
     'DOC_EXPANSION': 'none',
     'PERSIST_AUTH': True,
+    'TAGS': [
+        {
+            'name': 'Chat APIs',
+            'description': 'Mobile conversation endpoints (create, update, messages) exposed under /api/chat and /api/mobile.'
+        }
+    ],
 }
 
 # Session configuration

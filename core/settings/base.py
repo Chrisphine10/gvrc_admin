@@ -23,6 +23,13 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "TODO_SET_SECRET_KEY")
 
 APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
 
+
+def _clean_origin(origin: str) -> str:
+    """Normalize origin strings and drop empties."""
+    if not origin:
+        return ""
+    return origin.strip().rstrip("/")
+
 # Google Maps API Configuration
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "AIzaSyBYKU1YgvaJwUYkFUqYkfwdPuOG5EvA_Bk")
 GOOGLE_PLACES_API_KEY = GOOGLE_MAPS_API_KEY  # Same key works for both Maps and Places
@@ -176,6 +183,10 @@ SWAGGER_SETTINGS = {
         {
             'name': 'Chat APIs',
             'description': 'Mobile conversation endpoints (create, update, messages) exposed under /api/chat and /api/mobile.'
+        },
+        {
+            'name': 'Mobile Document API',
+            'description': 'Mobile document listing and filtering endpoints available under /mobile/documents/.'
         }
     ],
 }
@@ -214,14 +225,32 @@ CHAT_SETTINGS = {
 }
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS = [
+_default_cors_origins = {
     "http://34.226.180.10",
     "https://hodi.co.ke",
     # Allow the plain http origin in case tools or Swagger try http (mixed-content
     # will still be blocked by browsers when page is https). This is a
     # compatibility entry to help debugging; prefer using HTTPS in production.
     "http://hodi.co.ke",
-]
+    f"http://{APP_DOMAIN}",
+    f"https://{APP_DOMAIN}",
+    "http://localhost",
+    "https://localhost",
+    "http://localhost:8000",
+    "https://localhost:8000",
+    "http://127.0.0.1",
+    "https://127.0.0.1",
+    "http://127.0.0.1:8000",
+    "https://127.0.0.1:8000",
+}
+
+_extra_cors_origins = {
+    _clean_origin(origin)
+    for origin in os.getenv("CORS_EXTRA_ORIGINS", "").split(",")
+    if _clean_origin(origin)
+}
+
+CORS_ALLOWED_ORIGINS = sorted(_default_cors_origins.union(_extra_cors_origins))
 
 CORS_ALLOW_CREDENTIALS = True
 

@@ -9,11 +9,12 @@ All mobile APIs are now organized under the `/mobile/` URL prefix with clear sep
 ### Available Mobile API Endpoints
 
 #### 1. Mobile Chat API (`/mobile/chat/`)
-- `POST /mobile/chat/start/` - Start or retrieve conversation
-- `GET /mobile/chat/list/` - List conversations for device
-- `GET /mobile/chat/{id}/detail/` - Get conversation details
-- `POST /mobile/chat/{id}/send-message/` - Send message
-- `PUT /mobile/chat/messages/{message_id}/status/` - Update message status
+- `POST /mobile/chat/start/` - Start or retrieve a conversation for the device
+- `GET /mobile/chat/list/` - List all conversations for the device (open first)
+- `GET /mobile/chat/{id}/detail/` - Fetch a single conversation with its messages
+- `POST /mobile/chat/{id}/send-message/` - Send a new message within the conversation
+- `POST /mobile/chat/{id}/close/` - Close the conversation when the user is done
+- `PUT /mobile/chat/messages/{message_id}/status/` - Update delivery/read status for a message
 
 #### 2. Mobile Facility API (`/mobile/facilities/`)
 - `GET /mobile/facilities/list/` - List facilities (optimized for mobile)

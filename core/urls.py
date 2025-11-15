@@ -19,6 +19,11 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+# Limit Swagger schema generation to API endpoints only to avoid duplicated routes
+api_urlpatterns = [
+    path("api/", include("apps.api.urls")),
+]
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Hodi Admin API",
@@ -30,6 +35,7 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
     authentication_classes=[],
+    patterns=api_urlpatterns,
 )
 
 urlpatterns = [
@@ -44,8 +50,8 @@ urlpatterns = [
     path("mobile/", include("apps.mobile.urls")), # Mobile App APIs
     
     # Admin/Management API endpoints (authentication required)
-    path("api/", include("apps.api.urls")),       # Admin APIs
-    
+    *api_urlpatterns,
+
     # Web interface endpoints
     path("chat/", include("apps.chat.urls")),     # Emergency Chat System Web Interface
     path("music/", include("apps.music.urls")),   # Music

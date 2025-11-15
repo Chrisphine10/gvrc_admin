@@ -29,7 +29,7 @@ from apps.analytics.models import ContactInteraction
 # Import serializers
 from apps.chat.serializers import (
     ConversationSerializer, ConversationDetailSerializer, MessageSerializer,
-    CreateConversationSerializer, CreateMessageSerializer, UpdateMessageStatusSerializer,
+    CreateConversationSerializer, ConversationUpdateSerializer, CreateMessageSerializer, UpdateMessageStatusSerializer,
     MobileConversationListSerializer
 )
 from apps.api.serializers import (
@@ -99,6 +99,63 @@ class MobileChatViewSet(viewsets.ViewSet):
     
     permission_classes = []  # No authentication required - only device_id validation
     
+    @swagger_auto_schema(
+        operation_id="mobile_chat_conversation_create_rest",
+        operation_description="Create or resume a conversation for a mobile device. Provide device_id in the body.",
+        request_body=CreateConversationSerializer,
+        responses={
+            200: openapi.Response('Existing conversation returned', ConversationSerializer),
+            201: openapi.Response('Conversation created', ConversationSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Chat APIs"]
+    )
+    def create(self, request, *args, **kwargs):
+        """Router entry point for POST /mobile/chat/"""
+        return self.start_conversation(request)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_conversation_update_rest",
+        operation_description="Update a conversation (subject, status, priority). device_id required for mobile users.",
+        request_body=ConversationUpdateSerializer,
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID (mobile users)", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation updated', ConversationSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Chat APIs"]
+    )
+    def update(self, request, pk=None, *args, **kwargs):
+        """Router entry point for PUT /mobile/chat/{conversation_id}/"""
+        return self._handle_conversation_update(request, pk, partial=False)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_conversation_partial_update_rest",
+        operation_description="Partially update a conversation for a mobile device.",
+        request_body=ConversationUpdateSerializer,
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID (mobile users)", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('Conversation updated', ConversationSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
+            404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Chat APIs"]
+    )
+    def partial_update(self, request, pk=None, *args, **kwargs):
+        """Router entry point for PATCH /mobile/chat/{conversation_id}/"""
+        return self._handle_conversation_update(request, pk, partial=True)
+    
     def _get_device_id_from_request(self, request, pk=None):
         """
         Extract device_id from request. Priority order:
@@ -151,6 +208,94 @@ class MobileChatViewSet(viewsets.ViewSet):
         
         return True, None
     
+    def _handle_conversation_update(self, request, pk=None, partial=False):
+        """Shared handler for RESTful conversation updates"""
+        if not pk:
+            return Response(
+                {'error': 'Conversation ID must be provided in the URL'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            conversation = Conversation.objects.get(conversation_id=pk)
+        except Conversation.DoesNotExist:
+            return Response(
+                {'error': 'Conversation not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        serializer = ConversationUpdateSerializer(
+            data=request.data,
+            context={'request': request},
+            partial=partial
+        )
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        data = serializer.validated_data
+        is_superadmin = request.user and request.user.is_authenticated and request.user.is_superuser
+        device_id = data.get('device_id') or self._get_device_id_from_request(request, pk)
+        
+        session = None
+        if not is_superadmin:
+            if not device_id:
+                return Response(
+                    {'error': 'device_id is required for mobile users. Pass it as a query parameter or in the request body.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            session, error_message = self._validate_mobile_session(device_id)
+            if not session:
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+            
+            access_ok, error_msg = self._check_conversation_access(conversation, session)
+            if not access_ok:
+                return Response({'error': error_msg}, status=status.HTTP_403_FORBIDDEN)
+        elif device_id:
+            session, error_message = self._validate_mobile_session(device_id)
+            if error_message and not session:
+                return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+        
+        subject_value = data.get('subject')
+        status_value = data.get('status')
+        priority_value = data.get('priority')
+        
+        if not is_superadmin and priority_value:
+            return Response(
+                {'error': 'Only admin users can update conversation priority'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        if not is_superadmin and status_value and status_value not in ['resolved', 'closed']:
+            return Response(
+                {'error': 'Mobile users can only update status to resolved or closed'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        updated = False
+        if subject_value is not None:
+            conversation.subject = subject_value
+            updated = True
+        
+        if status_value:
+            conversation.status = status_value
+            updated = True
+        
+        if priority_value and is_superadmin:
+            conversation.priority = priority_value
+            updated = True
+        
+        if not updated:
+            return Response(
+                {'error': 'No valid fields supplied for update'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        conversation.save()
+        response_serializer = ConversationSerializer(conversation, context={'request': request})
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
+    
     @swagger_auto_schema(
         operation_id="mobile_chat_start",
         operation_description="Start a new conversation or retrieve existing one",
@@ -160,7 +305,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             201: openapi.Response('Conversation created', ConversationSerializer),
             400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['post'], url_path='start')
     def start_conversation(self, request):
@@ -230,7 +375,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             200: openapi.Response('Conversation list', MobileConversationListSerializer),
             400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['get'], url_path='list')
     def list_conversations(self, request):
@@ -292,7 +437,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             200: openapi.Response('All conversations list', MobileConversationListSerializer),
             403: openapi.Response('Forbidden - Superadmin access required', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['get'], url_path='admin/list')
     def admin_list_conversations(self, request):
@@ -326,7 +471,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
             404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['get'], url_path='detail')
     def get_conversation_detail(self, request):
@@ -398,7 +543,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             403: "Forbidden",
             404: "Not Found"
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['post'], url_path='send-message')
     def send_message(self, request):
@@ -587,7 +732,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
             404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['put'], url_path='messages/(?P<message_id>[^/.]+)/status')
     def update_message_status(self, request, message_id=None):
@@ -662,7 +807,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             })),
             400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['get'], url_path='check-status')
     def check_conversation_status(self, request):
@@ -724,7 +869,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             403: openapi.Response('Forbidden', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
             404: openapi.Response('Not Found', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['post'], url_path='close')
     def close_conversation(self, request):
@@ -806,7 +951,7 @@ class MobileChatViewSet(viewsets.ViewSet):
             200: "File upload test response",
             400: "Bad Request"
         },
-        tags=["Mobile Chat API"]
+        tags=["Chat APIs"]
     )
     @action(detail=False, methods=['post'], url_path='test-upload')
     def test_file_upload(self, request):

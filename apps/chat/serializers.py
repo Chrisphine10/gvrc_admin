@@ -222,6 +222,40 @@ class CreateConversationSerializer(serializers.Serializer):
         return value
 
 
+class ConversationUpdateSerializer(serializers.Serializer):
+    """Serializer for updating conversation metadata"""
+    
+    device_id = serializers.CharField(
+        max_length=128,
+        required=False,
+        allow_blank=True,
+        help_text="Mobile device ID (required for mobile clients, optional for admins)"
+    )
+    subject = serializers.CharField(
+        max_length=200,
+        required=False,
+        allow_blank=True,
+        help_text="Updated subject for the conversation"
+    )
+    status = serializers.ChoiceField(
+        choices=Conversation.STATUS_CHOICES,
+        required=False,
+        help_text="Updated status value"
+    )
+    priority = serializers.ChoiceField(
+        choices=Conversation.PRIORITY_CHOICES,
+        required=False,
+        help_text="Updated priority value (admin only)"
+    )
+    
+    def validate(self, attrs):
+        """Ensure at least one updatable field is provided"""
+        updatable_fields = {'subject', 'status', 'priority'}
+        if not any(field in attrs and attrs.get(field) is not None for field in updatable_fields):
+            raise serializers.ValidationError("Provide at least one field to update (subject, status, priority).")
+        return attrs
+
+
 class CreateMessageSerializer(serializers.Serializer):
     """Serializer for creating new messages"""
     

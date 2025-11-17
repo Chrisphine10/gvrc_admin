@@ -183,20 +183,30 @@ class MobileChatViewSet(viewsets.ViewSet):
                     return Response(response_serializer.data, status=status.HTTP_200_OK)
                 
                 # No open conversation exists, create a new one
-                conversation = ConversationService.get_or_create_conversation(mobile_session, subject)
-                
-                # If new conversation, auto-assign admin
-                if conversation.status == 'new':
-                    ConversationService.auto_assign_conversation(conversation)
-                
-                response_serializer = ConversationSerializer(conversation, context={'request': request})
-                
-                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                try:
+                    conversation = ConversationService.get_or_create_conversation(mobile_session, subject)
+                    
+                    # If new conversation, auto-assign admin
+                    if conversation.status == 'new':
+                        ConversationService.auto_assign_conversation(conversation)
+                    
+                    response_serializer = ConversationSerializer(conversation, context={'request': request})
+                    return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                except Exception as e:
+                    return Response(
+                        {'error': f'Failed to create conversation: {str(e)}'}, 
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    )
                     
             except MobileSession.DoesNotExist:
                 return Response(
                     {'error': 'Invalid or inactive device ID'}, 
                     status=status.HTTP_400_BAD_REQUEST
+                )
+            except Exception as e:
+                return Response(
+                    {'error': f'Unexpected error: {str(e)}'}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -251,10 +261,16 @@ class MobileChatViewSet(viewsets.ViewSet):
                 else:
                     closed_conversations.append(conv)
             
-            # Sort open conversations by last message time (newest first)
-            open_conversations.sort(key=lambda x: x.last_message_at or x.created_at, reverse=True)
-            # Sort closed conversations by last message time (newest first)
-            closed_conversations.sort(key=lambda x: x.last_message_at or x.created_at, reverse=True)
+            # Sort open conversations by last message time (newest first), handle None values
+            open_conversations.sort(
+                key=lambda x: x.last_message_at if x.last_message_at is not None else x.created_at, 
+                reverse=True
+            )
+            # Sort closed conversations by last message time (newest first), handle None values
+            closed_conversations.sort(
+                key=lambda x: x.last_message_at if x.last_message_at is not None else x.created_at, 
+                reverse=True
+            )
             
             # Combine: open conversations first, then closed ones
             ordered_conversations = open_conversations + closed_conversations
@@ -340,17 +356,11 @@ class MobileChatViewSet(viewsets.ViewSet):
         if request.user and request.user.is_authenticated and request.user.is_superuser:
             # Handle both form data (file uploads) and JSON data
             if request.content_type and 'multipart/form-data' in request.content_type:
-                print(f"DEBUG: Admin - Processing multipart form data")
-                print(f"DEBUG: Admin - Request FILES: {request.FILES}")
-                print(f"DEBUG: Admin - Request DATA: {request.data}")
                 serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
             else:
-                print(f"DEBUG: Admin - Processing JSON data")
-                print(f"DEBUG: Admin - Request DATA: {request.data}")
                 serializer = CreateMessageSerializer(data=request.data)
                 
             if serializer.is_valid():
-                print(f"DEBUG: Admin - Serializer is valid")
                 # Get validated data
                 content = serializer.validated_data.get('content', '')
                 message_type = serializer.validated_data.get('message_type', 'text')
@@ -359,15 +369,8 @@ class MobileChatViewSet(viewsets.ViewSet):
                 is_urgent = serializer.validated_data.get('is_urgent', False)
                 metadata = serializer.validated_data.get('metadata', {})
                 
-                print(f"DEBUG: Admin - Validated data:")
-                print(f"  - Content: {content}")
-                print(f"  - Message type: {message_type}")
-                print(f"  - Media file: {media_file}")
-                print(f"  - Media URL: {media_url}")
-                
                 # Determine message type based on file if not specified or if it's still 'text'
                 if media_file:
-                    print(f"DEBUG: Admin - Processing media file...")
                     # Always determine message type from file content type, regardless of current message_type
                     if media_file.content_type.startswith('image/'):
                         message_type = 'image'
@@ -378,31 +381,30 @@ class MobileChatViewSet(viewsets.ViewSet):
                     else:
                         message_type = 'file'
                     
-                    print(f"DEBUG: Admin - Determined message type: {message_type}")
-                    
                     # If no content was provided, use a default caption
                     if not content:
                         content = f"Uploaded {message_type}"
-                        print(f"DEBUG: Admin - Set default content: {content}")
                 
-                print(f"DEBUG: Admin - About to create message...")
                 # Use admin message creation for superadmin users
-                message = MessageService.create_admin_message(
-                    conversation=conversation,
-                    content=content,
-                    admin_user=request.user,
-                    message_type=message_type,
-                    media_file=media_file,
-                    media_url=media_url,
-                    is_urgent=is_urgent,
-                    metadata=metadata
-                )
-                
-                print(f"DEBUG: Admin - Message created successfully with ID: {message.message_id}")
-                response_serializer = MessageSerializer(message, context={'request': request})
-                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                try:
+                    message = MessageService.create_admin_message(
+                        conversation=conversation,
+                        content=content,
+                        admin_user=request.user,
+                        message_type=message_type,
+                        media_file=media_file,
+                        media_url=media_url,
+                        is_urgent=is_urgent,
+                        metadata=metadata
+                    )
+                    response_serializer = MessageSerializer(message, context={'request': request})
+                    return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                except Exception as e:
+                    return Response(
+                        {'error': f'Failed to create message: {str(e)}'}, 
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    )
             else:
-                print(f"DEBUG: Admin - Serializer errors: {serializer.errors}")
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         if not device_id:
@@ -421,17 +423,11 @@ class MobileChatViewSet(viewsets.ViewSet):
         
         # Handle both form data (file uploads) and JSON data
         if request.content_type and 'multipart/form-data' in request.content_type:
-            print(f"DEBUG: Processing multipart form data")
-            print(f"DEBUG: Request FILES: {request.FILES}")
-            print(f"DEBUG: Request DATA: {request.data}")
             serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
         else:
-            print(f"DEBUG: Processing JSON data")
-            print(f"DEBUG: Request DATA: {request.data}")
             serializer = CreateMessageSerializer(data=request.data)
             
         if serializer.is_valid():
-            print(f"DEBUG: Serializer is valid")
             # Get validated data
             content = serializer.validated_data.get('content', '')
             message_type = serializer.validated_data.get('message_type', 'text')
@@ -440,15 +436,8 @@ class MobileChatViewSet(viewsets.ViewSet):
             is_urgent = serializer.validated_data.get('is_urgent', False)
             metadata = serializer.validated_data.get('metadata', {})
             
-            print(f"DEBUG: Validated data:")
-            print(f"  - Content: {content}")
-            print(f"  - Message type: {message_type}")
-            print(f"  - Media file: {media_file}")
-            print(f"  - Media URL: {media_url}")
-            
             # Determine message type based on file if not specified or if it's still 'text'
             if media_file:
-                print(f"DEBUG: Processing media file...")
                 # Always determine message type from file content type, regardless of current message_type
                 if media_file.content_type.startswith('image/'):
                     message_type = 'image'
@@ -459,29 +448,28 @@ class MobileChatViewSet(viewsets.ViewSet):
                 else:
                     message_type = 'file'
                 
-                print(f"DEBUG: Determined message type: {message_type}")
-                
                 # If no content was provided, use a default caption
                 if not content:
                     content = f"Uploaded {message_type}"
-                    print(f"DEBUG: Set default content: {content}")
             
-            print(f"DEBUG: About to create message...")
-            message = MessageService.create_mobile_message(
-                conversation=conversation,
-                content=content,
-                message_type=message_type,
-                media_file=media_file,
-                media_url=media_url,
-                is_urgent=is_urgent,
-                metadata=metadata
-            )
-            
-            print(f"DEBUG: Message created successfully with ID: {message.message_id}")
-            response_serializer = MessageSerializer(message, context={'request': request})
-            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                message = MessageService.create_mobile_message(
+                    conversation=conversation,
+                    content=content,
+                    message_type=message_type,
+                    media_file=media_file,
+                    media_url=media_url,
+                    is_urgent=is_urgent,
+                    metadata=metadata
+                )
+                response_serializer = MessageSerializer(message, context={'request': request})
+                return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response(
+                    {'error': f'Failed to create message: {str(e)}'}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         else:
-            print(f"DEBUG: Serializer errors: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @swagger_auto_schema(
@@ -542,13 +530,24 @@ class MobileChatViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             new_status = serializer.validated_data['status']
             
-            if new_status == 'delivered':
-                MessageService.mark_message_delivered(message)
-            elif new_status == 'read':
-                MessageService.mark_message_read(message)
-            
-            response_serializer = MessageSerializer(message, context={'request': request})
-            return Response(response_serializer.data)
+            try:
+                if new_status == 'delivered':
+                    MessageService.mark_message_delivered(message)
+                elif new_status == 'read':
+                    MessageService.mark_message_read(message)
+                else:
+                    return Response(
+                        {'error': f'Invalid status: {new_status}. Must be "delivered" or "read"'}, 
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                
+                response_serializer = MessageSerializer(message, context={'request': request})
+                return Response(response_serializer.data)
+            except Exception as e:
+                return Response(
+                    {'error': f'Failed to update message status: {str(e)}'}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -580,14 +579,27 @@ class MobileChatViewSet(viewsets.ViewSet):
         
         # For superadmin users, allow closing any conversation
         if request.user and request.user.is_authenticated and request.user.is_superuser:
-            conversation.status = 'closed'
-            conversation.save()
-            
-            response_serializer = ConversationSerializer(conversation, context={'request': request})
-            return Response({
-                'message': 'Conversation closed by admin',
-                'conversation': response_serializer.data
-            }, status=status.HTTP_200_OK)
+            try:
+                if conversation.status == 'closed':
+                    response_serializer = ConversationSerializer(conversation, context={'request': request})
+                    return Response({
+                        'message': 'Conversation is already closed',
+                        'conversation': response_serializer.data
+                    }, status=status.HTTP_200_OK)
+                
+                conversation.status = 'closed'
+                conversation.save()
+                
+                response_serializer = ConversationSerializer(conversation, context={'request': request})
+                return Response({
+                    'message': 'Conversation closed by admin',
+                    'conversation': response_serializer.data
+                }, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response(
+                    {'error': f'Failed to close conversation: {str(e)}'}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         
         if not device_id:
             return Response(
@@ -605,20 +617,27 @@ class MobileChatViewSet(viewsets.ViewSet):
         
         # Check if conversation is already closed
         if conversation.status == 'closed':
+            response_serializer = ConversationSerializer(conversation, context={'request': request})
             return Response({
                 'message': 'Conversation is already closed',
-                'conversation': ConversationSerializer(conversation, context={'request': request}).data
+                'conversation': response_serializer.data
             }, status=status.HTTP_200_OK)
         
         # Close the conversation
-        conversation.status = 'closed'
-        conversation.save()
-        
-        response_serializer = ConversationSerializer(conversation, context={'request': request})
-        return Response({
-            'message': 'Conversation closed successfully',
-            'conversation': response_serializer.data
-        }, status=status.HTTP_200_OK)
+        try:
+            conversation.status = 'closed'
+            conversation.save()
+            
+            response_serializer = ConversationSerializer(conversation, context={'request': request})
+            return Response({
+                'message': 'Conversation closed successfully',
+                'conversation': response_serializer.data
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to close conversation: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 

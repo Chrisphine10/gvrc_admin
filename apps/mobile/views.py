@@ -86,9 +86,16 @@ class MobileChatViewSet(viewsets.ViewSet):
     
     Mobile users can:
     - Start/retrieve conversations (requires device_id in URL or query params)
-    - Send messages (requires device_id in URL or query params)
+    - Send messages via REST API (requires device_id in URL or query params)
+    - Send messages via WebSocket for real-time chat (see websocket endpoint documentation)
     - Update message status (requires device_id in URL or query params)
     - View conversation history (requires device_id in URL or query params)
+    
+    WebSocket Endpoint:
+    - Connect: ws://host/ws/mobile/chat/{conversation_id}/?device_id=xxx
+    - For production: wss://host/ws/mobile/chat/{conversation_id}/?device_id=xxx
+    - Supports real-time messaging, typing indicators, read receipts, and message status updates
+    - See websocket endpoint for detailed documentation
     
     Superadmin users can:
     - Access all conversations without mobile session (device_id optional)
@@ -136,7 +143,7 @@ class MobileChatViewSet(viewsets.ViewSet):
     
     @swagger_auto_schema(
         operation_id="mobile_chat_start",
-        operation_description="Start a new conversation or retrieve existing one",
+        operation_description="Start a new conversation or retrieve existing one. After getting the conversation_id, you can connect to the WebSocket endpoint for real-time chat: ws://host/ws/mobile/chat/{conversation_id}/?device_id=xxx",
         request_body=CreateConversationSerializer,
         responses={
             200: openapi.Response('Conversation data', ConversationSerializer),
@@ -331,7 +338,7 @@ class MobileChatViewSet(viewsets.ViewSet):
     
     @swagger_auto_schema(
         operation_id="mobile_chat_send_message",
-        operation_description="Send a message in a conversation. Requires device_id for mobile users.",
+        operation_description="Send a message in a conversation via REST API. Requires device_id for mobile users. For real-time messaging, use the WebSocket endpoint: ws://host/ws/mobile/chat/{conversation_id}/?device_id=xxx",
         manual_parameters=[
             openapi.Parameter(
                 'device_id', openapi.IN_QUERY, description="Device ID - required for mobile users", type=openapi.TYPE_STRING, required=False
@@ -638,6 +645,106 @@ class MobileChatViewSet(viewsets.ViewSet):
                 {'error': f'Failed to close conversation: {str(e)}'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_websocket_info",
+        operation_description="Get WebSocket connection information for real-time chat. Connect to the WebSocket endpoint for bidirectional real-time messaging.",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID - optional, used for documentation examples", type=openapi.TYPE_STRING, required=False
+            )
+        ],
+        responses={
+            200: openapi.Response('WebSocket connection information', openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'websocket_url': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description='WebSocket connection URL template',
+                        example='ws://host/ws/mobile/chat/{conversation_id}/?device_id=xxx'
+                    ),
+                    'websocket_url_production': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description='WebSocket connection URL for production (WSS)',
+                        example='wss://host/ws/mobile/chat/{conversation_id}/?device_id=xxx'
+                    ),
+                    'authentication': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description='Authentication method',
+                        example='device_id query parameter'
+                    ),
+                    'features': openapi.Schema(
+                        type=openapi.TYPE_ARRAY,
+                        items=openapi.Schema(type=openapi.TYPE_STRING),
+                        description='Supported features'
+                    ),
+                    'message_types': openapi.Schema(
+                        type=openapi.TYPE_OBJECT,
+                        description='Supported message types'
+                    ),
+                    'connection_flow': openapi.Schema(
+                        type=openapi.TYPE_ARRAY,
+                        items=openapi.Schema(type=openapi.TYPE_STRING),
+                        description='Steps to connect'
+                    ),
+                    'documentation': openapi.Schema(
+                        type=openapi.TYPE_STRING,
+                        description='Full documentation file'
+                    )
+                }
+            )),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Chat APIs"]
+    )
+    @action(detail=False, methods=['get'], url_path='websocket-info')
+    def websocket_info(self, request):
+        """Get WebSocket connection information for real-time chat"""
+        from django.conf import settings
+        
+        # Get base URL from request or settings
+        scheme = 'wss' if request.is_secure() or getattr(settings, 'SECURE_SSL_REDIRECT', False) else 'ws'
+        host = request.get_host()
+        base_url = f"{scheme}://{host}"
+        
+        return Response({
+            'websocket_url': f'{base_url}/ws/mobile/chat/{{conversation_id}}/?device_id={{device_id}}',
+            'websocket_url_production': f'wss://{host}/ws/mobile/chat/{{conversation_id}}/?device_id={{device_id}}',
+            'authentication': 'device_id query parameter (must correspond to active MobileSession)',
+            'features': [
+                'real-time bidirectional messaging',
+                'typing indicators',
+                'read receipts',
+                'message status updates (sent, delivered, read)',
+                'user presence notifications',
+                'media support (images, files)',
+                'urgent message flagging'
+            ],
+            'message_types': {
+                'chat_message': 'Send and receive chat messages in real-time',
+                'message_status': 'Update message delivery/read status',
+                'typing_indicator': 'Show when user is typing',
+                'read_receipt': 'Mark messages as read'
+            },
+            'connection_flow': [
+                '1. Call POST /mobile/chat/start/ with device_id to get conversation_id',
+                f'2. Connect to WebSocket: {base_url}/ws/mobile/chat/{{conversation_id}}/?device_id={{device_id}}',
+                '3. Wait for connection_established message',
+                '4. Start sending/receiving messages in real-time',
+                '5. Use REST API endpoints for conversation management (list, close, etc.)'
+            ],
+            'example_connection': {
+                'javascript': 'const ws = new WebSocket(`wss://host/ws/mobile/chat/123/?device_id=abc123`);',
+                'python': 'import websockets; ws = await websockets.connect("wss://host/ws/mobile/chat/123/?device_id=abc123")'
+            },
+            'error_codes': {
+                '4001': 'Missing device_id parameter',
+                '4002': 'Invalid or inactive device_id',
+                '4003': 'Conversation not found',
+                '4004': 'Access denied (conversation does not belong to device)'
+            },
+            'documentation': 'See WEBSOCKET_CHAT_ENDPOINT.md for complete documentation with examples'
+        }, status=status.HTTP_200_OK)
 
 
 

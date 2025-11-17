@@ -18,11 +18,56 @@ except:
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.generators import OpenAPISchemaGenerator
+from django.conf import settings
 
 # Limit Swagger schema generation to API endpoints only to avoid duplicated routes
 api_urlpatterns = [
     path("api/", include("apps.api.urls")),
 ]
+
+# Custom schema generator that uses HTTPS for production
+class HTTPSchemaGenerator(OpenAPISchemaGenerator):
+    def get_schema(self, request=None, public=False):
+        schema = super().get_schema(request=request, public=public)
+        
+        # Determine the scheme from request or settings
+        if request:
+            # Check if request is secure (HTTPS) via multiple methods
+            is_secure = (
+                request.is_secure() or 
+                request.META.get('HTTP_X_FORWARDED_PROTO') == 'https' or
+                request.META.get('HTTP_X_FORWARDED_SSL') == 'on'
+            )
+            scheme = 'https' if is_secure else 'http'
+            host = request.get_host()
+        else:
+            # Fallback to settings - force HTTPS in production
+            use_https = (
+                getattr(settings, 'SECURE_SSL_REDIRECT', False) or 
+                not getattr(settings, 'DEBUG', True) or
+                'hodi.co.ke' in getattr(settings, 'ALLOWED_HOSTS', [])
+            )
+            scheme = 'https' if use_https else 'http'
+            host = getattr(settings, 'APP_DOMAIN', 'hodi.co.ke')
+            if not host or host == 'localhost':
+                allowed_hosts = getattr(settings, 'ALLOWED_HOSTS', [])
+                # Prefer hodi.co.ke if available
+                if 'hodi.co.ke' in allowed_hosts:
+                    host = 'hodi.co.ke'
+                    scheme = 'https'  # Always use HTTPS for hodi.co.ke
+                elif allowed_hosts:
+                    host = allowed_hosts[0]
+                else:
+                    host = 'hodi.co.ke'
+                    scheme = 'https'  # Default to HTTPS for production domain
+        
+        # Update the schema's servers to use the correct scheme
+        if schema:
+            base_url = f"{scheme}://{host}"
+            schema['servers'] = [{'url': base_url}]
+        
+        return schema
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -36,6 +81,7 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
     authentication_classes=[],
     patterns=api_urlpatterns,
+    generator_class=HTTPSchemaGenerator,  # Use custom generator that enforces HTTPS
 )
 
 urlpatterns = [

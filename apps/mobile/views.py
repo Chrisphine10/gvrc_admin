@@ -141,6 +141,100 @@ class MobileChatViewSet(viewsets.ViewSet):
         """Helper to fetch a conversation by public identifier."""
         return get_object_or_404(Conversation, conversation_id=pk)
     
+    def _send_message_auto_create(self, request):
+        """Send a message with automatic conversation creation if needed"""
+        device_id = self._get_request_device_id(request)
+        
+        # For superadmin users, device_id is optional but they need to specify a mobile session
+        if request.user and request.user.is_authenticated and request.user.is_superuser:
+            if not device_id:
+                return Response(
+                    {'error': 'device_id is required for auto-conversation creation, even for superadmin users'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        if not device_id:
+            return Response(
+                {'error': 'device_id is required for mobile users'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        session, error_message = self._validate_mobile_session(device_id)
+        if not session:
+            return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Handle both form data (file uploads) and JSON data
+        if request.content_type and 'multipart/form-data' in request.content_type:
+            serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
+        else:
+            serializer = CreateMessageSerializer(data=request.data)
+            
+        if serializer.is_valid():
+            # Get validated data
+            content = serializer.validated_data.get('content', '')
+            message_type = serializer.validated_data.get('message_type', 'text')
+            media_file = serializer.validated_data.get('media_file')
+            media_url = serializer.validated_data.get('media_url', '')
+            is_urgent = serializer.validated_data.get('is_urgent', False)
+            metadata = serializer.validated_data.get('metadata', {})
+            
+            # Determine message type based on file if not specified or if it's still 'text'
+            if media_file:
+                # Always determine message type from file content type, regardless of current message_type
+                if media_file.content_type.startswith('image/'):
+                    message_type = 'image'
+                elif media_file.content_type.startswith('video/'):
+                    message_type = 'file'  # We'll use 'file' for videos
+                elif media_file.content_type.startswith('audio/'):
+                    message_type = 'voice'
+                else:
+                    message_type = 'file'
+                
+                # If no content was provided, use a default caption
+                if not content:
+                    content = f"Uploaded {message_type}"
+            
+            try:
+                # Auto-create conversation with smart subject generation
+                conversation = ConversationService.get_or_create_conversation(
+                    session, 
+                    auto_generate_subject=True, 
+                    first_message=content
+                )
+                
+                # Auto-assign admin if this is a new conversation
+                if conversation.status == 'new':
+                    ConversationService.auto_assign_conversation(conversation)
+                
+                # Create the message
+                message = MessageService.create_mobile_message(
+                    conversation=conversation,
+                    content=content,
+                    message_type=message_type,
+                    media_file=media_file,
+                    media_url=media_url,
+                    is_urgent=is_urgent,
+                    metadata=metadata
+                )
+                
+                # Return both message and conversation info
+                message_serializer = MessageSerializer(message, context={'request': request})
+                conversation_serializer = ConversationSerializer(conversation, context={'request': request})
+                
+                return Response({
+                    'message': message_serializer.data,
+                    'conversation': conversation_serializer.data,
+                    'auto_created': True
+                }, status=status.HTTP_201_CREATED)
+                
+            except Exception as e:
+                return Response(
+                    {'error': f'Failed to create message/conversation: {str(e)}'}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     @swagger_auto_schema(
         operation_id="mobile_chat_start",
         operation_description="Start a new conversation or retrieve existing one. After getting the conversation_id, you can connect to the WebSocket endpoint for real-time chat: ws://host/ws/mobile/chat/{conversation_id}/?device_id=xxx",
@@ -217,6 +311,71 @@ class MobileChatViewSet(viewsets.ViewSet):
                 )
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @swagger_auto_schema(
+        operation_id="mobile_chat_get_or_create",
+        operation_description="Get existing conversation or create one automatically without requiring topic input. Perfect for seamless chat experience.",
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID - required for mobile users", type=openapi.TYPE_STRING, required=True
+            )
+        ],
+        responses={
+            200: openapi.Response('Existing conversation retrieved', ConversationSerializer),
+            201: openapi.Response('New conversation auto-created', ConversationSerializer),
+            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
+        },
+        tags=["Chat APIs"]
+    )
+    @action(detail=False, methods=['get'], url_path='get-or-create')
+    def get_or_create_conversation(self, request):
+        """Get existing conversation or automatically create one without topic input"""
+        device_id = request.query_params.get('device_id')
+        if not device_id:
+            return Response(
+                {'error': 'device_id parameter is required'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            mobile_session = MobileSession.objects.get(device_id=device_id, is_active=True)
+            
+            # Check if there's already an open conversation for this device
+            existing_conversation = Conversation.objects.filter(
+                mobile_session=mobile_session,
+                status__in=['new', 'active']
+            ).order_by('-created_at').first()
+            
+            if existing_conversation:
+                # Return existing conversation
+                serializer = ConversationSerializer(existing_conversation, context={'request': request})
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            
+            # No conversation exists, create one automatically
+            try:
+                conversation = ConversationService.get_or_create_conversation(
+                    mobile_session, 
+                    auto_generate_subject=True
+                )
+                
+                # Auto-assign admin for new conversations
+                if conversation.status == 'new':
+                    ConversationService.auto_assign_conversation(conversation)
+                
+                serializer = ConversationSerializer(conversation, context={'request': request})
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                
+            except Exception as e:
+                return Response(
+                    {'error': f'Failed to create conversation: {str(e)}'}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+                
+        except MobileSession.DoesNotExist:
+            return Response(
+                {'error': 'Invalid or inactive device ID'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
     
     @swagger_auto_schema(
         operation_id="mobile_chat_list",
@@ -338,7 +497,7 @@ class MobileChatViewSet(viewsets.ViewSet):
     
     @swagger_auto_schema(
         operation_id="mobile_chat_send_message",
-        operation_description="Send a message in a conversation via REST API. Requires device_id for mobile users. For real-time messaging, use the WebSocket endpoint: ws://host/ws/mobile/chat/{conversation_id}/?device_id=xxx",
+        operation_description="Send a message in a conversation via REST API. Use conversation_id='auto' to automatically create a conversation if none exists. Requires device_id for mobile users. For real-time messaging, use the WebSocket endpoint: ws://host/ws/mobile/chat/{conversation_id}/?device_id=xxx",
         manual_parameters=[
             openapi.Parameter(
                 'device_id', openapi.IN_QUERY, description="Device ID - required for mobile users", type=openapi.TYPE_STRING, required=False
@@ -356,6 +515,10 @@ class MobileChatViewSet(viewsets.ViewSet):
     @action(detail=True, methods=['post'], url_path='send-message')
     def send_message(self, request, pk=None):
         """Send a message in a conversation"""
+        # Handle special case where pk="auto" - auto-create conversation if needed
+        if pk == "auto":
+            return self._send_message_auto_create(request)
+        
         conversation = self._get_conversation(pk)
         device_id = self._get_request_device_id(request)
         

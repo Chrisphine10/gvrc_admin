@@ -24,13 +24,55 @@ class ConversationService:
     """Service for managing conversations"""
     
     @staticmethod
-    def get_or_create_conversation(mobile_session: MobileSession, subject: str = "") -> Conversation:
+    def generate_automatic_subject(mobile_session: MobileSession, message_content: str = "") -> str:
+        """
+        Generate an automatic conversation subject based on context
+        
+        Args:
+            mobile_session: Mobile session instance
+            message_content: First message content (optional)
+            
+        Returns:
+            Generated subject string
+        """
+        from django.utils import timezone
+        import datetime
+        
+        # Time-based subjects
+        current_time = timezone.now()
+        if current_time.hour < 12:
+            time_greeting = "Morning"
+        elif current_time.hour < 17:
+            time_greeting = "Afternoon" 
+        else:
+            time_greeting = "Evening"
+        
+        # Content-based subject detection
+        if message_content:
+            content_lower = message_content.lower()
+            if any(word in content_lower for word in ['emergency', 'urgent', 'help', 'sos']):
+                return f"Emergency Support Request"
+            elif any(word in content_lower for word in ['question', 'ask', 'inquiry', '?']):
+                return f"{time_greeting} Inquiry"
+            elif any(word in content_lower for word in ['report', 'issue', 'problem']):
+                return f"Support Issue Report"
+            elif any(word in content_lower for word in ['hello', 'hi', 'hey', 'good']):
+                return f"{time_greeting} Chat"
+        
+        # Default subject with timestamp
+        date_str = current_time.strftime("%b %d")
+        return f"{time_greeting} Support - {date_str}"
+
+    @staticmethod
+    def get_or_create_conversation(mobile_session: MobileSession, subject: str = "", auto_generate_subject: bool = True, first_message: str = "") -> Conversation:
         """
         Get existing conversation or create new one for mobile session
         
         Args:
             mobile_session: Mobile session instance
             subject: Optional subject for the conversation
+            auto_generate_subject: Whether to auto-generate subject if empty
+            first_message: First message content for smart subject generation
             
         Returns:
             Conversation instance
@@ -43,6 +85,10 @@ class ConversationService:
         
         if existing_conversation:
             return existing_conversation
+        
+        # Auto-generate subject if needed
+        if not subject and auto_generate_subject:
+            subject = ConversationService.generate_automatic_subject(mobile_session, first_message)
         
         # Create new conversation
         conversation = Conversation.objects.create(

@@ -151,6 +151,7 @@ class ConversationSerializer(serializers.ModelSerializer):
     assigned_admin_info = UserSerializer(source='assigned_admin', read_only=True)
     last_message_info = serializers.SerializerMethodField()
     unread_count = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()  # Override for mobile compatibility
     
     class Meta:
         model = Conversation
@@ -167,6 +168,29 @@ class ConversationSerializer(serializers.ModelSerializer):
             'unread_count_mobile', 'unread_count_admin', 'unread_count',
             'created_at', 'updated_at', 'last_message_info'
         ]
+    
+    def get_status(self, obj):
+        """Map backend status to Flutter-compatible values for mobile requests"""
+        request = self.context.get('request')
+        
+        # Check if this is a mobile API request by examining the request path
+        is_mobile_request = False
+        if request:
+            path = request.path
+            is_mobile_request = '/mobile/' in path
+        
+        # Apply status mapping for mobile requests
+        if is_mobile_request:
+            status_mapping = {
+                'new': 'new',
+                'active': 'open',        # Map 'active' to 'open' for Flutter
+                'resolved': 'archived',   # Map 'resolved' to 'archived' for Flutter
+                'closed': 'closed'
+            }
+            return status_mapping.get(obj.status, obj.status)
+        
+        # Return original status for non-mobile requests (admin/web)
+        return obj.status
     
     def get_last_message_info(self, obj):
         """Get information about the last message"""
@@ -367,6 +391,7 @@ class MobileConversationListSerializer(serializers.ModelSerializer):
     
     last_message_preview = serializers.SerializerMethodField()
     unread_count = serializers.IntegerField(source='unread_count_mobile', read_only=True)
+    status = serializers.SerializerMethodField()  # Override status field for mobile compatibility
     
     class Meta:
         model = Conversation
@@ -374,6 +399,16 @@ class MobileConversationListSerializer(serializers.ModelSerializer):
             'conversation_id', 'status', 'subject', 'last_message_preview',
             'unread_count', 'created_at', 'last_message_at'
         ]
+    
+    def get_status(self, obj):
+        """Map backend status to Flutter-compatible values"""
+        status_mapping = {
+            'new': 'new',
+            'active': 'open',        # Map 'active' to 'open' for Flutter
+            'resolved': 'archived',   # Map 'resolved' to 'archived' for Flutter
+            'closed': 'closed'
+        }
+        return status_mapping.get(obj.status, obj.status)
     
     def get_last_message_preview(self, obj):
         """Get preview of last message"""

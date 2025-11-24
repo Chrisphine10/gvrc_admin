@@ -8,7 +8,7 @@ from .base import *
 DEBUG = False
 
 # HOSTs List
-ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev", "172.31.47.58", "hodi.co.ke"]
+ALLOWED_HOSTS = [APP_DOMAIN ,'finexapay.com', 'www.finexapay.com',  "ex-change.online","www.ex-change.online", ".deploypro.dev", "172.31.47.58", "hodi.co.ke"]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
@@ -16,13 +16,17 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 # Add here your deployment HOSTS
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{APP_DOMAIN}",
+f"https://{APP_DOMAIN}",
     "https://*.deploypro.dev",
     "http://172.31.47.58:8000",
     "http://34.226.180.10:8000",
-    "http://34.226.180.10"
+    "http://34.226.180.10",
     "http://hodi.co.ke",  # Add this line
     "https://hodi.co.ke",  # Add this line
+    'https://finexapay.com',
+    'https://www.finexapay.com',
+    'http://finexapay.com',
+    'http://www.finexapay.com',
 ]
 
 # Database
@@ -153,3 +157,6 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
 # Trusted proxy settings (for Nginx)
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True

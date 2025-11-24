@@ -8,11 +8,13 @@ from .base import *
 DEBUG = True
 
 # HOSTs List
-ALLOWED_HOSTS = ["127.0.0.1", "hodi.co.ke", "localhost", APP_DOMAIN, ".deploypro.dev", ".ngrok-free.app", "a3f602af5f2d.ngrok-free.app", "54.198.204.150", "172.31.47.58"]
+ALLOWED_HOSTS = ["127.0.0.1","34.226.180.10","hodi.co.ke","ex-change.online",   'finexapay.com', 'www.finexapay.com',
+    "www.ex-change.online", "localhost", APP_DOMAIN, ".deploypro.dev", ".ngrok-free.app", "a3f602af5f2d.ngrok-free.app", "54.198.204.150", "172.31.47.58"]
 
 # Add here your deployment HOSTS
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
+"http://34.226.180.10",
     "http://localhost:5085",
     "http://127.0.0.1:8000",
     "http://127.0.0.1:5085",
@@ -114,3 +116,6 @@ LOGGING = {
         },
     },
 }
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True

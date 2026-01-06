@@ -234,7 +234,23 @@
           <li class="nav-item">
             <a class="nav-link" href="/swagger/" target="_blank">
               <i class="ni ni-archive-2 text-info"></i>
-              <span class="nav-link-text">API Documentation</span>
+              <span class="nav-link-text">API Documentation (Swagger)</span>
+            </a>
+          </li>
+          
+          <!-- Mobile Contacts API -->
+          <li class="nav-item">
+            <a class="nav-link" href="/swagger/#/mobile/MobileContactViewSet_list_contacts" target="_blank">
+              <i class="ni ni-mobile-button text-primary"></i>
+              <span class="nav-link-text">Mobile Contacts API</span>
+            </a>
+          </li>
+          
+          <!-- ReDoc API Docs -->
+          <li class="nav-item">
+            <a class="nav-link" href="/redoc/" target="_blank">
+              <i class="ni ni-book-bookmark text-success"></i>
+              <span class="nav-link-text">API Docs (ReDoc)</span>
             </a>
           </li>
 
@@ -260,6 +276,22 @@
             <a class="nav-link {% if 'settings' in segment %} active {% endif %}" href="{% url 'common:application_settings' %}">
               <i class="ni ni-settings-gear-65 text-primary"></i>
               <span class="nav-link-text">Application Settings</span>
+            </a>
+          </li>
+          
+          <!-- System Monitoring -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'monitoring' in segment %} active {% endif %}" href="{% url 'monitoring:dashboard' %}">
+              <i class="ni ni-chart-bar-32 text-success"></i>
+              <span class="nav-link-text">System Monitoring</span>
+            </a>
+          </li>
+
+          <!-- Application Tour -->
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" id="tour-link" onclick="if(typeof window.startApplicationTour === 'function') { window.startApplicationTour(); } else if(typeof startApplicationTour === 'function') { startApplicationTour(); } else { alert('Tour is loading... Please wait a moment.'); }">
+              <i class="ni ni-compass-04 text-info"></i>
+              <span class="nav-link-text">Application Tour</span>
             </a>
           </li>
 

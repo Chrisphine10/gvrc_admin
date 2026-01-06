@@ -23,7 +23,7 @@
   <link rel="apple-touch-icon" href="{% if app_settings %}{{ app_settings.get_apple_touch_icon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <!-- Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <!-- Icons -->
   <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
@@ -35,6 +35,59 @@
   <style>
     :root {
       --primary-color: #5e72e4;
+    }
+    
+    /* Professional Logo Styling */
+    .navbar-brand-img {
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      max-height: 40px !important;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    
+    .navbar-brand:hover .navbar-brand-img {
+      transform: scale(1.05);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    }
+    
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-brand-text {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      transition: color 0.3s ease;
+    }
+    
+    /* Improve sidenav logo container */
+    .sidenav-header .navbar-brand {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidenav-header .navbar-brand:hover {
+      background-color: rgba(94, 114, 228, 0.05);
+    }
+    
+    /* Professional typography improvements */
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.5px;
     }
   </style>
   
@@ -301,6 +354,15 @@
 
   <!-- Toast Container for bottom-right positioned notifications -->
   <div id="toast-container" class="toast-container"></div>
+  
+  <!-- Global Application Settings for JavaScript -->
+  <script>
+    window.appSettings = {
+      logoUrl: '{% if app_settings %}{{ app_settings.get_logo_url|escapejs }}{% else %}/static/assets/img/brand/hodi app logo.png{% endif %}',
+      siteName: '{% if app_settings %}{{ app_settings.site_name|escapejs }}{% else %}Hodi Admin{% endif %}',
+      faviconUrl: '{% if app_settings %}{{ app_settings.get_favicon_url|escapejs }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}'
+    };
+  </script>
 
   {% include "includes/scripts.html" %}
 
@@ -310,153 +372,83 @@
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>
 
   <!-- Bootstrap JavaScript for modals and other components -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-h0AowZ+6jZ4WpH2mqIKthAiwOvHqxf7uFlGQlKwdARl9Pd3h4+oVjL5GkzB2+J3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
   <!-- Real-time Notifications JavaScript -->
   <script src="/static/assets/js/notifications.js?v=1.0.0"></script>
-
-  <!-- Toast Notification JavaScript -->
+  
+  <!-- Toast Notification Manager - Load before other scripts -->
+  <script src="/static/assets/js/toast-manager.js?v=1.0.0"></script>
+  
+  <!-- Application Tour JavaScript - Always load -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/intro.min.js"></script>
+  <script src="/static/assets/js/application-tour.js?v=1.0.0"></script>
   <script>
-    // Toast notification system
-    class ToastManager {
-      constructor() {
-        this.container = document.getElementById('toast-container');
-        this.toasts = [];
+    // Initialize tour button click handler
+    document.addEventListener('DOMContentLoaded', function() {
+      const tourLink = document.getElementById('tour-link');
+      if (tourLink) {
+        tourLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Try to start tour immediately
+          if (typeof window.startApplicationTour === 'function') {
+            try {
+              window.startApplicationTour();
+            } catch(err) {
+              console.error('Tour error:', err);
+              alert('Tour feature encountered an error. Please try again.');
+            }
+          } else {
+            // Wait for scripts to load
+            let attempts = 0;
+            const maxAttempts = 10;
+            const checkTour = setInterval(function() {
+              attempts++;
+              if (typeof window.startApplicationTour === 'function') {
+                clearInterval(checkTour);
+                try {
+                  window.startApplicationTour();
+                } catch(err) {
+                  console.error('Tour error:', err);
+                  alert('Tour feature encountered an error. Please try again.');
+                }
+              } else if (attempts >= maxAttempts) {
+                clearInterval(checkTour);
+                alert('Tour feature is not available. Please refresh the page and try again.');
+              }
+            }, 200);
+          }
+          return false;
+        });
       }
+    });
+  </script>
 
-      show(message, type = 'info', title = null, duration = 5000) {
-        const toast = this.createToast(message, type, title, duration);
-        this.container.appendChild(toast);
-        this.toasts.push(toast);
-
-        // Auto dismiss
-        if (duration > 0) {
-          this.startProgressBar(toast, duration);
-          setTimeout(() => {
-            this.dismiss(toast);
-          }, duration);
-        }
-
-        return toast;
-      }
-
-      createToast(message, type, title, duration) {
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-
-        const iconMap = {
-          success: 'fas fa-check-circle',
-          error: 'fas fa-exclamation-circle',
-          warning: 'fas fa-exclamation-triangle',
-          info: 'fas fa-info-circle'
-        };
-
-        const titleMap = {
-          success: 'Success',
-          error: 'Error',
-          warning: 'Warning',
-          info: 'Information'
-        };
-
-        const toastTitle = title || titleMap[type];
-        const icon = iconMap[type];
-
-        toast.innerHTML = `
-          <div class="toast-header">
-            <i class="${icon} toast-icon"></i>
-            <h6 class="toast-title">${toastTitle}</h6>
-            <button type="button" class="toast-close" onclick="toastManager.dismiss(this.closest('.toast'))">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-          <p class="toast-message">${message}</p>
-          ${duration > 0 ? '<div class="toast-progress"></div>' : ''}
-        `;
-
-        // Add click to dismiss
-        toast.addEventListener('click', (e) => {
-          if (!e.target.closest('.toast-close')) {
-            this.dismiss(toast);
+  <!-- Toast Notification JavaScript - Using external toast-manager.js -->
+  <script>
+    // Auto-convert Django messages to toasts (toast-manager.js is loaded above)
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait for toast manager to be ready
+      if (window.toastManager) {
+        // Convert existing Django messages to toasts
+        const alerts = document.querySelectorAll('.alert:not(.toast-converted)');
+        alerts.forEach(alert => {
+          const message = alert.textContent.trim();
+          if (message) {
+            let type = 'info';
+            if (alert.classList.contains('alert-success')) type = 'success';
+            else if (alert.classList.contains('alert-danger') || alert.classList.contains('alert-error')) type = 'error';
+            else if (alert.classList.contains('alert-warning')) type = 'warning';
+            
+            window.toastManager.show(message, type);
+            alert.style.display = 'none';
+            alert.classList.add('toast-converted');
           }
         });
-
-        return toast;
       }
-
-      startProgressBar(toast, duration) {
-        const progressBar = toast.querySelector('.toast-progress');
-        if (progressBar) {
-          progressBar.style.width = '100%';
-          progressBar.style.transition = `width ${duration}ms linear`;
-          
-          // Start the animation after a small delay to ensure the initial width is set
-          setTimeout(() => {
-            progressBar.style.width = '0%';
-          }, 10);
-        }
-      }
-
-      dismiss(toast) {
-        if (!toast || !toast.parentNode) return;
-
-        toast.classList.add('toast-removing');
-        
-        setTimeout(() => {
-          if (toast.parentNode) {
-            toast.parentNode.removeChild(toast);
-            const index = this.toasts.indexOf(toast);
-            if (index > -1) {
-              this.toasts.splice(index, 1);
-            }
-          }
-        }, 300);
-      }
-
-      clear() {
-        this.toasts.forEach(toast => this.dismiss(toast));
-      }
-
-      success(message, title = null, duration = 5000) {
-        return this.show(message, 'success', title, duration);
-      }
-
-      error(message, title = null, duration = 7000) {
-        return this.show(message, 'error', title, duration);
-      }
-
-      warning(message, title = null, duration = 6000) {
-        return this.show(message, 'warning', title, duration);
-      }
-
-      info(message, title = null, duration = 5000) {
-        return this.show(message, 'info', title, duration);
-      }
-    }
-
-    // Initialize toast manager
-    const toastManager = new ToastManager();
-
-    // Make it globally available
-    window.toastManager = toastManager;
-    window.showToast = (message, type, title, duration) => toastManager.show(message, type, title, duration);
-
-    // Auto-convert Django messages to toasts
-    document.addEventListener('DOMContentLoaded', function() {
-      // Convert existing Django messages to toasts
-      const alerts = document.querySelectorAll('.alert:not(.toast-converted)');
-      alerts.forEach(alert => {
-        const message = alert.textContent.trim();
-        if (message) {
-          let type = 'info';
-          if (alert.classList.contains('alert-success')) type = 'success';
-          else if (alert.classList.contains('alert-danger') || alert.classList.contains('alert-error')) type = 'error';
-          else if (alert.classList.contains('alert-warning')) type = 'warning';
-          
-          toastManager.show(message, type);
-          alert.style.display = 'none';
-          alert.classList.add('toast-converted');
-        }
-      });
     });
   </script>
 

@@ -97,17 +97,27 @@ def music_detail(request, music_id):
 @custom_login_required
 def add_music(request):
     """Add new music track"""
+    import logging
+    logger = logging.getLogger(__name__)
+    
     if request.method == 'POST':
-        form = MusicForm(request.POST, request.FILES)
-        if form.is_valid():
-            music = form.save(commit=False)
-            music.created_by = request.user
-            music.save()
-            
-            messages.success(request, f'Music track "{music.name}" added successfully!')
-            return redirect('music:music_detail', music_id=music.music_id)
-        else:
-            messages.error(request, 'Please correct the errors below.')
+        try:
+            form = MusicForm(request.POST, request.FILES)
+            if form.is_valid():
+                music = form.save(commit=False)
+                music.created_by = request.user
+                music.save()
+                
+                messages.success(request, f'Music track "{music.name}" added successfully!')
+                logger.info(f"Music track '{music.name}' added successfully by user {request.user.id}")
+                return redirect('music:music_detail', music_id=music.music_id)
+            else:
+                # Log form errors for debugging
+                logger.warning(f"Music form validation failed: {form.errors}")
+                messages.error(request, 'Please correct the errors below.')
+        except Exception as e:
+            logger.error(f"Error adding music track: {str(e)}", exc_info=True)
+            messages.error(request, f'An error occurred while adding the music track: {str(e)}')
     else:
         form = MusicForm()
     
@@ -123,19 +133,37 @@ def add_music(request):
 @custom_login_required
 def edit_music(request, music_id):
     """Edit existing music track"""
+    import logging
+    logger = logging.getLogger(__name__)
+    
     music = get_object_or_404(Music, music_id=music_id, is_active=True)
     
     if request.method == 'POST':
-        form = MusicForm(request.POST, request.FILES, instance=music)
-        if form.is_valid():
-            music = form.save(commit=False)
-            music.updated_by = request.user
-            music.save()
-            
-            messages.success(request, f'Music track "{music.name}" updated successfully!')
-            return redirect('music:music_detail', music_id=music.music_id)
-        else:
-            messages.error(request, 'Please correct the errors below.')
+        try:
+            form = MusicForm(request.POST, request.FILES, instance=music)
+            if form.is_valid():
+                music = form.save(commit=False)
+                music.updated_by = request.user
+                music.updated_at = timezone.now()
+                
+                # Ensure music_file is preserved if no new file uploaded
+                if not music.music_file and music.pk:
+                    existing_music = Music.objects.get(pk=music.pk)
+                    if existing_music.music_file:
+                        music.music_file = existing_music.music_file
+                
+                music.save()
+                
+                messages.success(request, f'Music track "{music.name}" updated successfully!')
+                logger.info(f"Music track '{music.name}' (ID: {music_id}) updated successfully by user {request.user.id}")
+                return redirect('music:music_detail', music_id=music.music_id)
+            else:
+                # Log form errors for debugging
+                logger.warning(f"Music form validation failed for music_id {music_id}: {form.errors}")
+                messages.error(request, 'Please correct the errors below.')
+        except Exception as e:
+            logger.error(f"Error editing music track (ID: {music_id}): {str(e)}", exc_info=True)
+            messages.error(request, f'An error occurred while updating the music track: {str(e)}')
     else:
         form = MusicForm(instance=music)
     

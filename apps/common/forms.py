@@ -15,10 +15,14 @@ class ApplicationSettingsForm(forms.ModelForm):
     class Meta:
         model = ApplicationSettings
         fields = [
-            'site_name', 'site_tagline', 'logo', 'logo_alt_text',
-            'favicon', 'apple_touch_icon', 'primary_color', 'secondary_color',
-            'success_color', 'warning_color', 'danger_color', 'info_color',
-            'dark_color', 'light_color', 'enable_dark_mode', 'default_theme'
+            'site_name', 'site_tagline', 'organization_name', 'organization_address',
+            'contact_email', 'contact_phone', 'support_email',
+            'website_url', 'facebook_url', 'twitter_url', 'linkedin_url',
+            'logo', 'logo_alt_text', 'favicon', 'apple_touch_icon',
+            'primary_color', 'secondary_color', 'success_color', 'warning_color',
+            'danger_color', 'info_color', 'dark_color', 'light_color',
+            'enable_dark_mode', 'default_theme',             'enable_application_tour', 'show_tour_on_first_login',
+            'android_apk', 'android_apk_url', 'android_apk_version', 'android_apk_size', 'enable_apk_download'
         ]
         widgets = {
             'site_name': forms.TextInput(attrs={
@@ -90,6 +94,68 @@ class ApplicationSettingsForm(forms.ModelForm):
             }),
             'default_theme': forms.Select(attrs={
                 'class': 'form-select'
+            }),
+            'organization_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter organization name'
+            }),
+            'organization_address': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Enter organization address'
+            }),
+            'contact_email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'contact@example.com'
+            }),
+            'contact_phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '+254 700 000 000'
+            }),
+            'support_email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'support@example.com'
+            }),
+            'website_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://www.example.com'
+            }),
+            'facebook_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://www.facebook.com/yourpage'
+            }),
+            'twitter_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://twitter.com/yourhandle'
+            }),
+            'linkedin_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://www.linkedin.com/company/yourcompany'
+            }),
+            'enable_application_tour': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'show_tour_on_first_login': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+            'android_apk': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': '.apk'
+            }),
+            'android_apk_url': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://example.com/app.apk'
+            }),
+            'android_apk_version': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 1.0.0'
+            }),
+            'android_apk_size': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'e.g., 25.5 MB'
+            }),
+            'enable_apk_download': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
             })
         }
     
@@ -200,6 +266,20 @@ class ApplicationSettingsForm(forms.ModelForm):
                 raise ValidationError('Apple touch icon must be a PNG, JPG, or JPEG file')
         
         return apple_touch_icon
+    
+    def clean_android_apk(self):
+        """Validate Android APK file"""
+        android_apk = self.cleaned_data.get('android_apk')
+        if android_apk:
+            # Check file size (max 100MB)
+            if android_apk.size > 100 * 1024 * 1024:
+                raise ValidationError('APK file size must be less than 100MB')
+            
+            # Check file extension
+            if not android_apk.name.lower().endswith('.apk'):
+                raise ValidationError('File must be an APK file (.apk)')
+        
+        return android_apk
 
 
 class ThemePreviewForm(forms.Form):

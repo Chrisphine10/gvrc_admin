@@ -147,8 +147,9 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@hodi.co.ke')
 
 # Performance optimizations
 CONN_MAX_AGE = 60  # Database connection pooling
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1073741824  # 1GB - increased for unlimited audio file uploads
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1073741824  # 1GB - increased for unlimited audio file uploads
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Increase field limit
 
 # Security middleware settings
 SECURE_REFERRER_POLICY = 'same-origin'

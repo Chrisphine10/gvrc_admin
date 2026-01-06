@@ -102,6 +102,7 @@ urlpatterns = [
     path("chat/", include("apps.chat.urls")),     # Emergency Chat System Web Interface
     path("music/", include("apps.music.urls")),   # Music
     path("documents/", include("apps.documents.urls")), # Documents
+    path("monitoring/", include("apps.monitoring.urls")), # System Monitoring
     
     # Swagger / ReDoc documentation
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

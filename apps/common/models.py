@@ -6,12 +6,102 @@ Common models for GVRC Admin
 from django.db import models
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
+from django.core.files.base import ContentFile
+from PIL import Image
 import os
+import io
 
 
 def get_upload_path(instance, filename):
     """Generate upload path for settings files"""
     return f'settings/{filename}'
+
+
+def resize_image(image_file, target_size, quality=95):
+    """
+    Resize an image to target size with high quality.
+    Uses LANCZOS resampling for best quality (works for both upscaling and downscaling).
+    
+    Args:
+        image_file: File-like object or file path
+        target_size: Tuple of (width, height) in pixels
+        quality: JPEG quality (1-100), only used for JPEG files
+    
+    Returns:
+        Resized image as ContentFile or None if error
+    """
+    if not image_file:
+        return None
+    
+    try:
+        # Open the image (works with file objects and paths)
+        img = Image.open(image_file)
+        
+        # Get original format
+        original_format = img.format
+        
+        # Convert RGBA to RGB if necessary (for JPEG compatibility)
+        # Keep transparency for PNG
+        if img.mode in ('RGBA', 'LA', 'P') and original_format != 'PNG':
+            # Create a white background for formats that don't support transparency
+            background = Image.new('RGB', img.size, (255, 255, 255))
+            if img.mode == 'P':
+                img = img.convert('RGBA')
+            if img.mode == 'RGBA':
+                background.paste(img, mask=img.split()[-1])
+            else:
+                background.paste(img)
+            img = background
+        elif img.mode not in ('RGB', 'RGBA'):
+            # Convert to RGB for non-transparent formats
+            if original_format == 'PNG':
+                # Keep RGBA for PNG to preserve transparency
+                if img.mode != 'RGBA':
+                    img = img.convert('RGBA')
+            else:
+                img = img.convert('RGB')
+        
+        # Resize using LANCZOS resampling (highest quality)
+        # LANCZOS works well for both upscaling and downscaling
+        resized_img = img.resize(target_size, Image.Resampling.LANCZOS)
+        
+        # Save to BytesIO buffer
+        buffer = io.BytesIO()
+        
+        # Determine format - prefer PNG for favicons and apple touch icons
+        # PNG preserves transparency and works universally
+        if original_format == 'PNG' or img.mode == 'RGBA':
+            resized_img.save(buffer, format='PNG', optimize=True)
+            ext = '.png'
+        elif original_format in ('JPEG', 'JPG'):
+            resized_img.save(buffer, format='JPEG', quality=quality, optimize=True)
+            ext = '.jpg'
+        elif original_format == 'ICO':
+            # For ICO files, save as PNG (browsers accept PNG for favicon)
+            resized_img.save(buffer, format='PNG', optimize=True)
+            ext = '.png'
+        else:
+            # Default to PNG for best quality and compatibility
+            resized_img.save(buffer, format='PNG', optimize=True)
+            ext = '.png'
+        
+        buffer.seek(0)
+        
+        # Generate new filename
+        if hasattr(image_file, 'name'):
+            base_name = os.path.splitext(os.path.basename(image_file.name))[0]
+        else:
+            base_name = 'resized_image'
+        new_filename = f"{base_name}_{target_size[0]}x{target_size[1]}{ext}"
+        
+        return ContentFile(buffer.read(), name=new_filename)
+        
+    except Exception as e:
+        # Log error but don't break the save process
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Error resizing image: {str(e)}")
+        return None
 
 
 class ApplicationSettings(models.Model):
@@ -117,6 +207,104 @@ class ApplicationSettings(models.Model):
         help_text="Default theme for new users"
     )
     
+    # Essential Application Settings
+    contact_email = models.EmailField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Primary contact email address"
+    )
+    contact_phone = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="Primary contact phone number"
+    )
+    support_email = models.EmailField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Support email address for user inquiries"
+    )
+    organization_name = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Organization name"
+    )
+    organization_address = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Organization physical address"
+    )
+    
+    # Social Media & Links
+    website_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Main website URL"
+    )
+    facebook_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Facebook page URL"
+    )
+    twitter_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Twitter/X profile URL"
+    )
+    linkedin_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="LinkedIn profile URL"
+    )
+    
+    # Application Tour Settings
+    enable_application_tour = models.BooleanField(
+        default=True,
+        help_text="Enable the built-in application tour for new users"
+    )
+    show_tour_on_first_login = models.BooleanField(
+        default=True,
+        help_text="Automatically show tour on first user login"
+    )
+    
+    # Mobile App Download
+    android_apk = models.FileField(
+        upload_to=get_upload_path,
+        blank=True,
+        null=True,
+        help_text="Android APK file for mobile app download",
+        validators=[FileExtensionValidator(allowed_extensions=['apk'])]
+    )
+    android_apk_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Direct download URL for APK (alternative to file upload)"
+    )
+    android_apk_version = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="APK version number (e.g., 1.0.0)"
+    )
+    android_apk_size = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="APK file size (e.g., 25.5 MB)"
+    )
+    enable_apk_download = models.BooleanField(
+        default=True,
+        help_text="Show APK download button on landing page"
+    )
+    
     # Meta information
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -139,6 +327,62 @@ class ApplicationSettings(models.Model):
                     setattr(existing, field.name, getattr(self, field.name))
             existing.save()
             return existing
+        
+        # Store old file paths before saving
+        old_favicon_path = None
+        old_apple_icon_path = None
+        if self.pk:
+            try:
+                old_instance = ApplicationSettings.objects.get(pk=self.pk)
+                if old_instance.favicon:
+                    old_favicon_path = old_instance.favicon.path if hasattr(old_instance.favicon, 'path') else None
+                if old_instance.apple_touch_icon:
+                    old_apple_icon_path = old_instance.apple_touch_icon.path if hasattr(old_instance.apple_touch_icon, 'path') else None
+            except ApplicationSettings.DoesNotExist:
+                pass
+        
+        # Auto-resize favicon before saving (32x32px)
+        if self.favicon:
+            # Check if this is a new file upload (file object exists)
+            if hasattr(self.favicon, 'read'):
+                resized_favicon = resize_image(self.favicon, (32, 32), quality=95)
+                if resized_favicon:
+                    # Save the resized image
+                    self.favicon.save(
+                        resized_favicon.name,
+                        resized_favicon,
+                        save=False
+                    )
+                    # Delete old file if it exists and is different
+                    if old_favicon_path and os.path.exists(old_favicon_path):
+                        try:
+                            os.remove(old_favicon_path)
+                        except Exception:
+                            pass
+        
+        # Auto-resize apple touch icon before saving (180x180px)
+        if self.apple_touch_icon:
+            # Check if this is a new file upload (file object exists)
+            if hasattr(self.apple_touch_icon, 'read'):
+                resized_apple_icon = resize_image(self.apple_touch_icon, (180, 180), quality=95)
+                if resized_apple_icon:
+                    # Save the resized image
+                    self.apple_touch_icon.save(
+                        resized_apple_icon.name,
+                        resized_apple_icon,
+                        save=False
+                    )
+                    # Delete old file if it exists and is different
+                    if old_apple_icon_path and os.path.exists(old_apple_icon_path):
+                        try:
+                            os.remove(old_apple_icon_path)
+                        except Exception:
+                            pass
+        
+        # For APK files, save directly without processing (they're already binary)
+        # Only process images (favicon, apple_touch_icon)
+        # APK files don't need resizing, so save them as-is
+        
         return super().save(*args, **kwargs)
     
     @classmethod
@@ -190,6 +434,18 @@ class ApplicationSettings(models.Model):
         if self.apple_touch_icon:
             return self.apple_touch_icon.url
         return '/static/assets/img/icons/common/favicon.ico'
+    
+    def get_apk_url(self):
+        """Get Android APK URL - prefer uploaded file, fallback to manual URL"""
+        if self.android_apk:
+            return self.android_apk.url
+        if self.android_apk_url:
+            return self.android_apk_url
+        return None
+    
+    def has_apk(self):
+        """Check if APK file or URL is available"""
+        return bool((self.android_apk or self.android_apk_url) and self.enable_apk_download)
 
 
 # ... existing code ...

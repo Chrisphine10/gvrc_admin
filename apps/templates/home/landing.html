@@ -170,6 +170,20 @@
     transform: translateY(-3px);
   }
 
+  .btn-download {
+    background: linear-gradient(135deg, #2dce89, #1a9b6b);
+    color: white;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 15px rgba(45, 206, 137, 0.3);
+  }
+
+  .btn-download:hover {
+    background: linear-gradient(135deg, #1a9b6b, #2dce89);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(45, 206, 137, 0.5);
+  }
+
   .scroll-indicator {
     position: absolute;
     bottom: 2rem;
@@ -488,10 +502,10 @@
 <section class="hero-section">
   <div class="hero-content">
     <div class="hero-logo">
-      <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo">
+      <img src="{% if app_settings %}{{ app_settings.get_logo_url }}{% else %}/static/assets/img/brand/hodi app logo.png{% endif %}" alt="{% if app_settings %}{{ app_settings.logo_alt_text }}{% else %}Hodi Logo{% endif %}">
     </div>
-    <h1 class="hero-title">Hodi</h1>
-    <p class="hero-subtitle">GBV Directory Management System</p>
+    <h1 class="hero-title">{% if app_settings %}{{ app_settings.site_name }}{% else %}Hodi{% endif %}</h1>
+    <p class="hero-subtitle">{% if app_settings %}{{ app_settings.site_tagline }}{% else %}GBV Directory Management System{% endif %}</p>
     <p class="hero-description">
       Empowering survivors through comprehensive resource management. 
       Connecting GBV survivors with essential services across Kenya.
@@ -500,6 +514,11 @@
       <a href="{% url 'login' %}" class="btn btn-primary">
         <i class="fas fa-sign-in-alt me-2"></i>Access System
       </a>
+      {% if app_settings and app_settings.has_apk %}
+      <a href="{{ app_settings.get_apk_url }}" class="btn btn-download" download>
+        <i class="fas fa-download me-2"></i>Download App{% if app_settings.android_apk_version %} (v{{ app_settings.android_apk_version }}){% endif %}
+      </a>
+      {% endif %}
       <a href="#features" class="btn btn-secondary">
         <i class="fas fa-info-circle me-2"></i>Learn More
       </a>
@@ -618,6 +637,11 @@
       <a href="{% url 'login' %}" class="btn btn-primary">
         <i class="fas fa-sign-in-alt me-2"></i>Access System
       </a>
+      {% if app_settings and app_settings.has_apk %}
+      <a href="{{ app_settings.get_apk_url }}" class="btn btn-download" download>
+        <i class="fas fa-download me-2"></i>Download App{% if app_settings.android_apk_version %} (v{{ app_settings.android_apk_version }}){% endif %}
+      </a>
+      {% endif %}
     </div>
   </div>
 </section>

@@ -18,6 +18,7 @@ All mobile APIs are now organized under the `/mobile/` URL prefix with clear sep
 
 #### 2. Mobile Facility API (`/mobile/facilities/`)
 - `GET /mobile/facilities/list/` - List facilities (optimized for mobile)
+- `GET /mobile/facilities/map/` - Get facilities with coordinates for map display (viewport-based loading)
 - `GET /mobile/facilities/{id}/detail/` - Get facility details
 
 #### 3. Mobile Session API (`/mobile/sessions/`)

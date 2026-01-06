@@ -1,0 +1,368 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}System Monitoring{% endblock title %}
+
+{% block stylesheets %}
+<style>
+  .metric-card {
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+  .metric-card:hover {
+    transform: translateY(-5px);
+  }
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 10px 0;
+  }
+  .metric-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .status-healthy { background: linear-gradient(135deg, #2dce89 0%, #1a9b6b 100%); color: white; }
+  .status-warning { background: linear-gradient(135deg, #fb6340 0%, #d43f00 100%); color: white; }
+  .status-critical { background: linear-gradient(135deg, #f5365c 0%, #c41e3a 100%); color: white; }
+  .status-degraded { background: linear-gradient(135deg, #ffd600 0%, #ffb800 100%); color: #333; }
+  .progress-bar-custom {
+    height: 25px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .alert-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 5px;
+  }
+  .alert-critical { background: #f5365c; color: white; }
+  .alert-warning { background: #fb6340; color: white; }
+  .refresh-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid mt-6">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">
+                <i class="ni ni-chart-bar-32 text-primary"></i>
+                Live System Monitoring
+              </h3>
+              <p class="text-sm text-muted mb-0">
+                Real-time system metrics and health status
+              </p>
+            </div>
+            <div class="col-auto">
+              <span class="badge badge-lg badge-primary" id="lastUpdate">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overall Status -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-3">
+              <div class="metric-card status-healthy" id="overallStatus">
+                <div class="metric-label">Overall Status</div>
+                <div class="metric-value" id="statusValue">Loading...</div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card" style="background: #f8f9fe;">
+                <div class="metric-label text-muted">CPU Usage</div>
+                <div class="metric-value text-primary" id="cpuPercent">0%</div>
+                <div class="progress progress-sm mt-2">
+                  <div class="progress-bar bg-primary" id="cpuProgress" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card" style="background: #f8f9fe;">
+                <div class="metric-label text-muted">Memory Usage</div>
+                <div class="metric-value text-info" id="memoryPercent">0%</div>
+                <div class="progress progress-sm mt-2">
+                  <div class="progress-bar bg-info" id="memoryProgress" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="metric-card" style="background: #f8f9fe;">
+                <div class="metric-label text-muted">Disk Usage</div>
+                <div class="metric-value text-warning" id="diskPercent">0%</div>
+                <div class="progress progress-sm mt-2">
+                  <div class="progress-bar bg-warning" id="diskProgress" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="row mb-4" id="alertsSection" style="display: none;">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-warning">
+          <h4 class="mb-0"><i class="ni ni-notification-70"></i> Active Alerts</h4>
+        </div>
+        <div class="card-body" id="alertsContainer">
+          <!-- Alerts will be inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Metrics -->
+  <div class="row">
+    <!-- System Metrics -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0"><i class="ni ni-laptop"></i> System Resources</h4>
+        </div>
+        <div class="card-body">
+          <div id="systemMetrics">
+            <p class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Database Metrics -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0"><i class="ni ni-database"></i> Database Status</h4>
+        </div>
+        <div class="card-body">
+          <div id="databaseMetrics">
+            <p class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Application Metrics -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0"><i class="ni ni-settings"></i> Application Status</h4>
+        </div>
+        <div class="card-body">
+          <div id="applicationMetrics">
+            <p class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Network Metrics -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0"><i class="ni ni-world"></i> Network Activity</h4>
+        </div>
+        <div class="card-body">
+          <div id="networkMetrics">
+            <p class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Refresh Button -->
+<button class="btn btn-primary btn-lg refresh-btn" onclick="refreshAll()" title="Refresh Metrics">
+  <i class="fas fa-sync-alt"></i>
+</button>
+
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+  let refreshInterval;
+
+  function formatBytes(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  }
+
+  function updateStatusCard(status) {
+    const card = document.getElementById('overallStatus');
+    const value = document.getElementById('statusValue');
+    card.className = 'metric-card status-' + status.toLowerCase();
+    value.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  }
+
+  function updateProgressBar(id, percent, colorClass) {
+    const bar = document.getElementById(id);
+    bar.style.width = percent + '%';
+    bar.className = 'progress-bar ' + colorClass;
+    if (percent > 90) bar.classList.add('bg-danger');
+    else if (percent > 70) bar.classList.add('bg-warning');
+  }
+
+  function displayAlerts(alerts) {
+    const container = document.getElementById('alertsContainer');
+    const section = document.getElementById('alertsSection');
+    
+    if (alerts.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+    
+    section.style.display = 'block';
+    container.innerHTML = '';
+    
+    alerts.forEach(alert => {
+      const badge = document.createElement('span');
+      badge.className = 'alert-badge alert-' + alert.level;
+      badge.textContent = alert.message;
+      container.appendChild(badge);
+    });
+  }
+
+  async function fetchMetrics() {
+    try {
+      // Fetch full status
+      const statusResponse = await fetch('{% url "monitoring:full_status" %}');
+      const statusData = await statusResponse.json();
+      
+      // Update overall status
+      updateStatusCard(statusData.status);
+      document.getElementById('statusValue').textContent = statusData.status.charAt(0).toUpperCase() + statusData.status.slice(1);
+      
+      // Update system metrics
+      const system = statusData.system;
+      document.getElementById('cpuPercent').textContent = system.cpu_percent.toFixed(1) + '%';
+      document.getElementById('memoryPercent').textContent = system.memory_percent.toFixed(1) + '%';
+      document.getElementById('diskPercent').textContent = system.disk_percent.toFixed(1) + '%';
+      
+      updateProgressBar('cpuProgress', system.cpu_percent, 'bg-primary');
+      updateProgressBar('memoryProgress', system.memory_percent, 'bg-info');
+      updateProgressBar('diskProgress', system.disk_percent, 'bg-warning');
+      
+      // Display alerts
+      displayAlerts(statusData.alerts || []);
+      
+      // Fetch detailed metrics
+      const [systemRes, dbRes, appRes] = await Promise.all([
+        fetch('{% url "monitoring:system_metrics" %}'),
+        fetch('{% url "monitoring:database_metrics" %}'),
+        fetch('{% url "monitoring:application_metrics" %}')
+      ]);
+      
+      const systemMetrics = await systemRes.json();
+      const dbMetrics = await dbRes.json();
+      const appMetrics = await appRes.json();
+      
+      // Display system metrics
+      document.getElementById('systemMetrics').innerHTML = `
+        <table class="table table-sm">
+          <tr><td><strong>CPU Cores:</strong></td><td>${systemMetrics.cpu.count}</td></tr>
+          <tr><td><strong>CPU Frequency:</strong></td><td>${systemMetrics.cpu.frequency_mhz ? systemMetrics.cpu.frequency_mhz.toFixed(0) + ' MHz' : 'N/A'}</td></tr>
+          <tr><td><strong>Total Memory:</strong></td><td>${systemMetrics.memory.total_gb} GB</td></tr>
+          <tr><td><strong>Available Memory:</strong></td><td>${systemMetrics.memory.available_gb} GB</td></tr>
+          <tr><td><strong>Used Memory:</strong></td><td>${systemMetrics.memory.used_gb} GB</td></tr>
+          <tr><td><strong>Total Disk:</strong></td><td>${systemMetrics.disk.total_gb} GB</td></tr>
+          <tr><td><strong>Free Disk:</strong></td><td>${systemMetrics.disk.free_gb} GB</td></tr>
+          <tr><td><strong>Process Memory:</strong></td><td>${systemMetrics.process.memory_mb} MB</td></tr>
+        </table>
+      `;
+      
+      // Display database metrics
+      document.getElementById('databaseMetrics').innerHTML = `
+        <table class="table table-sm">
+          <tr><td><strong>Status:</strong></td><td><span class="badge badge-${dbMetrics.status === 'connected' ? 'success' : 'danger'}">${dbMetrics.status}</span></td></tr>
+          <tr><td><strong>Database Size:</strong></td><td>${dbMetrics.database_size}</td></tr>
+          <tr><td><strong>Active Connections:</strong></td><td>${dbMetrics.active_connections}</td></tr>
+          <tr><td><strong>Connection Pool:</strong></td><td>${dbMetrics.connection_pool.max_connections}</td></tr>
+        </table>
+      `;
+      
+      // Display application metrics
+      document.getElementById('applicationMetrics').innerHTML = `
+        <table class="table table-sm">
+          <tr><td><strong>Cache Status:</strong></td><td><span class="badge badge-${appMetrics.cache === 'working' ? 'success' : 'warning'}">${appMetrics.cache}</span></td></tr>
+          <tr><td><strong>Static Files:</strong></td><td>${appMetrics.static_files.exists ? '✓' : '✗'}</td></tr>
+          <tr><td><strong>Media Files:</strong></td><td>${appMetrics.media_files.exists ? '✓' : '✗'}</td></tr>
+          <tr><td><strong>Debug Mode:</strong></td><td>${appMetrics.debug_mode ? 'ON' : 'OFF'}</td></tr>
+          <tr><td><strong>Allowed Hosts:</strong></td><td>${appMetrics.allowed_hosts_count}</td></tr>
+        </table>
+      `;
+      
+      // Display network metrics
+      document.getElementById('networkMetrics').innerHTML = `
+        <table class="table table-sm">
+          <tr><td><strong>Bytes Sent:</strong></td><td>${formatBytes(systemMetrics.network.bytes_sent)}</td></tr>
+          <tr><td><strong>Bytes Received:</strong></td><td>${formatBytes(systemMetrics.network.bytes_recv)}</td></tr>
+          <tr><td><strong>Packets Sent:</strong></td><td>${systemMetrics.network.packets_sent.toLocaleString()}</td></tr>
+          <tr><td><strong>Packets Received:</strong></td><td>${systemMetrics.network.packets_recv.toLocaleString()}</td></tr>
+        </table>
+      `;
+      
+      // Update last update time
+      const now = new Date();
+      document.getElementById('lastUpdate').textContent = 'Updated: ' + now.toLocaleTimeString();
+      
+    } catch (error) {
+      console.error('Error fetching metrics:', error);
+      document.getElementById('statusValue').textContent = 'Error';
+      updateStatusCard('critical');
+    }
+  }
+
+  function refreshAll() {
+    fetchMetrics();
+  }
+
+  // Auto-refresh every 5 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    fetchMetrics();
+    refreshInterval = setInterval(fetchMetrics, 5000);
+  });
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', function() {
+    if (refreshInterval) {
+      clearInterval(refreshInterval);
+    }
+  });
+</script>
+{% endblock javascripts %}
+
+

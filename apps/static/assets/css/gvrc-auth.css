@@ -1,10 +1,10 @@
 /* GVRC Admin Authentication Styles */
 :root {
-  --gvrc-primary: #52A373;
-  --gvrc-primary-dark: #3E7A5A;
-  --gvrc-secondary: #2D5A3D;
-  --gvrc-accent: #7FBF95;
-  --gvrc-light: #E8F5ED;
+  --gvrc-primary: #247F2F;
+  --gvrc-primary-dark: #0B4A28;
+  --gvrc-secondary: #14532D;
+  --gvrc-accent: #7CB528;
+  --gvrc-light: #EDF5E7;
   --gvrc-white: #FFFFFF;
   --gvrc-gray-100: #F8F9FA;
   --gvrc-gray-200: #E9ECEF;

@@ -1,4 +1,4 @@
-{% extends 'layouts/base-auth.html' %}
+﻿{% extends 'layouts/base-auth.html' %}
 
 {% block title %}Hodi - GBV Directory Management System{% endblock title %}
 
@@ -43,7 +43,7 @@
 
   .hero-section {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #247F2F 0%, #0B4A28 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,6 +101,23 @@
     object-fit: contain;
   }
 
+  /* Full wordmark on a white plate (the wordmark art has a white ground) */
+  .hero-wordmark {
+    display: inline-block;
+    margin: 0 auto 1.75rem;
+    padding: 1.5rem 2.25rem;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  }
+
+  .hero-wordmark img {
+    display: block;
+    width: 320px;
+    max-width: 70vw;
+    height: auto;
+  }
+
   .hero-title {
     font-size: 4rem;
     font-weight: 800;
@@ -149,7 +166,7 @@
 
   .btn-primary {
     background: white;
-    color: #667eea;
+    color: #247F2F;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
 
@@ -166,7 +183,7 @@
 
   .btn-secondary:hover {
     background: white;
-    color: #667eea;
+    color: #247F2F;
     transform: translateY(-3px);
   }
 
@@ -251,7 +268,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #247F2F, #0B4A28);
     transform: scaleX(0);
     transition: transform 0.3s ease;
   }
@@ -268,7 +285,7 @@
   .feature-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #247F2F, #0B4A28);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -276,7 +293,7 @@
     margin: 0 auto 1.5rem;
     font-size: 2rem;
     color: white;
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 20px rgba(36, 127, 47, 0.3);
   }
 
   .feature-title {
@@ -305,8 +322,8 @@
     right: 0;
     bottom: 0;
     background-image: 
-      radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.05) 2px, transparent 2px),
-      radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.05) 2px, transparent 2px);
+      radial-gradient(circle at 20% 80%, rgba(36, 127, 47, 0.05) 2px, transparent 2px),
+      radial-gradient(circle at 80% 20%, rgba(11, 74, 40, 0.05) 2px, transparent 2px);
     background-size: 100px 100px, 80px 80px;
     animation: float 40s ease-in-out infinite reverse;
   }
@@ -332,13 +349,13 @@
   .stat-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-    border-color: #667eea;
+    border-color: #247F2F;
   }
 
   .stat-number {
     font-size: 3rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #247F2F, #0B4A28);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -409,8 +426,8 @@
     right: 0;
     bottom: 0;
     background-image: 
-      radial-gradient(circle at 25% 75%, rgba(102, 126, 234, 0.1) 1px, transparent 1px),
-      radial-gradient(circle at 75% 25%, rgba(118, 75, 162, 0.1) 1px, transparent 1px);
+      radial-gradient(circle at 25% 75%, rgba(36, 127, 47, 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 75% 25%, rgba(11, 74, 40, 0.1) 1px, transparent 1px);
     background-size: 60px 60px, 80px 80px;
     animation: float 50s ease-in-out infinite reverse;
   }
@@ -425,7 +442,7 @@
   .footer-logo {
     font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #247F2F, #0B4A28);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -487,10 +504,9 @@
 <!-- Hero Section -->
 <section class="hero-section">
   <div class="hero-content">
-    <div class="hero-logo">
-      <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo">
+    <div class="hero-wordmark">
+      <img src="/static/assets/img/brand/hodi-wordmark.png" alt="Hodi — Care, Empower, Thrive">
     </div>
-    <h1 class="hero-title">Hodi</h1>
     <p class="hero-subtitle">GBV Directory Management System</p>
     <p class="hero-description">
       Empowering survivors through comprehensive resource management. 
@@ -704,3 +720,4 @@
   });
 </script>
 {% endblock javascripts %}
+

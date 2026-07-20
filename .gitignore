@@ -15,3 +15,8 @@ logs/*.log
 *.sqlite*
 
 *.log
+
+# Environment secrets — never commit
+.env
+.env.*
+!.env.example

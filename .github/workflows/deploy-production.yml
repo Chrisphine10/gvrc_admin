@@ -92,7 +92,10 @@ jobs:
             ROOT=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://hodi-admin.co.ke/ || echo 000)
             ADMIN=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://hodi-admin.co.ke/admin/ || echo 000)
             echo "attempt $i: / -> $ROOT, /admin/ -> $ADMIN"
-            if [ "$ROOT" = "200" ] && [ "$ADMIN" = "200" ]; then
+            # /admin/ answers 302 (redirect to login) for the anonymous
+            # request this check makes — that IS the healthy response.
+            # Requiring 200 made every successful deploy roll itself back.
+            if [ "$ROOT" = "200" ] && { [ "$ADMIN" = "200" ] || [ "$ADMIN" = "302" ]; }; then
               echo "healthy=true" >> "$GITHUB_OUTPUT"
               exit 0
             fi

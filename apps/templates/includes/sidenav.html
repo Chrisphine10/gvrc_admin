@@ -3,8 +3,9 @@
     <!-- Brand -->
     <div class="sidenav-header  align-items-center">
               <a class="navbar-brand" href="{% url 'landing' %}">
-        <img src="{% if app_settings %}{{ app_settings.get_logo_url }}{% else %}/static/assets/img/brand/hodi app logo.png{% endif %}" class="navbar-brand-img" alt="{% if app_settings %}{{ app_settings.logo_alt_text }}{% else %}Hodi Admin - Hodi App Management Dashboard{% endif %}" style="max-height: 40px;">
-        <span class="navbar-brand-text ms-2 fw-bold text-primary">{% if app_settings %}{{ app_settings.site_name }}{% else %}Hodi Admin{% endif %}</span>
+        <!-- The wordmark carries the name; icon + separate text drifted apart
+             from page to page. One asset, always identical. -->
+        <img src="/static/assets/img/brand/hodi-wordmark.png" alt="Hodi" style="max-height: 44px; width: auto;">
       </a>
     </div>
     <div class="navbar-inner">

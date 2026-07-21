@@ -3,31 +3,7 @@
 {% block title %} Admin Dashboard {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}
-<style>
-  /* Dashboard visual system: brand gradient header, soft elevated cards,
-     consistent radii. Scoped to this page's existing argon classes. */
-  .header.bg-primary {
-    background: linear-gradient(160deg, #0e3d24 0%, #14532d 55%, #1f7a3f 100%) !important;
-  }
-  .card {
-    border: 1px solid #e8efe9;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(20, 60, 35, .06);
-  }
-  .card .card-header { border-radius: 16px 16px 0 0; border-bottom: 1px solid #eef4ef; }
-  .card-stats { transition: transform .15s ease, box-shadow .15s ease; }
-  .card-stats:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(20, 60, 35, .12); }
-  .card-stats .icon-shape {
-    border-radius: 12px !important;
-    background: linear-gradient(135deg, #1f7a3f, #7bc043) !important;
-    color: #fff !important;
-  }
-  .btn-neutral { border-radius: 10px; }
-  .breadcrumb-dark .breadcrumb-item a, .breadcrumb-dark .breadcrumb-item.active { color: rgba(255,255,255,.85); }
-  .table thead th { text-transform: uppercase; letter-spacing: .04em; font-size: .68rem; color: #7a8a7f; }
-</style>
-{% endblock stylesheets %}
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 

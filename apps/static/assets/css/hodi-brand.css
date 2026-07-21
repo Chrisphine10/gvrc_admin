@@ -119,3 +119,62 @@ a:hover {
 .thead-light th {
   color: var(--hodi-primary-dark);
 }
+
+
+/* ============================================================
+   Hodi admin theme layer - applies to EVERY admin page.
+   One card system, one table system, no horizontal overflow.
+   ============================================================ */
+
+/* Brand gradient page headers */
+.header.bg-primary,
+.header.bg-gradient-primary {
+  background: linear-gradient(160deg, #0e3d24 0%, #14532d 55%, #1f7a3f 100%) !important;
+}
+
+/* Card system */
+.card {
+  border: 1px solid #e8efe9;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(20, 60, 35, .06);
+}
+.card .card-header {
+  border-radius: 14px 14px 0 0;
+  border-bottom: 1px solid #eef4ef;
+  background: #fff;
+}
+.card .card-header h3, .card .card-header h5 { margin-bottom: 0; }
+.card-stats { transition: transform .15s ease, box-shadow .15s ease; }
+.card-stats:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(20, 60, 35, .12); }
+.card-stats .icon-shape {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #1f7a3f, #7bc043) !important;
+  color: #fff !important;
+}
+.card-stats .card-title {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* One table structure everywhere */
+.table { margin-bottom: 0; }
+.table thead th {
+  text-transform: uppercase; letter-spacing: .04em; font-size: .68rem;
+  color: #7a8a7f; background: #f7faf7; border-top: 0;
+  padding: .65rem 1rem; white-space: nowrap;
+}
+.table td, .table th { padding: .7rem 1rem; vertical-align: middle; }
+.table td { word-break: break-word; }
+.table-hover tbody tr:hover, .table tbody tr:hover { background-color: #f4faf4; }
+.table .badge { font-size: .68rem; }
+
+/* No horizontal overflow, anywhere */
+.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.card .table-responsive { border-radius: 0 0 14px 14px; }
+.main-content img { max-width: 100%; height: auto; }
+.card-body { min-width: 0; }
+.row { --bs-gutter-x: 1.25rem; }
+body { overflow-x: hidden; }
+
+/* Buttons and links */
+.btn { border-radius: 10px; }
+.btn-neutral { border-radius: 10px; }

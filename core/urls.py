@@ -102,6 +102,7 @@ urlpatterns = [
     path("chat/", include("apps.chat.urls")),     # Emergency Chat System Web Interface
     path("music/", include("apps.music.urls")),   # Music
     path("documents/", include("apps.documents.urls")), # Documents
+    path("monitoring/", include("apps.monitoring.urls")), # System Monitoring
     
     # Swagger / ReDoc documentation
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
@@ -111,9 +112,14 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url='/static/assets/img/icons/common/favicon.ico', permanent=True)),
 ]
 
-# Add media files serving in development
+# Add media files and debug toolbar in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    try:
+        import debug_toolbar
+        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+    except ImportError:
+        pass
 
 # Lazy-load on routing is needed
 # During the first build, API is not yet generated

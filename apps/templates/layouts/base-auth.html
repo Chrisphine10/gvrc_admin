@@ -8,11 +8,11 @@
     Hodi Admin - {% block title %} Healthcare Facility Management {% endblock %}
   </title>
 
-  <link rel="icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" href="/static/assets/img/icons/common/favicon.ico">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  
+  <!-- Favicon - loaded dynamically from settings -->
+  <link rel="icon" href="{% if app_settings %}{{ app_settings.get_favicon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}" type="image/x-icon">
+  <link rel="shortcut icon" href="{% if app_settings %}{{ app_settings.get_favicon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{% if app_settings %}{{ app_settings.get_apple_touch_icon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}">
+
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   
@@ -199,11 +199,11 @@
         <a class="navbar-brand" href="{% url 'landing' %}">
           <div class="d-flex align-items-center">
             <div class="gvrc-logo me-3">
-              <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo" class="hodi-logo" style="width: 40px; height: 40px; object-fit: contain;">
+              <img src="{% if app_settings %}{{ app_settings.get_logo_url }}{% else %}/static/assets/img/brand/hodi app logo.png{% endif %}" alt="{% if app_settings %}{{ app_settings.logo_alt_text }}{% else %}Hodi Logo{% endif %}" class="hodi-logo" style="width: 40px; height: 40px; object-fit: contain;">
             </div>
             <div>
-              <span class="text-white font-weight-bold" style="font-size: 1.25rem;">Hodi Admin</span>
-              <div class="text-white-50" style="font-size: 0.75rem;">Healthcare Management System</div>
+              <span class="text-white font-weight-bold" style="font-size: 1.25rem; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: -0.3px;">{% if app_settings %}{{ app_settings.site_name }}{% else %}Hodi Admin{% endif %}</span>
+              <div class="text-white-50" style="font-size: 0.75rem; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.2px;">{% if app_settings %}{{ app_settings.site_tagline }}{% else %}Healthcare Management System{% endif %}</div>
             </div>
           </div>
         </a>

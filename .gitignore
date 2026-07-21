@@ -1,22 +1,38 @@
-*.pyc
-*.DS_Store
-*.egg*
-/dist/
-/.idea
-/docs/_build/
-/node_modules/
-build/
-env
-/env/
-logs/*.log
-
-
-#src
-*.sqlite*
-
-*.log
-
-# Environment secrets — never commit
+# --- Secrets ---
 .env
 .env.*
-!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*.json
+
+# --- Database & data (code-only push) ---
+*.sqlite3
+db.sqlite3
+*.sql
+*.dump
+backups/
+
+# --- Python virtual environment (rebuildable; contains >100MB binaries) ---
+env/
+venv/
+.venv/
+ENV/
+
+# --- Python caches/build ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# --- OS / crash junk ---
+.DS_Store
+Thumbs.db
+*.stackdump
+
+# Generated / runtime — not source
+staticfiles/
+logs/
+media/

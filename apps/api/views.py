@@ -130,8 +130,8 @@ class FacilityListView(generics.ListAPIView):
             'operational_status'
         ).prefetch_related(
             Prefetch(
-                'facilitycoordinate',
-                queryset=FacilityCoordinate.objects.filter(),
+                'facilitycoordinate_set',
+                queryset=FacilityCoordinate.objects.filter(is_active=True),
                 to_attr='active_coordinates'
             ),
             Prefetch(
@@ -188,7 +188,7 @@ class FacilityDetailView(generics.RetrieveAPIView):
         'facilityservice_set__service_category',
         'facilityowner_set__owner_type',
         'facilitygbvcategory_set__gbv_category',
-        'facilitycoordinate'
+        'facilitycoordinate_set'
     ).filter(is_active=True)
     serializer_class = FacilityDetailSerializer
     permission_classes = [IsAuthenticated]
@@ -236,6 +236,9 @@ class FacilityMapView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
+    # Hard cap prevents unbounded JSON responses when no viewport bounds are supplied
+    MAX_MAP_RESULTS = 500
+
     def get_queryset(self):
         """Get only facilities with valid coordinates, optimized for map display"""
         queryset = Facility.objects.select_related(
@@ -243,7 +246,7 @@ class FacilityMapView(generics.ListAPIView):
             'operational_status'
         ).prefetch_related(
             Prefetch(
-                'facilitycoordinate',
+                'facilitycoordinate_set',
                 queryset=FacilityCoordinate.objects.filter(
                     latitude__isnull=False,
                     longitude__isnull=False,
@@ -291,18 +294,10 @@ class FacilityMapView(generics.ListAPIView):
 
         # Limit results based on zoom level for performance
         if zoom_level <= 5:
-            # Country level - show only major facilities
-            queryset = queryset.filter(
-                operational_status__status_name='Operational'
-            )[:1000]
-        elif zoom_level <= 8:
-            # Regional level - show more facilities
-            queryset = queryset[:5000]
-        else:
-            # Local level - show all facilities in viewport
-            queryset = queryset[:10000]
-
-        return queryset.distinct()
+            queryset = queryset.filter(operational_status__status_name='Operational')
+        
+        # Hard cap — prevents unbounded responses when no viewport bounds are supplied
+        return queryset.distinct()[:self.MAX_MAP_RESULTS]
 
 
 class FacilitySearchView(generics.ListAPIView):
@@ -332,8 +327,21 @@ class FacilitySearchView(generics.ListAPIView):
             'ward__constituency__county',
             'operational_status'
         ).prefetch_related(
-            'facilityservice_set__service_category',
-            'facilitycoordinate'
+            Prefetch(
+                'facilityservice_set',
+                queryset=FacilityService.objects.filter(is_active=True).select_related('service_category'),
+                to_attr='active_services'
+            ),
+            Prefetch(
+                'facilitycontact_set',
+                queryset=FacilityContact.objects.filter(is_active=True).select_related('contact_type'),
+                to_attr='active_contacts'
+            ),
+            Prefetch(
+                'facilitycoordinate_set',
+                queryset=FacilityCoordinate.objects.filter(is_active=True),
+                to_attr='active_coordinates'
+            ),
         ).filter(is_active=True)
 
         # Get search parameters
@@ -471,6 +479,7 @@ class LookupDataView(generics.GenericAPIView):
         return Response(lookup_data)
 
 
+@method_decorator(cache_page(3600), name='dispatch')  # 1 hour — counties are stable reference data
 class CountyListView(generics.ListAPIView):
     """Get list of counties"""
     queryset = County.objects.all().order_by('county_name')
@@ -479,6 +488,7 @@ class CountyListView(generics.ListAPIView):
     pagination_class = None
 
 
+@method_decorator(cache_page(3600), name='dispatch')  # 1 hour
 class ConstituencyListView(generics.ListAPIView):
     """Get list of constituencies with county information"""
     queryset = Constituency.objects.select_related('county').all().order_by('constituency_name')
@@ -487,6 +497,7 @@ class ConstituencyListView(generics.ListAPIView):
     pagination_class = None
 
 
+@method_decorator(cache_page(3600), name='dispatch')  # 1 hour
 class WardListView(generics.ListAPIView):
     """Get list of wards with constituency and county information"""
     queryset = Ward.objects.select_related('constituency__county').all().order_by('ward_name')
@@ -495,6 +506,7 @@ class WardListView(generics.ListAPIView):
     pagination_class = None
 
 
+@method_decorator(cache_page(3600), name='dispatch')  # 1 hour — full geography tree rarely changes
 class ConsolidatedGeographyView(generics.ListAPIView):
     """
     Consolidated geography endpoint that returns all counties with nested constituencies and wards.
@@ -571,6 +583,8 @@ class EmergencyServicesView(generics.GenericAPIView):
     Optimized for urgent situations with location-based search.
     """
     permission_classes = [IsAuthenticated]
+    # Emergency endpoints must never be throttled — real-world SOS calls cannot be blocked
+    throttle_classes = []
     
     @swagger_auto_schema(
         operation_description="Find nearest emergency services for SOS situations",
@@ -737,46 +751,57 @@ class ReferralChainView(generics.GenericAPIView):
             'followup_services': [],
             'recommended_order': []
         }
-        
-        # Find facilities for immediate needs
+
+        # Build a single fully-prefetched queryset for the location, then filter in Python.
+        # This avoids one DB round-trip per need category (was O(n) queries, now O(1)).
+        base_qs = Facility.objects.select_related(
+            'ward__constituency__county', 'operational_status'
+        ).prefetch_related(
+            Prefetch(
+                'facilityservice_set',
+                queryset=FacilityService.objects.filter(is_active=True).select_related('service_category'),
+                to_attr='active_services'
+            ),
+            Prefetch(
+                'facilitycontact_set',
+                queryset=FacilityContact.objects.filter(is_active=True).select_related('contact_type'),
+                to_attr='active_contacts'
+            ),
+            Prefetch(
+                'facilitycoordinate_set',
+                queryset=FacilityCoordinate.objects.filter(is_active=True),
+                to_attr='active_coordinates'
+            ),
+        ).filter(is_active=True, operational_status__status_name='Operational')
+
+        if 'county' in location:
+            base_qs = base_qs.filter(ward__constituency__county_id=location['county'])
+        if 'ward' in location:
+            base_qs = base_qs.filter(ward_id=location['ward'])
+
+        # Evaluate once; slice per need category in Python — no additional DB hits
+        all_facilities = list(base_qs)
+
+        def _facilities_for_need(need):
+            matched = [
+                f for f in all_facilities
+                if any(
+                    need.lower() in (s.service_category.category_name or '').lower()
+                    for s in getattr(f, 'active_services', [])
+                )
+            ]
+            return FacilityListSerializer(matched[:5], many=True).data
+
         for need in immediate_needs:
-            facilities = Facility.objects.select_related(
-                'ward__constituency__county'
-            ).filter(
-                is_active=True,
-                operational_status__status_name='Operational',
-                facilityservice_set__service_category__category_name__icontains=need
-            )
-            
-            # Apply location filter
-            if 'county' in location:
-                facilities = facilities.filter(ward__constituency__county_id=location['county'])
-            if 'ward' in location:
-                facilities = facilities.filter(ward_id=location['ward'])
-            
-            facility_data = FacilityListSerializer(facilities[:5], many=True).data
             referral_chain['immediate_services'].append({
                 'service_type': need,
-                'facilities': facility_data
+                'facilities': _facilities_for_need(need),
             })
-        
-        # Find facilities for follow-up needs
+
         for need in followup_needs:
-            facilities = Facility.objects.select_related(
-                'ward__constituency__county'
-            ).filter(
-                is_active=True,
-                operational_status__status_name='Operational',
-                facilityservice_set__service_category__category_name__icontains=need
-            )
-            
-            if 'county' in location:
-                facilities = facilities.filter(ward__constituency__county_id=location['county'])
-            
-            facility_data = FacilityListSerializer(facilities[:5], many=True).data
             referral_chain['followup_services'].append({
                 'service_type': need,
-                'facilities': facility_data
+                'facilities': _facilities_for_need(need),
             })
         
         # Recommended order based on case type
@@ -813,7 +838,7 @@ class FacilityCompleteView(generics.RetrieveAPIView):
         'facilityservice_set__service_category',
         'facilityowner_set__owner_type',
         'facilitygbvcategory_set__gbv_category',
-        'facilitycoordinate'
+        'facilitycoordinate_set'
     ).filter(is_active=True)
     serializer_class = FacilityCompleteSerializer
     permission_classes = [IsAuthenticated]
@@ -865,8 +890,11 @@ class ContactInteractionAnalyticsView(generics.GenericAPIView):
                     'error': 'contact_id is required'
                 }, status=status.HTTP_400_BAD_REQUEST)
             
-            # Get the contact
-            contact = get_object_or_404(FacilityContact, contact_id=contact_id)
+            # Get the contact — select_related avoids a second query for contact_type
+            contact = get_object_or_404(
+                FacilityContact.objects.select_related('contact_type', 'facility'),
+                contact_id=contact_id,
+            )
             
             # Get user from request - handle both session and token authentication
             user = None
@@ -1079,7 +1107,7 @@ class MobileFacilitiesView(generics.ListAPIView):
             'facilityservice_set__service_category',
             'facilityowner_set__owner_type',
             'facilitygbvcategory_set__gbv_category',
-            'facilitycoordinate',
+            'facilitycoordinate_set',
             'facilityinfrastructure_set__infrastructure_type',
             'facilityinfrastructure_set__condition_status'
         ).filter(is_active=True)
@@ -1269,6 +1297,8 @@ class MobileEmergencySOSView(generics.GenericAPIView):
     Finds nearest emergency facilities based on mobile session location.
     """
     permission_classes = [MobileSessionPermission]
+    # Emergency endpoints must never be throttled
+    throttle_classes = []
     
     @swagger_auto_schema(
         operation_description="Emergency SOS - Find nearest emergency facilities using mobile session location",
@@ -1735,8 +1765,11 @@ class MobileContactInteractionView(generics.GenericAPIView):
             mobile_session = request.mobile_session
             device_id = mobile_session.device_id
             
-            # Get the contact
-            contact = get_object_or_404(FacilityContact, contact_id=contact_id)
+            # Get the contact — select_related avoids a second query for contact_type
+            contact = get_object_or_404(
+                FacilityContact.objects.select_related('contact_type', 'facility'),
+                contact_id=contact_id,
+            )
             
             # Get location from mobile session if not provided in request
             user_latitude = request.data.get('user_latitude') or mobile_session.latitude
@@ -1796,6 +1829,7 @@ class MobileContactInteractionView(generics.GenericAPIView):
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@method_decorator(cache_page(600), name='dispatch')  # 10 min — lookup tables rarely change
 class MobileLookupView(generics.GenericAPIView):
     """
     Mobile lookup data endpoint.

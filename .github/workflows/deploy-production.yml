@@ -1,0 +1,138 @@
+name: Deploy to production
+
+# Deploys the Django admin to the Hodi VPS.
+#
+# Safety model: every deploy takes a backup first and records the current
+# commit. If the post-deploy health check fails, the previous commit is
+# restored and the service restarted, so a bad push cannot leave the service
+# down. Hodi is used by people seeking help from violence — an outage is not
+# an acceptable outcome of a routine deploy.
+
+on:
+  push:
+    branches: [main]
+    # Documentation-only changes do not need a restart.
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+    inputs:
+      skip_migrations:
+        description: 'Skip database migrations'
+        type: boolean
+        default: false
+
+concurrency:
+  # Never let two deploys interleave on the same host.
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Pre-deploy backup and record rollback point
+        run: |
+          ssh -i ~/.ssh/deploy_key -o BatchMode=yes \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+            'set -e
+             /usr/local/bin/hodi-backup.sh
+             cd /var/www/hodi
+             git rev-parse HEAD > /tmp/rollback_commit
+             echo "Rollback point: $(cat /tmp/rollback_commit)"'
+
+      - name: Deploy
+        env:
+          SKIP_MIGRATIONS: ${{ inputs.skip_migrations }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o BatchMode=yes \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+            "set -e
+             cd /var/www/hodi
+
+             # Refuse to deploy over uncommitted work. Changes have previously
+             # been made directly on this host; a pull would destroy them.
+             DIRTY=\$(git status --porcelain -- ':!staticfiles' ':!logs' ':!media' | wc -l)
+             if [ \"\$DIRTY\" -gt 0 ]; then
+               echo '::error::Working tree has uncommitted changes. Refusing to deploy.'
+               git status --porcelain -- ':!staticfiles' ':!logs' ':!media' | head -20
+               exit 1
+             fi
+
+             git fetch origin main
+             git reset --hard origin/main
+
+             source venv/bin/activate
+             pip install -q -r requirements.txt
+
+             if [ \"$SKIP_MIGRATIONS\" != 'true' ]; then
+               python manage.py migrate --noinput
+             fi
+
+             python manage.py collectstatic --noinput
+             python manage.py check --deploy || true
+
+             systemctl restart hodi.service"
+
+      - name: Health check
+        id: health
+        run: |
+          sleep 6
+          for i in 1 2 3 4 5; do
+            ROOT=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://hodi-admin.co.ke/ || echo 000)
+            ADMIN=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://hodi-admin.co.ke/admin/ || echo 000)
+            echo "attempt $i: / -> $ROOT, /admin/ -> $ADMIN"
+            if [ "$ROOT" = "200" ] && [ "$ADMIN" = "200" ]; then
+              echo "healthy=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            sleep 8
+          done
+          echo "healthy=false" >> "$GITHUB_OUTPUT"
+          exit 1
+
+      - name: Verify the mobile API still serves data
+        run: |
+          # A 403 here is CORRECT: /mobile endpoints require a device session.
+          # We assert on that specific response so a 500 or an empty reply is
+          # caught, rather than treating any response as success.
+          BODY=$(curl -s --max-time 20 https://hodi-admin.co.ke/mobile/facilities/list/ || true)
+          echo "$BODY" | grep -q 'Authentication credentials were not provided' \
+            && echo 'Mobile API responding as expected' \
+            || { echo "::error::Unexpected mobile API response: $BODY"; exit 1; }
+
+      - name: Roll back on failure
+        if: failure()
+        run: |
+          echo '::warning::Deploy failed — rolling back to previous commit'
+          ssh -i ~/.ssh/deploy_key -o BatchMode=yes \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+            'set -e
+             cd /var/www/hodi
+             if [ -f /tmp/rollback_commit ]; then
+               git reset --hard "$(cat /tmp/rollback_commit)"
+               source venv/bin/activate
+               python manage.py collectstatic --noinput
+               systemctl restart hodi.service
+               echo "Rolled back to $(cat /tmp/rollback_commit)"
+             else
+               echo "No rollback point recorded; manual intervention required"
+               exit 1
+             fi'
+          sleep 5
+          curl -s -o /dev/null -w 'post-rollback /admin/ -> %{http_code}\n' \
+            https://hodi-admin.co.ke/admin/ || true
+
+      - name: Clean up key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key

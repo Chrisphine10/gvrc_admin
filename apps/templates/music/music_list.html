@@ -1,4 +1,4 @@
-﻿{% extends 'layouts/base.html' %}
+{% extends 'layouts/base.html' %}
 {% load static %}
 
 {% block title %}Music Library{% endblock %}
@@ -16,7 +16,7 @@
 }
 
 .music-stats {
-    background: linear-gradient(135deg, var(--gvrc-primary) 0%, #247F2F 100%);
+    background: linear-gradient(135deg, var(--gvrc-primary) 0%, #667eea 100%);
     color: white;
     border-radius: 10px;
     padding: 20px;
@@ -60,6 +60,22 @@
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
+}
+
+/* Audio Player Styling */
+audio {
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+}
+
+audio::-webkit-media-controls-panel {
+    background-color: #f8f9fa;
+}
+
+audio::-webkit-media-controls-play-button {
+    background-color: #007bff;
+    border-radius: 50%;
 }
 </style>
 {% endblock %}
@@ -239,13 +255,26 @@
                     </p>
                     {% endif %}
                     
+                    {% if music.has_file %}
+                    <!-- Audio Player -->
+                    <div class="mb-3">
+                        <audio controls class="w-100" preload="metadata" id="audio-{{ music.music_id }}">
+                            <source src="{{ music.music_file.url }}" type="audio/mpeg">
+                            <source src="{{ music.music_file.url }}" type="audio/mp3">
+                            <source src="{{ music.music_file.url }}" type="audio/wav">
+                            <source src="{{ music.music_file.url }}" type="audio/ogg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    {% endif %}
+                    
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="text-muted">
                             <i class="fas fa-play"></i> {{ music.total_listens }} listens
                         </span>
                         <div>
                             {% if music.has_file %}
-                                <a href="{{ music.music_file.url }}" target="_blank" class="play-button">
+                                <a href="{{ music.music_file.url }}" download class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             {% elif music.link %}
@@ -331,5 +360,61 @@ document.getElementById('genre').addEventListener('change', function() {
 document.getElementById('artist').addEventListener('change', function() {
     this.form.submit();
 });
+
+// Track audio playback for all players
+document.addEventListener('DOMContentLoaded', function() {
+    const audioPlayers = document.querySelectorAll('audio[id^="audio-"]');
+    
+    audioPlayers.forEach(player => {
+        let hasTrackedPlay = false;
+        const musicId = player.id.replace('audio-', '');
+        
+        // Track when audio starts playing
+        player.addEventListener('play', function() {
+            if (!hasTrackedPlay) {
+                hasTrackedPlay = true;
+                // Track the play event via AJAX
+                fetch(`/music/${musicId}/track-play/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                }).catch(err => console.log('Play tracking error:', err));
+            }
+        });
+        
+        // Reset tracking when audio ends
+        player.addEventListener('ended', function() {
+            hasTrackedPlay = false;
+        });
+        
+        // Pause other players when one starts playing (optional - for better UX)
+        player.addEventListener('play', function() {
+            audioPlayers.forEach(otherPlayer => {
+                if (otherPlayer !== player && !otherPlayer.paused) {
+                    otherPlayer.pause();
+                }
+            });
+        });
+    });
+});
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 </script>
 {% endblock %}

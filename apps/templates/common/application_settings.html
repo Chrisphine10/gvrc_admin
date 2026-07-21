@@ -7,6 +7,7 @@
 -->
 
 {% extends "layouts/base.html" %}
+{% comment %}Template Version: 2025-11-27-08-40 - APK Upload Section Added{% endcomment %}
 
 {% block title %}Application Settings{% endblock %}
 
@@ -161,16 +162,48 @@
   .theme-demo {
     background: white;
     border-radius: 12px;
-    padding: 20px;
+    padding: 30px;
     margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 2px solid #e3e6f0;
+    transition: all 0.3s ease;
   }
   
-  .theme-demo .btn-primary { background-color: var(--primary-color, #5e72e4); }
-  .theme-demo .btn-success { background-color: var(--success-color, #2dce89); }
-  .theme-demo .btn-warning { background-color: var(--warning-color, #fb6340); }
-  .theme-demo .btn-danger { background-color: var(--danger-color, #f5365c); }
-  .theme-demo .btn-info { background-color: var(--info-color, #11cdef); }
+  .theme-demo .btn-primary { 
+    background-color: var(--primary-color, #5e72e4) !important; 
+    border-color: var(--primary-color, #5e72e4) !important;
+  }
+  .theme-demo .btn-success { 
+    background-color: var(--success-color, #2dce89) !important; 
+    border-color: var(--success-color, #2dce89) !important;
+  }
+  .theme-demo .btn-warning { 
+    background-color: var(--warning-color, #fb6340) !important; 
+    border-color: var(--warning-color, #fb6340) !important;
+  }
+  .theme-demo .btn-danger { 
+    background-color: var(--danger-color, #f5365c) !important; 
+    border-color: var(--danger-color, #f5365c) !important;
+  }
+  .theme-demo .btn-info { 
+    background-color: var(--info-color, #11cdef) !important; 
+    border-color: var(--info-color, #11cdef) !important;
+  }
+  
+  .theme-demo .badge-primary { 
+    background-color: var(--primary-color, #5e72e4) !important; 
+  }
+  .theme-demo .badge-success { 
+    background-color: var(--success-color, #2dce89) !important; 
+  }
+  .theme-demo .badge-warning { 
+    background-color: var(--warning-color, #fb6340) !important; 
+  }
+  .theme-demo .badge-danger { 
+    background-color: var(--danger-color, #f5365c) !important; 
+  }
+  .theme-demo .badge-info { 
+    background-color: var(--info-color, #11cdef) !important; 
+  }
   
   .theme-demo .text-primary { color: var(--primary-color, #5e72e4) !important; }
   .theme-demo .text-success { color: var(--success-color, #2dce89) !important; }
@@ -347,6 +380,143 @@
           </div>
         </div>
 
+        <!-- Mobile App (APK) Section - MOVED TO TOP FOR VISIBILITY -->
+        <div class="settings-section" style="border: 3px solid #2dce89; background: linear-gradient(135deg, #f0fff4 0%, #e8f8f0 100%); box-shadow: 0 4px 15px rgba(45, 206, 137, 0.2);">
+          <h4 style="color: #2dce89; font-size: 1.5rem; margin-bottom: 10px;">
+            <i class="ni ni-mobile-button text-success" style="font-size: 2rem;"></i> 
+            <strong>Mobile App (APK) Download</strong>
+          </h4>
+          <p class="text-muted mb-4" style="font-size: 1rem;">
+            <i class="ni ni-info text-info"></i> Upload your Android APK file OR provide a direct download URL to make it available on the landing page (hodi.co.ke)
+          </p>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.android_apk_url.id_for_label }}" class="form-control-label">
+                  <strong style="color: #2dce89; font-size: 1.1rem;">APK Download URL (Quick Setup)</strong>
+                </label>
+                {{ form.android_apk_url }}
+                <small class="form-text text-muted">Enter direct download link (e.g., https://example.com/app.apk or Google Drive/Dropbox link)</small>
+                {% if form.android_apk_url.errors %}
+                  <div class="text-danger small mt-1">{{ form.android_apk_url.errors.0 }}</div>
+                {% endif %}
+                {% if settings.android_apk_url %}
+                  <div class="alert alert-success mt-2">
+                    <i class="ni ni-check-bold"></i> Current URL: <a href="{{ settings.android_apk_url }}" target="_blank">{{ settings.android_apk_url|truncatechars:50 }}</a>
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="form-group mt-4">
+                <label for="{{ form.android_apk.id_for_label }}" class="form-control-label">
+                  <strong style="color: #2dce89; font-size: 1.1rem;">OR Upload APK File</strong>
+                </label>
+                <div class="file-upload-area" onclick="document.getElementById('{{ form.android_apk.id_for_label }}').click()" style="border-color: #2dce89; background: white; cursor: pointer; border-width: 3px; min-height: 150px;">
+                  <i class="ni ni-mobile-button text-success" style="font-size: 4rem;"></i>
+                  <p class="text-success mb-2" style="font-weight: 700; font-size: 1.2rem;">📱 Click here to upload APK file</p>
+                  <small class="text-muted" style="font-size: 0.9rem;">Maximum size: 100MB | File format: .apk</small>
+                </div>
+                <div style="margin-top: 15px;">
+                  {{ form.android_apk }}
+                </div>
+                <style>
+                  #{{ form.android_apk.id_for_label }} {
+                    display: block !important;
+                    visibility: visible !important;
+                    margin-top: 15px;
+                    padding: 15px;
+                    border: 2px solid #2dce89 !important;
+                    border-radius: 8px;
+                    background: white;
+                    cursor: pointer;
+                    width: 100%;
+                    font-size: 1rem;
+                  }
+                </style>
+                <div id="apk-file-name" class="text-success mt-2" style="font-weight: 600; font-size: 1rem;"></div>
+                <script>
+                  (function() {
+                    var fileInput = document.getElementById('{{ form.android_apk.id_for_label }}');
+                    if (fileInput) {
+                      fileInput.style.display = 'block';
+                      fileInput.style.visibility = 'visible';
+                      fileInput.addEventListener('change', function(e) {
+                        var fileName = e.target.files[0] ? e.target.files[0].name : 'No file selected';
+                        var fileSize = e.target.files[0] ? (e.target.files[0].size / (1024 * 1024)).toFixed(2) + ' MB' : '';
+                        var displayDiv = document.getElementById('apk-file-name');
+                        if (displayDiv) {
+                          displayDiv.innerHTML = '<i class="ni ni-check-bold"></i> Selected: <strong>' + fileName + '</strong>' + (fileSize ? ' (' + fileSize + ')' : '');
+                          displayDiv.style.color = '#2dce89';
+                        }
+                      });
+                    }
+                  })();
+                </script>
+                {% if form.android_apk.errors %}
+                  <div class="text-danger small mt-1">{{ form.android_apk.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="{{ form.android_apk_version.id_for_label }}" class="form-control-label">
+                  <strong>APK Version</strong>
+                </label>
+                {{ form.android_apk_version }}
+                <small class="form-text text-muted">e.g., 1.0.0, 2.1.3</small>
+                {% if form.android_apk_version.errors %}
+                  <div class="text-danger small mt-1">{{ form.android_apk_version.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="form-group">
+                <label for="{{ form.android_apk_size.id_for_label }}" class="form-control-label">
+                  <strong>APK File Size</strong>
+                </label>
+                {{ form.android_apk_size }}
+                <small class="form-text text-muted">e.g., 25.5 MB</small>
+                {% if form.android_apk_size.errors %}
+                  <div class="text-danger small mt-1">{{ form.android_apk_size.errors.0 }}</div>
+                {% endif %}
+              </div>
+              
+              <div class="form-group">
+                <div class="form-check" style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #2dce89;">
+                  {{ form.enable_apk_download }}
+                  <label class="form-check-label" for="{{ form.enable_apk_download.id_for_label }}" style="font-weight: 600;">
+                    ✅ Enable APK Download on Landing Page
+                  </label>
+                  <small class="form-text text-muted d-block mt-2">Show download button on hodi.co.ke landing page</small>
+                </div>
+                {% if form.enable_apk_download.errors %}
+                  <div class="text-danger small mt-1">{{ form.enable_apk_download.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+          {% if settings.android_apk %}
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="current-file" style="background: #e8f8f0; border: 2px solid #2dce89; padding: 20px; border-radius: 8px;">
+                  <h5 class="text-success mb-3"><i class="ni ni-check-bold"></i> Current APK Uploaded:</h5>
+                  <p><i class="ni ni-mobile-button"></i> <strong>{{ settings.android_apk.name|default:"APK File" }}</strong></p>
+                  {% if settings.android_apk_version %}
+                    <p><strong>Version:</strong> {{ settings.android_apk_version }}</p>
+                  {% endif %}
+                  {% if settings.android_apk_size %}
+                    <p><strong>Size:</strong> {{ settings.android_apk_size }}</p>
+                  {% endif %}
+                  <a href="{{ settings.get_apk_url }}" target="_blank" class="btn btn-success mt-3">
+                    <i class="ni ni-cloud-download-95"></i> Download Current APK
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
         <!-- Theme Colors Section -->
         <div class="settings-section">
           <h4><i class="ni ni-palette text-warning"></i> Theme Colors</h4>
@@ -510,14 +680,27 @@
           </div>
         </div>
 
-
-        <!-- Save Button -->
+        <!-- Save Button with Progress Bar -->
         <div class="settings-section">
           <div class="row">
-            <div class="col-12 text-center">
-              <button type="submit" class="btn btn-primary btn-lg">
-                <i class="ni ni-check-bold"></i> Save Settings
-              </button>
+            <div class="col-12">
+              <!-- Progress Bar (hidden by default) -->
+              <div id="saveProgressContainer" style="display: none; margin-bottom: 20px;">
+                <div class="progress" style="height: 30px; border-radius: 15px;">
+                  <div id="saveProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                       role="progressbar" style="width: 0%; font-weight: 600; line-height: 30px;" 
+                       aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <span id="saveProgressText">0%</span>
+                  </div>
+                </div>
+                <p class="text-center text-muted mt-2" id="saveProgressMessage">Preparing to save...</p>
+              </div>
+              
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg" id="saveSettingsBtn">
+                  <i class="ni ni-check-bold"></i> <span id="saveBtnText">Save Settings</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -526,6 +709,42 @@
     </div>
   </div>
 </div>
+
+<!-- Form submission timeout handler -->
+<script>
+  // Set a timeout to re-enable button if form doesn't submit within 60 seconds
+  let formSubmitTimeout;
+  const form = document.getElementById('settingsForm');
+  const saveBtn = document.getElementById('saveSettingsBtn');
+  const saveBtnText = document.getElementById('saveBtnText');
+  
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      // Clear any existing timeout
+      if (formSubmitTimeout) {
+        clearTimeout(formSubmitTimeout);
+      }
+      
+      // Show loading state
+      if (saveBtn && saveBtnText) {
+        saveBtn.disabled = true;
+        saveBtnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      }
+      
+      // Set timeout to re-enable button after 60 seconds (for large file uploads like APK)
+      formSubmitTimeout = setTimeout(function() {
+        if (saveBtn && saveBtn.disabled) {
+          saveBtn.disabled = false;
+          if (saveBtnText) {
+            saveBtnText.innerHTML = '<i class="ni ni-check-bold"></i> Save Settings';
+          }
+          console.warn('Form submission taking longer than expected. If file is large, please wait. Button re-enabled.');
+          alert('Form submission is taking longer than expected. If you uploaded a large file (like APK), please wait. Otherwise, check your connection.');
+        }
+      }, 60000); // 60 seconds for large file uploads
+    });
+  }
+</script>
 
 {% endblock content %}
 
@@ -590,35 +809,122 @@
     if (textInput) {
       textInput.value = color;
     }
+    // Auto-update preview when color changes
+    previewTheme();
   }
 
   // Preview theme colors
-  function previewTheme() {
-    const colors = {
-      primary: document.getElementById('id_primary_color').value,
-      secondary: document.getElementById('id_secondary_color').value,
-      success: document.getElementById('id_success_color').value,
-      warning: document.getElementById('id_warning_color').value,
-      danger: document.getElementById('id_danger_color').value,
-      info: document.getElementById('id_info_color').value,
-      dark: document.getElementById('id_dark_color').value,
-      light: document.getElementById('id_light_color').value
+  // Make previewTheme available globally
+  window.previewTheme = function() {
+    // Get color values from form inputs
+    const getColorValue = (fieldId) => {
+      const input = document.getElementById(fieldId);
+      if (input && input.value) {
+        return input.value.trim();
+      }
+      // Try color picker
+      const pickerId = fieldId.replace('id_', '') + '_color_picker';
+      const picker = document.getElementById(pickerId);
+      if (picker && picker.value) {
+        return picker.value.trim();
+      }
+      // Default fallback
+      const defaults = {
+        'id_primary_color': '#5e72e4',
+        'id_secondary_color': '#8392ab',
+        'id_success_color': '#2dce89',
+        'id_warning_color': '#fb6340',
+        'id_danger_color': '#f5365c',
+        'id_info_color': '#11cdef',
+        'id_dark_color': '#212529',
+        'id_light_color': '#f8f9fe'
+      };
+      return defaults[fieldId] || '#5e72e4';
     };
 
-    // Update CSS variables
-    const root = document.documentElement;
-    root.style.setProperty('--primary-color', colors.primary);
-    root.style.setProperty('--secondary-color', colors.secondary);
-    root.style.setProperty('--success-color', colors.success);
-    root.style.setProperty('--warning-color', colors.warning);
-    root.style.setProperty('--danger-color', colors.danger);
-    root.style.setProperty('--info-color', colors.info);
-    root.style.setProperty('--dark-color', colors.dark);
-    root.style.setProperty('--light-color', colors.light);
+    const colors = {
+      primary: getColorValue('id_primary_color'),
+      secondary: getColorValue('id_secondary_color'),
+      success: getColorValue('id_success_color'),
+      warning: getColorValue('id_warning_color'),
+      danger: getColorValue('id_danger_color'),
+      info: getColorValue('id_info_color'),
+      dark: getColorValue('id_dark_color'),
+      light: getColorValue('id_light_color')
+    };
 
-    // Show preview notification
-    showToast('Theme preview updated!', 'success');
-  }
+    // Update CSS variables on the theme preview container
+    const themePreview = document.getElementById('themePreview');
+    if (themePreview) {
+      themePreview.style.setProperty('--primary-color', colors.primary);
+      themePreview.style.setProperty('--secondary-color', colors.secondary);
+      themePreview.style.setProperty('--success-color', colors.success);
+      themePreview.style.setProperty('--warning-color', colors.warning);
+      themePreview.style.setProperty('--danger-color', colors.danger);
+      themePreview.style.setProperty('--info-color', colors.info);
+      themePreview.style.setProperty('--dark-color', colors.dark);
+      themePreview.style.setProperty('--light-color', colors.light);
+    }
+
+    // Update badge colors directly
+    const badges = themePreview ? themePreview.querySelectorAll('.badge') : [];
+    if (badges && badges.length > 0) {
+      badges.forEach(badge => {
+        if (badge.classList.contains('badge-primary')) {
+          badge.style.backgroundColor = colors.primary;
+        } else if (badge.classList.contains('badge-success')) {
+          badge.style.backgroundColor = colors.success;
+        } else if (badge.classList.contains('badge-warning')) {
+          badge.style.backgroundColor = colors.warning;
+        } else if (badge.classList.contains('badge-danger')) {
+          badge.style.backgroundColor = colors.danger;
+        } else if (badge.classList.contains('badge-info')) {
+          badge.style.backgroundColor = colors.info;
+        }
+      });
+    }
+
+    // Update button colors
+    const buttons = themePreview ? themePreview.querySelectorAll('.btn') : [];
+    if (buttons && buttons.length > 0) {
+      buttons.forEach(btn => {
+        if (btn.classList.contains('btn-primary')) {
+          btn.style.backgroundColor = colors.primary;
+          btn.style.borderColor = colors.primary;
+        } else if (btn.classList.contains('btn-success')) {
+          btn.style.backgroundColor = colors.success;
+          btn.style.borderColor = colors.success;
+        } else if (btn.classList.contains('btn-warning')) {
+          btn.style.backgroundColor = colors.warning;
+          btn.style.borderColor = colors.warning;
+        } else if (btn.classList.contains('btn-danger')) {
+          btn.style.backgroundColor = colors.danger;
+          btn.style.borderColor = colors.danger;
+        } else if (btn.classList.contains('btn-info')) {
+          btn.style.backgroundColor = colors.info;
+          btn.style.borderColor = colors.info;
+        }
+      });
+    }
+
+    // Update text colors
+    const textElements = themePreview ? themePreview.querySelectorAll('.text-primary, .text-success, .text-warning, .text-danger, .text-info') : [];
+    if (textElements && textElements.length > 0) {
+      textElements.forEach(el => {
+        if (el.classList.contains('text-primary')) {
+          el.style.color = colors.primary;
+        } else if (el.classList.contains('text-success')) {
+          el.style.color = colors.success;
+        } else if (el.classList.contains('text-warning')) {
+          el.style.color = colors.warning;
+        } else if (el.classList.contains('text-danger')) {
+          el.style.color = colors.danger;
+        } else if (el.classList.contains('text-info')) {
+          el.style.color = colors.info;
+        }
+      });
+    }
+  };
 
   // Reset theme colors
   function resetThemeColors() {
@@ -672,20 +978,136 @@
     }, 3000);
   }
 
-  // Initialize color pickers on page load
+  // Form submission handling
   document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('settingsForm');
+    const saveBtn = document.getElementById('saveSettingsBtn');
+    const saveBtnText = document.getElementById('saveBtnText');
+    
+    if (form && saveBtn) {
+      // Progress bar simulation for save operation
+      function simulateProgress() {
+        const progressContainer = document.getElementById('saveProgressContainer');
+        const progressBar = document.getElementById('saveProgressBar');
+        const progressText = document.getElementById('saveProgressText');
+        const progressMessage = document.getElementById('saveProgressMessage');
+        
+        progressContainer.style.display = 'block';
+        saveBtn.style.display = 'none';
+        
+        let progress = 0;
+        const interval = setInterval(function() {
+          progress += Math.random() * 15; // Increment by random amount
+          if (progress > 95) progress = 95; // Cap at 95% until actual completion
+          
+          progressBar.style.width = progress + '%';
+          progressBar.setAttribute('aria-valuenow', progress);
+          progressText.textContent = Math.round(progress) + '%';
+          
+          // Update message based on progress
+          if (progress < 30) {
+            progressMessage.textContent = 'Validating form data...';
+          } else if (progress < 60) {
+            progressMessage.textContent = 'Uploading files...';
+          } else if (progress < 90) {
+            progressMessage.textContent = 'Saving settings...';
+          } else {
+            progressMessage.textContent = 'Almost done...';
+          }
+        }, 500);
+        
+        return interval;
+      }
+      
+      // Handle button click - validate and submit
+      saveBtn.addEventListener('click', function(e) {
+        // Validate form before submitting
+        if (form.checkValidity && !form.checkValidity()) {
+          e.preventDefault();
+          form.reportValidity();
+          return false;
+        }
+        
+        // Check for large file uploads (APK)
+        const apkInput = document.getElementById('{{ form.android_apk.id_for_label }}');
+        let hasLargeFile = false;
+        if (apkInput && apkInput.files.length > 0) {
+          const fileSize = apkInput.files[0].size;
+          const fileSizeMB = fileSize / (1024 * 1024);
+          hasLargeFile = fileSizeMB > 10; // More than 10MB
+          
+          if (hasLargeFile) {
+            // Show warning for large files
+            if (!confirm(`You are uploading a large file (${fileSizeMB.toFixed(2)} MB). This may take several minutes. Continue?`)) {
+              e.preventDefault();
+              return false;
+            }
+          }
+        }
+        
+        // Show progress bar
+        const progressInterval = simulateProgress();
+        
+        // Store interval to clear on page unload
+        window.saveProgressInterval = progressInterval;
+        
+        // Let the form submit naturally - don't prevent default
+        // The form will submit with all files and data
+        return true;
+      });
+    }
+    
     // Sync color pickers with text inputs
     document.querySelectorAll('input[type="color"]').forEach(picker => {
-      const fieldName = picker.id.replace('_picker', '');
-      const textInput = document.getElementById(`id_${fieldName}`);
+      const fieldName = picker.id.replace('_color_picker', '');
+      const textInput = document.getElementById(`id_${fieldName}_color`);
       
       if (textInput) {
-        picker.value = textInput.value;
-        picker.addEventListener('change', () => {
+        picker.value = textInput.value || picker.value;
+        picker.addEventListener('change', function() {
           textInput.value = picker.value;
+          // Auto-update preview
+          if (typeof previewTheme === 'function') {
+            previewTheme();
+          }
+        });
+        picker.addEventListener('input', function() {
+          textInput.value = picker.value;
+          // Auto-update preview
+          if (typeof previewTheme === 'function') {
+            previewTheme();
+          }
         });
       }
     });
+    
+    // Also listen to text input changes
+    document.querySelectorAll('input[id^="id_"][id$="_color"]').forEach(input => {
+      if (input.type === 'text') {
+        input.addEventListener('input', function() {
+          const fieldName = input.id.replace('id_', '').replace('_color', '');
+          const colorPicker = document.getElementById(`${fieldName}_color_picker`);
+          if (colorPicker && /^#[0-9A-F]{6}$/i.test(input.value)) {
+            colorPicker.value = input.value;
+          }
+          // Auto-update preview
+          if (typeof previewTheme === 'function') {
+            previewTheme();
+          }
+        });
+        input.addEventListener('change', function() {
+          // Auto-update preview
+          if (typeof previewTheme === 'function') {
+            previewTheme();
+          }
+        });
+      }
+    });
+    
+    // Initial preview on page load
+    if (typeof previewTheme === 'function') {
+      previewTheme();
+    }
   });
 </script>
 {% endblock javascripts %}

@@ -1,0 +1,181 @@
+{
+  "passed": [
+    {
+      "name": "Mobile: Create Session",
+      "url": "/mobile/sessions/create/",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "name": "Mobile: List Sessions",
+      "url": "/mobile/sessions/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Mobile: Start Conversation",
+      "url": "/mobile/chat/start/",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "name": "Mobile: List Conversations",
+      "url": "/mobile/chat/list/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Mobile: List Facilities",
+      "url": "/mobile/facilities/list/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Mobile: List Music",
+      "url": "/mobile/music/list/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Mobile: List Documents",
+      "url": "/mobile/documents/list/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Mobile: Send SOS",
+      "url": "/mobile/emergency/sos/",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "Mobile: Get Lookups",
+      "url": "/mobile/lookups/data/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: List Facilities",
+      "url": "/api/facilities/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: Facility Map",
+      "url": "/api/facilities/map/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: Search Facilities",
+      "url": "/api/facilities/search/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: Emergency Services",
+      "url": "/api/facilities/emergency/",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "Admin: GBV Services",
+      "url": "/api/facilities/gbv-services/",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "Admin: Referral Chain",
+      "url": "/api/facilities/referral-chain/",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "Admin: Contact Interaction Analytics",
+      "url": "/api/analytics/contact-interaction/",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "name": "Admin: Referral Outcome",
+      "url": "/api/analytics/referral-outcome/",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "name": "Admin: Statistics",
+      "url": "/api/statistics/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: Lookup Data",
+      "url": "/api/lookups/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: Consolidated Geography",
+      "url": "/api/geography/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: List Counties",
+      "url": "/api/geography/counties/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: List Constituencies",
+      "url": "/api/geography/constituencies/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: List Wards",
+      "url": "/api/geography/wards/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: API Status",
+      "url": "/api/status/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: Hello World",
+      "url": "/api/hello/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Admin: Obtain Token",
+      "url": "/api/auth/token/",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "Chat Admin: List Conversations",
+      "url": "/chat/admin/conversations/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Chat Admin: List Unread Notifications",
+      "url": "/chat/admin/notifications/unread/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "Geography: Search Geography",
+      "url": "/geography/api/search/",
+      "method": "GET",
+      "status": 302
+    }
+  ],
+  "failed": [],
+  "skipped": [],
+  "total": 28
+}

@@ -114,7 +114,7 @@
             <div class="col-lg-3 order-lg-2">
               <div class="card-profile-image">
                 <a href="#">
-                  <img src="/static/assets/img/brand/hodi app logo.png" alt="Hodi Logo" class="rounded-circle">
+                  <img src="{% if app_settings %}{{ app_settings.get_logo_url }}{% else %}/static/assets/img/brand/hodi app logo.png{% endif %}" alt="{% if app_settings %}{{ app_settings.logo_alt_text }}{% else %}Hodi Logo{% endif %}" class="rounded-circle">
                 </a>
               </div>
             </div>

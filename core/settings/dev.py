@@ -5,14 +5,16 @@ Development settings
 
 from .base import *
 
-DEBUG = True
+DEBUG = False
 
 # HOSTs List
-ALLOWED_HOSTS = ["127.0.0.1", "hodi.co.ke", "localhost", APP_DOMAIN, ".deploypro.dev", ".ngrok-free.app", "a3f602af5f2d.ngrok-free.app", "54.198.204.150", "172.31.47.58"]
-
+# HOSTs List
+ALLOWED_HOSTS = ["127.0.0.1","34.226.180.10","hodi.co.ke","hodi-admin.co.ke","www.hodi-admin.co.ke","ex-change.online",   'finexapay.com', 'www.finexapay.com',
+    "www.ex-change.online", "localhost", APP_DOMAIN, ".deploypro.dev", ".ngrok-free.app", "a3f602af5f2d.ngrok-free.app", "54.198.204.150", "172.31.47.58"]
 # Add here your deployment HOSTS
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
+"http://34.226.180.10",
     "http://localhost:5085",
     "http://127.0.0.1:8000",
     "http://127.0.0.1:5085",
@@ -24,9 +26,10 @@ CSRF_TRUSTED_ORIGINS = [
     "https://a3f602af5f2d.ngrok-free.app",
     "http://54.198.204.150:8000",
     "http://172.31.47.58:8000",
-    "https://hodi.co.ke",    
+    "https://hodi.co.ke",
+    "https://hodi-admin.co.ke",
+    "https://www.hodi-admin.co.ke",
 ]
-
 # Database
 DB_ENGINE = os.getenv("DB_ENGINE", None)
 DB_USERNAME = os.getenv("DB_USERNAME", None)
@@ -114,3 +117,23 @@ LOGGING = {
         },
     },
 }
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+
+# Keep DB connections alive across requests (avoids a new TCP handshake per request)
+CONN_MAX_AGE = 60
+
+# In-process memory cache — activates cache_page decorators without any infrastructure
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "gvrc-dev",
+    }
+}
+
+# Django Debug Toolbar — surfaces SQL queries, cache hits, and N+1 patterns in the browser
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    INTERNAL_IPS = ["127.0.0.1"]

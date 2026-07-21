@@ -11,8 +11,11 @@
           <div class="gvrc-auth-card">
             <div class="card-header">
               <div class="gvrc-logo-container">
-                <img src="/static/assets/img/brand/hodi-wordmark.png" alt="Hodi — Care, Empower, Thrive" style="width: 240px; max-width: 100%; height: auto; object-fit: contain; margin-bottom: .5rem;">
-                <p class="gvrc-brand-subtitle">Admin Management Dashboard</p>
+                <div class="gvrc-logo">
+                  <img src="{% if app_settings %}{{ app_settings.get_logo_url }}{% else %}/static/assets/img/brand/hodi app logo.png{% endif %}" alt="{% if app_settings %}{{ app_settings.logo_alt_text }}{% else %}Hodi Logo{% endif %}" class="hodi-logo" style="width: 60px; height: 60px; object-fit: contain;">
+                </div>
+                <h1 class="gvrc-brand-text">{% if app_settings %}{{ app_settings.site_name }}{% else %}Hodi Admin{% endif %}</h1>
+                <p class="gvrc-brand-subtitle">{% if app_settings %}{{ app_settings.site_tagline }}{% else %}Hodi App Management Dashboard{% endif %}</p>
               </div>
             </div>
             <div class="card-body">

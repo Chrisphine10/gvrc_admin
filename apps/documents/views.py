@@ -248,12 +248,13 @@ def document_analytics(request):
     ).order_by('-count')
     
     # Documents by month (last 12 months) - using Document model's uploaded_at field
-    from datetime import datetime, timedelta
+    from datetime import timedelta
+    from django.utils import timezone
     months = []
     counts = []
     
     for i in range(12):
-        date = datetime.now() - timedelta(days=30*i)
+        date = timezone.now() - timedelta(days=30*i)
         month_start = date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         month_end = month_start.replace(day=28) + timedelta(days=4)
         month_end = month_end.replace(day=1) - timedelta(seconds=1)

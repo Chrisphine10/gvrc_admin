@@ -10,7 +10,6 @@
     <div class="navbar-inner">
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-
         <!-- Dashboard Section -->
         <h6 class="navbar-heading p-0 text-muted">
           <span class="docs-normal">Dashboard</span>
@@ -26,10 +25,10 @@
 
         <!-- Divider -->
         <hr class="my-3">
-
-        <!-- Facilities Section -->
+        
+        <!-- Facility Management Section -->
         <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Facilities</span>
+          <span class="docs-normal">Facility Management</span>
         </h6>
         <ul class="navbar-nav">
           <!-- Community Facilities -->
@@ -39,7 +38,7 @@
               <span class="nav-link-text">Community Facilities</span>
             </a>
           </li>
-
+          
           <!-- Facility Map -->
           <li class="nav-item">
             <a class="nav-link {% if 'facility_map' in segment %} active {% endif %}" href="{% url 'facilities:facility_map' %}">
@@ -71,56 +70,23 @@
               <span class="nav-link-text">Infrastructure</span>
             </a>
           </li>
+          
+          <!-- Lookup Tables -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'lookups' in segment %} active {% endif %}" href="{% url 'common:lookup_tables' %}">
+              <i class="ni ni-bullet-list-67 text-default"></i>
+              <span class="nav-link-text">Lookup Tables</span>
+            </a>
+          </li>
+          
         </ul>
 
         <!-- Divider -->
         <hr class="my-3">
-
-        <!-- App Content Section -->
+        
+        <!-- Data & Analytics Section -->
         <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">App Content</span>
-        </h6>
-        <ul class="navbar-nav">
-          <!-- Resources (Documents) -->
-          <li class="nav-item">
-            <a class="nav-link {% if 'documents' in segment %} active {% endif %}" href="{% url 'documents:document_list' %}">
-              <i class="ni ni-folder-17 text-warning"></i>
-              <span class="nav-link-text">Resources</span>
-            </a>
-          </li>
-
-          <!-- Music Library -->
-          <li class="nav-item">
-            <a class="nav-link {% if 'music_library' in segment %} active {% endif %}" href="{% url 'music:music_list' %}">
-              <i class="ni ni-sound-wave text-primary"></i>
-              <span class="nav-link-text">Music Library</span>
-            </a>
-          </li>
-        </ul>
-
-        <!-- Divider -->
-        <hr class="my-3">
-
-        <!-- Emergency Support Section -->
-        <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Emergency Support</span>
-        </h6>
-        <ul class="navbar-nav">
-          <!-- Chat Conversations -->
-          <li class="nav-item">
-            <a class="nav-link {% if 'chat_conversations' in segment %} active {% endif %}" href="{% url 'chat:conversation_list' %}">
-              <i class="ni ni-chat-round text-danger"></i>
-              <span class="nav-link-text">Chat Conversations</span>
-            </a>
-          </li>
-        </ul>
-
-        <!-- Divider -->
-        <hr class="my-3">
-
-        <!-- Analytics Section (all reporting consolidated) -->
-        <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Analytics</span>
+          <span class="docs-normal">Data & Analytics</span>
         </h6>
         <ul class="navbar-nav">
           <!-- User Analytics -->
@@ -138,27 +104,78 @@
               <span class="nav-link-text">Geography</span>
             </a>
           </li>
+        </ul>
 
+        <!-- Divider -->
+        <hr class="my-3">
+        
+        <!-- Emergency Chat Section -->
+        <h6 class="navbar-heading p-0 text-muted">
+          <span class="docs-normal">Emergency Chat</span>
+        </h6>
+        <ul class="navbar-nav">
+          <!-- Chat Conversations -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'chat_conversations' in segment %} active {% endif %}" href="{% url 'chat:conversation_list' %}">
+              <i class="ni ni-chat-round text-danger"></i>
+              <span class="nav-link-text">Chat Conversations</span>
+            </a>
+          </li>
+          
           <!-- Chat Analytics -->
           <li class="nav-item">
             <a class="nav-link {% if 'chat_analytics' in segment %} active {% endif %}" href="{% url 'chat:chat_analytics' %}">
-              <i class="ni ni-chat-round text-info"></i>
+              <i class="ni ni-chart-bar-32 text-info"></i>
               <span class="nav-link-text">Chat Analytics</span>
             </a>
           </li>
+        </ul>
 
-          <!-- Resource Analytics -->
+        <!-- Divider -->
+        <hr class="my-3">
+        
+        <!-- Documents Section -->
+        <h6 class="navbar-heading p-0 text-muted">
+          <span class="docs-normal">Documents</span>
+        </h6>
+        <ul class="navbar-nav">
+          <!-- Documents -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'documents' in segment %} active {% endif %}" href="{% url 'documents:document_list' %}">
+              <i class="ni ni-folder-17 text-warning"></i>
+              <span class="nav-link-text">Documents</span>
+            </a>
+          </li>
+          
+          <!-- Document Analytics -->
           <li class="nav-item">
             <a class="nav-link {% if 'document_analytics' in segment %} active {% endif %}" href="{% url 'documents:document_analytics' %}">
-              <i class="ni ni-folder-17 text-info"></i>
-              <span class="nav-link-text">Resource Analytics</span>
+              <i class="ni ni-chart-bar-32 text-info"></i>
+              <span class="nav-link-text">Document Analytics</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Divider -->
+        <hr class="my-3">
+        
+        <!-- Music Section -->
+        <h6 class="navbar-heading p-0 text-muted">
+          <span class="docs-normal">Music & Entertainment</span>
+        </h6>
+        <ul class="navbar-nav">
+          <!-- Music Library -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'music_library' in segment %} active {% endif %}" href="{% url 'music:music_list' %}">
+              <i class="ni ni-sound-wave text-primary"></i>
+              <span class="nav-link-text">Music Library</span>
             </a>
           </li>
 
           <!-- Music Analytics -->
           <li class="nav-item">
             <a class="nav-link {% if 'music_analytics' in segment %} active {% endif %}" href="{% url 'music:music_analytics' %}">
-              <i class="ni ni-sound-wave text-success"></i>
+              <i class="ni ni-chart-bar-32 text-success"></i>
               <span class="nav-link-text">Music Analytics</span>
             </a>
           </li>
@@ -166,10 +183,10 @@
 
         <!-- Divider -->
         <hr class="my-3">
-
-        <!-- Users & Access Section -->
+        
+        <!-- User & Role Management Section -->
         <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Users & Access</span>
+          <span class="docs-normal">User & Role Management</span>
         </h6>
         <ul class="navbar-nav">
           <!-- Users -->
@@ -195,29 +212,29 @@
               <span class="nav-link-text">Permissions</span>
             </a>
           </li>
+
+          <!-- Profile -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'profile' %}">
+              <i class="ni ni-badge text-yellow"></i>
+              <span class="nav-link-text">My Profile</span>
+            </a>
+          </li>
         </ul>
 
         <!-- Divider -->
         <hr class="my-3">
-
-        <!-- Developer & API Section -->
+        
+        <!-- API & Development Section -->
         <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Developer & API</span>
+          <span class="docs-normal">API & Development</span>
         </h6>
         <ul class="navbar-nav">
           <!-- API Documentation -->
           <li class="nav-item">
             <a class="nav-link" href="/swagger/" target="_blank">
               <i class="ni ni-archive-2 text-info"></i>
-              <span class="nav-link-text">API Documentation (Swagger)</span>
-            </a>
-          </li>
-
-          <!-- Mobile Contacts API -->
-          <li class="nav-item">
-            <a class="nav-link" href="/swagger/#/mobile/MobileContactViewSet_list_contacts" target="_blank">
-              <i class="ni ni-mobile-button text-primary"></i>
-              <span class="nav-link-text">Mobile Contacts API</span>
+              <span class="nav-link-text">API Documentation</span>
             </a>
           </li>
 
@@ -226,39 +243,6 @@
             <a class="nav-link" href="/redoc/" target="_blank">
               <i class="ni ni-book-bookmark text-success"></i>
               <span class="nav-link-text">API Docs (ReDoc)</span>
-            </a>
-          </li>
-
-          <!-- Admin Panel -->
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/" target="_blank">
-              <i class="ni ni-settings-gear-65 text-dark"></i>
-              <span class="nav-link-text">Django Admin</span>
-            </a>
-          </li>
-        </ul>
-
-        <!-- Divider -->
-        <hr class="my-3">
-
-        <!-- System Section -->
-        <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">System</span>
-        </h6>
-        <ul class="navbar-nav">
-          <!-- Application Settings -->
-          <li class="nav-item">
-            <a class="nav-link {% if 'settings' in segment %} active {% endif %}" href="{% url 'common:application_settings' %}">
-              <i class="ni ni-settings-gear-65 text-primary"></i>
-              <span class="nav-link-text">Application Settings</span>
-            </a>
-          </li>
-
-          <!-- Lookup Tables (configuration) -->
-          <li class="nav-item">
-            <a class="nav-link {% if 'lookups' in segment %} active {% endif %}" href="{% url 'common:lookup_tables' %}">
-              <i class="ni ni-bullet-list-67 text-default"></i>
-              <span class="nav-link-text">Lookup Tables</span>
             </a>
           </li>
 
@@ -278,28 +262,36 @@
             </a>
           </li>
 
-          <!-- Help -->
+          <!-- Admin Panel -->
           <li class="nav-item">
-            <a class="nav-link {% if 'help' in segment %} active {% endif %}" href="{% url 'help' %}">
-              <i class="ni ni-support-16 text-success"></i>
-              <span class="nav-link-text">Help</span>
+            <a class="nav-link" href="/admin/" target="_blank">
+              <i class="ni ni-settings-gear-65 text-dark"></i>
+              <span class="nav-link-text">Django Admin</span>
             </a>
           </li>
         </ul>
 
         <!-- Divider -->
         <hr class="my-3">
-
-        <!-- Account Section -->
+        
+        <!-- System Section -->
         <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Account</span>
+          <span class="docs-normal">System</span>
         </h6>
         <ul class="navbar-nav mb-md-3">
-          <!-- Profile -->
+          <!-- Application Settings -->
           <li class="nav-item">
-            <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="{% url 'profile' %}">
-              <i class="ni ni-badge text-yellow"></i>
-              <span class="nav-link-text">My Profile</span>
+            <a class="nav-link {% if 'settings' in segment %} active {% endif %}" href="{% url 'common:application_settings' %}">
+              <i class="ni ni-settings-gear-65 text-primary"></i>
+              <span class="nav-link-text">Application Settings</span>
+            </a>
+          </li>
+
+          <!-- Help -->
+          <li class="nav-item">
+            <a class="nav-link {% if 'help' in segment %} active {% endif %}" href="{% url 'help' %}">
+              <i class="ni ni-support-16 text-success"></i>
+              <span class="nav-link-text">Help</span>
             </a>
           </li>
 

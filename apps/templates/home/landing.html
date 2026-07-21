@@ -17,7 +17,9 @@
     --ink: #14231a;
     --ink-soft: #5b6b60;
   }
-  .landing * { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  /* Inherit, never force: `.landing *` overrode Font Awesome's own
+     font-family on every <i>, so no icon on the page could render. */
+  .landing { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 
   /* ---------- Hero ---------- */
   .hero {

@@ -76,7 +76,6 @@ INSTALLED_APPS = [
     "apps.mobile_sessions",
     "apps.chat",
     "apps.mobile",
-    "apps.monitoring",
 ]
 
 MIDDLEWARE = [
@@ -111,8 +110,6 @@ TEMPLATES = [
                 "apps.common.context_processors.chat_notifications",
                 "apps.common.context_processors.application_settings",
             ],
-            # Disable template caching to ensure changes show immediately
-            "debug": True,
         },
     },
 ]
@@ -178,25 +175,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
-    # Performance optimizations
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.MultiPartParser',
-        'rest_framework.parsers.FormParser',
-    ],
-    # Rate limiting — emergency endpoints override with throttle_classes = []
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle',
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/hour',
-        'user': '1000/hour',
-    },
+    'PAGE_SIZE': 20
 }
 
 # Swagger settings (keep minimal and valid for drf-yasg)
@@ -253,8 +232,7 @@ CHANNEL_LAYERS = {
 # Chat System Configuration
 CHAT_SETTINGS = {
     'MAX_MESSAGE_LENGTH': 1000,
-    'MAX_MEDIA_SIZE': None,  # No limit - removed to allow unlimited audio file uploads
-    'MAX_AUDIO_SIZE': None,  # No limit for audio files specifically
+    'MAX_MEDIA_SIZE': 10 * 1024 * 1024,  # 10MB
     'MESSAGE_RETENTION_DAYS': 365,
     'AUTO_ASSIGN_LIMIT': 5,  # Max conversations per admin
     'TYPING_INDICATOR_TIMEOUT': 5,  # seconds

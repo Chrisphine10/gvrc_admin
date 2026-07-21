@@ -16,7 +16,7 @@ from drf_yasg import openapi
 
 # Import models from different apps
 from apps.chat.models import Conversation, Message
-from apps.facilities.models import Facility, FacilityContact, FacilityService, FacilityCoordinate
+from apps.facilities.models import Facility, FacilityContact, FacilityService
 from apps.mobile_sessions.models import MobileSession
 from apps.music.models import Music
 from apps.documents.models import Document
@@ -33,10 +33,8 @@ from apps.chat.serializers import (
     MobileConversationListSerializer
 )
 from apps.api.serializers import (
-    MobileAppFacilitySerializer, MobileAppFacilityListSerializer, MobileFacilityMapSerializer,
-    MusicSerializer, DocumentSerializer,
-    MobileSessionSerializer, MobileSessionCreateSerializer, MobileSessionUpdateSerializer, MobileSessionEndSerializer,
-    FacilityContactSerializer
+    MobileAppFacilitySerializer, MusicSerializer, DocumentSerializer,
+    MobileSessionSerializer, MobileSessionCreateSerializer, MobileSessionUpdateSerializer, MobileSessionEndSerializer
 )
 
 # Import services
@@ -759,7 +757,7 @@ class MobileFacilityViewSet(viewsets.ViewSet):
     
     @swagger_auto_schema(
         operation_id="mobile_facilities_list",
-        operation_description="List facilities optimized for mobile app with pagination support. Facilities are automatically sorted by distance (closest first) when GPS coordinates are available in the mobile session. If no GPS is available, facilities are sorted alphabetically.",
+        operation_description="List facilities optimized for mobile app",
         manual_parameters=[
             openapi.Parameter(
                 'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
@@ -769,91 +767,27 @@ class MobileFacilityViewSet(viewsets.ViewSet):
             ),
             openapi.Parameter(
                 'service_category', openapi.IN_QUERY, description="Service category filter", type=openapi.TYPE_STRING, required=False
-            ),
-            openapi.Parameter(
-                'county', openapi.IN_QUERY, description="Filter by county ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'constituency', openapi.IN_QUERY, description="Filter by constituency ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'ward', openapi.IN_QUERY, description="Filter by ward ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'radius_km', openapi.IN_QUERY, description="Filter facilities within radius (km) using GPS from mobile session", type=openapi.TYPE_NUMBER, required=False
-            ),
-            openapi.Parameter(
-                'page', openapi.IN_QUERY, description="Page number (default: 1)", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'page_size', openapi.IN_QUERY, description="Items per page (default: 100, max: 500)", type=openapi.TYPE_INTEGER, required=False
             )
         ],
         responses={
-            200: openapi.Response('Facilities list with pagination', openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Total number of facilities'),
-                    'next': openapi.Schema(type=openapi.TYPE_STRING, description='URL for next page', nullable=True),
-                    'previous': openapi.Schema(type=openapi.TYPE_STRING, description='URL for previous page', nullable=True),
-                    'results': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT), description='List of facilities')
-                }
-            )),
+            200: openapi.Response('Facilities list', MobileAppFacilitySerializer),
             400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
         tags=["Mobile Facility API"]
     )
     @action(detail=False, methods=['get'], url_path='list')
     def list_facilities(self, request):
-        """List facilities optimized for mobile app with pagination and location-based sorting"""
-        from django.db.models import F, FloatField
-        from django.db.models.functions import Power, Sqrt
-        
-        # Get mobile session (already validated by permission class)
-        mobile_session = request.mobile_session
-        mobile_session.update_activity()
-        
+        """List facilities optimized for mobile app"""
         search_query = request.query_params.get('search', '')
         service_category = request.query_params.get('service_category', '')
-        county_id = request.query_params.get('county')  # Optional county filter
-        constituency_id = request.query_params.get('constituency')  # Optional constituency filter
-        ward_id = request.query_params.get('ward')  # Optional ward filter
-        radius_km = request.query_params.get('radius_km')  # Optional radius filter
-        
-        # Pagination parameters
-        try:
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 100))
-        except ValueError:
-            page = 1
-            page_size = 100
-        
-        # Enforce reasonable limits
-        if page < 1:
-            page = 1
-        if page_size < 1:
-            page_size = 100
-        if page_size > 500:
-            page_size = 500  # Max 500 per page to prevent performance issues
         
         queryset = Facility.objects.filter(is_active=True)
-        
-        # Apply location filters if provided
-        if county_id:
-            queryset = queryset.filter(ward__constituency__county_id=county_id)
-        
-        if constituency_id:
-            queryset = queryset.filter(ward__constituency_id=constituency_id)
-        
-        if ward_id:
-            queryset = queryset.filter(ward_id=ward_id)
         
         if search_query:
             queryset = queryset.filter(
                 Q(facility_name__icontains=search_query) |
                 Q(ward__ward_name__icontains=search_query) |
-                Q(ward__constituency__constituency_name__icontains=search_query) |
-                Q(ward__constituency__county__county_name__icontains=search_query)
+                Q(ward__constituency__constituency_name__icontains=search_query)
             )
         
         if service_category:
@@ -861,411 +795,16 @@ class MobileFacilityViewSet(viewsets.ViewSet):
                 facilityservice__service_category__category_name__icontains=service_category
             )
         
-        # Location-based sorting using mobile session GPS
-        latitude = None
-        longitude = None
-        use_distance = False
-        
-        # Get GPS from mobile session if available
-        if mobile_session.latitude and mobile_session.longitude:
-            latitude = float(mobile_session.latitude)
-            longitude = float(mobile_session.longitude)
-            use_distance = True
-        
-        # Handle radius filtering if specified
-        radius_km_float = None
-        if radius_km:
-            try:
-                radius_km_float = float(radius_km)
-                if not latitude or not longitude:
-                    return Response(
-                        {'error': 'GPS coordinates required for radius filtering. Please ensure your mobile session has location data.'},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
-            except ValueError:
-                return Response(
-                    {'error': 'Invalid radius_km value. Must be a number.'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        
-        # Calculate distance and sort by closest if GPS is available
-        if use_distance and latitude and longitude:
-            # Filter only facilities with coordinates for distance-based sorting
-            # This ensures we only show facilities we can calculate distance for
-            queryset = queryset.filter(
-                facilitycoordinate__latitude__isnull=False,
-                facilitycoordinate__longitude__isnull=False,
-                facilitycoordinate__is_active=True
-            )
-            
-            # Annotate with distance using Haversine approximation
-            queryset = queryset.annotate(
-                distance_km=Sqrt(
-                    Power(F('facilitycoordinate__latitude') - latitude, 2) +
-                    Power(F('facilitycoordinate__longitude') - longitude, 2),
-                    output_field=FloatField()
-                ) * 111.32  # Approximate conversion to km
-            )
-            
-            # Apply radius filter if specified
-            if radius_km_float:
-                queryset = queryset.filter(distance_km__lte=radius_km_float)
-            
-            # Order by distance (closest first), then by facility name
-            queryset = queryset.order_by('distance_km', 'facility_name')
-        else:
-            # No GPS available - will order by facility_id after distinct()
-            pass
-        
-        # Apply distinct to avoid duplicates from joins
-        queryset = queryset.distinct()
-        
-        # Apply ordering AFTER distinct() to ensure it's preserved
-        if use_distance and latitude and longitude and radius_km_float:
-            # Already ordered by distance above
-            pass
-        elif use_distance and latitude and longitude:
-            # Already ordered by distance above
-            pass
-        else:
-            # No GPS - order by facility_id DESCENDING (newest first) to avoid Baringo bias
-            # This shows most recently added facilities first, which avoids alphabetical/default ordering
-            queryset = queryset.order_by('-facility_id')
-        
-        # Get total count before pagination
-        total_count = queryset.count()
-        
         # Optimize for mobile with select_related and prefetch_related
-        # Use Prefetch to filter active items and reduce data transfer
-        from django.db.models import Prefetch
-        
-        # Optimize prefetch based on query type
-        if use_distance and latitude and longitude:
-            # For distance queries, coordinates are already filtered in the main query
-            # Use lightweight prefetch to minimize data transfer
-            queryset = queryset.select_related(
-                'ward', 'ward__constituency', 'ward__constituency__county',
-                'operational_status'
-            ).prefetch_related(
-                # Only prefetch minimal service/contact data for counts
-                Prefetch(
-                    'facilityservice_set',
-                    queryset=FacilityService.objects.filter(is_active=True).only('is_active'),
-                    to_attr='_prefetched_services'
-                ),
-                Prefetch(
-                    'facilitycontact_set',
-                    queryset=FacilityContact.objects.filter(is_active=True).only('is_active'),
-                    to_attr='_prefetched_contacts'
-                )
-            )
-        else:
-            # For non-distance queries, prefetch coordinates too
-            queryset = queryset.select_related(
-                'ward', 'ward__constituency', 'ward__constituency__county',
-                'operational_status'
-            ).prefetch_related(
-                # Prefetch only active coordinates (first one for list view)
-                Prefetch(
-                    'facilitycoordinate_set',
-                    queryset=FacilityCoordinate.objects.filter(
-                        is_active=True,
-                        latitude__isnull=False,
-                        longitude__isnull=False
-                    ).only('latitude', 'longitude', 'is_active').order_by('-created_at')[:1],
-                    to_attr='_prefetched_coord_list'
-                ),
-                # Prefetch only active services (lightweight)
-                Prefetch(
-                    'facilityservice_set',
-                    queryset=FacilityService.objects.filter(is_active=True).only('is_active'),
-                    to_attr='_prefetched_services'
-                ),
-                # Prefetch only active contacts (lightweight)
-                Prefetch(
-                    'facilitycontact_set',
-                    queryset=FacilityContact.objects.filter(is_active=True).only('is_active'),
-                    to_attr='_prefetched_contacts'
-                )
-            )
-        
-        # Apply pagination
-        start = (page - 1) * page_size
-        end = start + page_size
-        paginated_queryset = queryset[start:end]
-        
-        # Attach first coordinate to each facility for serializer access
-        # For distance queries, coordinates are already joined in the query
-        # For non-distance queries, we prefetched them
-        if not (use_distance and latitude and longitude):
-            # Attach prefetched coordinates
-            for facility in paginated_queryset:
-                if hasattr(facility, '_prefetched_coord_list') and facility._prefetched_coord_list:
-                    facility._prefetched_coord = facility._prefetched_coord_list[0]
-        # For distance queries, coordinates are accessible via the relationship
-        # The serializer will handle fetching them if needed
-        
-        # Use lightweight serializer for list view (much faster - ~70% smaller payload)
-        serializer = MobileAppFacilityListSerializer(paginated_queryset, many=True, context={'request': request})
-        
-        # Add distance information to response if available
-        response_data = serializer.data
-        if use_distance and latitude and longitude:
-            for i, facility_data in enumerate(response_data):
-                if hasattr(paginated_queryset[i], 'distance_km'):
-                    try:
-                        facility_data['distance_km'] = round(float(paginated_queryset[i].distance_km), 2)
-                    except (ValueError, TypeError):
-                        pass
-        
-        # Build pagination response
-        base_url = request.build_absolute_uri(request.path)
-        query_params = request.query_params.copy()
-        
-        # Calculate next and previous page URLs
-        next_url = None
-        previous_url = None
-        
-        if end < total_count:
-            query_params['page'] = page + 1
-            next_url = f"{base_url}?{query_params.urlencode()}"
-        
-        if page > 1:
-            query_params['page'] = page - 1
-            previous_url = f"{base_url}?{query_params.urlencode()}"
-        
-        # Build optimized response
-        response = Response({
-            'count': total_count,
-            'next': next_url,
-            'previous': previous_url,
-            'results': response_data,
-            'page': page,
-            'page_size': page_size,
-            'total_pages': (total_count + page_size - 1) // page_size,
-            'location_aware': use_distance,
-            'user_location': {
-                'latitude': latitude,
-                'longitude': longitude
-            } if use_distance else None,
-            'sorting_info': {
-                'method': 'distance' if use_distance else 'facility_id_desc',
-                'gps_available': use_distance,
-                'message': 'Sorted by distance (closest first)' if use_distance else 'Sorted by facility ID (newest first) - GPS not available in mobile session'
-            }
-        })
-        
-        # Add cache headers for mobile optimization (short TTL for real-time data)
-        # Cache for 30 seconds - balances performance with data freshness
-        response['Cache-Control'] = 'public, max-age=30, s-maxage=30'
-        response['X-Content-Type-Options'] = 'nosniff'
-        
-        return response
-    
-    @swagger_auto_schema(
-        operation_id="mobile_facilities_map",
-        operation_description="Get facilities with coordinates optimized for map display. Supports viewport-based loading for smooth performance. Returns minimal data (id, name, coordinates) for fast loading. This endpoint is optimized for mobile map rendering.",
-        manual_parameters=[
-            openapi.Parameter(
-                'device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True
-            ),
-            openapi.Parameter(
-                'ne_lat', openapi.IN_QUERY, description="Northeast latitude for viewport filtering", type=openapi.TYPE_NUMBER, required=False
-            ),
-            openapi.Parameter(
-                'ne_lng', openapi.IN_QUERY, description="Northeast longitude for viewport filtering", type=openapi.TYPE_NUMBER, required=False
-            ),
-            openapi.Parameter(
-                'sw_lat', openapi.IN_QUERY, description="Southwest latitude for viewport filtering", type=openapi.TYPE_NUMBER, required=False
-            ),
-            openapi.Parameter(
-                'sw_lng', openapi.IN_QUERY, description="Southwest longitude for viewport filtering", type=openapi.TYPE_NUMBER, required=False
-            ),
-            openapi.Parameter(
-                'zoom', openapi.IN_QUERY, description="Map zoom level (1-20). Higher zoom = more facilities. Default: 10", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'county', openapi.IN_QUERY, description="Filter by county ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'constituency', openapi.IN_QUERY, description="Filter by constituency ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'ward', openapi.IN_QUERY, description="Filter by ward ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-        ],
-        responses={
-            200: openapi.Response('Facilities for map display', openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'facilities': openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_OBJECT),
-                        description='List of facilities with coordinates'
-                    ),
-                    'count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Number of facilities returned'),
-                    'viewport': openapi.Schema(
-                        type=openapi.TYPE_OBJECT,
-                        description='Viewport information if provided'
-                    )
-                }
-            )),
-            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
-        },
-        tags=["Mobile Facility API"]
-    )
-    @action(detail=False, methods=['get'], url_path='map')
-    def get_facilities_map(self, request):
-        """Get facilities with coordinates optimized for map display - viewport-based loading"""
-        from django.db.models import Prefetch
-        
-        # Get mobile session (already validated by permission class)
-        mobile_session = request.mobile_session
-        mobile_session.update_activity()
-        
-        # Get viewport parameters for efficient loading
-        ne_lat = request.query_params.get('ne_lat')
-        ne_lng = request.query_params.get('ne_lng')
-        sw_lat = request.query_params.get('sw_lat')
-        sw_lng = request.query_params.get('sw_lng')
-        zoom_level = request.query_params.get('zoom', 10)
-        
-        try:
-            zoom_level = int(zoom_level)
-            if zoom_level < 1:
-                zoom_level = 1
-            if zoom_level > 20:
-                zoom_level = 20
-        except (ValueError, TypeError):
-            zoom_level = 10
-        
-        # Base queryset - only facilities with active coordinates
-        queryset = Facility.objects.filter(
-            is_active=True,
-            facilitycoordinate__latitude__isnull=False,
-            facilitycoordinate__longitude__isnull=False,
-            facilitycoordinate__is_active=True
-        )
-        
-        # Apply viewport filtering if provided (for dynamic loading)
-        if ne_lat and ne_lng and sw_lat and sw_lng:
-            try:
-                ne_lat = float(ne_lat)
-                ne_lng = float(ne_lng)
-                sw_lat = float(sw_lat)
-                sw_lng = float(sw_lng)
-                
-                # Handle longitude wrapping (e.g., crossing 180/-180)
-                if sw_lng > ne_lng:
-                    # Crosses the date line - use OR condition
-                    queryset = queryset.filter(
-                        facilitycoordinate__latitude__gte=sw_lat,
-                        facilitycoordinate__latitude__lte=ne_lat
-                    ).filter(
-                        Q(facilitycoordinate__longitude__gte=sw_lng) |
-                        Q(facilitycoordinate__longitude__lte=ne_lng)
-                    )
-                else:
-                    # Normal case
-                    queryset = queryset.filter(
-                        facilitycoordinate__latitude__gte=sw_lat,
-                        facilitycoordinate__latitude__lte=ne_lat,
-                        facilitycoordinate__longitude__gte=sw_lng,
-                        facilitycoordinate__longitude__lte=ne_lng
-                    )
-            except (ValueError, TypeError):
-                # Invalid viewport parameters - ignore and return all
-                pass
-        
-        # Apply location filters if provided
-        county_id = request.query_params.get('county')
-        if county_id:
-            try:
-                queryset = queryset.filter(ward__constituency__county_id=int(county_id))
-            except (ValueError, TypeError):
-                pass
-        
-        constituency_id = request.query_params.get('constituency')
-        if constituency_id:
-            try:
-                queryset = queryset.filter(ward__constituency_id=int(constituency_id))
-            except (ValueError, TypeError):
-                pass
-        
-        ward_id = request.query_params.get('ward')
-        if ward_id:
-            try:
-                queryset = queryset.filter(ward_id=int(ward_id))
-            except (ValueError, TypeError):
-                pass
-        
-        # Optimize query - only select what we need (BEFORE slicing)
-        queryset = queryset.only(
-            'facility_id', 'facility_name'
+        queryset = queryset.select_related(
+            'ward', 'ward__constituency', 'ward__constituency__county'
         ).prefetch_related(
-            Prefetch(
-                'facilitycoordinate_set',
-                queryset=FacilityCoordinate.objects.filter(
-                    is_active=True,
-                    latitude__isnull=False,
-                    longitude__isnull=False
-                ).only('latitude', 'longitude', 'is_active').order_by('-created_at')[:1],
-                to_attr='_prefetched_map_coord_list'
-            )
-        ).distinct()
+            'facilityservice_set__service_category',
+            'facilitycontact_set__contact_type'
+        )[:50]  # Limit results for mobile
         
-        # Limit results based on zoom level for performance (AFTER distinct)
-        # Higher zoom = more detail = more facilities
-        if zoom_level <= 5:
-            # Country level - show only operational facilities, limit to 500
-            queryset = queryset.filter(
-                operational_status__status_name='Operational'
-            )[:500]
-        elif zoom_level <= 8:
-            # Regional level - show more facilities, limit to 2000
-            queryset = queryset[:2000]
-        elif zoom_level <= 12:
-            # City level - show many facilities, limit to 5000
-            queryset = queryset[:5000]
-        else:
-            # Street level - show all facilities in viewport, limit to 10000
-            queryset = queryset[:10000]
-        
-        # Attach first coordinate to each facility for serializer access
-        for facility in queryset:
-            if hasattr(facility, '_prefetched_map_coord_list') and facility._prefetched_map_coord_list:
-                facility._prefetched_map_coord = facility._prefetched_map_coord_list[0]
-        
-        # Use ultra-lightweight serializer for map
-        serializer = MobileFacilityMapSerializer(queryset, many=True, context={'request': request})
-        
-        # Filter out facilities without coordinates
-        facilities_data = [f for f in serializer.data if f.get('coordinates') is not None]
-        
-        # Build response
-        response_data = {
-            'facilities': facilities_data,
-            'count': len(facilities_data),
-        }
-        
-        # Add viewport info if provided
-        if ne_lat and ne_lng and sw_lat and sw_lng:
-            response_data['viewport'] = {
-                'ne_lat': float(ne_lat),
-                'ne_lng': float(ne_lng),
-                'sw_lat': float(sw_lat),
-                'sw_lng': float(sw_lng),
-                'zoom': zoom_level
-            }
-        
-        response = Response(response_data)
-        
-        # Add cache headers for mobile optimization (short TTL for real-time data)
-        # Cache for 60 seconds - balances performance with data freshness for maps
-        response['Cache-Control'] = 'public, max-age=60, s-maxage=60'
-        response['X-Content-Type-Options'] = 'nosniff'
-        
-        return response
+        serializer = MobileAppFacilitySerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
     
     @swagger_auto_schema(
         operation_id="mobile_facility_detail",
@@ -1464,7 +1003,7 @@ class MobileMusicViewSet(viewsets.ViewSet):
     
     @swagger_auto_schema(
         operation_id="mobile_music_list",
-        operation_description="List music tracks for mobile app with pagination support",
+        operation_description="List music tracks for mobile app",
         manual_parameters=[
             openapi.Parameter(
                 'device_id', openapi.IN_QUERY, description="Device ID", type=openapi.TYPE_STRING, required=True
@@ -1474,58 +1013,21 @@ class MobileMusicViewSet(viewsets.ViewSet):
             ),
             openapi.Parameter(
                 'artist', openapi.IN_QUERY, description="Filter by artist", type=openapi.TYPE_STRING, required=False
-            ),
-            openapi.Parameter(
-                'page', openapi.IN_QUERY, description="Page number (default: 1)", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'page_size', openapi.IN_QUERY, description="Items per page (default: 100, max: 500)", type=openapi.TYPE_INTEGER, required=False
             )
         ],
         responses={
-            200: openapi.Response('Music list with pagination', openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Total number of tracks'),
-                    'next': openapi.Schema(type=openapi.TYPE_STRING, description='URL for next page', nullable=True),
-                    'previous': openapi.Schema(type=openapi.TYPE_STRING, description='URL for previous page', nullable=True),
-                    'results': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT), description='List of music tracks')
-                }
-            )),
+            200: openapi.Response('Music list', MusicSerializer),
             400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
         },
         tags=["Mobile Music API"]
     )
     @action(detail=False, methods=['get'], url_path='list')
     def list_music(self, request):
-        """List music tracks for mobile app with pagination"""
-        # Use query_params if available (DRF), otherwise fall back to GET (Django)
-        query_params = getattr(request, 'query_params', request.GET)
+        """List music tracks for mobile app"""
+        genre = request.query_params.get('genre', '')
+        artist = request.query_params.get('artist', '')
         
-        genre = query_params.get('genre', '')
-        artist = query_params.get('artist', '')
-        
-        # Pagination parameters
-        try:
-            page = int(query_params.get('page', 1))
-            page_size = int(query_params.get('page_size', 100))
-        except ValueError:
-            page = 1
-            page_size = 100
-        
-        # Enforce reasonable limits
-        if page < 1:
-            page = 1
-        if page_size < 1:
-            page_size = 100
-        if page_size > 500:
-            page_size = 500  # Max 500 per page
-        
-        # Optimize query - only fetch needed fields for list view
-        queryset = Music.objects.filter(is_active=True).only(
-            'music_id', 'name', 'description', 'link', 'music_file',
-            'artist', 'duration', 'genre', 'is_active', 'created_at'
-        )
+        queryset = Music.objects.filter(is_active=True)
         
         if genre:
             queryset = queryset.filter(genre__icontains=genre)
@@ -1533,64 +1035,8 @@ class MobileMusicViewSet(viewsets.ViewSet):
         if artist:
             queryset = queryset.filter(artist__icontains=artist)
         
-        # Get total count before pagination (optimized)
-        total_count = queryset.count()
-        
-        # Apply pagination
-        start = (page - 1) * page_size
-        end = start + page_size
-        paginated_queryset = queryset[start:end]
-        
-        serializer = MusicSerializer(paginated_queryset, many=True, context={'request': request})
-        
-        # Ensure music file URLs are absolute and accessible for mobile
-        music_data = serializer.data
-        scheme = 'https' if request.is_secure() or request.META.get('HTTP_X_FORWARDED_PROTO') == 'https' else 'http'
-        host = request.get_host()
-        file_base_url = f"{scheme}://{host}"
-        
-        for track in music_data:
-            if track.get('music_file') and not track['music_file'].startswith('http'):
-                # Make URL absolute
-                track['music_file'] = file_base_url + track['music_file']
-            if track.get('link'):
-                # External link is already absolute
-                pass
-        
-        # Build pagination response
-        base_url = request.build_absolute_uri(request.path)
-        from urllib.parse import urlencode
-        
-        # Calculate next and previous page URLs
-        next_url = None
-        previous_url = None
-        
-        if end < total_count:
-            next_params = request.query_params.copy()
-            next_params['page'] = page + 1
-            next_url = f"{base_url}?{urlencode(next_params)}"
-        
-        if page > 1:
-            prev_params = request.query_params.copy()
-            prev_params['page'] = page - 1
-            previous_url = f"{base_url}?{urlencode(prev_params)}"
-        
-        # Build optimized response with cache headers
-        response = Response({
-            'count': total_count,
-            'next': next_url,
-            'previous': previous_url,
-            'results': music_data,
-            'page': page,
-            'page_size': page_size,
-            'total_pages': (total_count + page_size - 1) // page_size
-        })
-        
-        # Add cache headers for mobile optimization (60 seconds for music - less frequently updated)
-        response['Cache-Control'] = 'public, max-age=60, s-maxage=60'
-        response['X-Content-Type-Options'] = 'nosniff'
-        
-        return response
+        serializer = MusicSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
 class MobileDocumentViewSet(viewsets.ViewSet):
@@ -1635,25 +1081,18 @@ class MobileDocumentViewSet(viewsets.ViewSet):
         # Pagination
         try:
             page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 100))
+            page_size = int(request.query_params.get('page_size', 20))
         except ValueError:
             page = 1
-            page_size = 100
+            page_size = 20
 
         # Enforce reasonable limits
         if page_size < 1:
+            page_size = 20
+        if page_size > 100:
             page_size = 100
-        if page_size > 500:
-            page_size = 500
 
-        # Optimize query - only fetch needed fields for list view
-        queryset = Document.objects.filter(is_active=True).select_related(
-            'document_type', 'gbv_category'
-        ).only(
-            'document_id', 'title', 'description', 'file_url', 'file_name',
-    'file_size_bytes', 'document_type', 'gbv_category', 'is_public',
-    'is_active', 'uploaded_at')
-
+        queryset = Document.objects.filter(is_active=True)
 
         # Filter by is_public if provided (accept 'true'/'false' case-insensitive)
         if is_public is not None:
@@ -1687,40 +1126,12 @@ class MobileDocumentViewSet(viewsets.ViewSet):
         # Simple pagination (client only needs list; meta optional)
         start = (page - 1) * page_size
         end = start + page_size
-        paged_qs = queryset[start:end]
+        paged_qs = list(queryset[start:end])
 
         serializer = DocumentSerializer(paged_qs, many=True, context={'request': request})
-        
-        # Ensure file URLs are absolute and accessible for mobile
-        doc_data = serializer.data
-        scheme = 'https' if request.is_secure() or request.META.get('HTTP_X_FORWARDED_PROTO') == 'https' else 'http'
-        host = request.get_host()
-        base_url = f"{scheme}://{host}"
-        
-        for doc in doc_data:
-            # Priority: file_url > file > external_url
-            if doc.get('file_url') and doc['file_url'].strip():
-                if not doc['file_url'].startswith('http'):
-                    # Make URL absolute
-                    doc['file_url'] = base_url + doc['file_url']
-            elif doc.get('file') and doc['file'].strip():
-                if not doc['file'].startswith('http'):
-                    doc['file_url'] = base_url + doc['file']
-                else:
-                    doc['file_url'] = doc['file']
-            elif doc.get('external_url') and doc['external_url'].strip():
-                # Use external_url as accessible URL for external documents
-                doc['file_url'] = doc['external_url']
-                doc['is_external'] = True
 
-        # Build optimized response with cache headers
-        response = Response({'results': doc_data}, status=status.HTTP_200_OK)
-        
-        # Add cache headers for mobile optimization (120 seconds for documents - rarely change)
-        response['Cache-Control'] = 'public, max-age=120, s-maxage=120'
-        response['X-Content-Type-Options'] = 'nosniff'
-        
-        return response
+        # Return results in a shape the client accepts
+        return Response({'results': serializer.data}, status=status.HTTP_200_OK)
 
     # Provide a standard `list` method so DefaultRouter exposes `/mobile/documents/`.
     # The mobile client currently calls `/mobile/documents/` (no `/list/`) which returned 404.
@@ -2067,443 +1478,3 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
                 {'error': f'Failed to track contact click: {str(e)}'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-
-class MobileResourcesViewSet(viewsets.ViewSet):
-    """
-    Mobile Resources API endpoints
-    Consolidated endpoint for all mobile resources (documents, music, etc.)
-    """
-    
-    permission_classes = [MobileSessionPermission]
-    
-    @swagger_auto_schema(
-        operation_id="mobile_resources_list",
-        operation_description="Get all resources (documents, music) for mobile app in a single consolidated response",
-        manual_parameters=[
-            openapi.Parameter(
-                'device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True
-            ),
-            openapi.Parameter(
-                'resource_type', openapi.IN_QUERY, description="Filter by resource type: 'documents', 'music', or 'all' (default: 'all')", type=openapi.TYPE_STRING, required=False
-            ),
-            openapi.Parameter(
-                'page', openapi.IN_QUERY, description="Page number (default: 1)", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'page_size', openapi.IN_QUERY, description="Items per page (default: 50, max: 200)", type=openapi.TYPE_INTEGER, required=False
-            )
-        ],
-        responses={
-            200: openapi.Response('Resources list', openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'documents': openapi.Schema(
-                        type=openapi.TYPE_OBJECT,
-                        properties={
-                            'count': openapi.Schema(type=openapi.TYPE_INTEGER),
-                            'results': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT))
-                        }
-                    ),
-                    'music': openapi.Schema(
-                        type=openapi.TYPE_OBJECT,
-                        properties={
-                            'count': openapi.Schema(type=openapi.TYPE_INTEGER),
-                            'results': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT))
-                        }
-                    ),
-                    'total_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Total resources across all types')
-                }
-            )),
-            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
-        },
-        tags=["Mobile Resources API"]
-    )
-    @action(detail=False, methods=['get'], url_path='list')
-    def get_resources(self, request):
-        """Get all resources (documents, music) for mobile app with accessible file URLs"""
-        from rest_framework.pagination import PageNumberPagination
-        from django.conf import settings
-        
-        # Get mobile session (already validated by permission class)
-        # Check if mobile_session exists (set by MobileSessionPermission)
-        if hasattr(request, 'mobile_session') and request.mobile_session:
-            mobile_session = request.mobile_session
-            mobile_session.update_activity()
-        
-        resource_type = request.query_params.get('resource_type', 'all').lower()
-        try:
-            page = int(request.query_params.get('page', 1))
-            page_size = min(int(request.query_params.get('page_size', 50)), 200)
-        except (ValueError, TypeError):
-            page = 1
-            page_size = 50
-        
-        response_data = {
-            'total_count': 0
-        }
-        
-        # Get base URL for file serving
-        scheme = 'https' if request.is_secure() or request.META.get('HTTP_X_FORWARDED_PROTO') == 'https' else 'http'
-        host = request.get_host()
-        base_url = f"{scheme}://{host}"
-        
-        # Get documents if requested
-        if resource_type in ['all', 'documents']:
-            documents = Document.objects.filter(is_active=True).order_by('-uploaded_at')
-            doc_paginator = PageNumberPagination()
-            doc_paginator.page_size = page_size
-            doc_page = doc_paginator.paginate_queryset(documents, request)
-            doc_serializer = DocumentSerializer(doc_page, many=True, context={'request': request}) if doc_page else DocumentSerializer([], many=True)
-            
-            # Ensure file URLs are absolute and accessible
-            doc_data = doc_serializer.data
-            for doc in doc_data:
-                # Priority: file_url > file > external_url
-                if doc.get('file_url') and doc['file_url'].strip():
-                    if not doc['file_url'].startswith('http'):
-                        # Make URL absolute
-                        doc['file_url'] = base_url + doc['file_url']
-                elif doc.get('file') and doc['file'].strip():
-                    if not doc['file'].startswith('http'):
-                        doc['file_url'] = base_url + doc['file']
-                    else:
-                        doc['file_url'] = doc['file']
-                elif doc.get('external_url') and doc['external_url'].strip():
-                    # Use external_url as accessible URL for external documents
-                    doc['file_url'] = doc['external_url']
-                    doc['is_external'] = True
-            
-            response_data['documents'] = {
-                'count': documents.count(),
-                'results': doc_data
-            }
-            response_data['total_count'] += documents.count()
-        else:
-            response_data['documents'] = {'count': 0, 'results': []}
-        
-        # Get music if requested
-        if resource_type in ['all', 'music']:
-            music = Music.objects.filter(is_active=True).order_by('-created_at')  # Music has created_at
-            music_paginator = PageNumberPagination()
-            music_paginator.page_size = page_size
-            music_page = music_paginator.paginate_queryset(music, request)
-            music_serializer = MusicSerializer(music_page, many=True, context={'request': request}) if music_page else MusicSerializer([], many=True)
-            
-            # Ensure music file URLs are absolute and accessible
-            music_data = music_serializer.data
-            for track in music_data:
-                if track.get('music_file') and not track['music_file'].startswith('http'):
-                    # Make URL absolute
-                    track['music_file'] = base_url + track['music_file']
-                if track.get('link'):
-                    # External link is already absolute
-                    pass
-            
-            response_data['music'] = {
-                'count': music.count(),
-                'results': music_data
-            }
-            response_data['total_count'] += music.count()
-        else:
-            response_data['music'] = {'count': 0, 'results': []}
-        
-        response = Response(response_data)
-        response['Cache-Control'] = 'public, max-age=300, s-maxage=300'
-        return response
-
-
-class MobileContactViewSet(viewsets.ViewSet):
-    """
-    Mobile Contact API endpoints
-    
-    Provides access to facility contacts with location-based filtering and search capabilities.
-    """
-    
-    permission_classes = [MobileSessionPermission]
-    
-    @swagger_auto_schema(
-        operation_id="mobile_contacts_list",
-        operation_description="List facility contacts with filtering, search, and location-based sorting",
-        manual_parameters=[
-            openapi.Parameter(
-                'device_id', openapi.IN_QUERY, description="Device ID from mobile session", type=openapi.TYPE_STRING, required=True
-            ),
-            openapi.Parameter(
-                'contact_type', openapi.IN_QUERY, description="Filter by contact type (e.g., Phone, Email)", type=openapi.TYPE_STRING, required=False
-            ),
-            openapi.Parameter(
-                'facility_id', openapi.IN_QUERY, description="Filter by facility ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'county', openapi.IN_QUERY, description="Filter by county ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'constituency', openapi.IN_QUERY, description="Filter by constituency ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'ward', openapi.IN_QUERY, description="Filter by ward ID", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'search', openapi.IN_QUERY, description="Search in contact value, person name, or facility name", type=openapi.TYPE_STRING, required=False
-            ),
-            openapi.Parameter(
-                'radius_km', openapi.IN_QUERY, description="Filter contacts within radius (km) using GPS from mobile session", type=openapi.TYPE_NUMBER, required=False
-            ),
-            openapi.Parameter(
-                'primary_only', openapi.IN_QUERY, description="Show only primary contacts", type=openapi.TYPE_BOOLEAN, required=False
-            ),
-            openapi.Parameter(
-                'page', openapi.IN_QUERY, description="Page number (default: 1)", type=openapi.TYPE_INTEGER, required=False
-            ),
-            openapi.Parameter(
-                'page_size', openapi.IN_QUERY, description="Items per page (default: 100, max: 500)", type=openapi.TYPE_INTEGER, required=False
-            )
-        ],
-        responses={
-            200: openapi.Response('Contacts list with pagination', openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Total number of contacts'),
-                    'page': openapi.Schema(type=openapi.TYPE_INTEGER, description='Current page number'),
-                    'page_size': openapi.Schema(type=openapi.TYPE_INTEGER, description='Items per page'),
-                    'total_pages': openapi.Schema(type=openapi.TYPE_INTEGER, description='Total number of pages'),
-                    'next': openapi.Schema(type=openapi.TYPE_STRING, description='URL for next page', nullable=True),
-                    'previous': openapi.Schema(type=openapi.TYPE_STRING, description='URL for previous page', nullable=True),
-                    'results': openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_OBJECT),
-                        description='List of contacts with facility and location information'
-                    )
-                }
-            )),
-            400: openapi.Response('Bad Request', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)})),
-            401: openapi.Response('Unauthorized - Invalid or inactive mobile session', openapi.Schema(type=openapi.TYPE_OBJECT, properties={'error': openapi.Schema(type=openapi.TYPE_STRING)}))
-        },
-        tags=["Mobile Contact API"]
-    )
-    @action(detail=False, methods=['get'], url_path='list')
-    def list_contacts(self, request):
-        """List facility contacts with filtering, search, and location-based sorting"""
-        from django.db.models import F, FloatField
-        from django.db.models.functions import Power, Sqrt
-        
-        # Get mobile session (already validated by permission class)
-        mobile_session = request.mobile_session
-        mobile_session.update_activity()
-        
-        # Get filter parameters
-        contact_type = request.query_params.get('contact_type', '').strip()
-        facility_id = request.query_params.get('facility_id')
-        county_id = request.query_params.get('county')
-        constituency_id = request.query_params.get('constituency')
-        ward_id = request.query_params.get('ward')
-        search_query = request.query_params.get('search', '').strip()
-        radius_km = request.query_params.get('radius_km')
-        primary_only = request.query_params.get('primary_only', 'false').lower() == 'true'
-        
-        # Pagination parameters
-        try:
-            page = int(request.query_params.get('page', 1))
-            page_size = int(request.query_params.get('page_size', 100))
-        except ValueError:
-            page = 1
-            page_size = 100
-        
-        # Enforce reasonable limits
-        if page < 1:
-            page = 1
-        if page_size < 1:
-            page_size = 100
-        if page_size > 500:
-            page_size = 500
-        
-        # Start with active contacts from active facilities
-        queryset = FacilityContact.objects.filter(
-            is_active=True,
-            facility__is_active=True
-        ).select_related(
-            'facility', 'facility__ward', 'facility__ward__constituency', 
-            'facility__ward__constituency__county', 'contact_type'
-        )
-        
-        # Apply filters
-        if contact_type:
-            queryset = queryset.filter(contact_type__type_name__icontains=contact_type)
-        
-        if facility_id:
-            try:
-                queryset = queryset.filter(facility_id=int(facility_id))
-            except ValueError:
-                pass
-        
-        if county_id:
-            try:
-                queryset = queryset.filter(facility__ward__constituency__county_id=int(county_id))
-            except ValueError:
-                pass
-        
-        if constituency_id:
-            try:
-                queryset = queryset.filter(facility__ward__constituency_id=int(constituency_id))
-            except ValueError:
-                pass
-        
-        if ward_id:
-            try:
-                queryset = queryset.filter(facility__ward_id=int(ward_id))
-            except ValueError:
-                pass
-        
-        if primary_only:
-            queryset = queryset.filter(is_primary=True)
-        
-        if search_query:
-            queryset = queryset.filter(
-                Q(contact_value__icontains=search_query) |
-                Q(contact_person_name__icontains=search_query) |
-                Q(facility__facility_name__icontains=search_query)
-            )
-        
-        # Location-based filtering and distance calculation
-        latitude = None
-        longitude = None
-        use_distance = False
-        
-        # Get GPS from mobile session if available
-        if mobile_session.latitude and mobile_session.longitude:
-            latitude = float(mobile_session.latitude)
-            longitude = float(mobile_session.longitude)
-            use_distance = True
-        
-        # If radius is specified, we need GPS coordinates
-        radius_km_float = None
-        if radius_km:
-            try:
-                radius_km_float = float(radius_km)
-                if not latitude or not longitude:
-                    return Response(
-                        {'error': 'GPS coordinates required for radius filtering. Please ensure your mobile session has location data.'},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
-            except ValueError:
-                return Response(
-                    {'error': 'Invalid radius_km value. Must be a number.'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        
-        # Calculate distance if GPS is available AND radius is specified
-        if use_distance and latitude and longitude and radius_km_float:
-            # Filter only facilities with coordinates when radius filtering is requested
-            queryset = queryset.filter(
-                facility__facilitycoordinate__latitude__isnull=False,
-                facility__facilitycoordinate__longitude__isnull=False,
-                facility__facilitycoordinate__is_active=True
-            )
-            
-            # Annotate with distance using Haversine approximation
-            queryset = queryset.annotate(
-                distance_km=Sqrt(
-                    Power(F('facility__facilitycoordinate__latitude') - latitude, 2) +
-                    Power(F('facility__facilitycoordinate__longitude') - longitude, 2),
-                    output_field=FloatField()
-                ) * 111.32  # Approximate conversion to km
-            )
-            
-            # Apply radius filter
-            queryset = queryset.filter(distance_km__lte=radius_km_float)
-            
-            # Order by distance (nearest first)
-            queryset = queryset.order_by('distance_km', 'facility__facility_name', 'contact_id')
-        else:
-            # No radius filtering - return all contacts, order alphabetically
-            queryset = queryset.order_by('facility__facility_name', 'contact_type__type_name', 'contact_id')
-        
-        # Get total count before pagination
-        total_count = queryset.count()
-        
-        # Apply pagination
-        start = (page - 1) * page_size
-        end = start + page_size
-        paginated_queryset = queryset[start:end]
-        
-        # Build response data
-        results = []
-        for contact in paginated_queryset:
-            # Get facility coordinates if available
-            facility_coords = None
-            try:
-                coord = contact.facility.facilitycoordinate_set.filter(is_active=True).first()
-                if coord:
-                    facility_coords = {
-                        'latitude': float(coord.latitude),
-                        'longitude': float(coord.longitude)
-                    }
-            except:
-                pass
-            
-            contact_data = {
-                'contact_id': contact.contact_id,
-                'facility_id': contact.facility.facility_id,
-                'facility_name': contact.facility.facility_name,
-                'facility_registration_number': contact.facility.registration_number,
-                'contact_type': contact.contact_type.type_name,
-                'contact_value': contact.contact_value,
-                'contact_person_name': contact.contact_person_name or '',
-                'is_primary': contact.is_primary,
-                'location': {
-                    'ward': contact.facility.ward.ward_name,
-                    'ward_id': contact.facility.ward.ward_id,
-                    'constituency': contact.facility.ward.constituency.constituency_name,
-                    'constituency_id': contact.facility.ward.constituency.constituency_id,
-                    'county': contact.facility.ward.constituency.county.county_name,
-                    'county_id': contact.facility.ward.constituency.county.county_id,
-                },
-                'coordinates': facility_coords,
-            }
-            
-            # Add distance if calculated (only when radius filtering was used)
-            if use_distance and radius_km_float and hasattr(contact, 'distance_km'):
-                try:
-                    contact_data['distance_km'] = round(float(contact.distance_km), 2)
-                except (ValueError, TypeError):
-                    pass
-            
-            results.append(contact_data)
-        
-        # Build pagination URLs
-        base_url = request.build_absolute_uri(request.path)
-        query_params = request.query_params.copy()
-        
-        next_url = None
-        previous_url = None
-        
-        if end < total_count:
-            query_params['page'] = page + 1
-            next_url = f"{base_url}?{query_params.urlencode()}"
-        
-        if page > 1:
-            query_params['page'] = page - 1
-            previous_url = f"{base_url}?{query_params.urlencode()}"
-        
-        return Response({
-            'count': total_count,
-            'page': page,
-            'page_size': page_size,
-            'total_pages': (total_count + page_size - 1) // page_size,
-            'next': next_url,
-            'previous': previous_url,
-            'results': results,
-            'filters_applied': {
-                'contact_type': contact_type if contact_type else None,
-                'facility_id': int(facility_id) if facility_id else None,
-                'county_id': int(county_id) if county_id else None,
-                'constituency_id': int(constituency_id) if constituency_id else None,
-                'ward_id': int(ward_id) if ward_id else None,
-                'search': search_query if search_query else None,
-                'radius_km': radius_km_float if radius_km_float else None,
-                'primary_only': primary_only,
-                'location_aware': use_distance,
-            }
-        })
-    

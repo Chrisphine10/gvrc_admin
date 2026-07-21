@@ -22,10 +22,6 @@ from .views import (
     MobileLookupViewSet,
     # Mobile Analytics endpoints
     MobileAnalyticsViewSet,
-    # Mobile Contact endpoints
-    MobileContactViewSet,
-    # Mobile Resources endpoints
-    MobileResourcesViewSet,
 )
 
 # Create routers for different mobile API sections
@@ -53,12 +49,6 @@ mobile_lookup_router.register(r'lookups', MobileLookupViewSet, basename='mobile-
 mobile_analytics_router = DefaultRouter()
 mobile_analytics_router.register(r'analytics', MobileAnalyticsViewSet, basename='mobile-analytics')
 
-mobile_contact_router = DefaultRouter()
-mobile_contact_router.register(r'contacts', MobileContactViewSet, basename='mobile-contact')
-
-mobile_resources_router = DefaultRouter()
-mobile_resources_router.register(r'resources', MobileResourcesViewSet, basename='mobile-resources')
-
 app_name = 'mobile'
 
 urlpatterns = [
@@ -85,10 +75,4 @@ urlpatterns = [
     
     # Mobile Analytics
     path('', include(mobile_analytics_router.urls)),
-    
-    # Mobile Contacts
-    path('', include(mobile_contact_router.urls)),
-    
-    # Mobile Resources
-    path('', include(mobile_resources_router.urls)),
 ]

@@ -23,38 +23,12 @@ def application_settings(request):
         form = ApplicationSettingsForm(request.POST, request.FILES, instance=settings_obj)
         if form.is_valid():
             try:
-                # For large file uploads (like APK), save files directly without processing
-                # Save the form (this handles file uploads)
-                instance = form.save(commit=False)
-                
-                # Handle APK file upload separately if present
-                if 'android_apk' in request.FILES:
-                    apk_file = request.FILES['android_apk']
-                    # Save APK file directly (no processing needed)
-                    instance.android_apk = apk_file
-                    # Auto-calculate size if not provided
-                    if not instance.android_apk_size:
-                        size_mb = round(apk_file.size / (1024 * 1024), 2)
-                        instance.android_apk_size = f"{size_mb} MB"
-                
-                # Save the instance
-                instance.save()
-                
+                form.save()
                 messages.success(request, 'Application settings updated successfully!')
                 return redirect('common:application_settings')
             except Exception as e:
-                import traceback
-                error_details = traceback.format_exc()
                 messages.error(request, f'Error updating settings: {str(e)}')
-                # Log the error for debugging
-                import logging
-                logger = logging.getLogger(__name__)
-                logger.error(f'Error saving application settings: {str(e)}\n{error_details}')
         else:
-            # Log form errors for debugging
-            import logging
-            logger = logging.getLogger(__name__)
-            logger.warning(f'Form validation errors: {form.errors}')
             messages.error(request, 'Please correct the errors below.')
     else:
         form = ApplicationSettingsForm(instance=settings_obj)

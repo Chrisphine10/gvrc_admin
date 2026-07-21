@@ -1,10 +1,10 @@
 /* GVRC Admin Authentication Styles */
 :root {
-  --gvrc-primary: #52A373;
-  --gvrc-primary-dark: #3E7A5A;
-  --gvrc-secondary: #2D5A3D;
-  --gvrc-accent: #7FBF95;
-  --gvrc-light: #E8F5ED;
+  --gvrc-primary: #247F2F;
+  --gvrc-primary-dark: #0B4A28;
+  --gvrc-secondary: #14532D;
+  --gvrc-accent: #7CB528;
+  --gvrc-light: #EDF5E7;
   --gvrc-white: #FFFFFF;
   --gvrc-gray-100: #F8F9FA;
   --gvrc-gray-200: #E9ECEF;
@@ -78,30 +78,17 @@
   z-index: -1;
 }
 
-/* Hodi logo styling - Professional Enhancement */
+/* Hodi logo styling */
 .hodi-logo {
   width: 100%;
   height: 100%;
   object-fit: contain;
   padding: 8px;
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
 }
 
 .hodi-logo:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
-}
-
-/* Navigation logo in auth pages */
-.navbar-brand .hodi-logo {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  transition: all 0.3s ease;
-}
-
-.navbar-brand:hover .hodi-logo {
-  transform: scale(1.08);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
 }
 
 /* Healthcare logo styling (fallback) */
@@ -137,25 +124,20 @@
   padding: 0 2rem 2rem;
 }
 
-/* Brand text - Professional Typography */
+/* Brand text */
 .gvrc-brand-text {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--gvrc-gray-800);
   margin: 0;
   letter-spacing: -0.5px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .gvrc-brand-subtitle {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 0.875rem;
   color: var(--gvrc-gray-600);
   margin-top: 0.25rem;
   font-weight: 500;
-  letter-spacing: 0.2px;
 }
 
 /* Form styling */

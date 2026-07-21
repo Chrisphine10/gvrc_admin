@@ -14,6 +14,4 @@ urlpatterns = [
     path('<int:facility_id>/', views.facility_detail, name='facility_detail'),
     path('<int:facility_id>/edit/', views.facility_update, name='facility_update'),
     path('map/', views.facility_map, name='facility_map'),
-    path('set-location/', views.set_user_location, name='set_user_location'),
-    path('get-ip-location/', views.get_ip_location, name='get_ip_location'),
 ]

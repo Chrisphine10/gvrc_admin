@@ -313,7 +313,7 @@ class NotificationManager {
         if (Notification.permission === 'granted') {
             const notification = new Notification(data.title || 'New Chat Message', {
                 body: data.body || 'You have a new message',
-                icon: (window.appSettings && window.appSettings.logoUrl) ? window.appSettings.logoUrl : '/static/assets/img/brand/hodi app logo.png',
+                icon: '/static/assets/img/brand/hodi app logo.png',
                 tag: 'chat-notification'
             });
 

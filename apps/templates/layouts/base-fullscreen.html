@@ -17,10 +17,9 @@
     Hodi Admin Dashboard - {% block title %} Hodi App Management {% endblock %} | Kenya
   </title>
 
-  <!-- Favicon - loaded dynamically from settings -->
-  <link rel="icon" href="{% if app_settings %}{{ app_settings.get_favicon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}" type="image/x-icon">
-  <link rel="shortcut icon" href="{% if app_settings %}{{ app_settings.get_favicon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}" type="image/x-icon">
-  <link rel="apple-touch-icon" href="{% if app_settings %}{{ app_settings.get_apple_touch_icon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}">
+  <link rel="icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/static/assets/img/icons/common/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/static/assets/img/icons/common/favicon.ico">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
@@ -29,6 +28,7 @@
   <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
   <!-- Argon CSS -->
   <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+  <link rel="stylesheet" href="/static/assets/css/hodi-brand.css?v=1.0.0" type="text/css">
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}

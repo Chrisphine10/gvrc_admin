@@ -18,85 +18,64 @@ from apps.documents.models import Document
 from apps.mobile_sessions.models import MobileSession
 
 
-GEO_COORDINATE_FIELDS = [
-    'centroid_lat', 'centroid_lng',
-    'bbox_north', 'bbox_south', 'bbox_east', 'bbox_west',
-]
-
-
 class CountySerializer(serializers.ModelSerializer):
     """County serializer for API responses"""
     class Meta:
         model = County
-        fields = ['county_id', 'county_name', 'county_code'] + GEO_COORDINATE_FIELDS
+        fields = ['county_id', 'county_name']
 
 
 class ConstituencySerializer(serializers.ModelSerializer):
     """Constituency serializer for API responses"""
     county = CountySerializer(read_only=True)
-
+    
     class Meta:
         model = Constituency
-        fields = ['constituency_id', 'constituency_name', 'county'] + GEO_COORDINATE_FIELDS
+        fields = ['constituency_id', 'constituency_name', 'county']
 
 
 class WardSerializer(serializers.ModelSerializer):
     """Ward serializer for API responses"""
     constituency = ConstituencySerializer(read_only=True)
-
+    
     class Meta:
         model = Ward
-        fields = ['ward_id', 'ward_name', 'constituency'] + GEO_COORDINATE_FIELDS
+        fields = ['ward_id', 'ward_name', 'constituency']
 
 
 class ConsolidatedGeographySerializer(serializers.ModelSerializer):
-    """Consolidated geography serializer that includes counties with nested constituencies and wards."""
+    """Consolidated geography serializer that includes counties with nested constituencies and wards"""
     constituencies = serializers.SerializerMethodField()
-
+    
     class Meta:
         model = County
-        fields = (
-            ['county_id', 'county_name', 'county_code']
-            + GEO_COORDINATE_FIELDS
-            + ['constituencies']
-        )
+        fields = ['county_id', 'county_name', 'county_code', 'constituencies']
     
     def get_constituencies(self, obj):
-        """Get constituencies for this county with nested wards including centroids and bboxes."""
+        """Get constituencies for this county with nested wards"""
         constituencies = obj.constituency_set.all().prefetch_related('ward_set').order_by('constituency_name')
         constituency_data = []
-
+        
         for constituency in constituencies:
             constituency_dict = {
                 'constituency_id': constituency.constituency_id,
                 'constituency_name': constituency.constituency_name,
                 'constituency_code': constituency.constituency_code,
-                'centroid_lat': constituency.centroid_lat,
-                'centroid_lng': constituency.centroid_lng,
-                'bbox_north': constituency.bbox_north,
-                'bbox_south': constituency.bbox_south,
-                'bbox_east': constituency.bbox_east,
-                'bbox_west': constituency.bbox_west,
-                'wards': [],
+                'wards': []
             }
-
+            
+            # Get wards for this constituency
             wards = constituency.ward_set.all().order_by('ward_name')
             for ward in wards:
                 ward_dict = {
                     'ward_id': ward.ward_id,
                     'ward_name': ward.ward_name,
-                    'ward_code': ward.ward_code,
-                    'centroid_lat': ward.centroid_lat,
-                    'centroid_lng': ward.centroid_lng,
-                    'bbox_north': ward.bbox_north,
-                    'bbox_south': ward.bbox_south,
-                    'bbox_east': ward.bbox_east,
-                    'bbox_west': ward.bbox_west,
+                    'ward_code': ward.ward_code
                 }
                 constituency_dict['wards'].append(ward_dict)
-
+            
             constituency_data.append(constituency_dict)
-
+        
         return constituency_data
 
 
@@ -484,115 +463,16 @@ class FacilityCompleteSerializer(serializers.ModelSerializer):
         return 0  # Placeholder
 
 
-class MobileAppFacilityListSerializer(serializers.ModelSerializer):
-    """Lightweight serializer for facility list view - optimized for mobile performance"""
-    county_name = serializers.CharField(source='ward.constituency.county.county_name', read_only=True)
-    constituency_name = serializers.CharField(source='ward.constituency.constituency_name', read_only=True)
-    ward_name = serializers.CharField(source='ward.ward_name', read_only=True)
-    status_name = serializers.CharField(source='operational_status.status_name', read_only=True)
-    latitude = serializers.SerializerMethodField()
-    longitude = serializers.SerializerMethodField()
-    service_count = serializers.SerializerMethodField()
-    contact_count = serializers.SerializerMethodField()
-    
-    class Meta:
-        model = Facility
-        fields = [
-            'facility_id', 'facility_name', 'facility_code', 'registration_number',
-            'county_name', 'constituency_name', 'ward_name', 'status_name',
-            'latitude', 'longitude', 'service_count', 'contact_count',
-            'address_line_1', 'is_active'
-        ]
-    
-    def get_latitude(self, obj):
-        """Get latitude from first active coordinate"""
-        coord = getattr(obj, '_prefetched_coord', None)
-        if coord:
-            return float(coord.latitude)
-        # Fallback if not prefetched
-        coord = obj.facilitycoordinate_set.filter(
-            is_active=True, latitude__isnull=False
-        ).first()
-        return float(coord.latitude) if coord else None
-    
-    def get_longitude(self, obj):
-        """Get longitude from first active coordinate"""
-        coord = getattr(obj, '_prefetched_coord', None)
-        if coord:
-            return float(coord.longitude)
-        # Fallback if not prefetched
-        coord = obj.facilitycoordinate_set.filter(
-            is_active=True, longitude__isnull=False
-        ).first()
-        return float(coord.longitude) if coord else None
-    
-    def get_service_count(self, obj):
-        """Get count of active services"""
-        services = getattr(obj, '_prefetched_services', None)
-        if services is not None:
-            return len([s for s in services if s.is_active])
-        return obj.facilityservice_set.filter(is_active=True).count()
-    
-    def get_contact_count(self, obj):
-        """Get count of active contacts"""
-        contacts = getattr(obj, '_prefetched_contacts', None)
-        if contacts is not None:
-            return len([c for c in contacts if c.is_active])
-        return obj.facilitycontact_set.filter(is_active=True).count()
-
-
-class MobileFacilityMapSerializer(serializers.ModelSerializer):
-    """Ultra-lightweight serializer for mobile map views - minimal data for fast loading"""
-    coordinates = serializers.SerializerMethodField()
-    
-    class Meta:
-        model = Facility
-        fields = ['facility_id', 'facility_name', 'coordinates']
-    
-    def get_coordinates(self, obj):
-        """Get facility coordinates for map display"""
-        # Try prefetched coordinate first
-        coord = getattr(obj, '_prefetched_map_coord', None)
-        if coord:
-            return {
-                'latitude': float(coord.latitude),
-                'longitude': float(coord.longitude)
-            }
-        # Fallback to query
-        coord = obj.facilitycoordinate_set.filter(
-            is_active=True,
-            latitude__isnull=False,
-            longitude__isnull=False
-        ).first()
-        if coord:
-            return {
-                'latitude': float(coord.latitude),
-                'longitude': float(coord.longitude)
-            }
-        return None
-
-
 class MobileAppFacilitySerializer(serializers.ModelSerializer):
-    """Full facility serializer for detail view - includes all information"""
+    """Simplified facility serializer for mobile app with all essential information"""
     ward = WardSerializer(read_only=True)
     operational_status = OperationalStatusSerializer(read_only=True)
-    coordinates = serializers.SerializerMethodField()
+    coordinates = FacilityCoordinateSerializer(source='facilitycoordinate_set.first', read_only=True)
     contacts = FacilityContactSerializer(source='facilitycontact_set', many=True, read_only=True)
     services = FacilityServiceSerializer(source='facilityservice_set', many=True, read_only=True)
     owners = FacilityOwnerSerializer(source='facilityowner_set', many=True, read_only=True)
     gbv_categories = FacilityGBVCategorySerializer(source='facilitygbvcategory_set', many=True, read_only=True)
     infrastructure = FacilityInfrastructureSerializer(source='facilityinfrastructure_set', many=True, read_only=True)
-
-    def get_coordinates(self, obj):
-        """Read from prefetched to_attr when available, fall back to queryset only as last resort."""
-        coords = getattr(obj, 'active_coordinates', None)
-        if coords is None:
-            coords = list(obj.facilitycoordinate_set.filter(
-                latitude__isnull=False, longitude__isnull=False, is_active=True
-            )[:1])
-        if coords:
-            return FacilityCoordinateSerializer(coords[0]).data
-        return None
     
     class Meta:
         model = Facility
@@ -620,142 +500,30 @@ class MobileAppFacilitySerializer(serializers.ModelSerializer):
         if data.get('infrastructure'):
             data['infrastructure'] = [infra for infra in data['infrastructure'] if infra.get('is_available', True)]
         
-        return data
-    
-
-    
-
-
-
-class CreateMusicSerializer(serializers.Serializer):
-    """Serializer for creating music tracks from mobile"""
-    name = serializers.CharField(max_length=200, required=True, help_text="Name of the music track")
-    description = serializers.CharField(required=False, allow_blank=True, help_text="Description of the music track")
-    artist = serializers.CharField(max_length=200, required=False, allow_blank=True, help_text="Artist or creator name")
-    genre = serializers.CharField(max_length=100, required=False, allow_blank=True, help_text="Genre of the music")
-    duration = serializers.CharField(required=False, allow_blank=True, help_text="Duration in HH:MM:SS or MM:SS format")
-    music_file = serializers.FileField(required=False, help_text="Audio file to upload (MP3, WAV, OGG, M4A, FLAC)")
-    link = serializers.URLField(required=False, allow_blank=True, help_text="External link to music file or streaming service")
-    
-    def validate(self, data):
-        """Validate that either music_file or link is provided"""
-        music_file = data.get('music_file')
-        link = data.get('link', '')
-        
-        if not music_file and not link:
-            raise serializers.ValidationError(
-                "Either a music file or external link must be provided."
-            )
-        
-        # Validate file extension if file is provided
-        if music_file:
-            allowed_extensions = ['.mp3', '.wav', '.ogg', '.m4a', '.flac']
-            import os
-            file_extension = os.path.splitext(music_file.name)[1].lower()
-            if file_extension not in allowed_extensions:
-                raise serializers.ValidationError(
-                    f"Only the following audio formats are allowed: {', '.join(allowed_extensions)}"
-                )
+        # Handle coordinates - get the first valid coordinate
+        if data.get('coordinates') is None:
+            coords = instance.facilitycoordinate_set.filter(
+                latitude__isnull=False, 
+                longitude__isnull=False
+            ).first()
+            if coords:
+                data['coordinates'] = FacilityCoordinateSerializer(coords).data
         
         return data
     
-    def validate_duration(self, value):
-        """Convert duration string to timedelta"""
-        if not value:
-            return None
-        
-        try:
-            from datetime import timedelta
-            parts = value.split(':')
-            if len(parts) == 2:
-                # MM:SS format
-                minutes, seconds = map(int, parts)
-                return timedelta(minutes=minutes, seconds=seconds)
-            elif len(parts) == 3:
-                # HH:MM:SS format
-                hours, minutes, seconds = map(int, parts)
-                return timedelta(hours=hours, minutes=minutes, seconds=seconds)
-            else:
-                raise serializers.ValidationError('Duration must be in MM:SS or HH:MM:SS format.')
-        except ValueError:
-            raise serializers.ValidationError('Duration must be in MM:SS or HH:MM:SS format.')
+
+    
+
 
 
 class MusicSerializer(serializers.ModelSerializer):
     """Music serializer for mobile app"""
-    music_url = serializers.SerializerMethodField()
-    music_file_url = serializers.SerializerMethodField()
-    
     class Meta:
         model = Music
         fields = [
             'music_id', 'name', 'description', 'link', 'music_file',
-            'music_file_url', 'music_url', 'artist', 'duration', 
-            'genre', 'is_active', 'created_at'
+            'artist', 'duration', 'genre', 'is_active', 'created_at'
         ]
-    
-    def get_music_url(self, obj):
-        """Get the music URL - either uploaded file or external link (absolute URL)"""
-        if obj.music_file:
-            return self._get_absolute_url(obj.music_file.url)
-        elif obj.link:
-            return obj.link
-        return None
-    
-    def get_music_file_url(self, obj):
-        """Get absolute URL for uploaded music file"""
-        if obj.music_file:
-            return self._get_absolute_url(obj.music_file.url)
-        return None
-    
-    def _get_absolute_url(self, relative_url):
-        """Convert relative URL to absolute URL"""
-        request = self.context.get('request')
-        if request:
-            try:
-                # Check if request is secure (HTTPS) via multiple methods
-                is_secure = (
-                    request.is_secure() or 
-                    request.META.get('HTTP_X_FORWARDED_PROTO') == 'https' or
-                    request.META.get('HTTP_X_FORWARDED_SSL') == 'on'
-                )
-                url = request.build_absolute_uri(relative_url)
-                # Force HTTPS for production domains
-                if 'hodi.co.ke' in request.get_host() and not is_secure:
-                    url = url.replace('http://', 'https://', 1)
-                return url
-            except Exception:
-                pass
-        
-        # Fallback: construct URL from settings
-        try:
-            from django.conf import settings
-            base_url = getattr(settings, 'BASE_URL', None)
-            
-            if not base_url:
-                # Try to construct from ALLOWED_HOSTS
-                allowed_hosts = getattr(settings, 'ALLOWED_HOSTS', [])
-                if allowed_hosts and allowed_hosts[0] != '*':
-                    host = allowed_hosts[0]
-                    # Check if we should use HTTPS
-                    use_https = (
-                        getattr(settings, 'SECURE_SSL_REDIRECT', False) or
-                        not getattr(settings, 'DEBUG', True) or
-                        'hodi.co.ke' in allowed_hosts
-                    )
-                    scheme = 'https' if use_https else 'http'
-                    base_url = f"{scheme}://{host}"
-                else:
-                    base_url = "http://127.0.0.1:8000"
-            
-            # Ensure relative_url starts with /
-            if not relative_url.startswith('/'):
-                relative_url = '/' + relative_url
-            
-            return f"{base_url.rstrip('/')}{relative_url}"
-        except Exception:
-            # Final fallback: return relative URL
-            return relative_url
 
 
 class DocumentSerializer(serializers.ModelSerializer):

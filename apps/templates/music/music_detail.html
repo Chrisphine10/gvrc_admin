@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+﻿{% extends 'layouts/base.html' %}
 {% load static %}
 
 {% block title %}{{ music.name }}{% endblock %}
@@ -6,7 +6,7 @@
 {% block stylesheets %}
 <style>
 .music-detail-header {
-    background: linear-gradient(135deg, var(--gvrc-primary) 0%, #667eea 100%);
+    background: linear-gradient(135deg, var(--gvrc-primary) 0%, #247F2F 100%);
     color: white;
     border-radius: 15px;
     padding: 30px;
@@ -33,7 +33,7 @@
 }
 
 .play-button-large:hover {
-    background: #667eea;
+    background: #247F2F;
     transform: scale(1.05);
     color: white;
     text-decoration: none;
@@ -195,21 +195,12 @@
                                 <i class="fas fa-file-audio"></i>
                                 <strong>Uploaded File:</strong> {{ music.music_file.name|slice:"13:" }}
                                 <br><small class="text-muted">File size: {{ music.music_file.size|filesizeformat }}</small>
-                                
-                                <!-- Audio Player -->
-                                <div class="mt-3">
-                                    <audio controls class="w-100" preload="metadata" id="main-audio-player" style="height: 50px;">
-                                        <source src="{{ music.music_file.url }}" type="audio/mpeg">
-                                        <source src="{{ music.music_file.url }}" type="audio/mp3">
-                                        <source src="{{ music.music_file.url }}" type="audio/wav">
-                                        <source src="{{ music.music_file.url }}" type="audio/ogg">
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
-                                
                                 <div class="mt-2">
-                                    <a href="{{ music.music_file.url }}" download class="btn btn-sm btn-primary">
+                                    <a href="{{ music.music_file.url }}" target="_blank" class="btn btn-sm btn-primary">
                                         <i class="fas fa-download"></i> Download File
+                                    </a>
+                                    <a href="{{ music.music_file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-play"></i> Play in Browser
                                     </a>
                                 </div>
                             </div>
@@ -274,7 +265,7 @@
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         {% if music.has_file %}
-                            <a href="{{ music.music_file.url }}" download class="btn btn-primary">
+                            <a href="{{ music.music_file.url }}" target="_blank" class="btn btn-primary">
                                 <i class="fas fa-download"></i> Download Track
                             </a>
                         {% elif music.link %}
@@ -301,37 +292,10 @@
 
 {% block javascripts %}
 <script>
-// Track audio playback
+// Track play when user clicks play button
 document.addEventListener('DOMContentLoaded', function() {
-    const audioPlayer = document.getElementById('main-audio-player');
-    
-    if (audioPlayer) {
-        let hasTrackedPlay = false;
-        
-        // Track when audio starts playing
-        audioPlayer.addEventListener('play', function() {
-            if (!hasTrackedPlay) {
-                hasTrackedPlay = true;
-                // Track the play event via AJAX
-                fetch('{% url "music:track_play" music.music_id %}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken'),
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({})
-                }).catch(err => console.log('Play tracking error:', err));
-            }
-        });
-        
-        // Reset tracking when audio ends
-        audioPlayer.addEventListener('ended', function() {
-            hasTrackedPlay = false;
-        });
-    }
-    
-    // Track play for external links
     const playButtons = document.querySelectorAll('a[href*="{{ music.link }}"]');
+    
     playButtons.forEach(button => {
         button.addEventListener('click', function() {
             // Track the play (you can implement this with AJAX)
@@ -339,21 +303,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-// Helper function to get CSRF token
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
 </script>
 {% endblock %}

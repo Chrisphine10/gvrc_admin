@@ -56,232 +56,111 @@ def landing_page(request):
 def index(request):
     """Dashboard view with comprehensive system overview - only for authenticated users"""
     
-    try:
-        # Get basic counts with error handling
-        try:
-            total_facilities = Facility.objects.filter(is_active=True).count()
-        except Exception as e:
-            logger.error(f"Error getting total facilities: {e}")
-            total_facilities = 0
-        
-        try:
-            total_users = User.objects.filter(is_active=True).count()
-        except Exception as e:
-            logger.error(f"Error getting total users: {e}")
-            total_users = 0
-        
-        try:
-            total_counties = County.objects.count()
-        except Exception as e:
-            logger.error(f"Error getting total counties: {e}")
-            total_counties = 0
-        
-        # Get facility statistics with error handling
-        try:
-            operational_facilities = Facility.objects.filter(
-                is_active=True,
-                operational_status__status_name='Operational'
-            ).count()
-        except Exception as e:
-            logger.error(f"Error getting operational facilities: {e}")
-            operational_facilities = 0
-        
-        try:
-            non_operational_facilities = Facility.objects.filter(
-                is_active=True
-            ).exclude(
-                operational_status__status_name='Operational'
-            ).count()
-        except Exception as e:
-            logger.error(f"Error getting non-operational facilities: {e}")
-            non_operational_facilities = 0
-        
-        try:
-            facilities_with_coordinates = Facility.objects.filter(
-                is_active=True,
-                facilitycoordinate__isnull=False
-            ).distinct().count()
-        except Exception as e:
-            logger.error(f"Error getting facilities with coordinates: {e}")
-            facilities_with_coordinates = 0
-        
-        try:
-            facilities_with_services = Facility.objects.filter(
-                is_active=True,
-                facilityservice__isnull=False
-            ).distinct().count()
-        except Exception as e:
-            logger.error(f"Error getting facilities with services: {e}")
-            facilities_with_services = 0
-        
-        # Get document statistics with error handling
-        try:
-            total_documents = Document.objects.filter(is_active=True).count()
-            recent_documents = Document.objects.filter(
-                is_active=True
-            ).select_related('document_type', 'gbv_category').order_by('-uploaded_at')[:5]
-        except Exception as e:
-            logger.error(f"Error getting document statistics: {e}")
-            total_documents = 0
-            recent_documents = []
-        
-        # Get chat statistics with error handling
-        try:
-            total_conversations = Conversation.objects.count()
-            active_conversations = Conversation.objects.filter(status__in=['new', 'active']).count()
-            urgent_conversations = Conversation.objects.filter(priority='urgent').count()
-            total_messages = Message.objects.count()
-            recent_conversations = Conversation.objects.select_related(
-                'mobile_session', 'assigned_admin'
-            ).order_by('-last_message_at', '-created_at')[:5]
-        except Exception as e:
-            logger.error(f"Error getting chat statistics: {e}")
-            total_conversations = 0
-            active_conversations = 0
-            urgent_conversations = 0
-            total_messages = 0
-            recent_conversations = []
-        
-        # Get music statistics with error handling
-        try:
-            total_music_tracks = Music.objects.filter(is_active=True).count()
-            total_music_plays = MusicPlay.objects.count()
-            recent_music_plays = MusicPlay.objects.select_related(
-                'music', 'user'
-            ).order_by('-played_at')[:5]
-        except Exception as e:
-            logger.error(f"Error getting music statistics: {e}")
-            total_music_tracks = 0
-            total_music_plays = 0
-            recent_music_plays = []
-        
-        # Get service statistics with error handling
-        try:
-            total_services = FacilityService.objects.filter(is_active=True).count()
-            services_by_category = FacilityService.objects.filter(
-                is_active=True
-            ).values('service_category__category_name').annotate(
-                count=Count('service_id')
-            ).order_by('-count')[:5]
-        except Exception as e:
-            logger.error(f"Error getting service statistics: {e}")
-            total_services = 0
-            services_by_category = []
-        
-        # Get human resources statistics with error handling
-        try:
-            total_contacts = FacilityContact.objects.filter(is_active=True).count()
-            contacts_by_type = FacilityContact.objects.filter(
-                is_active=True
-            ).values('contact_type__type_name').annotate(
-                count=Count('contact_id')
-            ).order_by('-count')[:5]
-        except Exception as e:
-            logger.error(f"Error getting contact statistics: {e}")
-            total_contacts = 0
-            contacts_by_type = []
-        
-        # Get infrastructure statistics with error handling
-        try:
-            total_infrastructure = FacilityInfrastructure.objects.count()
-            infrastructure_by_type = FacilityInfrastructure.objects.values(
-                'infrastructure_type__type_name'
-            ).annotate(
-                count=Count('infrastructure_id'),
-                available=Count('infrastructure_id', filter=Q(is_available=True)),
-                good_condition=Count('infrastructure_id', filter=Q(condition_status__status_name__in=['Good', 'Excellent']))
-            ).order_by('-count')[:5]
-        except Exception as e:
-            logger.error(f"Error getting infrastructure statistics: {e}")
-            total_infrastructure = 0
-            infrastructure_by_type = []
-        
-        # Get recent facilities with error handling
-        try:
-            recent_facilities = Facility.objects.filter(
-                is_active=True
-            ).select_related(
-                'ward__constituency__county'
-            ).order_by('-created_at')[:5]
-        except Exception as e:
-            logger.error(f"Error getting recent facilities: {e}")
-            recent_facilities = []
-        
-        # Get system activity in last 30 days with error handling
-        try:
-            thirty_days_ago = timezone.now() - timedelta(days=30)
-            recent_activity = {
-                'facilities_created': Facility.objects.filter(created_at__gte=thirty_days_ago).count(),
-                'documents_uploaded': Document.objects.filter(uploaded_at__gte=thirty_days_ago).count(),
-                'conversations_started': Conversation.objects.filter(created_at__gte=thirty_days_ago).count(),
-                'music_plays': MusicPlay.objects.filter(played_at__gte=thirty_days_ago).count(),
-            }
-        except Exception as e:
-            logger.error(f"Error getting recent activity: {e}")
-            recent_activity = {
-                'facilities_created': 0,
-                'documents_uploaded': 0,
-                'conversations_started': 0,
-                'music_plays': 0,
-            }
-        
-        # Get top performing items with error handling
-        try:
-            top_services = FacilityService.objects.filter(
-                is_active=True
-            ).values('service_category__category_name').annotate(
-                facility_count=Count('facility_id', distinct=True)
-            ).order_by('-facility_count')[:5]
-        except Exception as e:
-            logger.error(f"Error getting top services: {e}")
-            top_services = []
-        
-        try:
-            top_music = Music.objects.filter(
-                is_active=True
-            ).annotate(
-                play_count=Count('musicplay__play_id')
-            ).order_by('-play_count')[:5]
-        except Exception as e:
-            logger.error(f"Error getting top music: {e}")
-            top_music = []
+    # Get basic counts
+    total_facilities = Facility.objects.filter(is_active=True).count()
+    total_users = User.objects.filter(is_active=True).count()
+    total_counties = County.objects.count()
     
-    except Exception as e:
-        logger.error(f"Critical error in dashboard view: {e}", exc_info=True)
-        messages.error(request, 'An error occurred while loading the dashboard. Some statistics may be unavailable.')
-        # Set defaults to prevent template errors
-        total_facilities = 0
-        total_users = 0
-        total_counties = 0
-        operational_facilities = 0
-        non_operational_facilities = 0
-        facilities_with_coordinates = 0
-        facilities_with_services = 0
-        total_documents = 0
-        recent_documents = []
-        total_conversations = 0
-        active_conversations = 0
-        urgent_conversations = 0
-        total_messages = 0
-        recent_conversations = []
-        total_music_tracks = 0
-        total_music_plays = 0
-        recent_music_plays = []
-        total_services = 0
-        services_by_category = []
-        total_contacts = 0
-        contacts_by_type = []
-        total_infrastructure = 0
-        infrastructure_by_type = []
-        recent_facilities = []
-        recent_activity = {
-            'facilities_created': 0,
-            'documents_uploaded': 0,
-            'conversations_started': 0,
-            'music_plays': 0,
-        }
-        top_services = []
-        top_music = []
+    # Get facility statistics
+    operational_facilities = Facility.objects.filter(
+        is_active=True,
+        operational_status__status_name='Operational'
+    ).count()
+    
+    non_operational_facilities = Facility.objects.filter(
+        is_active=True
+    ).exclude(
+        operational_status__status_name='Operational'
+    ).count()
+    
+    facilities_with_coordinates = Facility.objects.filter(
+        is_active=True,
+        facilitycoordinate__isnull=False
+    ).distinct().count()
+    
+    facilities_with_services = Facility.objects.filter(
+        is_active=True,
+        facilityservice__isnull=False
+    ).distinct().count()
+    
+    # Get document statistics
+    total_documents = Document.objects.filter(is_active=True).count()
+    recent_documents = Document.objects.filter(
+        is_active=True
+    ).select_related('document_type', 'gbv_category').order_by('-uploaded_at')[:5]
+    
+    # Get chat statistics
+    total_conversations = Conversation.objects.count()
+    active_conversations = Conversation.objects.filter(status__in=['new', 'active']).count()
+    urgent_conversations = Conversation.objects.filter(priority='urgent').count()
+    total_messages = Message.objects.count()
+    
+    # Get recent chat activity
+    recent_conversations = Conversation.objects.select_related(
+        'mobile_session', 'assigned_admin'
+    ).order_by('-last_message_at', '-created_at')[:5]
+    
+    # Get music statistics
+    total_music_tracks = Music.objects.filter(is_active=True).count()
+    total_music_plays = MusicPlay.objects.count()
+    recent_music_plays = MusicPlay.objects.select_related(
+        'music', 'user'
+    ).order_by('-played_at')[:5]
+    
+    # Get service statistics
+    total_services = FacilityService.objects.filter(is_active=True).count()
+    services_by_category = FacilityService.objects.filter(
+        is_active=True
+    ).values('service_category__category_name').annotate(
+        count=Count('service_id')
+    ).order_by('-count')[:5]
+    
+    # Get human resources statistics
+    total_contacts = FacilityContact.objects.filter(is_active=True).count()
+    contacts_by_type = FacilityContact.objects.filter(
+        is_active=True
+    ).values('contact_type__type_name').annotate(
+        count=Count('contact_id')
+    ).order_by('-count')[:5]
+    
+    # Get infrastructure statistics
+    total_infrastructure = FacilityInfrastructure.objects.count()
+    infrastructure_by_type = FacilityInfrastructure.objects.values(
+        'infrastructure_type__type_name'
+    ).annotate(
+        count=Count('infrastructure_id'),
+        available=Count('infrastructure_id', filter=Q(is_available=True)),
+        good_condition=Count('infrastructure_id', filter=Q(condition_status__status_name__in=['Good', 'Excellent']))
+    ).order_by('-count')[:5]
+    
+    # Get recent facilities
+    recent_facilities = Facility.objects.filter(
+        is_active=True
+    ).select_related(
+        'ward__constituency__county'
+    ).order_by('-created_at')[:5]
+    
+    # Get system activity in last 30 days
+    thirty_days_ago = timezone.now() - timedelta(days=30)
+    recent_activity = {
+        'facilities_created': Facility.objects.filter(created_at__gte=thirty_days_ago).count(),
+        'documents_uploaded': Document.objects.filter(uploaded_at__gte=thirty_days_ago).count(),
+        'conversations_started': Conversation.objects.filter(created_at__gte=thirty_days_ago).count(),
+        'music_plays': MusicPlay.objects.filter(played_at__gte=thirty_days_ago).count(),
+    }
+    
+    # Get top performing items
+    top_services = FacilityService.objects.filter(
+        is_active=True
+    ).values('service_category__category_name').annotate(
+        facility_count=Count('facility_id', distinct=True)
+    ).order_by('-facility_count')[:5]
+    
+    top_music = Music.objects.filter(
+        is_active=True
+    ).annotate(
+        play_count=Count('musicplay__play_id')
+    ).order_by('-play_count')[:5]
     
     context = {
         'total_facilities': total_facilities,
@@ -445,14 +324,18 @@ def human_resources(request):
     contact_type_id = request.GET.get('contact_type', '')
     facility_id = request.GET.get('facility', '')
     
-    # Include ALL contact types - facility contacts are now part of HR
-    # This includes Phone, Email, and any other contact types from facilities
-    hr_contact_types = ContactType.objects.all()
+    # Define HR-related contact types (these should be in your database)
+    hr_contact_types = ContactType.objects.filter(
+        type_name__in=[
+            'Primary Contact', 'Manager', 'Director', 'Supervisor', 
+            'Staff', 'Emergency Contact', 'Administrative Contact'
+        ]
+    )
     
     # Base queryset for HR contacts with optimized relationships
-    # Include ALL active facility contacts, not just HR-specific types
     hr_contacts = FacilityContact.objects.filter(
-        is_active=True
+        is_active=True,
+        contact_type__in=hr_contact_types
     ).select_related(
         'facility', 
         'facility__ward__constituency__county',
@@ -508,10 +391,11 @@ def human_resources(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    # Get filter options - include all facilities with any active contacts
+    # Get filter options
     facilities_with_hr = Facility.objects.filter(
         is_active=True,
-        facilitycontact__is_active=True
+        facilitycontact__is_active=True,
+        facilitycontact__contact_type__in=hr_contact_types
     ).distinct().order_by('facility_name')
     
     context = {

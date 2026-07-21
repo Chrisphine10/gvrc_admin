@@ -4,720 +4,237 @@
 
 {% block stylesheets %}
 <style>
-  /* Override the base template's overflow restriction */
-  body.gvrc-auth-bg {
-    overflow: auto !important;
-    overflow-x: hidden;
-  }
-  
-  .main-content {
-    overflow: visible !important;
-  }
+  /* Allow the page to scroll past base-auth's fixed viewport */
+  html { overflow-y: auto !important; height: auto !important; }
+  body.gvrc-auth-bg, body { overflow-y: auto !important; overflow-x: hidden; min-height: 100vh; }
+  .main-content { overflow: visible !important; }
 
-  /* Ensure html and body allow scrolling */
-  html {
-    overflow-y: auto !important;
-    height: auto !important;
+  :root {
+    --hodi-deep: #0e3d24;
+    --hodi-green: #1f7a3f;
+    --hodi-bright: #7bc043;
+    --hodi-tint: #eef7ee;
+    --ink: #14231a;
+    --ink-soft: #5b6b60;
   }
+  .landing * { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 
-  /* Force scrolling to work */
-  body {
-    min-height: 100vh;
-    overflow-y: auto !important;
-    overflow-x: hidden;
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #ffffff;
-    color: #333;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  .hero-section {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #247F2F 0%, #0B4A28 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
+  /* ---------- Hero ---------- */
+  .hero {
     position: relative;
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(123,192,67,.28), transparent 60%),
+      radial-gradient(700px 420px at -10% 110%, rgba(31,122,63,.25), transparent 55%),
+      linear-gradient(160deg, var(--hodi-deep) 0%, #14532d 55%, var(--hodi-green) 100%);
+    color: #fff;
     overflow: hidden;
   }
-
-  .hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px),
-      radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08) 1px, transparent 1px),
-      radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 2px, transparent 2px);
-    background-size: 60px 60px, 80px 80px, 120px 120px;
-    animation: float 30s ease-in-out infinite;
+  .hero-grid {
+    max-width: 1180px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.1fr .9fr; gap: 2rem;
+    align-items: center; padding: 4.5rem 2rem 5rem;
   }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-    padding: 0 2rem;
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
+    border-radius: 999px; padding: .35rem .9rem; font-size: .8rem;
+    letter-spacing: .04em; backdrop-filter: blur(4px);
   }
-
-  .hero-logo {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 2rem;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+  .hero h1 { font-size: clamp(2rem, 4.2vw, 3.2rem); font-weight: 800; line-height: 1.12; margin: 1.1rem 0 .9rem; letter-spacing: -.02em; color:#fff; }
+  .hero h1 .accent { color: var(--hodi-bright); }
+  .hero p.lead-text { font-size: 1.08rem; color: rgba(255,255,255,.85); max-width: 34rem; line-height: 1.65; }
+  .hero-ctas { display: flex; gap: .9rem; margin-top: 1.8rem; flex-wrap: wrap; }
+  .btn-hodi {
+    display: inline-flex; align-items: center; gap: .55rem;
+    border-radius: 12px; padding: .8rem 1.5rem; font-weight: 700; font-size: .95rem;
+    text-decoration: none; transition: transform .15s ease, box-shadow .15s ease;
   }
+  .btn-hodi:hover { transform: translateY(-2px); text-decoration: none; }
+  .btn-hodi.primary { background: #fff; color: var(--hodi-deep); box-shadow: 0 10px 28px rgba(0,0,0,.22); }
+  .btn-hodi.primary:hover { color: var(--hodi-deep); }
+  .btn-hodi.ghost { border: 1.5px solid rgba(255,255,255,.55); color: #fff; }
+  .btn-hodi.ghost:hover { color: #fff; border-color: #fff; }
 
-  .hero-logo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+  /* Phone gallery: real screenshots of the mobile app */
+  .phones { position: relative; height: 520px; }
+  .phone {
+    position: absolute; width: 218px; border-radius: 26px; overflow: hidden;
+    border: 6px solid rgba(255,255,255,.92);
+    box-shadow: 0 30px 60px rgba(0,0,0,.35);
+    background: #fff;
   }
+  .phone img { display: block; width: 100%; height: auto; }
+  .phone.p1 { left: 4%;  top: 40px; transform: rotate(-7deg); z-index: 1; }
+  .phone.p2 { left: 31%; top: 0;    z-index: 3; width: 234px; }
+  .phone.p3 { right: 2%; top: 56px; transform: rotate(7deg); z-index: 2; }
 
-  .hero-logo img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-  }
-
-  /* Full wordmark on a white plate (the wordmark art has a white ground) */
-  .hero-wordmark {
-    display: inline-block;
-    margin: 0 auto 1.75rem;
-    padding: 1.5rem 2.25rem;
-    background: #ffffff;
-    border-radius: 24px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-  }
-
-  .hero-wordmark img {
-    display: block;
-    width: 320px;
-    max-width: 70vw;
-    height: auto;
-  }
-
-  .hero-title {
-    font-size: 4rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    background: linear-gradient(135deg, #ffffff, #f0f0f0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    opacity: 0.95;
-    font-weight: 400;
-    color: #f8f9fa;
-  }
-
-  .hero-description {
-    font-size: 1.1rem;
-    margin-bottom: 3rem;
-    opacity: 0.9;
-    line-height: 1.8;
-    color: #e9ecef;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-block;
-    cursor: pointer;
-    border: none;
-  }
-
-  .btn-primary {
-    background: white;
-    color: #247F2F;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-  }
-
-  .btn-secondary:hover {
-    background: white;
-    color: #247F2F;
-    transform: translateY(-3px);
-  }
-
-  .scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: bounce 2s infinite;
-  }
-
-  .scroll-indicator i {
-    font-size: 2rem;
-    color: white;
-    opacity: 0.8;
-  }
-
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-    40% { transform: translateX(-50%) translateY(-10px); }
-    60% { transform: translateX(-50%) translateY(-5px); }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(1deg); }
-  }
-
-  .section {
-    padding: 5rem 0;
-  }
-
-  .section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 1rem;
-    color: #2d3748;
-  }
-
-  .section-subtitle {
-    font-size: 1.2rem;
-    text-align: center;
-    color: #4a5568;
-    margin-bottom: 4rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: 500;
-    line-height: 1.6;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-  }
-
-  .feature-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid #e2e8f0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, #247F2F, #0B4A28);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
-
-  .feature-card:hover::before {
-    transform: scaleX(1);
-  }
-
-  .feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  }
-
-  .feature-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #247F2F, #0B4A28);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    font-size: 2rem;
-    color: white;
-    box-shadow: 0 8px 20px rgba(36, 127, 47, 0.3);
-  }
-
-  .feature-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #2d3748;
-  }
-
-  .feature-description {
-    color: #718096;
-    line-height: 1.6;
-  }
-
-  .stats-section {
-    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stats-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 80%, rgba(36, 127, 47, 0.05) 2px, transparent 2px),
-      radial-gradient(circle at 80% 20%, rgba(11, 74, 40, 0.05) 2px, transparent 2px);
-    background-size: 100px 100px, 80px 80px;
-    animation: float 40s ease-in-out infinite reverse;
-  }
-
+  /* ---------- Stats band ---------- */
+  .stats { background: #fff; border-bottom: 1px solid #e8efe9; }
   .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    position: relative;
-    z-index: 2;
+    max-width: 1180px; margin: 0 auto; padding: 1.6rem 2rem;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center;
   }
+  .stat b { display: block; font-size: 1.7rem; color: var(--hodi-deep); letter-spacing: -.02em; }
+  .stat span { color: var(--ink-soft); font-size: .88rem; }
 
-  .stat-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
-    border: 1px solid #e2e8f0;
+  /* ---------- Features ---------- */
+  .features { background: var(--hodi-tint); padding: 4.2rem 2rem; }
+  .features-inner { max-width: 1180px; margin: 0 auto; }
+  .section-kicker { color: var(--hodi-green); font-weight: 700; letter-spacing: .12em; font-size: .78rem; text-transform: uppercase; }
+  .section-title { font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 800; color: var(--ink); margin: .4rem 0 2rem; letter-spacing: -.02em; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .card-f {
+    background: #fff; border: 1px solid #e4ede5; border-radius: 18px; padding: 1.5rem;
+    transition: transform .15s ease, box-shadow .15s ease;
   }
-
-  .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-    border-color: #247F2F;
+  .card-f:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(20,60,35,.10); }
+  .card-f .ic {
+    width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--hodi-green), var(--hodi-bright)); color: #fff; font-size: 1.15rem; margin-bottom: 1rem;
   }
+  .card-f h3 { font-size: 1.02rem; font-weight: 700; color: var(--ink); margin-bottom: .45rem; }
+  .card-f p { color: var(--ink-soft); font-size: .9rem; line-height: 1.6; margin: 0; }
 
-  .stat-number {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #247F2F, #0B4A28);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
+  /* ---------- Institutions ---------- */
+  .inst { background: #fff; padding: 4.2rem 2rem; }
+  .inst-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .inst ul { list-style: none; padding: 0; margin: 1.2rem 0 0; }
+  .inst li { display: flex; gap: .7rem; align-items: flex-start; padding: .45rem 0; color: var(--ink-soft); }
+  .inst li i { color: var(--hodi-green); margin-top: .2rem; }
+  .inst-visual {
+    background: linear-gradient(160deg, var(--hodi-tint), #ffffff);
+    border: 1px solid #e4ede5; border-radius: 22px; padding: 2.5rem; text-align: center;
   }
+  .inst-visual img { max-width: 320px; width: 100%; }
+  .inst-visual .caption { color: var(--ink-soft); font-size: .85rem; margin-top: 1rem; }
 
-  .stat-label {
-    font-size: 1.1rem;
-    color: #4a5568;
-    font-weight: 500;
-  }
+  /* ---------- Footer ---------- */
+  .foot { background: var(--hodi-deep); color: rgba(255,255,255,.75); padding: 2.2rem 2rem; }
+  .foot-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: center; font-size: .88rem; }
+  .foot a { color: var(--hodi-bright); text-decoration: none; }
+  .foot a:hover { text-decoration: underline; }
 
-  .cta-section {
-    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-    color: white;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 1px, transparent 1px),
-      radial-gradient(circle at 70% 30%, rgba(255,255,255,0.08) 1px, transparent 1px);
-    background-size: 70px 70px, 90px 90px;
-    animation: float 35s ease-in-out infinite;
-  }
-
-  .cta-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    position: relative;
-    z-index: 2;
-  }
-
-  .cta-description {
-    font-size: 1.2rem;
-    margin-bottom: 2.5rem;
-    opacity: 0.9;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    z-index: 2;
-  }
-
-  .footer {
-    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-    color: #a0aec0;
-    text-align: center;
-    padding: 3rem 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 25% 75%, rgba(36, 127, 47, 0.1) 1px, transparent 1px),
-      radial-gradient(circle at 75% 25%, rgba(11, 74, 40, 0.1) 1px, transparent 1px);
-    background-size: 60px 60px, 80px 80px;
-    animation: float 50s ease-in-out infinite reverse;
-  }
-
-  .footer-content {
-    max-width: 600px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-  }
-
-  .footer-logo {
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #247F2F, #0B4A28);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
-  }
-
-  .footer-description {
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-    color: #cbd5e0;
-  }
-
-  @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2.5rem;
-    }
-    
-    .hero-subtitle {
-      font-size: 1.2rem;
-    }
-    
-    .section-title {
-      font-size: 2rem;
-    }
-    
-    .hero-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .btn {
-      width: 100%;
-      max-width: 300px;
-    }
-    
-    .features-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .stats-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .hero-logo {
-      width: 100px;
-      height: 100px;
-    }
-    
-    .hero-logo img {
-      width: 60px;
-      height: 60px;
-    }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; padding: 3rem 1.2rem; }
+    .phones { height: 430px; transform: scale(.82); transform-origin: top center; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .cards { grid-template-columns: 1fr; }
+    .inst-inner { grid-template-columns: 1fr; }
   }
 </style>
 {% endblock stylesheets %}
 
 {% block content %}
+<div class="landing">
 
-<!-- Hero Section -->
-<section class="hero-section">
-  <div class="hero-content">
-    <div class="hero-wordmark">
-      <img src="/static/assets/img/brand/hodi-wordmark.png" alt="Hodi — Care, Empower, Thrive">
-    </div>
-    <p class="hero-subtitle">GBV Directory Management System</p>
-    <p class="hero-description">
-      Empowering survivors through comprehensive resource management. 
-      Connecting GBV survivors with essential services across Kenya.
-    </p>
-    <div class="hero-buttons">
-      <a href="{% url 'login' %}" class="btn btn-primary">
-        <i class="fas fa-sign-in-alt me-2"></i>Access System
-      </a>
-      <a href="#features" class="btn btn-secondary">
-        <i class="fas fa-info-circle me-2"></i>Learn More
-      </a>
-    </div>
-  </div>
-  <div class="scroll-indicator">
-    <i class="fas fa-chevron-down"></i>
-  </div>
-</section>
-
-<!-- Features Section -->
-<section id="features" class="section">
-  <div class="container">
-    <h2 class="section-title">Key Features</h2>
-    <p class="section-subtitle">
-      Everything you need to manage GBV support services effectively across Kenya
-    </p>
-    
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-hospital"></i>
-        </div>
-        <h3 class="feature-title">Facility Management</h3>
-        <p class="feature-description">
-          Comprehensive tracking of GBV support facilities, their services, and operational status across all counties.
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-eyebrow"><i class="fas fa-shield-alt"></i> GBV Response Platform for Kenya</span>
+        <h1>Safety and support,<br>in <span class="accent">every county</span>.</h1>
+        <p class="lead-text">
+          Hodi connects survivors of gender-based violence to verified help &mdash;
+          health facilities, police desks, legal aid, counselling and shelters &mdash;
+          with live maps, spoken guidance and a one-tap SOS.
         </p>
+        <div class="hero-ctas">
+          <a href="{% url 'login' %}" class="btn-hodi primary"><i class="fas fa-sign-in-alt"></i> Access System</a>
+          <a href="#features" class="btn-hodi ghost"><i class="fas fa-arrow-down"></i> Explore Features</a>
+        </div>
       </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-users"></i>
-        </div>
-        <h3 class="feature-title">Service Provider Directory</h3>
-        <p class="feature-description">
-          Manage and connect with healthcare professionals, counselors, and support staff across the network.
-        </p>
-      </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-cogs"></i>
-        </div>
-        <h3 class="feature-title">Service Management</h3>
-        <p class="feature-description">
-          Track and manage GBV support services, programs, and specialized care across the support network.
-        </p>
-      </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-chart-line"></i>
-        </div>
-        <h3 class="feature-title">Analytics & Reporting</h3>
-        <p class="feature-description">
-          Comprehensive analytics for service delivery, resource allocation, and survivor support tracking.
-        </p>
-      </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-map-marked-alt"></i>
-        </div>
-        <h3 class="feature-title">Geographic Coverage</h3>
-        <p class="feature-description">
-          Full coverage across Kenya's counties with detailed mapping of support services and facilities.
-        </p>
-      </div>
-      
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3 class="feature-title">Secure & Confidential</h3>
-        <p class="feature-description">
-          Role-based access control and secure authentication ensuring survivor privacy and data protection.
-        </p>
+      <div class="phones" aria-hidden="true">
+        <div class="phone p1"><img src="/static/assets/img/landing/app-directory.png" alt="Find Help directory listing facilities"></div>
+        <div class="phone p2"><img src="/static/assets/img/landing/app-home.png" alt="Hodi home screen with quick actions"></div>
+        <div class="phone p3"><img src="/static/assets/img/landing/app-map.png" alt="Walking route to a facility on the map"></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Statistics Section -->
-<section class="section stats-section">
-  <div class="container">
-    <h2 class="section-title">System Overview</h2>
-    <p class="section-subtitle">
-      Managing GBV support services and healthcare facilities across Kenya
-    </p>
-    
+  <!-- Stats -->
+  <section class="stats">
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-number">{{ total_facilities|default:0 }}</div>
-        <div class="stat-label">Support Facilities</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">{{ operational_facilities|default:0 }}</div>
-        <div class="stat-label">Active Services</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">{{ total_counties|default:0 }}</div>
-        <div class="stat-label">Counties Covered</div>
+      <div class="stat"><b>9,292</b><span>verified facilities</span></div>
+      <div class="stat"><b>47</b><span>counties covered</span></div>
+      <div class="stat"><b>24/7</b><span>SOS &amp; hotline access</span></div>
+      <div class="stat"><b>2</b><span>languages &mdash; English &amp; Kiswahili</span></div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="features-inner">
+      <div class="section-kicker">What Hodi does</div>
+      <h2 class="section-title">Everything a survivor needs to reach help</h2>
+      <div class="cards">
+        <div class="card-f">
+          <div class="ic"><i class="fas fa-hospital"></i></div>
+          <h3>Verified Directory</h3>
+          <p>Thousands of facilities across Kenya &mdash; health, police, legal aid, counselling and shelters &mdash; ranked nearest-first with working contacts.</p>
+        </div>
+        <div class="card-f">
+          <div class="ic"><i class="fas fa-route"></i></div>
+          <h3>Maps &amp; Live Routing</h3>
+          <p>Real walking and driving routes with distance and time, plus spoken guidance for moments when looking at a screen is not safe.</p>
+        </div>
+        <div class="card-f">
+          <div class="ic"><i class="fas fa-comments"></i></div>
+          <h3>Supportive AI Chat</h3>
+          <p>A grounded assistant that answers from the real directory, speaks the user's language, and always puts emergency escalation first.</p>
+        </div>
+        <div class="card-f">
+          <div class="ic"><i class="fas fa-bell"></i></div>
+          <h3>One-tap SOS</h3>
+          <p>An always-visible SOS reaches GVRC's crisis desk by call, SMS or WhatsApp &mdash; and a quick-exit button leaves the app instantly.</p>
+        </div>
+        <div class="card-f">
+          <div class="ic"><i class="fas fa-book-open"></i></div>
+          <h3>Rights &amp; Resources</h3>
+          <p>Curated guides on rights, safety planning and recovery, readable inside the app so nothing lands in the browser history.</p>
+        </div>
+        <div class="card-f">
+          <div class="ic"><i class="fas fa-spa"></i></div>
+          <h3>Calm &amp; Grounding</h3>
+          <p>Slow ambient audio and a small game for steadying breath and taking a breather &mdash; available even when offline.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Call to Action Section -->
-<section class="section cta-section">
-  <div class="container">
-    <h2 class="cta-title">Ready to Make a Difference?</h2>
-    <p class="cta-description">
-      Join healthcare professionals and support workers across Kenya in providing better care for GBV survivors.
-    </p>
-    <div class="hero-buttons">
-      <a href="{% url 'login' %}" class="btn btn-primary">
-        <i class="fas fa-sign-in-alt me-2"></i>Access System
-      </a>
+  <!-- For institutions -->
+  <section class="inst">
+    <div class="inst-inner">
+      <div>
+        <div class="section-kicker">For institutions</div>
+        <h2 class="section-title">One platform for the whole response network</h2>
+        <ul>
+          <li><i class="fas fa-check-circle"></i> Manage facilities, services, staff and infrastructure from a single dashboard.</li>
+          <li><i class="fas fa-check-circle"></i> Publish documents and calming audio straight to the mobile app &mdash; no release needed.</li>
+          <li><i class="fas fa-check-circle"></i> Understand reach with user, content and geography insights.</li>
+          <li><i class="fas fa-check-circle"></i> Respond to conversations from survivors in one queue.</li>
+          <li><i class="fas fa-check-circle"></i> Role-based access with a full permission system.</li>
+        </ul>
+        <div class="hero-ctas" style="margin-top: 1.6rem;">
+          <a href="{% url 'login' %}" class="btn-hodi primary" style="background: var(--hodi-green); color: #fff;"><i class="fas fa-sign-in-alt"></i> Sign in to the Dashboard</a>
+        </div>
+      </div>
+      <div class="inst-visual">
+        <img src="/static/assets/img/brand/hodi-logo-full.png" alt="Hodi - Care, Empower, Thrive">
+        <div class="caption">Built with the Gender Violence Recovery Centre for Kenya's GBV response network.</div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-logo">Hodi</div>
-      <p class="footer-description">
-        GBV Directory Management System powered by Hodi Admin
-      </p>
-      <p class="footer-description">
-        Empowering survivors through comprehensive resource management
-      </p>
-      <p>&copy; 2024 All rights reserved.</p>
+  <!-- Footer -->
+  <footer class="foot">
+    <div class="foot-inner">
+      <div>&copy; 2026 Hodi &middot; GBV Directory Management System</div>
+      <div>
+        Emergency: <a href="tel:0800720565">0800 720 565</a> (toll-free)
+        &nbsp;&middot;&nbsp; Support: <a href="mailto:admin@hodi.ke">admin@hodi.ke</a>
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
+</div>
 {% endblock content %}
-
-{% block javascripts %}
-<script>
-  // Debug scrolling issues
-  console.log('Landing page loaded');
-  console.log('Body overflow:', getComputedStyle(document.body).overflow);
-  console.log('HTML overflow:', getComputedStyle(document.documentElement).overflow);
-  console.log('Main content overflow:', getComputedStyle(document.querySelector('.main-content')).overflow);
-  
-  // Force enable scrolling
-  document.body.style.overflow = 'auto';
-  document.documentElement.style.overflow = 'auto';
-  document.querySelector('.main-content').style.overflow = 'visible';
-  
-  // Ensure scrolling is enabled
-  document.addEventListener('DOMContentLoaded', function() {
-    // Force enable scrolling after page loads
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
-    
-    // Remove any scroll prevention
-    document.body.style.position = 'static';
-    document.documentElement.style.position = 'static';
-    
-    console.log('Scrolling should now be enabled');
-  });
-
-  // Smooth scrolling for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-
-  // Add scroll-triggered animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, observerOptions);
-
-  // Observe all feature cards and stat cards
-  document.querySelectorAll('.feature-card, .stat-card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(card);
-  });
-</script>
-{% endblock javascripts %}
-

@@ -114,6 +114,14 @@ urlpatterns = [
 # Add media files serving in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # dev.py installs the debug-toolbar middleware when DEBUG is on; without
+    # this matching URL include every page 500s with "djdt is not a
+    # registered namespace". Production never enters this branch.
+    try:
+        import debug_toolbar
+        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+    except ImportError:
+        pass
 
 # Lazy-load on routing is needed
 # During the first build, API is not yet generated

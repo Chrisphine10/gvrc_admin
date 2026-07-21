@@ -3,9 +3,14 @@
 Development settings
 """
 
+import os
+
 from .base import *
 
-DEBUG = False
+# Off unless the environment explicitly opts in. Production runs this
+# module with no DJANGO_DEBUG set, so it stays False there; run_local.py
+# sets it so a dev machine gets debug pages and /media/ serving.
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
 
 # HOSTs List
 # HOSTs List

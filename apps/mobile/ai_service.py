@@ -216,8 +216,11 @@ def generate_reply(user_message, history=None, grounding_context=None):
         # 429 (quota) and 404 (model retired) are per-model conditions the
         # next model may not share; anything else will not improve by retrying.
         if resp.status_code in (429, 404):
-            logger.info('AI proxy: %s -> %s, trying next model',
-                        model, resp.status_code)
+            # Log the upstream body: a 429 can mean "daily quota, wait" or
+            # "credits depleted, pay", and those need different actions from
+            # whoever owns the billing.
+            logger.warning('AI proxy: %s -> %s: %s',
+                           model, resp.status_code, resp.text[:200])
             continue
 
         logger.error('AI proxy: %s -> %s %s', model, resp.status_code,

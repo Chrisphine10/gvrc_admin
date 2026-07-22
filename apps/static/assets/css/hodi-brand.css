@@ -160,9 +160,14 @@ a:hover {
 .table thead th {
   text-transform: uppercase; letter-spacing: .04em; font-size: .68rem;
   color: #7a8a7f; background: #f7faf7; border-top: 0;
-  padding: .65rem 1rem; white-space: nowrap;
+  padding: .6rem .75rem !important;
+  /* headers may wrap: nowrap heads forced tables wider than their card,
+     so columns clipped behind an inner scrollbar on ordinary laptops */
+  white-space: normal;
 }
-.table td, .table th { padding: .7rem 1rem; vertical-align: middle; }
+.table td, .table th { padding: .6rem .75rem !important; vertical-align: middle; }
+.table .btn-sm { padding: .25rem .5rem; }
+.table .badge { white-space: normal; }
 .table td { word-break: break-word; }
 .table-hover tbody tr:hover, .table tbody tr:hover { background-color: #f4faf4; }
 .table .badge { font-size: .68rem; }
@@ -178,3 +183,20 @@ body { overflow-x: hidden; }
 /* Buttons and links */
 .btn { border-radius: 10px; }
 .btn-neutral { border-radius: 10px; }
+
+
+/* Narrow laptops: one density notch tighter so six-column lists still fit;
+   below tablet width the wrapper's own scroll takes over by design. */
+@media (max-width: 1280px) {
+  .table td, .table thead th { padding: .5rem .5rem !important; }
+  .table { font-size: .8125rem; }
+}
+
+
+/* Stat-card text must never bleed under its icon: long labels and large
+   numbers ellipsize inside their column instead of overlapping. */
+.card .numbers { min-width: 0; }
+.card .numbers p, .card .numbers h5 {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.icon-shape { flex-shrink: 0; }

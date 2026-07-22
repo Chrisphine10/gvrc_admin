@@ -20,6 +20,8 @@ from .views import (
     MobileEmergencyViewSet,
     # Mobile Lookup endpoints
     MobileLookupViewSet,
+    # Mobile AI assistant proxy
+    MobileAiViewSet,
     # Mobile Analytics endpoints
     MobileAnalyticsViewSet,
     # Mobile Contact endpoints
@@ -46,6 +48,9 @@ mobile_document_router.register(r'documents', MobileDocumentViewSet, basename='m
 
 mobile_emergency_router = DefaultRouter()
 mobile_emergency_router.register(r'emergency', MobileEmergencyViewSet, basename='mobile-emergency')
+
+mobile_ai_router = DefaultRouter()
+mobile_ai_router.register(r'ai', MobileAiViewSet, basename='mobile-ai')
 
 mobile_lookup_router = DefaultRouter()
 mobile_lookup_router.register(r'lookups', MobileLookupViewSet, basename='mobile-lookup')
@@ -82,6 +87,9 @@ urlpatterns = [
     
     # Mobile Lookups
     path('', include(mobile_lookup_router.urls)),
+    
+    # Mobile AI assistant
+    path('', include(mobile_ai_router.urls)),
     
     # Mobile Analytics
     path('', include(mobile_analytics_router.urls)),

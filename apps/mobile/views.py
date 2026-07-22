@@ -16,6 +16,7 @@ from drf_yasg import openapi
 
 # Import models from different apps
 from apps.chat.models import Conversation, Message
+from apps.mobile.ai_service import generate_reply
 from apps.facilities.models import Facility, FacilityContact, FacilityService, FacilityCoordinate
 from apps.mobile_sessions.models import MobileSession
 from apps.music.models import Music
@@ -2506,4 +2507,89 @@ class MobileContactViewSet(viewsets.ViewSet):
                 'location_aware': use_distance,
             }
         })
-    
+
+
+class MobileAiViewSet(viewsets.ViewSet):
+    """
+    Mobile AI assistant proxy.
+
+    The app used to hold the Gemini API key and call Google directly, so the
+    secret shipped inside the APK where anyone could extract it. The key now
+    lives only on this server: quota and billing sit with GVRC in one place,
+    and the prompt can be corrected without a new app release.
+    """
+
+    permission_classes = [MobileSessionPermission]
+    renderer_classes = [JSONRenderer]
+
+    @swagger_auto_schema(
+        operation_id="mobile_ai_chat",
+        operation_description=(
+            "Generate an assistant reply. The server holds the model key, "
+            "composes the safety prompt, and applies model fallback."
+        ),
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID",
+                type=openapi.TYPE_STRING, required=True
+            ),
+        ],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['message'],
+            properties={
+                'message': openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="The user's message"),
+                'history': openapi.Schema(
+                    type=openapi.TYPE_ARRAY,
+                    description="Recent turns: [{role, content}, ...]",
+                    items=openapi.Schema(type=openapi.TYPE_OBJECT)),
+                'facility_context': openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description=(
+                        "Facts the app looked up in its facility cache. The "
+                        "model is instructed to use only these for facility "
+                        "questions.")),
+            },
+        ),
+        responses={
+            200: openapi.Response('Assistant reply'),
+            400: openapi.Response('Bad Request'),
+        },
+        tags=["Mobile AI API"]
+    )
+    @action(detail=False, methods=['post'], url_path='chat')
+    def chat(self, request):
+        message = (request.data.get('message') or '').strip()
+        if not message:
+            return Response(
+                {'error': 'message is required'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if len(message) > 4000:
+            message = message[:4000]
+
+        history = request.data.get('history') or []
+        if not isinstance(history, list):
+            history = []
+
+        facility_context = request.data.get('facility_context') or ''
+        if len(facility_context) > 4000:
+            facility_context = facility_context[:4000]
+
+        reply, meta = generate_reply(
+            user_message=message,
+            history=history,
+            grounding_context=facility_context,
+        )
+
+        # Always 200 with a usable reply: the app shows what comes back, and
+        # an assistant outage must not surface as an error screen to someone
+        # who may be in distress.
+        return Response({
+            'reply': reply,
+            'ok': meta.get('ok', False),
+            'model': meta.get('model'),
+        })
+

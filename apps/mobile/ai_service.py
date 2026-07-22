@@ -13,12 +13,43 @@ the app; they are ported here unchanged in behaviour.
 
 import json
 import logging
+import socket
 import os
 import re
 
 import requests
+import urllib3.util.connection as urllib3_conn
 
 logger = logging.getLogger(__name__)
+
+
+# Google refuses this host over IPv6 from the datacenter range this server
+# sits in: every request returned an HTML "403 Forbidden" page, including a
+# plain models listing, while the identical key worked from elsewhere. Over
+# IPv4 the same request returns 200. Other Google APIs (Maps) are unaffected,
+# so this is specific to the Gemini host and the IPv6 egress, not the key,
+# not billing and not general connectivity.
+#
+# Pinning this one service to IPv4 is narrower than disabling IPv6 for the
+# whole box, which would affect every other outbound connection.
+_ORIGINAL_ALLOWED_GAI_FAMILY = urllib3_conn.allowed_gai_family
+
+
+def _ipv4_only():
+    return socket.AF_INET
+
+
+class _ForceIPv4:
+    """Context manager: resolve to IPv4 for the duration of one call."""
+
+    def __enter__(self):
+        urllib3_conn.allowed_gai_family = _ipv4_only
+        return self
+
+    def __exit__(self, *exc):
+        urllib3_conn.allowed_gai_family = _ORIGINAL_ALLOWED_GAI_FAMILY
+        return False
+
 
 # Tried in order. Free-tier quota is a separate per-model pool, so falling
 # back to the lite flash roughly doubles the daily headroom - one afternoon
@@ -159,12 +190,13 @@ def generate_reply(user_message, history=None, grounding_context=None):
             f'{model}:generateContent?key={api_key}'
         )
         try:
-            resp = requests.post(
-                url,
-                headers={'Content-Type': 'application/json'},
-                data=json.dumps(body),
-                timeout=TIMEOUT_SECONDS,
-            )
+            with _ForceIPv4():
+                resp = requests.post(
+                    url,
+                    headers={'Content-Type': 'application/json'},
+                    data=json.dumps(body),
+                    timeout=TIMEOUT_SECONDS,
+                )
         except requests.RequestException as exc:
             logger.warning('AI proxy: %s request failed: %s', model, exc)
             last_status = 'network'

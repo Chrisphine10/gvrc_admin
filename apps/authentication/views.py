@@ -480,12 +480,20 @@ def role_detail(request, role_id):
     all_permissions = Permission.objects.exclude(
         rolepermission__role=role
     ).order_by('resource_name', 'action_name')
-    
+
+    # Users who could still be assigned this role. The template has always
+    # referenced this, but the view never supplied it, so the assign-user
+    # picker rendered empty with a blank count.
+    users_without_role = User.objects.exclude(
+        userroleassignment__role=role
+    ).order_by('full_name')
+
     context = {
         'role': role,
         'role_permissions': role_permissions,
         'users_with_role': users_with_role,
         'all_permissions': all_permissions,
+        'users_without_role': users_without_role,
     }
     
     return render(request, 'authentication/role_detail.html', context)

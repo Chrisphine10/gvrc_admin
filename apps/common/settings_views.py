@@ -11,6 +11,7 @@ from django.views.decorators.http import require_http_methods
 from django.core.files.storage import default_storage
 from .models import ApplicationSettings
 from .forms import ApplicationSettingsForm, ThemePreviewForm
+from apps.authentication.permissions import permission_required
 
 
 @login_required
@@ -75,6 +76,7 @@ def preview_theme(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_settings')
 def reset_theme_colors(request):
     """Reset theme colors to default values"""
     try:
@@ -101,6 +103,7 @@ def reset_theme_colors(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_settings')
 def delete_logo(request):
     """Delete current logo"""
     try:
@@ -127,6 +130,7 @@ def delete_logo(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_settings')
 def delete_favicon(request):
     """Delete current favicon"""
     try:
@@ -153,6 +157,7 @@ def delete_favicon(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_settings')
 def delete_apple_touch_icon(request):
     """Delete current apple touch icon"""
     try:

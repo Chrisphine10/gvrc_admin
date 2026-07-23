@@ -13,6 +13,7 @@ from django.utils import timezone
 from .models import Document
 from .forms import DocumentForm, DocumentUploadForm
 from apps.lookups.models import DocumentType, GBVCategory
+from apps.authentication.permissions import permission_required
 
 
 @login_required
@@ -101,6 +102,7 @@ def document_detail(request, document_id):
 
 
 @login_required
+@permission_required('add_documents')
 def document_create(request):
     """Create a new document"""
     if request.method == 'POST':
@@ -138,6 +140,7 @@ def document_create(request):
 
 
 @login_required
+@permission_required('change_documents')
 def document_edit(request, document_id):
     """Edit an existing document"""
     document = get_object_or_404(
@@ -178,6 +181,7 @@ def document_edit(request, document_id):
 
 
 @login_required
+@permission_required('delete_documents')
 def document_delete(request, document_id):
     """Delete a document (soft delete by setting is_active=False)"""
     document = get_object_or_404(
@@ -207,6 +211,7 @@ def document_delete(request, document_id):
 
 
 @login_required
+@permission_required('change_documents')
 def document_toggle_public(request, document_id):
     """Toggle document public/private status via AJAX"""
     if request.method == 'POST':

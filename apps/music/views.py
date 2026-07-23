@@ -17,6 +17,7 @@ from .forms import MusicForm
 from apps.authentication.views import custom_login_required
 import json
 from django.contrib.auth import get_user_model
+from apps.authentication.permissions import permission_required
 User = get_user_model()
 
 
@@ -95,6 +96,7 @@ def music_detail(request, music_id):
 
 
 @custom_login_required
+@permission_required('add_music')
 def add_music(request):
     """Add new music track"""
     if request.method == 'POST':
@@ -121,6 +123,7 @@ def add_music(request):
 
 
 @custom_login_required
+@permission_required('change_music')
 def edit_music(request, music_id):
     """Edit existing music track"""
     music = get_object_or_404(Music, music_id=music_id, is_active=True)

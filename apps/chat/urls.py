@@ -3,6 +3,7 @@
 Emergency Chat System URL Configuration
 """
 
+from django.conf import settings
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
@@ -23,25 +24,10 @@ admin_router.register(r'notifications', NotificationViewSet, basename='admin-not
 app_name = 'chat'
 
 urlpatterns = [
-    # Debug endpoint to check authentication
-    path('debug/auth/', debug_auth, name='debug_auth'),
-    
-    # Test endpoint for chat access
-    path('test/', test_chat_access, name='test_chat_access'),
-    
-    # Test endpoint for conversations API
-    path('test-conversations/', test_conversations_api, name='test_conversations_api'),
-    
-    # Debug endpoint for messages
-    path('debug/messages/<int:conversation_id>/', debug_messages, name='debug_messages'),
-    
     # Web interface endpoints (staff authentication required)
     path('', conversation_list, name='conversation_list'),
     path('conversation/<int:conversation_id>/', conversation_detail, name='conversation_detail'),
     path('analytics/', chat_analytics, name='chat_analytics'),
-    
-    # Debug endpoint to check user permissions
-    path('debug/user/', debug_user_permissions, name='debug_user_permissions'),
     
     # Web API endpoints for web interface
     path('conversation/<int:conversation_id>/assign/', assign_conversation, name='assign_conversation'),
@@ -62,3 +48,25 @@ urlpatterns = [
     # render the mobile chat interface.
     # path('mobile/', include(mobile_router.urls)),
 ]
+
+
+# Debug and test endpoints, development only.
+#
+# These were routed unconditionally and answered anonymous requests on the
+# live site. /chat/debug/auth/ in particular returned the caller's session key,
+# the whole session dictionary and every request header - including the
+# infrastructure ones - as JSON, and none of the five carried any decorator.
+#
+# They are genuinely useful locally, so they are kept rather than deleted, but
+# they now exist only when DEBUG is on. A route that is not registered cannot
+# be reached by guessing its path.
+if settings.DEBUG:
+    urlpatterns += [
+        path('debug/auth/', debug_auth, name='debug_auth'),
+        path('debug/user/', debug_user_permissions, name='debug_user_permissions'),
+        path('debug/messages/<int:conversation_id>/', debug_messages,
+             name='debug_messages'),
+        path('test/', test_chat_access, name='test_chat_access'),
+        path('test-conversations/', test_conversations_api,
+             name='test_conversations_api'),
+    ]

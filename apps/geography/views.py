@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import County, Constituency, Ward
 import json
+from apps.authentication.permissions import permission_required
 
 # Create your views here.
 
@@ -99,6 +100,7 @@ def search_geography(request):
 
 @csrf_exempt
 @login_required
+@permission_required('add_geography')
 def add_geography_item(request):
     """Add a new county, constituency, or ward"""
     if request.method != 'POST':
@@ -259,6 +261,7 @@ def check_facility_connections(request):
 
 @csrf_exempt
 @login_required
+@permission_required('change_geography')
 def edit_geography_item(request):
     """Edit an existing county, constituency, or ward"""
     if request.method != 'POST':
@@ -401,6 +404,7 @@ def edit_geography_item(request):
 
 @csrf_exempt
 @login_required
+@permission_required('delete_geography')
 def delete_geography_item(request):
     """Delete a county, constituency, or ward"""
     if request.method != 'POST':

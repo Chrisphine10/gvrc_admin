@@ -15,14 +15,17 @@ if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Add here your deployment HOSTS
+#
+# The entry after 34.226.180.10:8000 was missing its comma, so Python
+# concatenated the next line onto it and the list actually contained
+# "http://34.226.180.10http://hodi.co.ke". Two origins that were meant to be
+# trusted were not, and a nonsense one was.
 CSRF_TRUSTED_ORIGINS = [
     f"https://{APP_DOMAIN}",
+    "https://hodi-admin.co.ke",
+    "https://www.hodi-admin.co.ke",
+    "https://hodi.co.ke",
     "https://*.deploypro.dev",
-    "http://172.31.47.58:8000",
-    "http://34.226.180.10:8000",
-    "http://34.226.180.10"
-    "http://hodi.co.ke",  # Add this line
-    "https://hodi.co.ke",  # Add this line
 ]
 
 # Database
@@ -57,13 +60,28 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
-# HTTPS settings (uncomment when using SSL)
-# SECURE_SSL_REDIRECT = True
-# SECURE_HSTS_SECONDS = 31536000
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+# HTTPS. The site has been served over TLS for a while; these were still
+# commented out, so the session and CSRF cookies were being set without the
+# Secure flag and browsers were never told to refuse plaintext.
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# Not preloading. Preload is effectively irreversible - you cannot get a domain
+# out of the browser list quickly - and it would commit every current and future
+# subdomain of hodi-admin.co.ke to HTTPS. Turn it on deliberately, not as part
+# of a security sweep.
+SECURE_HSTS_PRELOAD = False
+
+# SECURE_SSL_REDIRECT stays off on purpose. nginx already answers plain HTTP
+# with a 301 to https, so Django would only be doing it a second time - and if
+# the proxy ever stops sending X-Forwarded-Proto, Django would consider every
+# request insecure and redirect it to itself forever, taking the site down.
+# Redirect at the edge, where the protocol is actually known.
+SECURE_SSL_REDIRECT = False
 
 # Static files configuration for production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

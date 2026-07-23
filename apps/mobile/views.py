@@ -17,6 +17,7 @@ from drf_yasg import openapi
 # Import models from different apps
 from apps.chat.models import Conversation, Message
 from apps.mobile.ai_service import generate_reply
+from apps.mobile.directions_service import route as directions_route
 from apps.facilities.models import Facility, FacilityContact, FacilityService, FacilityCoordinate
 from apps.mobile_sessions.models import MobileSession
 from apps.music.models import Music
@@ -2593,3 +2594,66 @@ class MobileAiViewSet(viewsets.ViewSet):
             'model': meta.get('model'),
         })
 
+
+
+class MobileDirectionsViewSet(viewsets.ViewSet):
+    """
+    Road routing, proxied so the Maps web-service key stays on the server.
+
+    The app shipped this key inside the APK. Anyone could unzip a release and
+    spend GVRC's Maps budget, and rotating it meant shipping a new version to
+    every handset. Routing now goes through here; the app holds no Maps
+    credential for web services at all.
+    """
+
+    permission_classes = [MobileSessionPermission]
+    renderer_classes = [JSONRenderer]
+
+    @swagger_auto_schema(
+        operation_id="mobile_directions_route",
+        operation_description=(
+            "Road route between two points. The server holds the Maps key. "
+            "Returns the encoded overview polyline plus distance and duration "
+            "text; the full upstream response is deliberately not forwarded."
+        ),
+        manual_parameters=[
+            openapi.Parameter(
+                'device_id', openapi.IN_QUERY, description="Device ID",
+                type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'origin', openapi.IN_QUERY, description="lat,lng",
+                type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'destination', openapi.IN_QUERY, description="lat,lng",
+                type=openapi.TYPE_STRING, required=True
+            ),
+            openapi.Parameter(
+                'mode', openapi.IN_QUERY,
+                description="driving | walking | bicycling | transit",
+                type=openapi.TYPE_STRING, required=False
+            ),
+        ],
+        tags=["Mobile Directions API"]
+    )
+    @action(detail=False, methods=['get'], url_path='route')
+    def route(self, request):
+        payload, meta = directions_route(
+            origin=request.query_params.get('origin'),
+            destination=request.query_params.get('destination'),
+            mode=request.query_params.get('mode'),
+        )
+
+        if not meta.get('ok'):
+            # 200 with ok:false, matching the AI proxy. The caller draws a
+            # straight line when routing is unavailable, which is a degraded
+            # map rather than a failed screen.
+            return Response({'ok': False, 'reason': meta.get('reason')})
+
+        return Response({
+            'ok': True,
+            'polyline': payload['polyline'],
+            'distance_text': payload['distance_text'],
+            'duration_text': payload['duration_text'],
+        })

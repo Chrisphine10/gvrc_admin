@@ -17,6 +17,7 @@ from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from apps.authentication.models import User
 from apps.authentication.views import custom_login_required
+from apps.authentication.permissions import permission_required
 
 
 def debug_auth(request):
@@ -334,6 +335,7 @@ def chat_analytics(request):
 
 @custom_login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
+@permission_required('change_chat')
 def assign_conversation(request, conversation_id):
     """Assign conversation to admin"""
     if request.method == 'POST':
@@ -371,6 +373,7 @@ def assign_conversation(request, conversation_id):
 
 @custom_login_required
 @user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
+@permission_required('change_chat')
 def update_conversation_status(request, conversation_id):
     """Update conversation status"""
     if request.method == 'PATCH':

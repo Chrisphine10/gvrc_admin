@@ -75,6 +75,13 @@ jobs:
              source venv/bin/activate
              pip install -q -r requirements.txt
 
+             # manage.py resolves DJANGO_SETTINGS_MODULE=core.settings, which
+             # picks a settings module from DJANGO_ENV. Without this the
+             # commands below run dev settings on the production host while
+             # gunicorn runs prod - including a relative SQLite path that can
+             # migrate a brand new empty database instead of the real one.
+             export DJANGO_ENV=prod
+
              if [ \"$SKIP_MIGRATIONS\" != 'true' ]; then
                python manage.py migrate --noinput
              fi

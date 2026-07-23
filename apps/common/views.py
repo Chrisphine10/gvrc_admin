@@ -18,6 +18,7 @@ from apps.lookups.models import (
     GBVCategory, InfrastructureType, ConditionStatus, DocumentType
 )
 from apps.facilities.models import Facility
+from apps.authentication.permissions import permission_required
 
 
 @login_required
@@ -128,6 +129,7 @@ def lookup_tables(request):
 # CRUD Views for Operational Status
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_operational_status(request):
     """Add new operational status"""
     try:
@@ -153,6 +155,7 @@ def add_operational_status(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_operational_status(request, status_id):
     """Edit operational status"""
     try:
@@ -170,6 +173,7 @@ def edit_operational_status(request, status_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_operational_status(request, status_id):
     """Delete operational status"""
     try:
@@ -186,6 +190,7 @@ def delete_operational_status(request, status_id):
 # CRUD Views for Contact Type
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_contact_type(request):
     """Add new contact type"""
     try:
@@ -209,6 +214,7 @@ def add_contact_type(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_contact_type(request, type_id):
     """Edit contact type"""
     try:
@@ -225,6 +231,7 @@ def edit_contact_type(request, type_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_contact_type(request, type_id):
     """Delete contact type"""
     try:
@@ -241,6 +248,7 @@ def delete_contact_type(request, type_id):
 # CRUD Views for Service Category
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_service_category(request):
     """Add new service category"""
     try:
@@ -266,6 +274,7 @@ def add_service_category(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_service_category(request, category_id):
     """Edit service category"""
     try:
@@ -283,6 +292,7 @@ def edit_service_category(request, category_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_service_category(request, category_id):
     """Delete service category"""
     try:
@@ -299,6 +309,7 @@ def delete_service_category(request, category_id):
 # CRUD Views for Owner Type
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_owner_type(request):
     """Add new owner type"""
     try:
@@ -322,6 +333,7 @@ def add_owner_type(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_owner_type(request, type_id):
     """Edit owner type"""
     try:
@@ -338,6 +350,7 @@ def edit_owner_type(request, type_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_owner_type(request, type_id):
     """Delete owner type"""
     try:
@@ -354,6 +367,7 @@ def delete_owner_type(request, type_id):
 # CRUD Views for GBV Category
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_gbv_category(request):
     """Add new GBV category"""
     try:
@@ -379,6 +393,7 @@ def add_gbv_category(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_gbv_category(request, category_id):
     """Edit GBV category"""
     try:
@@ -396,6 +411,7 @@ def edit_gbv_category(request, category_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_gbv_category(request, category_id):
     """Delete GBV category"""
     try:
@@ -412,6 +428,7 @@ def delete_gbv_category(request, category_id):
 # CRUD Views for Infrastructure Type
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_infrastructure_type(request):
     """Add new infrastructure type"""
     try:
@@ -435,6 +452,7 @@ def add_infrastructure_type(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_infrastructure_type(request, type_id):
     """Edit infrastructure type"""
     try:
@@ -451,6 +469,7 @@ def edit_infrastructure_type(request, type_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_infrastructure_type(request, type_id):
     """Delete infrastructure type"""
     try:
@@ -467,6 +486,7 @@ def delete_infrastructure_type(request, type_id):
 # CRUD Views for Condition Status
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_condition_status(request):
     """Add new condition status"""
     try:
@@ -490,6 +510,7 @@ def add_condition_status(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_condition_status(request, status_id):
     """Edit condition status"""
     try:
@@ -506,6 +527,7 @@ def edit_condition_status(request, status_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_condition_status(request, status_id):
     """Delete condition status"""
     try:
@@ -522,6 +544,7 @@ def delete_condition_status(request, status_id):
 # CRUD Views for Document Type
 @login_required
 @require_http_methods(["POST"])
+@permission_required('add_lookups')
 def add_document_type(request):
     """Add new document type"""
     try:
@@ -549,6 +572,7 @@ def add_document_type(request):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('change_lookups')
 def edit_document_type(request, type_id):
     """Edit document type"""
     try:
@@ -567,6 +591,7 @@ def edit_document_type(request, type_id):
 
 @login_required
 @require_http_methods(["POST"])
+@permission_required('delete_lookups')
 def delete_document_type(request, type_id):
     """Delete document type"""
     try:

@@ -31,6 +31,7 @@ from .permissions import (
 from apps.facilities.models import Facility
 import hashlib
 import json
+from apps.authentication.permissions import permission_required
 
 # Set up logger for authentication
 logger = logging.getLogger(__name__)
@@ -529,6 +530,7 @@ def role_create(request):
 
 
 @custom_login_required
+@permission_required('change_roles')
 def role_edit(request, role_id):
     """Edit an existing user role"""
     role = get_object_or_404(UserRole, role_id=role_id)
@@ -559,6 +561,7 @@ def role_edit(request, role_id):
 
 
 @custom_login_required
+@permission_required('delete_roles')
 def role_delete(request, role_id):
     """Delete a user role"""
     role = get_object_or_404(UserRole, role_id=role_id)
@@ -614,6 +617,7 @@ def permission_list(request):
 
 
 @custom_login_required
+@permission_required('add_roles')
 def permission_create(request):
     """Create a new permission"""
     if request.method == 'POST':
@@ -645,6 +649,7 @@ def permission_create(request):
 
 
 @custom_login_required
+@permission_required('change_roles')
 def permission_edit(request, permission_id):
     """Edit an existing permission"""
     permission = get_object_or_404(Permission, permission_id=permission_id)
@@ -677,6 +682,7 @@ def permission_edit(request, permission_id):
 
 
 @custom_login_required
+@permission_required('delete_roles')
 def permission_delete(request, permission_id):
     """Delete a permission"""
     permission = get_object_or_404(Permission, permission_id=permission_id)
@@ -732,6 +738,7 @@ def assign_permission_to_role(request, role_id):
 
 @custom_login_required
 @require_http_methods(["POST"])
+@permission_required('change_roles')
 def remove_permission_from_role(request, role_id, permission_id):
     """Remove a permission from a role via AJAX"""
     try:
@@ -752,6 +759,7 @@ def remove_permission_from_role(request, role_id, permission_id):
 
 @custom_login_required
 @require_http_methods(["POST"])
+@permission_required('change_roles')
 def assign_role_to_user(request, user_id):
     """Assign a role to a user via AJAX"""
     try:
@@ -786,6 +794,7 @@ def assign_role_to_user(request, user_id):
 
 @custom_login_required
 @require_http_methods(["POST"])
+@permission_required('change_roles')
 def remove_role_from_user(request, user_id, role_id):
     """Remove a role from a user via AJAX"""
     try:
@@ -805,6 +814,7 @@ def remove_role_from_user(request, user_id, role_id):
 
 
 @custom_login_required
+@permission_required('change_users')
 def user_edit(request, user_id):
     """Edit user information"""
     user = get_object_or_404(User, user_id=user_id)

@@ -17,7 +17,28 @@ from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from apps.authentication.models import User
 from apps.authentication.views import custom_login_required
-from apps.authentication.permissions import permission_required
+from apps.authentication.permissions import has_permission, permission_required
+from functools import wraps
+from django.utils.dateparse import parse_date
+
+
+def chat_staff_required(permission_name='view_chat'):
+    """Chat holds GBV survivors' conversations. Only signed-in staff who
+    hold the chat permission may see them; superusers always may.
+    (Several of these views had no check at all, so anyone could read and
+    export every conversation.)"""
+    def decorator(view_func):
+        @wraps(view_func)
+        def wrapper(request, *args, **kwargs):
+            user = request.user
+            if not user.is_authenticated:
+                return redirect(f'/login/?next={request.path}')
+            if not (user.is_superuser or (user.is_staff and has_permission(user, permission_name))):
+                messages.error(request, 'You do not have access to the chat system.')
+                return redirect('/dashboard/')
+            return view_func(request, *args, **kwargs)
+        return wrapper
+    return decorator
 
 
 def debug_auth(request):
@@ -60,6 +81,7 @@ def is_staff_user(user):
     return user.is_staff or user.is_superuser
 
 
+@chat_staff_required('view_chat')
 def conversation_list(request):
     """Display list of all conversations"""
     # Get filter parameters
@@ -114,8 +136,7 @@ def conversation_list(request):
     return render(request, 'chat/conversation_list.html', context)
 
 
-@custom_login_required
-@user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
+@chat_staff_required('view_chat')
 def conversation_detail(request, conversation_id):
     """Display individual conversation with chat interface"""
     conversation = get_object_or_404(
@@ -159,12 +180,15 @@ def conversation_detail(request, conversation_id):
     return render(request, 'chat/conversation_detail.html', context)
 
 
+@chat_staff_required('view_chat')
 def chat_analytics(request):
     """Display chat analytics and insights"""
     # Get time range parameters
     time_range = request.GET.get('time_range', '7d')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    start_date = parse_date(request.GET.get('start_date') or '')
+    end_date = parse_date(request.GET.get('end_date') or '')
+    if start_date and end_date and start_date > end_date:
+        start_date, end_date = end_date, start_date
     
     # Set default dates if not provided
     if not start_date or not end_date:
@@ -333,9 +357,7 @@ def chat_analytics(request):
     return render(request, 'chat/chat_analytics.html', context)
 
 
-@custom_login_required
-@user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
-@permission_required('change_chat')
+@chat_staff_required('change_chat')
 def assign_conversation(request, conversation_id):
     """Assign conversation to admin"""
     if request.method == 'POST':
@@ -371,9 +393,7 @@ def assign_conversation(request, conversation_id):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
-@custom_login_required
-@user_passes_test(lambda u: u.is_staff, login_url='/authentication/login/')
-@permission_required('change_chat')
+@chat_staff_required('change_chat')
 def update_conversation_status(request, conversation_id):
     """Update conversation status"""
     if request.method == 'PATCH':
@@ -399,6 +419,7 @@ def update_conversation_status(request, conversation_id):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
+@chat_staff_required('view_chat')
 def export_conversations(request):
     """Export conversations to CSV"""
     from django.http import HttpResponse
@@ -457,6 +478,7 @@ def export_conversations(request):
     return response
 
 
+@chat_staff_required('view_chat')
 def export_conversation(request, conversation_id):
     """Export individual conversation to CSV"""
     from django.http import HttpResponse
@@ -516,14 +538,17 @@ def export_conversation(request, conversation_id):
     return response
 
 
+@chat_staff_required('view_chat')
 def export_analytics(request):
     """Export analytics data to CSV"""
     from django.http import HttpResponse
     import csv
     
     # Get time range parameters
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
+    start_date = parse_date(request.GET.get('start_date') or '')
+    end_date = parse_date(request.GET.get('end_date') or '')
+    if start_date and end_date and start_date > end_date:
+        start_date, end_date = end_date, start_date
     
     if not start_date or not end_date:
         return JsonResponse({'error': 'Start and end dates are required'}, status=400)
@@ -531,13 +556,13 @@ def export_analytics(request):
     # Convert to datetime for filtering
     start_datetime = timezone.make_aware(
         timezone.datetime.combine(
-            timezone.datetime.strptime(start_date, '%Y-%m-%d').date(),
+            start_date,
             timezone.datetime.min.time()
         )
     )
     end_datetime = timezone.make_aware(
         timezone.datetime.combine(
-            timezone.datetime.strptime(end_date, '%Y-%m-%d').date(),
+            end_date,
             timezone.datetime.max.time()
         )
     )
@@ -592,12 +617,15 @@ def export_analytics(request):
     writer.writerow(['Daily Trends'])
     writer.writerow(['Date', 'Conversations'])
     
-    current_date = timezone.datetime.strptime(start_date, '%Y-%m-%d').date()
-    end_date_obj = timezone.datetime.strptime(end_date, '%Y-%m-%d').date()
-    
-    while current_date <= end_date_obj:
-        daily_count = conversations.filter(created_at__date=current_date).count()
-        writer.writerow([current_date.strftime('%Y-%m-%d'), daily_count])
+    # One grouped query instead of one query per day.
+    from django.db.models.functions import TruncDate
+    per_day = dict(
+        conversations.annotate(day=TruncDate('created_at')).values('day')
+        .annotate(n=Count('pk')).values_list('day', 'n')
+    )
+    current_date = start_date
+    while current_date <= end_date:
+        writer.writerow([current_date.strftime('%Y-%m-%d'), per_day.get(current_date, 0)])
         current_date += timedelta(days=1)
     
     return response

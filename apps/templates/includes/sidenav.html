@@ -96,6 +96,14 @@
               <span class="nav-link-text">Conversations</span>
             </a>
           </li>
+          {% if user.is_superuser or 'view_sms' in user_permission_names %}
+          <li class="nav-item">
+            <a class="nav-link {% if segment == 'sms' %} active {% endif %}" href="{% url 'sms:broadcast_list' %}">
+              <i class="fas fa-sms text-warning"></i>
+              <span class="nav-link-text">Bulk SMS</span>
+            </a>
+          </li>
+          {% endif %}
         </ul>
 
         <hr class="my-3">
@@ -169,11 +177,25 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if 'settings' in segment %} active {% endif %}" href="{% url 'common:application_settings' %}">
+            <a class="nav-link {% if segment == 'settings' %} active {% endif %}" href="{% url 'common:application_settings' %}">
               <i class="ni ni-settings-gear-65 text-default"></i>
               <span class="nav-link-text">Settings</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {% if segment == 'map_settings' %} active {% endif %}" href="{% url 'common:map_settings' %}">
+              <i class="fas fa-map-marked-alt text-success"></i>
+              <span class="nav-link-text">Map Settings</span>
+            </a>
+          </li>
+          {% if user.is_superuser or 'change_sms' in user_permission_names %}
+          <li class="nav-item">
+            <a class="nav-link {% if segment == 'sms_settings' %} active {% endif %}" href="{% url 'sms:settings' %}">
+              <i class="fas fa-sliders-h text-warning"></i>
+              <span class="nav-link-text">SMS Settings</span>
+            </a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="/swagger/" target="_blank">
               <i class="ni ni-archive-2 text-info"></i>

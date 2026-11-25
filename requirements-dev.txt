@@ -1,0 +1,9 @@
+-r requirements.txt
+
+# Testing
+pytest>=9.0,<10.0
+pytest-django>=4.11,<5.0
+pytest-cov>=7.0,<8.0
+
+# Developer tools
+django-debug-toolbar>=6.0,<7.0

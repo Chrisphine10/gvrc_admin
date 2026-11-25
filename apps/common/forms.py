@@ -332,3 +332,48 @@ class ThemePreviewForm(forms.Form):
             return True
         pattern = r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$'
         return bool(re.match(pattern, color))
+
+
+class MapSettingsForm(forms.ModelForm):
+    """Which map the admin and the mobile app use."""
+
+    class Meta:
+        model = ApplicationSettings
+        fields = [
+            'map_provider', 'osm_tile_url', 'osm_attribution',
+            'map_default_latitude', 'map_default_longitude', 'map_default_zoom',
+        ]
+        widgets = {
+            'map_provider': forms.RadioSelect,
+            'osm_tile_url': forms.URLInput(attrs={'class': 'form-control'}),
+            'osm_attribution': forms.TextInput(attrs={'class': 'form-control'}),
+            'map_default_latitude': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.000001'}),
+            'map_default_longitude': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.000001'}),
+            'map_default_zoom': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 18}),
+        }
+
+    def clean_osm_tile_url(self):
+        url = (self.cleaned_data.get('osm_tile_url') or '').strip()
+        if not all(token in url for token in ('{z}', '{x}', '{y}')):
+            raise ValidationError('The tile URL must contain {z}, {x} and {y}.')
+        if not url.startswith('https://'):
+            raise ValidationError('Use an https:// tile server, or browsers will block the map on the live site.')
+        return url
+
+    def clean_map_default_latitude(self):
+        value = self.cleaned_data.get('map_default_latitude')
+        if value is not None and not (-90 <= value <= 90):
+            raise ValidationError('Latitude must be between -90 and 90.')
+        return value
+
+    def clean_map_default_longitude(self):
+        value = self.cleaned_data.get('map_default_longitude')
+        if value is not None and not (-180 <= value <= 180):
+            raise ValidationError('Longitude must be between -180 and 180.')
+        return value
+
+    def clean_map_default_zoom(self):
+        value = self.cleaned_data.get('map_default_zoom')
+        if value is not None and not (1 <= value <= 18):
+            raise ValidationError('Zoom must be between 1 and 18.')
+        return value

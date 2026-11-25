@@ -16,7 +16,9 @@ class Facility(models.Model):
     """Community-based facility model"""
     facility_id = models.AutoField(primary_key=True)
     facility_name = models.CharField(max_length=200, null=False)
-    facility_code = models.CharField(max_length=50, unique=True, blank=True)
+    # Optional but unique: blanks are stored as NULL, which a unique column
+    # allows any number of (an empty string is allowed only once).
+    facility_code = models.CharField(max_length=50, unique=True, blank=True, null=True)
     registration_number = models.CharField(max_length=100, unique=True)
     operational_status = models.ForeignKey(OperationalStatus, on_delete=models.CASCADE, db_column='operational_status_id', null=False)
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE, db_column='ward_id', null=False)
@@ -30,9 +32,14 @@ class Facility(models.Model):
     created_by = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='facilities_created', db_column='created_by', null=False)
     updated_by = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='facilities_updated', db_column='updated_by')
     
+    def save(self, *args, **kwargs):
+        if not (self.facility_code or '').strip():
+            self.facility_code = None
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.facility_name} - {self.ward.ward_name}"
-    
+
     class Meta:
         verbose_name_plural = "Facilities"
         db_table = 'facilities'

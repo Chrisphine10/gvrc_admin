@@ -1,0 +1,135 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}{{ broadcast.title }} - Bulk SMS{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sms:broadcast_list' %}">Bulk SMS</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ broadcast.title }}</li>
+    </ol>
+  </nav>
+
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <div>
+      <h1 class="h3 mb-0">{{ broadcast.title }}</h1>
+      <p class="text-muted small mb-0">Created {{ broadcast.created_at|date:"d M Y H:i" }}{% if broadcast.created_by %} by {{ broadcast.created_by.full_name }}{% endif %}</p>
+    </div>
+    {% if can_send %}
+    <div class="mt-2 mt-md-0">
+      {% if broadcast.failed_count and broadcast.status != 'cancelled' %}
+      <form method="post" action="{% url 'sms:broadcast_retry' broadcast.pk %}" class="d-inline">{% csrf_token %}
+        <button class="btn btn-outline-primary" type="submit"><i class="fas fa-redo"></i> Retry {{ broadcast.failed_count }} failed</button>
+      </form>
+      {% endif %}
+      {% if broadcast.status == 'queued' or broadcast.status == 'sending' %}
+      <form method="post" action="{% url 'sms:broadcast_cancel' broadcast.pk %}" class="d-inline"
+            onsubmit="return confirm('Stop this broadcast? Messages already sent cannot be recalled.');">{% csrf_token %}
+        <button class="btn btn-outline-danger" type="submit"><i class="fas fa-stop"></i> Stop sending</button>
+      </form>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  {% if broadcast.status == 'queued' or broadcast.status == 'sending' %}{% include 'sms/_status_banner.html' %}{% endif %}
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card"><div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="badge badge-lg badge-{% if broadcast.status == 'completed' %}success{% elif broadcast.status == 'cancelled' %}secondary{% elif broadcast.status == 'sending' %}info{% else %}warning{% endif %}" id="bc-status">{{ broadcast.get_status_display }}</span>
+          <span class="text-muted small" id="bc-progress-text">{{ broadcast.progress_percent }}% done</span>
+        </div>
+        <div class="progress mb-3" style="height:8px" aria-label="Sending progress">
+          <div class="progress-bar bg-success" id="bc-progress" role="progressbar" style="width: {{ broadcast.progress_percent }}%"
+               aria-valuenow="{{ broadcast.progress_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="row text-center">
+          <div class="col"><div class="h3 mb-0" id="bc-total">{{ broadcast.total_recipients }}</div><small class="text-muted">Recipients</small></div>
+          <div class="col"><div class="h3 mb-0 text-success" id="bc-sent">{{ broadcast.sent_count }}</div><small class="text-muted">Sent</small></div>
+          <div class="col"><div class="h3 mb-0 text-danger" id="bc-failed">{{ broadcast.failed_count }}</div><small class="text-muted">Failed</small></div>
+          <div class="col"><div class="h3 mb-0 text-muted" id="bc-skipped">{{ broadcast.skipped_count }}</div><small class="text-muted">Skipped</small></div>
+          <div class="col"><div class="h3 mb-0" id="bc-pending">{{ broadcast.pending_count }}</div><small class="text-muted">Waiting</small></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card"><div class="card-body">
+        <h3 class="h6 text-uppercase text-muted">Message ({{ parts }} SMS each)</h3>
+        <div class="bg-secondary rounded p-3 small" style="white-space:pre-wrap">{{ broadcast.message }}</div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+      <h3 class="mb-0">Recipients</h3>
+      <form method="get" class="form-inline">
+        <select name="status" class="form-control form-control-sm" onchange="this.form.submit()" aria-label="Filter recipients by status">
+          <option value="">All</option>
+          {% for value, label in recipient_status_choices %}
+          <option value="{{ value }}" {% if value == status_filter %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush table-sm">
+        <thead class="thead-light"><tr><th>Phone</th><th>Name</th><th>Group</th><th>Status</th><th>Provider answer</th><th>Sent</th></tr></thead>
+        <tbody>
+          {% for r in recipients %}
+          <tr>
+            <td class="text-monospace">{{ r.phone }}</td>
+            <td>{{ r.name|default:"-" }}</td>
+            <td>{{ r.get_source_display }}</td>
+            <td><span class="badge badge-{% if r.status == 'sent' %}success{% elif r.status == 'failed' %}danger{% elif r.status == 'skipped' %}secondary{% else %}warning{% endif %}">{{ r.get_status_display }}</span></td>
+            <td class="small">{% if r.provider_status %}<span class="text-muted">{{ r.provider_status }}</span> {% endif %}{{ r.provider_message|default:"" }}</td>
+            <td class="small">{{ r.sent_at|date:"d M H:i"|default:"-" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" class="text-center text-muted py-4">No recipients{% if status_filter %} with this status{% endif %}.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if page_obj.has_other_pages %}
+    <div class="card-footer">
+      <nav><ul class="pagination justify-content-end mb-0">
+        {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&status={{ status_filter }}">&lsaquo;</a></li>{% endif %}
+        <li class="page-item active"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&status={{ status_filter }}">&rsaquo;</a></li>{% endif %}
+      </ul></nav>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{% if broadcast.status == 'queued' or broadcast.status == 'sending' %}
+<script>
+(function () {
+  const url = "{% url 'sms:broadcast_progress' broadcast.pk %}";
+  async function poll() {
+    try {
+      const r = await fetch(url, {credentials: 'same-origin'});
+      if (r.ok) {
+        const j = await r.json();
+        for (const k of ['total', 'sent', 'failed', 'skipped', 'pending']) document.getElementById('bc-' + k).textContent = j[k];
+        document.getElementById('bc-progress').style.width = j.progress + '%';
+        document.getElementById('bc-progress-text').textContent = j.progress + '% done';
+        document.getElementById('bc-status').textContent = j.status_display;
+        if (j.status === 'completed' || j.status === 'cancelled') { location.reload(); return; }
+      }
+    } catch (e) {}
+    setTimeout(poll, 3000);
+  }
+  setTimeout(poll, 2000);
+})();
+</script>
+{% endif %}
+{% endblock %}

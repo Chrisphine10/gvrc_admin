@@ -1,0 +1,103 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Bulk SMS{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Bulk SMS</li>
+        </ol>
+      </nav>
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <div>
+          <h1 class="h3 mb-0">Bulk SMS</h1>
+          <p class="text-muted mb-0 small">Sent through {{ sms_settings.provider_name }}{% if sms_settings.sender_id %} &middot; sender <strong>{{ sms_settings.sender_id }}</strong>{% endif %}</p>
+        </div>
+        <div class="mt-2 mt-md-0">
+          {% if can_configure %}<a href="{% url 'sms:settings' %}" class="btn btn-outline-secondary"><i class="fas fa-cog"></i> SMS settings</a>{% endif %}
+          {% if can_send %}<a href="{% url 'sms:broadcast_compose' %}" class="btn btn-primary"><i class="fas fa-paper-plane"></i> New bulk SMS</a>{% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'sms/_status_banner.html' %}
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card card-stats"><div class="card-body">
+        <h5 class="card-title text-uppercase text-muted mb-0">Messages sent</h5>
+        <span class="h2 font-weight-bold mb-0">{{ totals.sent }}</span>
+      </div></div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-stats"><div class="card-body">
+        <h5 class="card-title text-uppercase text-muted mb-0">Failed</h5>
+        <span class="h2 font-weight-bold mb-0 {% if totals.failed %}text-danger{% endif %}">{{ totals.failed }}</span>
+      </div></div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-stats"><div class="card-body">
+        <h5 class="card-title text-uppercase text-muted mb-0">Recipients (all broadcasts)</h5>
+        <span class="h2 font-weight-bold mb-0">{{ totals.recipients }}</span>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+      <h3 class="mb-0">Broadcasts</h3>
+      <form method="get" class="form-inline">
+        <select name="status" class="form-control form-control-sm" onchange="this.form.submit()" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          {% for value, label in status_choices %}
+          <option value="{{ value }}" {% if value == status_filter %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+          <tr>
+            <th>Title</th><th>Status</th><th class="text-right">Recipients</th>
+            <th class="text-right">Sent</th><th class="text-right">Failed</th><th>By</th><th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in broadcasts %}
+          <tr>
+            <td><a href="{% url 'sms:broadcast_detail' b.pk %}" class="font-weight-bold">{{ b.title }}</a>
+              <div class="small text-muted text-truncate" style="max-width:320px">{{ b.message }}</div></td>
+            <td><span class="badge badge-{% if b.status == 'completed' %}success{% elif b.status == 'cancelled' %}secondary{% elif b.status == 'sending' %}info{% else %}warning{% endif %}">{{ b.get_status_display }}</span></td>
+            <td class="text-right">{{ b.total_recipients }}</td>
+            <td class="text-right">{{ b.sent_count }}</td>
+            <td class="text-right {% if b.failed_count %}text-danger{% endif %}">{{ b.failed_count }}</td>
+            <td>{{ b.created_by.full_name|default:"-" }}</td>
+            <td><span title="{{ b.created_at }}">{{ b.created_at|date:"d M Y H:i" }}</span></td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="7" class="text-center text-muted py-5">
+            No bulk SMS yet.{% if can_send %} <a href="{% url 'sms:broadcast_compose' %}">Send the first one</a>.{% endif %}
+          </td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if page_obj.has_other_pages %}
+    <div class="card-footer">
+      <nav><ul class="pagination justify-content-end mb-0">
+        {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&status={{ status_filter }}">&lsaquo;</a></li>{% endif %}
+        <li class="page-item active"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&status={{ status_filter }}">&rsaquo;</a></li>{% endif %}
+      </ul></nav>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

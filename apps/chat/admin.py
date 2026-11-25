@@ -54,11 +54,13 @@ class ConversationAdmin(admin.ModelAdmin):
     def mobile_device(self, obj):
         """Display mobile device information"""
         if obj.mobile_session:
+            # format_html escapes its arguments to strings first, so number
+            # formatting has to happen before (a '{:.4f}' here raised).
             return format_html(
-                '<strong>{}</strong><br><small>Location: {:.4f}, {:.4f}</small>',
+                '<strong>{}</strong><br><small>Location: {}, {}</small>',
                 obj.mobile_session.device_id,
-                obj.mobile_session.latitude or 0,
-                obj.mobile_session.longitude or 0
+                f"{float(obj.mobile_session.latitude or 0):.4f}",
+                f"{float(obj.mobile_session.longitude or 0):.4f}",
             )
         return '-'
     mobile_device.short_description = 'Mobile Device'

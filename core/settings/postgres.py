@@ -6,14 +6,12 @@ DATABASES = {"default": {"ENGINE": "django.db.backends.postgresql", "NAME": "hod
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "core.storage.HodiStaticFilesStorage"},
+}
 LOGGING = {'version': 1, 'disable_existing_loggers': False, 'formatters': {'verbose': {'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}', 'style': '{'}, 'simple': {'format': '{levelname} {message}', 'style': '{'}}, 'handlers': {'file': {'level': 'INFO', 'class': 'logging.FileHandler', 'filename': os.path.join(BASE_DIR, 'logs', 'django.log'), 'formatter': 'verbose'}, 'console': {'level': 'INFO', 'class': 'logging.StreamHandler', 'formatter': 'simple'}}, 'root': {'handlers': ['console', 'file'], 'level': 'INFO'}, 'loggers': {'django': {'handlers': ['console', 'file'], 'level': 'INFO', 'propagate': False}, 'apps': {'handlers': ['console', 'file'], 'level': 'INFO', 'propagate': False}}}
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+MAILERS = smtp_mailers_from_env()
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@hodi.co.ke')
 CONN_MAX_AGE = 60
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760

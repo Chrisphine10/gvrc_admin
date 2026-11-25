@@ -32,6 +32,19 @@ def chat_notifications(request):
         }
 
 
+def map_config_for_browser(app_settings):
+    """Map settings for includes/map_config.html. The Google key is only
+    sent when Google is the provider in use (it is a browser key, restricted by
+    referrer in the Google console)."""
+    from django.conf import settings as dj_settings
+
+    config = app_settings.map_config()
+    config['google_maps_api_key'] = (
+        getattr(dj_settings, 'GOOGLE_MAPS_API_KEY', '') if config['provider'] == 'google' else ''
+    )
+    return config
+
+
 def application_settings(request):
     """
     Add application settings to template context
@@ -41,6 +54,7 @@ def application_settings(request):
         return {
             'app_settings': settings,
             'theme_css_variables': settings.get_theme_css_variables(),
+            'hodi_map_config': map_config_for_browser(settings),
         }
     except Exception:
         # Return default values if settings can't be loaded

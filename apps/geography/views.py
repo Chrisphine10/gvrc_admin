@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import County, Constituency, Ward
@@ -98,7 +97,6 @@ def search_geography(request):
             'error': str(e)
         }, status=400)
 
-@csrf_exempt
 @login_required
 @permission_required('add_geography')
 def add_geography_item(request):
@@ -259,7 +257,6 @@ def check_facility_connections(request):
             'error': str(e)
         }, status=400)
 
-@csrf_exempt
 @login_required
 @permission_required('change_geography')
 def edit_geography_item(request):
@@ -402,7 +399,6 @@ def edit_geography_item(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=400)
 
-@csrf_exempt
 @login_required
 @permission_required('delete_geography')
 def delete_geography_item(request):

@@ -164,7 +164,7 @@ def track_play(request):
         
         if music_id and user_id:
             music = get_object_or_404(Music, music_id=music_id)
-            user = get_object_or_404(User, id=user_id)
+            user = get_object_or_404(User, user_id=user_id)  # the custom User's key is user_id
             
             MusicPlay.objects.create(
                 music=music,

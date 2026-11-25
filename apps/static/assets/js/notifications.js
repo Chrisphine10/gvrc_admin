@@ -132,7 +132,7 @@ class NotificationManager {
 
     async updateNotifications() {
         try {
-            const response = await fetch('/api/chat/notifications/unread-conversations/', {
+            const response = await fetch('/api/chat/admin/notifications/unread-conversations/', {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': this.getCSRFToken(),
@@ -290,7 +290,7 @@ class NotificationManager {
 
     async markConversationAsRead(conversationId) {
         try {
-            const response = await fetch(`/api/chat/conversations/${conversationId}/messages/read/`, {
+            const response = await fetch(`/api/chat/admin/conversations/${conversationId}/messages/read/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': this.getCSRFToken(),

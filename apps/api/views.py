@@ -7,6 +7,11 @@ from rest_framework import status, generics, filters
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny, BasePermission
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
+from django.http import Http404
+import logging
+
+logger = logging.getLogger(__name__)
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q, Count, Prefetch
 from django.shortcuts import get_object_or_404
@@ -130,7 +135,7 @@ class FacilityListView(generics.ListAPIView):
             'operational_status'
         ).prefetch_related(
             Prefetch(
-                'facilitycoordinate',
+                'facilitycoordinate_set',
                 queryset=FacilityCoordinate.objects.filter(),
                 to_attr='active_coordinates'
             ),
@@ -165,7 +170,7 @@ class FacilityListView(generics.ListAPIView):
 
         service_category_id = self.request.query_params.get('service_category')
         if service_category_id:
-            queryset = queryset.filter(facilityservice_set__service_category_id=service_category_id)
+            queryset = queryset.filter(facilityservice__service_category_id=service_category_id)
 
         has_coordinates = self.request.query_params.get('has_coordinates')
         if has_coordinates == 'true':
@@ -188,7 +193,7 @@ class FacilityDetailView(generics.RetrieveAPIView):
         'facilityservice_set__service_category',
         'facilityowner_set__owner_type',
         'facilitygbvcategory_set__gbv_category',
-        'facilitycoordinate'
+        'facilitycoordinate_set'
     ).filter(is_active=True)
     serializer_class = FacilityDetailSerializer
     permission_classes = [IsAuthenticated]
@@ -243,7 +248,7 @@ class FacilityMapView(generics.ListAPIView):
             'operational_status'
         ).prefetch_related(
             Prefetch(
-                'facilitycoordinate',
+                'facilitycoordinate_set',
                 queryset=FacilityCoordinate.objects.filter(
                     latitude__isnull=False,
                     longitude__isnull=False,
@@ -262,14 +267,21 @@ class FacilityMapView(generics.ListAPIView):
         ne_lng = self.request.query_params.get('ne_lng')
         sw_lat = self.request.query_params.get('sw_lat')
         sw_lng = self.request.query_params.get('sw_lng')
-        zoom_level = int(self.request.query_params.get('zoom', 7))
-        
+        try:
+            zoom_level = int(self.request.query_params.get('zoom', 7))
+        except (TypeError, ValueError):
+            zoom_level = 7
+
         if ne_lat and ne_lng and sw_lat and sw_lng:
+            try:
+                bounds = [float(v) for v in (sw_lat, ne_lat, sw_lng, ne_lng)]
+            except (TypeError, ValueError):
+                raise ValidationError({'detail': 'ne_lat, ne_lng, sw_lat and sw_lng must be numbers.'})
             queryset = queryset.filter(
-                facilitycoordinate__latitude__gte=float(sw_lat),
-                facilitycoordinate__latitude__lte=float(ne_lat),
-                facilitycoordinate__longitude__gte=float(sw_lng),
-                facilitycoordinate__longitude__lte=float(ne_lng)
+                facilitycoordinate__latitude__gte=bounds[0],
+                facilitycoordinate__latitude__lte=bounds[1],
+                facilitycoordinate__longitude__gte=bounds[2],
+                facilitycoordinate__longitude__lte=bounds[3]
             )
 
         # Apply other filters
@@ -289,6 +301,10 @@ class FacilityMapView(generics.ListAPIView):
         if status_id:
             queryset = queryset.filter(operational_status_id=status_id)
 
+        # distinct() must come before the slice: the coordinate joins can
+        # repeat a facility, and Django refuses distinct() on a sliced query.
+        queryset = queryset.distinct()
+
         # Limit results based on zoom level for performance
         if zoom_level <= 5:
             # Country level - show only major facilities
@@ -302,7 +318,7 @@ class FacilityMapView(generics.ListAPIView):
             # Local level - show all facilities in viewport
             queryset = queryset[:10000]
 
-        return queryset.distinct()
+        return queryset
 
 
 class FacilitySearchView(generics.ListAPIView):
@@ -324,7 +340,8 @@ class FacilitySearchView(generics.ListAPIView):
         }
     )
     def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+        # ListAPIView has no post(); searching by POST body is a list.
+        return self.list(request, *args, **kwargs)
 
     def get_queryset(self):
         """Advanced search queryset with multiple filter combinations"""
@@ -333,7 +350,7 @@ class FacilitySearchView(generics.ListAPIView):
             'operational_status'
         ).prefetch_related(
             'facilityservice_set__service_category',
-            'facilitycoordinate'
+            'facilitycoordinate_set'
         ).filter(is_active=True)
 
         # Get search parameters
@@ -365,7 +382,7 @@ class FacilitySearchView(generics.ListAPIView):
         if status_id:
             queryset = queryset.filter(operational_status_id=status_id)
         if service_category_id:
-            queryset = queryset.filter(facilityservice_set__service_category_id=service_category_id)
+            queryset = queryset.filter(facilityservice__service_category_id=service_category_id)
         if has_coordinates:
             queryset = queryset.filter(
                 facilitycoordinate__latitude__isnull=False,
@@ -607,7 +624,7 @@ class EmergencyServicesView(generics.GenericAPIView):
         ).filter(
             is_active=True,
             operational_status__status_name='Operational',
-            facilityservice_set__service_category__category_name__in=service_types,
+            facilityservice__service_category__category_name__in=service_types,
             facilitycoordinate__latitude__isnull=False,
             facilitycoordinate__longitude__isnull=False
         ).annotate(
@@ -666,14 +683,14 @@ class GBVServicesView(generics.GenericAPIView):
         ).filter(
             is_active=True,
             operational_status__status_name='Operational',
-            facilitygbvcategory_set__gbv_category__category_name__icontains=gbv_category
+            facilitygbvcategory__gbv_category__category_name__icontains=gbv_category
         )
         
         # Apply additional filters
         service_types = data.get('service_types', [])
         if service_types:
             queryset = queryset.filter(
-                facilityservice_set__service_category__category_name__in=service_types
+                facilityservice__service_category__category_name__in=service_types
             )
         
         county_id = data.get('county')
@@ -745,7 +762,7 @@ class ReferralChainView(generics.GenericAPIView):
             ).filter(
                 is_active=True,
                 operational_status__status_name='Operational',
-                facilityservice_set__service_category__category_name__icontains=need
+                facilityservice__service_category__category_name__icontains=need
             )
             
             # Apply location filter
@@ -767,7 +784,7 @@ class ReferralChainView(generics.GenericAPIView):
             ).filter(
                 is_active=True,
                 operational_status__status_name='Operational',
-                facilityservice_set__service_category__category_name__icontains=need
+                facilityservice__service_category__category_name__icontains=need
             )
             
             if 'county' in location:
@@ -813,7 +830,7 @@ class FacilityCompleteView(generics.RetrieveAPIView):
         'facilityservice_set__service_category',
         'facilityowner_set__owner_type',
         'facilitygbvcategory_set__gbv_category',
-        'facilitycoordinate'
+        'facilitycoordinate_set'
     ).filter(is_active=True)
     serializer_class = FacilityCompleteSerializer
     permission_classes = [IsAuthenticated]
@@ -914,16 +931,18 @@ class ContactInteractionAnalyticsView(generics.GenericAPIView):
                 'helpful': interaction.is_helpful
             }, status=status.HTTP_201_CREATED)
             
-        except FacilityContact.DoesNotExist:
+        except (FacilityContact.DoesNotExist, Http404):
+            # get_object_or_404 raises Http404, which the broad except below
+            # used to turn into a 500.
             return Response({
                 'error': 'Contact not found',
                 'contact_id': contact_id
             }, status=status.HTTP_404_NOT_FOUND)
-            
-        except Exception as e:
+
+        except Exception:
+            logger.exception("Failed to track contact click")
             return Response({
                 'error': 'Failed to track contact click',
-                'details': str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -1079,7 +1098,7 @@ class MobileFacilitiesView(generics.ListAPIView):
             'facilityservice_set__service_category',
             'facilityowner_set__owner_type',
             'facilitygbvcategory_set__gbv_category',
-            'facilitycoordinate',
+            'facilitycoordinate_set',
             'facilityinfrastructure_set__infrastructure_type',
             'facilityinfrastructure_set__condition_status'
         ).filter(is_active=True)
@@ -1257,7 +1276,7 @@ class MobileFacilityDetailView(generics.RetrieveAPIView):
             'facilityservice_set__service_category',
             'facilityowner_set__owner_type',
             'facilitygbvcategory_set__gbv_category',
-            'facilitycoordinate',
+            'facilitycoordinate_set',
             'facilityinfrastructure_set__infrastructure_type',
             'facilityinfrastructure_set__condition_status'
         ).filter(is_active=True)
@@ -1335,7 +1354,7 @@ class MobileEmergencySOSView(generics.GenericAPIView):
             'facilityservice_set__service_category',
             'facilityowner_set__owner_type',
             'facilitygbvcategory_set__gbv_category',
-            'facilitycoordinate',
+            'facilitycoordinate_set',
             'facilityinfrastructure_set__infrastructure_type',
             'facilityinfrastructure_set__condition_status'
         ).filter(

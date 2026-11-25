@@ -10,11 +10,12 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core.files.storage import default_storage
 from .models import ApplicationSettings
-from .forms import ApplicationSettingsForm, ThemePreviewForm
+from .forms import ApplicationSettingsForm, MapSettingsForm, ThemePreviewForm
 from apps.authentication.permissions import permission_required
 
 
 @login_required
+@permission_required('change_settings')
 def application_settings(request):
     """Display and manage application settings"""
     # Get or create settings instance
@@ -181,3 +182,27 @@ def delete_apple_touch_icon(request):
     
     return redirect('common:application_settings')
 
+
+@login_required
+@permission_required('change_settings')
+def map_settings(request):
+    """Choose the map provider (OpenStreetMap or Google Maps) for the admin
+    maps, the location pickers and the mobile app."""
+    from django.conf import settings as dj_settings
+
+    settings_obj = ApplicationSettings.get_settings()
+    form = MapSettingsForm(request.POST or None, instance=settings_obj)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Map settings saved. The mobile app picks them up the next time it opens a map.')
+            return redirect('common:map_settings')
+        messages.error(request, 'Please correct the errors below.')
+    return render(request, 'common/map_settings.html', {
+        'form': form,
+        'settings': settings_obj,
+        'map_config': settings_obj.map_config(),
+        'google_key_configured': bool(getattr(dj_settings, 'GOOGLE_MAPS_API_KEY', '')),
+        'segment': 'map_settings',
+        'page_title': 'Map Settings',
+    })

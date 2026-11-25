@@ -3,9 +3,17 @@
 Production settings
 """
 
+from django.core.exceptions import ImproperlyConfigured
+
 from .base import *
 
 DEBUG = False
+
+# base.py falls back to a placeholder so local tools work without a .env.
+# In production that would sign sessions and reset links with a key anyone can
+# read in the repository, so refuse to start instead.
+if not SECRET_KEY or SECRET_KEY == "TODO_SET_SECRET_KEY" or len(SECRET_KEY) < 32:
+    raise ImproperlyConfigured("Set a long random SECRET_KEY in the environment (.env) for production.")
 
 # HOSTs List
 ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev", "172.31.47.58", "hodi.co.ke"]
@@ -83,8 +91,17 @@ SECURE_HSTS_PRELOAD = False
 # Redirect at the edge, where the protocol is actually known.
 SECURE_SSL_REDIRECT = False
 
+# Both are deliberate (see the two comments above): nginx does the HTTPS
+# redirect, and HSTS preload is a one-way door. Silenced so that
+# `check --deploy` reports only real problems.
+SILENCED_SYSTEM_CHECKS = ["security.W008", "security.W021"]
+
 # Static files configuration for production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE was removed in Django 5.1; STORAGES replaces it.
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "core.storage.HodiStaticFilesStorage"},
+}
 
 # Logging configuration
 LOGGING = {
@@ -151,12 +168,7 @@ CACHES = {
 # }
 
 # Email configuration for production
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+MAILERS = smtp_mailers_from_env()
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@hodi.co.ke')
 
 # Performance optimizations

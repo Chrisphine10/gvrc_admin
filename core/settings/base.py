@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     "apps.mobile_sessions",
     "apps.chat",
     "apps.mobile",
+    "apps.sms",
 ]
 
 MIDDLEWARE = [
@@ -156,7 +157,41 @@ LOGIN_REDIRECT_URL = "/dashboard/"
 LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "/login/"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# Email. Django 6.1 replaces EMAIL_BACKEND/EMAIL_HOST/... with MAILERS.
+# Development prints mail to the console; prod.py switches to SMTP.
+MAILERS = {
+    "default": {"BACKEND": "django.core.mail.backends.console.EmailBackend"},
+}
+
+
+def smtp_mailers_from_env():
+    """SMTP mailer built from the same EMAIL_* environment variables as before."""
+    return {
+        "default": {
+            "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+            "OPTIONS": {
+                "host": os.getenv("EMAIL_HOST", "smtp.gmail.com"),
+                "port": int(os.getenv("EMAIL_PORT", "587")),
+                "username": os.getenv("EMAIL_HOST_USER", ""),
+                "password": os.getenv("EMAIL_HOST_PASSWORD", ""),
+                "use_tls": os.getenv("EMAIL_USE_TLS", "True").lower() == "true",
+                "timeout": 20,
+            },
+        },
+    }
+
+
+# Bulk SMS (apps.sms) through the Intelli-Wealth Bonga account. Credentials
+# come from SMS settings in the dashboard or the BONGA_SMS_* variables.
+# ENABLE_SMS_NETWORK_CALLS=false keeps every message queued (staging, demos).
+SMS_NETWORK_ENABLED = os.getenv("ENABLE_SMS_NETWORK_CALLS", "true").strip().lower() in ("1", "true", "yes", "on")
+SMS_SEND_IN_BACKGROUND = True
+
+
+# drf-yasg: use the current renderer formats (no "." prefix), silencing its
+# deprecation warning. The schema URLs in core/urls.py use format suffixes
+# without the dot.
+SWAGGER_USE_COMPAT_RENDERERS = False
 
 # Custom authentication settings
 AUTH_USER_MODEL = 'authentication.User'

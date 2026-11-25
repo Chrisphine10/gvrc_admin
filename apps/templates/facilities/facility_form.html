@@ -402,8 +402,11 @@
 
           <!-- Coordinates Information -->
           <div class="card mb-4">
-            <div class="card-header pb-0">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
               <h6><i class="ni ni-world-2 text-info me-2"></i>Coordinates Information</h6>
+              <button type="button" class="btn btn-sm btn-outline-info mb-2" onclick="searchAddress()">
+                <i class="fas fa-map-marker-alt"></i> Find address / pick on map
+              </button>
             </div>
             <div class="card-body">
               <div class="row">
@@ -862,25 +865,27 @@
     </div>
   </div>
 
-  <!-- Google Places Autocomplete Modal -->
+  <!-- Address search and location picker (OpenStreetMap or Google, per Map Settings) -->
   <div class="modal fade" id="placesModal" tabindex="-1" aria-labelledby="placesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="placesModalLabel">Search Address with Google Places</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title" id="placesModalLabel">Find the facility's location</h5>
+          <button type="button" class="btn-close close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-          <div class="mb-3">
-            <label for="placesSearch" class="form-label">Search for address:</label>
-            <input type="text" class="form-control" id="placesSearch" placeholder="Enter address to search...">
+          <label for="placesSearch" class="form-label">Search for an address or place in Kenya</label>
+          <div class="input-group mb-2">
+            <input type="text" class="form-control" id="placesSearch" placeholder="e.g. Kenyatta National Hospital, Nairobi" autocomplete="off">
+            <div class="input-group-append"><button class="btn btn-primary" type="button" id="placesSearchBtn">Search</button></div>
           </div>
-          <div id="placesResults" class="mt-3">
-            <!-- Results will be populated here -->
-          </div>
+          <div id="placesResults" class="list-group mb-3" aria-live="polite"></div>
+          <div id="placesMap" style="height: 320px; border-radius: .375rem;"></div>
+          <small class="text-muted d-block mt-2">Click the map or drag the pin to set the exact spot. <span id="placesPicked"></span></small>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="placesUseBtn" disabled>Use this location</button>
         </div>
       </div>
     </div>
@@ -1328,45 +1333,106 @@
       });
     }
     
-    // Google Places integration
-    function searchAddress() {
-      const modal = new bootstrap.Modal(document.getElementById('placesModal'));
-      modal.show();
-      
-      // Initialize Google Places Autocomplete
-      const input = document.getElementById('placesSearch');
-      const autocomplete = new google.maps.places.Autocomplete(input, {
-        types: ['geocode'],
-        componentRestrictions: { country: 'ke' } // Restrict to Kenya
-      });
-      
-      autocomplete.addListener('place_changed', function() {
-        const place = autocomplete.getPlace();
-        if (place.geometry) {
-          // Fill in the address fields
-          document.getElementById('{{ facility_form.address_line_1.id_for_label }}').value = place.formatted_address;
-          
-          // Extract coordinates if available
-          if (place.geometry.location) {
-            const lat = place.geometry.location.lat();
-            const lng = place.geometry.location.lng();
-            
-            // Fill coordinate fields if they exist
-            const latField = document.getElementById('{{ coordinate_form.latitude.id_for_label }}');
-            const lngField = document.getElementById('{{ coordinate_form.longitude.id_for_label }}');
-            
-            if (latField) latField.value = lat.toFixed(6);
-            if (lngField) lngField.value = lng.toFixed(6);
-          }
-          
-          // Try to extract administrative areas
-          extractAdministrativeAreas(place);
-          
-          modal.hide();
-        }
-      });
+    // Address search + location picker. Google Places when Google Maps is the
+    // chosen provider, otherwise OpenStreetMap's Nominatim geocoder.
+    const placesState = {map: null, marker: null, picked: null, address: '', modal: null};
+
+    function setPicked(lat, lng, address) {
+      placesState.picked = {lat: lat, lng: lng};
+      if (address !== undefined) placesState.address = address;
+      document.getElementById('placesPicked').textContent =
+        'Selected: ' + lat.toFixed(6) + ', ' + lng.toFixed(6) + (placesState.address ? ' (' + placesState.address + ')' : '');
+      document.getElementById('placesUseBtn').disabled = false;
+      if (!placesState.map) return;
+      if (placesState.marker) placesState.map.moveMarker(placesState.marker, lat, lng);
+      else placesState.marker = placesState.map.addMarker({lat: lat, lng: lng, draggable: true, plainIcon: true,
+        onDragEnd: (la, ln) => setPicked(la, ln)});
     }
-    
+
+    function osmSearch() {
+      const q = document.getElementById('placesSearch').value.trim();
+      const box = document.getElementById('placesResults');
+      if (q.length < 3) { box.innerHTML = '<div class="small text-muted">Type at least 3 characters.</div>'; return; }
+      box.innerHTML = '<div class="small text-muted">Searching…</div>';
+      const url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=6&countrycodes=ke&q=' + encodeURIComponent(q);
+      fetch(url, {headers: {'Accept-Language': 'en'}})
+        .then(r => r.json())
+        .then(rows => {
+          box.innerHTML = '';
+          if (!rows.length) { box.innerHTML = '<div class="small text-muted">No match. Try a nearby town or landmark, or click the map.</div>'; return; }
+          rows.forEach(row => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'list-group-item list-group-item-action small';
+            btn.textContent = row.display_name;
+            btn.addEventListener('click', () => {
+              const lat = parseFloat(row.lat), lng = parseFloat(row.lon);
+              placesState.osmAddress = row.address || {};
+              placesState.googlePlace = null;
+              setPicked(lat, lng, row.display_name);
+              placesState.map.setView(lat, lng, 16);
+            });
+            box.appendChild(btn);
+          });
+        })
+        .catch(() => { box.innerHTML = '<div class="small text-danger">Search is unavailable right now. Click the map to set the location.</div>'; });
+    }
+
+    function useLocation() {
+      if (!placesState.picked) return;
+      const addr = document.getElementById('{{ facility_form.address_line_1.id_for_label }}');
+      if (addr && placesState.address && !addr.value) addr.value = placesState.address.slice(0, 255);
+      const latField = document.getElementById('{{ coordinate_form.latitude.id_for_label }}');
+      const lngField = document.getElementById('{{ coordinate_form.longitude.id_for_label }}');
+      if (latField) latField.value = placesState.picked.lat.toFixed(6);
+      if (lngField) lngField.value = placesState.picked.lng.toFixed(6);
+      if (placesState.googlePlace) {
+        extractAdministrativeAreas(placesState.googlePlace);
+      } else if (placesState.osmAddress) {
+        const a = placesState.osmAddress;
+        const county = (a.county || a.state || '').replace(/ County$/i, '');
+        if (county) searchAndSelectGeography('county', county);
+      }
+      if (placesState.modal) placesState.modal.hide();
+    }
+
+    function searchAddress() {
+      const el = document.getElementById('placesModal');
+      placesState.modal = placesState.modal || new bootstrap.Modal(el);
+      placesState.modal.show();
+      if (placesState.map) { setTimeout(() => placesState.map.resize(), 250); return; }
+
+      const latField = document.getElementById('{{ coordinate_form.latitude.id_for_label }}');
+      const lngField = document.getElementById('{{ coordinate_form.longitude.id_for_label }}');
+      const lat0 = latField ? parseFloat(latField.value) : NaN;
+      const lng0 = lngField ? parseFloat(lngField.value) : NaN;
+      const opts = (!isNaN(lat0) && !isNaN(lng0)) ? {center: {lat: lat0, lng: lng0}, zoom: 15} : {};
+
+      setTimeout(() => HodiMap.create('placesMap', opts).then(map => {
+        placesState.map = map;
+        map.onClick((lat, lng) => setPicked(lat, lng, ''));
+        if (opts.center) setPicked(opts.center.lat, opts.center.lng);
+        map.resize();
+        const input = document.getElementById('placesSearch');
+        if (map.provider === 'google' && window.google && google.maps.places) {
+          document.getElementById('placesSearchBtn').classList.add('d-none');
+          const ac = new google.maps.places.Autocomplete(input, {types: ['geocode', 'establishment'], componentRestrictions: {country: 'ke'}});
+          ac.addListener('place_changed', () => {
+            const place = ac.getPlace();
+            if (!place.geometry || !place.geometry.location) return;
+            placesState.googlePlace = place;
+            const lat = place.geometry.location.lat(), lng = place.geometry.location.lng();
+            setPicked(lat, lng, place.formatted_address || place.name || '');
+            map.setView(lat, lng, 16);
+          });
+        } else {
+          document.getElementById('placesSearchBtn').addEventListener('click', osmSearch);
+          input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); osmSearch(); } });
+        }
+      }), 250);
+    }
+    document.getElementById('placesUseBtn').addEventListener('click', useLocation);
+
     function extractAdministrativeAreas(place) {
       let county = null;
       let constituency = null;
@@ -1501,8 +1567,5 @@
 
   </script>
   
-  <!-- Google Places API -->
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_places_api_key }}&libraries=places&callback=function(){}">
-  </script>
+  {% include "includes/map_config.html" %}
 {% endblock content %}

@@ -195,10 +195,10 @@ def document_delete(request, document_id):
             document.is_active = False
             document.save()
             messages.success(request, f'Document "{document.title}" deleted successfully.')
-            return redirect('document_list')
+            return redirect('documents:document_list')
         except Exception as e:
             messages.error(request, f'Error deleting document: {str(e)}')
-            return redirect('document_detail', document_id=document_id)
+            return redirect('documents:document_detail', document_id=document_id)
     
     # GET request - show confirmation
     context = {

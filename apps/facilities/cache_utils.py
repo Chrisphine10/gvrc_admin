@@ -185,8 +185,13 @@ def invalidate_facility_cache():
     for key in cache_keys:
         cache.delete(key)
     
-    # Clear viewport cache patterns
-    cache.delete_many(cache.keys('facilities_viewport:*'))
+    # Clear viewport cache patterns. Only django-redis can match keys by
+    # pattern; the configured LocMemCache has no keys(), and calling it raised
+    # inside the save transaction, rolling back every facility save.
+    if hasattr(cache, 'delete_pattern'):
+        cache.delete_pattern('facilities_viewport:*')
+    elif hasattr(cache, 'keys'):
+        cache.delete_many(cache.keys('facilities_viewport:*'))
 
 
 def get_paginated_facilities(page=1, page_size=50, search_query='', **filters):

@@ -102,9 +102,10 @@ urlpatterns = [
     path("chat/", include("apps.chat.urls")),     # Emergency Chat System Web Interface
     path("music/", include("apps.music.urls")),   # Music
     path("documents/", include("apps.documents.urls")), # Documents
+    path("sms/", include("apps.sms.urls")),       # Bulk SMS (Intelli-Wealth / Bonga)
     
     # Swagger / ReDoc documentation
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger\.(?P<format>json|yaml)$',schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     # Favicon route for better browser compatibility
@@ -117,11 +118,9 @@ if settings.DEBUG:
     # dev.py installs the debug-toolbar middleware when DEBUG is on; without
     # this matching URL include every page 500s with "djdt is not a
     # registered namespace". Production never enters this branch.
-    try:
+    if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
-    except ImportError:
-        pass
 
 # Lazy-load on routing is needed
 # During the first build, API is not yet generated

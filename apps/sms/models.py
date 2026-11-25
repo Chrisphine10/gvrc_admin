@@ -44,6 +44,24 @@ class SmsSettings(models.Model):
         blank=True,
         help_text="Bonga send-sms URL. Leave blank for the standard endpoint.",
     )
+    # Chat alerts. Texts say only that a chat is waiting and where; never what
+    # the person wrote, because an SMS can be read on a locked phone.
+    notify_assigned_staff = models.BooleanField(
+        default=True,
+        help_text="Text a staff member when a help chat is assigned to them (to the phone number on their account).",
+    )
+    notify_new_chats = models.BooleanField(
+        default=True,
+        help_text="Text the on-call numbers when someone starts a new help chat.",
+    )
+    notify_urgent_messages = models.BooleanField(
+        default=True,
+        help_text="Text the on-call numbers when the app marks a message urgent (once per chat).",
+    )
+    alert_numbers = models.TextField(
+        blank=True,
+        help_text="On-call numbers for chat alerts, separated by commas or new lines.",
+    )
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
@@ -179,3 +197,44 @@ class SmsRecipient(models.Model):
 
     def __str__(self):
         return f"{self.phone} ({self.get_status_display()})"
+
+
+class SmsNotification(models.Model):
+    """One alert text about a chat. One row per (kind, chat, phone), so a
+    retry or a second assignment never texts the same person twice."""
+
+    KIND_NEW_CHAT = "new_chat"
+    KIND_ASSIGNED = "assigned"
+    KIND_URGENT = "urgent"
+    KIND_CHOICES = [
+        (KIND_NEW_CHAT, "New chat"),
+        (KIND_ASSIGNED, "Chat assigned"),
+        (KIND_URGENT, "Urgent message"),
+    ]
+    STATUS_SENT = "sent"
+    STATUS_FAILED = "failed"
+    STATUS_NOT_SENT = "not_sent"
+    STATUS_CHOICES = [
+        (STATUS_SENT, "Sent"),
+        (STATUS_FAILED, "Failed"),
+        (STATUS_NOT_SENT, "Not sent"),
+    ]
+
+    kind = models.CharField(max_length=20, choices=KIND_CHOICES)
+    conversation_id = models.IntegerField(db_index=True)
+    phone = models.CharField(max_length=20)
+    message = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    provider_status = models.CharField(max_length=50, blank=True)
+    provider_message = models.CharField(max_length=500, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        db_table = "sms_notifications"
+        ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(fields=["kind", "conversation_id", "phone"], name="sms_notification_once"),
+        ]
+
+    def __str__(self):
+        return f"{self.get_kind_display()} #{self.conversation_id} -> {self.phone}"

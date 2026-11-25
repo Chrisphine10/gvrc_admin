@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.1.0 - 2026-11-25
+
+- **Chat alerts by SMS (Bonga).** The staff member a help chat is assigned to gets a text; on-call numbers get one when a new chat starts and when the app marks a message urgent. Texts carry only the chat number and link, never what the person wrote. Switches and on-call numbers on SMS settings, with a list of recent alerts. Each alert goes once per chat and phone (`sms_notifications` table, migration `sms.0003`).
+- **Privacy:** the chat service printed the first 100 characters of every message into the server log; removed, and its other debug prints now go to `logger.debug`.
+- **`manage.py check_data`:** read-only consistency report (geography duplicates, facility locations outside Kenya or at 0,0, missing locations/contacts/categories, bad contact numbers, users without roles, missing uploaded files, SMS configuration). `--strict` exits 1 on errors.
+- **Production settings:** `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` read the server's `.env` (they were ignored, so switching the server to prod settings would have refused hodi-admin.co.ke); log file rotates at 10 MB x 5 (logs/ had grown past 300 MB); `DEFAULT_FROM_EMAIL` defaults to the SMTP account; `SITE_URL` setting; `DJANGO_ENV` is read from `.env`.
+
 ## [2.0.0] 2026-11-24
 ### Platform
 - Python 3.15.2 and Django 6.1.3 (was Python 3.12 / Django 4.2); DRF 3.18,

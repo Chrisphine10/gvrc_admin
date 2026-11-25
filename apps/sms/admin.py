@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import SmsBroadcast, SmsRecipient, SmsSettings
+from .models import SmsBroadcast, SmsNotification, SmsRecipient, SmsSettings
 
 
 @admin.register(SmsSettings)
@@ -42,6 +42,16 @@ class SmsRecipientAdmin(admin.ModelAdmin):
     list_filter = ("status", "source")
     search_fields = ("phone", "name", "provider_reference")
     readonly_fields = [f.name for f in SmsRecipient._meta.fields]
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(SmsNotification)
+class SmsNotificationAdmin(admin.ModelAdmin):
+    list_display = ("created_at", "kind", "conversation_id", "phone", "status", "provider_status")
+    list_filter = ("kind", "status")
+    readonly_fields = [f.name for f in SmsNotification._meta.fields]
 
     def has_add_permission(self, request):
         return False

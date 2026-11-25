@@ -5,7 +5,7 @@ from apps.geography.models import Constituency, County, Ward
 from apps.lookups.models import GBVCategory
 
 from .models import SmsSettings
-from .services import MAX_MESSAGE_LENGTH, is_sendable_phone, parse_custom_numbers
+from .services import MAX_MESSAGE_LENGTH, is_sendable_phone, normalize_phone, parse_custom_numbers, split_phone_values
 
 _input = {"class": "form-control"}
 _select = {"class": "form-control"}
@@ -95,7 +95,10 @@ class SmsSettingsForm(forms.ModelForm):
 
     class Meta:
         model = SmsSettings
-        fields = ["enabled", "provider_name", "sender_id", "client_id", "api_key", "api_secret", "service_id", "endpoint"]
+        fields = [
+            "enabled", "provider_name", "sender_id", "client_id", "api_key", "api_secret", "service_id", "endpoint",
+            "notify_assigned_staff", "notify_new_chats", "notify_urgent_messages", "alert_numbers",
+        ]
         widgets = {
             "provider_name": forms.TextInput(attrs=_input),
             "sender_id": forms.TextInput(attrs=_input),
@@ -104,7 +107,16 @@ class SmsSettingsForm(forms.ModelForm):
             "api_secret": forms.PasswordInput(attrs=_input | {"autocomplete": "new-password"}, render_value=False),
             "service_id": forms.PasswordInput(attrs=_input | {"autocomplete": "off"}, render_value=False),
             "endpoint": forms.URLInput(attrs=_input | {"placeholder": SmsSettings.DEFAULT_ENDPOINT}),
+            "alert_numbers": forms.Textarea(attrs=_input | {"rows": 3, "placeholder": "0712345678, 0733111222"}),
         }
+
+    def clean_alert_numbers(self):
+        # split_phone_values splits on new lines and strips each part.
+        parts = split_phone_values(self.cleaned_data.get("alert_numbers") or "")
+        bad = [p for p in parts if not is_sendable_phone(p)]
+        if bad:
+            raise forms.ValidationError("Not a Kenyan mobile number: " + ", ".join(bad))
+        return ", ".join(dict.fromkeys(normalize_phone(p) for p in parts))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

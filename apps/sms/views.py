@@ -11,7 +11,7 @@ from apps.authentication.permissions import has_permission, permission_required
 
 from . import services
 from .forms import BroadcastForm, SmsSettingsForm, TestSmsForm
-from .models import SmsBroadcast, SmsRecipient, SmsSettings
+from .models import SmsBroadcast, SmsNotification, SmsRecipient, SmsSettings
 
 
 def _account_status():
@@ -212,6 +212,8 @@ def sms_settings(request):
         "credential_rows": [
             (form[name], src) for name, src in services.credential_sources(obj).items()
         ],
+        "alert_switches": [form["notify_assigned_staff"], form["notify_new_chats"], form["notify_urgent_messages"]],
+        "recent_alerts": SmsNotification.objects.all()[:15],
         **_account_status(),
     }
     return render(request, "sms/settings.html", context)

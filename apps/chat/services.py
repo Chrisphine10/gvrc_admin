@@ -10,6 +10,7 @@ from typing import Optional, List, Dict, Any, TYPE_CHECKING, Union
 from .models import Conversation, Message, ChatNotification
 from apps.mobile_sessions.models import MobileSession
 from django.db import models
+import logging
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import AbstractUser
@@ -18,6 +19,16 @@ else:
     UserType = None
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
+
+
+def _sms_alert(kind: str, conversation: Conversation, user_id: Optional[int] = None) -> None:
+    """Queue an SMS alert (sent after commit, never blocks or breaks the chat)."""
+    try:
+        from apps.sms.notifications import queue_chat_alert
+        queue_chat_alert(kind, conversation.pk, user_id)
+    except Exception:
+        logger.exception("Could not queue the %s SMS alert for chat %s", kind, conversation.pk)
 
 
 class ConversationService:
@@ -50,7 +61,8 @@ class ConversationService:
             subject=subject,
             status='new'
         )
-        
+        _sms_alert('new_chat', conversation)
+
         return conversation
     
     @staticmethod
@@ -78,7 +90,8 @@ class ConversationService:
             title=f"New conversation assigned",
             body=f"You have been assigned to conversation {conversation.conversation_id}"
         )
-        
+        _sms_alert('assigned', conversation, admin_user.pk)
+
         return conversation
     
     @staticmethod
@@ -196,28 +209,27 @@ class MessageService:
         Returns:
             Created message
         """
-        print(f"DEBUG: Creating message in conversation {conversation.conversation_id}")
-        print(f"DEBUG: Message type: {message_type}")
-        print(f"DEBUG: Content: {content[:100]}...")
-        print(f"DEBUG: Media file: {media_file}")
+        logger.debug(f"Creating message in conversation {conversation.conversation_id}")
+        logger.debug(f"Message type: {message_type}")
+        logger.debug(f"Media file: {media_file}")
         
         if media_file:
-            print(f"DEBUG: Media file details:")
-            print(f"  - Name: {media_file.name}")
-            print(f"  - Size: {media_file.size} bytes")
-            print(f"  - Content type: {media_file.content_type}")
-            print(f"  - File object type: {type(media_file)}")
+            logger.debug(f"Media file details:")
+            logger.debug(f"  - Name: {media_file.name}")
+            logger.debug(f"  - Size: {media_file.size} bytes")
+            logger.debug(f"  - Content type: {media_file.content_type}")
+            logger.debug(f"  - File object type: {type(media_file)}")
             
             # Check if it's a proper file object
             if hasattr(media_file, 'read'):
-                print(f"  - Has read method: ✅")
+                logger.debug(f"  - Has read method: ✅")
             else:
-                print(f"  - Has read method: ❌")
+                logger.debug(f"  - Has read method: ❌")
                 
             if hasattr(media_file, 'name'):
-                print(f"  - Has name attribute: ✅")
+                logger.debug(f"  - Has name attribute: ✅")
             else:
-                print(f"  - Has name attribute: ❌")
+                logger.debug(f"  - Has name attribute: ❌")
         
         if not metadata:
             metadata = {}
@@ -234,9 +246,9 @@ class MessageService:
                 'file_type': media_file.content_type,
                 'original_name': original_filename
             })
-            print(f"DEBUG: Updated metadata: {metadata}")
+            logger.debug(f"Updated metadata: {metadata}")
         
-        print(f"DEBUG: About to create Message object...")
+        logger.debug(f"About to create Message object...")
         message = Message.objects.create(
             conversation=conversation,
             content=content,
@@ -249,19 +261,22 @@ class MessageService:
             metadata=metadata
         )
         
-        print(f"DEBUG: Message created with ID: {message.message_id}")
-        print(f"DEBUG: Message media_file field: {message.media_file}")
+        logger.debug(f"Message created with ID: {message.message_id}")
+        logger.debug(f"Message media_file field: {message.media_file}")
         if message.media_file:
-            print(f"DEBUG: Message media_file path: {message.media_file.path}")
-            print(f"DEBUG: Message media_file URL: {message.media_file.url}")
-            print(f"DEBUG: Message media_file exists: {message.media_file.storage.exists(message.media_file.name)}")
+            logger.debug(f"Message media_file path: {message.media_file.path}")
+            logger.debug(f"Message media_file URL: {message.media_file.url}")
+            logger.debug(f"Message media_file exists: {message.media_file.storage.exists(message.media_file.name)}")
         
         # Auto-assign admin if this is the first message and no admin assigned
         if (sender_type == 'mobile' and 
             conversation.status == 'new' and 
             not conversation.assigned_admin):
             ConversationService.auto_assign_conversation(conversation)
-        
+
+        if sender_type == 'mobile' and is_urgent:
+            _sms_alert('urgent', conversation)
+
         return message
     
     @staticmethod

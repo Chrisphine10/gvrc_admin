@@ -15,8 +15,17 @@ DEBUG = False
 if not SECRET_KEY or SECRET_KEY == "TODO_SET_SECRET_KEY" or len(SECRET_KEY) < 32:
     raise ImproperlyConfigured("Set a long random SECRET_KEY in the environment (.env) for production.")
 
-# HOSTs List
-ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev", "172.31.47.58", "hodi.co.ke"]
+def _env_list(name):
+    return [v.strip() for v in os.getenv(name, "").split(",") if v.strip()]
+
+
+# HOSTs List. The server's .env ALLOWED_HOSTS is honoured (it used to be
+# ignored here, so switching the server to these settings would have answered
+# every request to hodi-admin.co.ke with 400 Bad Request).
+ALLOWED_HOSTS = list(dict.fromkeys(
+    _env_list("ALLOWED_HOSTS")
+    + [APP_DOMAIN, "hodi-admin.co.ke", "www.hodi-admin.co.ke", "hodi.co.ke", "localhost", "127.0.0.1"]
+))
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
@@ -34,7 +43,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.hodi-admin.co.ke",
     "https://hodi.co.ke",
     "https://*.deploypro.dev",
-]
+] + _env_list("CSRF_TRUSTED_ORIGINS")
 
 # Database
 DB_ENGINE = os.getenv("DB_ENGINE", None)
@@ -118,10 +127,13 @@ LOGGING = {
         },
     },
     'handlers': {
+        # Rotating: the old plain FileHandler let logs/ grow past 300 MB.
         'file': {
             'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': '/var/log/gvrc_admin/django.log',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.getenv('DJANGO_LOG_FILE', str(BASE_DIR / 'logs' / 'django.log')),
+            'maxBytes': 10 * 1024 * 1024,
+            'backupCount': 5,
             'formatter': 'verbose',
         },
         'console': {
@@ -169,7 +181,8 @@ CACHES = {
 
 # Email configuration for production
 MAILERS = smtp_mailers_from_env()
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@hodi.co.ke')
+# The SMTP account usually only sends as itself, so default to it.
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') or os.getenv('EMAIL_HOST_USER') or 'noreply@hodi.co.ke'
 
 # Performance optimizations
 CONN_MAX_AGE = 60  # Database connection pooling

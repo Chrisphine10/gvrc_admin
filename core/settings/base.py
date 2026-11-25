@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "TODO_SET_SECRET_KEY")
 
 APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
+# Public address of this admin, for links that leave the site (SMS alerts).
+SITE_URL = os.getenv("SITE_URL", "https://hodi-admin.co.ke").rstrip("/")
 
 
 def _clean_str(value: str) -> str:

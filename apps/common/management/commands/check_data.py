@@ -95,10 +95,10 @@ class Command(BaseCommand):
                                  "(must be NULL; migration facilities.0005 fixes this)", blank_code)
         self.dupes(qs.filter(is_active=True), ["ward__ward_name", "facility_name"],
                    "active facility names within the same ward")
-        for rel, label in (("facilitycoordinate", "a map location"),
-                           ("facilitycontact", "a contact"),
-                           ("facilityservice", "a service"),
-                           ("facilitygbvcategory", "a GBV category")):
+        for rel, label in (("facilitycoordinate", "map location"),
+                           ("facilitycontact", "contact"),
+                           ("facilityservice", "service"),
+                           ("facilitygbvcategory", "GBV category")):
             ids = qs.filter(is_active=True).filter(**{f"{rel}__isnull": True}).values_list("pk", flat=True)
             if ids:
                 level = "WARN" if rel in ("facilitycoordinate", "facilitygbvcategory") else "INFO"

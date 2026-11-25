@@ -209,24 +209,15 @@ def password_reset_view(request):
                 reset_url = request.build_absolute_uri(
                     reverse('password_reset_confirm', kwargs={'token': token})
                 )
-                # The link only ever goes to the account's own mailbox; it is
-                # never shown on the page.
-                from django.core.mail import send_mail
-                from django.template.loader import render_to_string
-                context = {'user': user, 'reset_url': reset_url, 'site_name': 'Hodi Admin'}
-                try:
-                    send_mail(
-                        render_to_string('accounts/password_reset_subject.txt', context).strip(),
-                        render_to_string('accounts/password_reset_email.html', context),
-                        None,
-                        [user.email],
-                    )
-                except Exception:
-                    logger.exception("Could not send the password reset email")
+                # The link only ever goes to the account's own mailbox and
+                # phone (SMS through Bonga); it is never shown on the page.
+                from .reset_delivery import deliver_reset_link
+                deliver_reset_link(user, reset_url)
             # Same answer whether or not the address has an account.
             messages.success(
                 request,
-                'If that email belongs to a Hodi account, a link to reset the password is on its way.'
+                'If that email belongs to a Hodi account, a link to reset the password is on its way '
+                'by email and by SMS to the phone number on the account.'
             )
             return redirect('password_reset_done')
     else:

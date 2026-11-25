@@ -205,3 +205,49 @@ def test_check_data_clean_database_has_no_errors(db):
     out = StringIO()
     call_command("check_data", "--strict", stdout=out)
     assert "0 error(s)" in out.getvalue()
+
+
+# ------------------------------------------------------- password reset by SMS
+
+@pytest.fixture
+def no_cache():
+    from django.core.cache import cache
+    cache.clear()
+    yield
+    cache.clear()
+
+
+def test_password_reset_link_also_goes_by_sms(client, post, mailoutbox, no_cache):
+    configure()
+    user = make_user(phone_number="0733000009")
+    r = client.post("/password-reset/", {"email": user.email})
+    assert r.status_code == 302
+    assert sent_to(post) == ["254733000009"]
+    body = texts(post)[0]
+    assert "/password-reset/confirm/" in body and body.split("/password-reset/confirm/")[1].split("/")[0] in mailoutbox[0].body
+    # The link in the SMS works.
+    import re
+    path = re.search(r"/password-reset/confirm/[^/\s]+/", body).group(0)
+    assert client.get(path).status_code == 200
+
+
+def test_password_reset_sms_is_rate_limited(client, post, no_cache):
+    configure()
+    user = make_user(phone_number="0733000009")
+    for _ in range(3):
+        client.post("/password-reset/", {"email": user.email})
+    assert post.call_count == 1
+
+
+def test_password_reset_unknown_email_sends_no_sms(client, post, no_cache):
+    configure()
+    client.post("/password-reset/", {"email": "ghost@example.com"})
+    assert post.call_count == 0
+
+
+def test_prod_discards_mail_when_no_mail_server(monkeypatch):
+    from tests.test_security import load_prod_settings
+    prod = load_prod_settings(monkeypatch, SECRET_KEY="k" * 50, EMAIL_HOST="")
+    assert prod.MAILERS["default"]["BACKEND"].endswith("dummy.EmailBackend")
+    prod = load_prod_settings(monkeypatch, SECRET_KEY="k" * 50, EMAIL_HOST="smtp.example.org")
+    assert prod.MAILERS["default"]["BACKEND"].endswith("smtp.EmailBackend")

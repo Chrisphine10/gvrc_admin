@@ -180,7 +180,13 @@ CACHES = {
 # }
 
 # Email configuration for production
-MAILERS = smtp_mailers_from_env()
+# No mail account configured on the server (EMAIL_HOST empty, as on
+# hodi-admin.co.ke in Nov 2026): discard mail instead of failing on every send.
+# The console backend would print password reset links into the service log.
+# Reset links also go by SMS, so resets still work.
+MAILERS = smtp_mailers_from_env() if os.getenv("EMAIL_HOST", "").strip() else {
+    "default": {"BACKEND": "django.core.mail.backends.dummy.EmailBackend"},
+}
 # The SMTP account usually only sends as itself, so default to it.
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') or os.getenv('EMAIL_HOST_USER') or 'noreply@hodi.co.ke'
 

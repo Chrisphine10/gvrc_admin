@@ -89,6 +89,9 @@ def test_render_message_name_and_blank_name():
 
 @pytest.mark.django_db
 def test_credentials_saved_values_win_over_environment(monkeypatch):
+    # The server's own .env may hold real values; this test needs them absent.
+    for name in ("BONGA_SMS_API_SECRET", "BONGA_SMS_SERVICE_ID", "BONGA_SMS_ENDPOINT"):
+        monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("BONGA_SMS_CLIENT_ID", "env-cid")
     monkeypatch.setenv("BONGA_SMS_API_KEY", "env-key")
     obj = SmsSettings.get_solo()

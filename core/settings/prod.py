@@ -23,7 +23,7 @@ def _env_list(name):
 # ignored here, so switching the server to these settings would have answered
 # every request to hodi-admin.co.ke with 400 Bad Request).
 ALLOWED_HOSTS = list(dict.fromkeys(
-    _env_list("ALLOWED_HOSTS")
+    [h for h in _env_list("ALLOWED_HOSTS") if h != "*"]
     + [APP_DOMAIN, "hodi-admin.co.ke", "www.hodi-admin.co.ke", "hodi.co.ke", "localhost", "127.0.0.1"]
 ))
 
@@ -43,7 +43,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.hodi-admin.co.ke",
     "https://hodi.co.ke",
     "https://*.deploypro.dev",
-] + _env_list("CSRF_TRUSTED_ORIGINS")
+] + [o for o in _env_list("CSRF_TRUSTED_ORIGINS") if o.startswith("https://")]  # never trust plain http
 
 # Database
 DB_ENGINE = os.getenv("DB_ENGINE", None)

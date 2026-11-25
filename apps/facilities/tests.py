@@ -112,7 +112,7 @@ class FacilityMapViewTest(TestCase):
             self.assertTrue(response.context['google_maps_api_key'])
         else:
             self.assertIn('hodi_map_config', response.context)
-            self.assertIn(response.context['hodi_map_config']['provider'], ('google', 'osm'))
+            self.assertIn(response.context['hodi_map_config']['provider'], ('google', 'openstreetmap'))
     
     def test_facility_map_view_without_permission_redirects(self):
         """A logged-in user without view_facilities is sent to the dashboard"""

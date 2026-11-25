@@ -187,6 +187,10 @@ CACHES = {
 MAILERS = smtp_mailers_from_env() if os.getenv("EMAIL_HOST", "").strip() else {
     "default": {"BACKEND": "django.core.mail.backends.dummy.EmailBackend"},
 }
+if not os.getenv("EMAIL_HOST", "").strip():
+    # Deliberate while no mail account exists; `manage.py check_data` keeps
+    # reporting it as a warning so it is not forgotten.
+    SILENCED_SYSTEM_CHECKS = SILENCED_SYSTEM_CHECKS + ["mail.E001"]
 # The SMTP account usually only sends as itself, so default to it.
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') or os.getenv('EMAIL_HOST_USER') or 'noreply@hodi.co.ke'
 

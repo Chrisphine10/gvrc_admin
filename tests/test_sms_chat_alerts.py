@@ -249,5 +249,6 @@ def test_prod_discards_mail_when_no_mail_server(monkeypatch):
     from tests.test_security import load_prod_settings
     prod = load_prod_settings(monkeypatch, SECRET_KEY="k" * 50, EMAIL_HOST="")
     assert prod.MAILERS["default"]["BACKEND"].endswith("dummy.EmailBackend")
+    assert "mail.E001" in prod.SILENCED_SYSTEM_CHECKS
     prod = load_prod_settings(monkeypatch, SECRET_KEY="k" * 50, EMAIL_HOST="smtp.example.org")
     assert prod.MAILERS["default"]["BACKEND"].endswith("smtp.EmailBackend")

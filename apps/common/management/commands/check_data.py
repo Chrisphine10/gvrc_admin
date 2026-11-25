@@ -214,6 +214,10 @@ class Command(BaseCommand):
         from apps.common.models import ApplicationSettings
 
         self.head("Settings")
+        from django.conf import settings as dj_settings
+        backend = (getattr(dj_settings, "MAILERS", {}).get("default") or {}).get("BACKEND", "")
+        if backend.endswith(("dummy.EmailBackend", "console.EmailBackend", "locmem.EmailBackend")) and not dj_settings.DEBUG:
+            self.report("WARN", "Email is not configured (no EMAIL_HOST): password reset links go by SMS only")
         n = ApplicationSettings.objects.count()
         if n != 1:
             self.report("WARN" if n == 0 else "ERROR", f"{n} application settings rows (expected 1)")

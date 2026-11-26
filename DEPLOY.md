@@ -105,3 +105,67 @@ curl -sI https://hodi-admin.co.ke/admin/ | grep -i x-forwarded-proto
 
 Enable HSTS **last**, and start with a short `SECURE_HSTS_SECONDS` (e.g.
 300) — a long max-age is cached by browsers and hard to undo.
+
+## November 2026 upgrade: Python 3.15, Django 6.1, bulk SMS, OpenStreetMap
+
+**Done on 25 Nov 2026** (c3629d2 -> branch `upgrade/django-6-sms-osm`), rehearsed
+first on a copy of the production database. How the server is laid out now:
+
+* **Settings:** `.env` has `DJANGO_ENV=prod` (production used to run
+  `core.settings.dev`), plus `SITE_URL`, `ENABLE_SMS_NETWORK_CALLS=true` and the
+  `BONGA_SMS_*` values. `core/settings/__init__.py` reads `DJANGO_ENV` from
+  `.env`, so `manage.py` agrees with the web workers. The drop-in
+  `/etc/systemd/system/hodi.service.d/upgrade.conf` also sets `DJANGO_ENV=prod`
+  and `GUNICORN_CMD_ARGS=--no-control-socket`: gunicorn 27 otherwise tries to
+  create `/var/www/.gunicorn`, which www-data cannot write.
+* **Python:** 3.15.2 from uv (`/opt/uv/bin/uv`, interpreters in `/opt/python`,
+  readable by www-data). `venv` is a symlink to `venv-py315`; the old 3.12 venv
+  is `venv-py312-old`. To run with the old one: `venv-py312-old/bin/python -m gunicorn ...`.
+* **Bonga credentials** came from IntelliCash, which keeps them **encrypted in
+  its database** (`IntegrationConfig`, provider `BONGA_SMS`), not in a `.env`.
+  They were decrypted with IntelliCash's own code via
+  `apps/api/prisma/run-with-service-env.sh` into a root-only file and appended
+  to Hodi's `.env`; nothing was printed.
+* **SMS timer:** `hodi-sms.timer` runs `send_sms_broadcasts` every minute.
+* **Mail:** `.env` has no `EMAIL_HOST`, so prod uses the dummy mail backend
+  (mail is discarded, never printed into the log) and `mail.E001` is silenced.
+  Password reset links go by SMS. Set the `EMAIL_*` values to turn email on.
+* **Ownership:** the tree is www-data, but `.git` must stay **root**-owned, or
+  root's git refuses it ("dubious ownership"). After `chown -R www-data`, run
+  `chown -R root:root /var/www/hodi/.git`.
+* `staticfiles/` is tracked in git, so `git status` shows it modified after
+  every `collectstatic`. That is expected.
+* **Logs:** `logs/django.log` rotates at 10 MB x 5. The old 300 MB logs were
+  gzipped.
+* **Backups taken:** `/var/backups/hodi/<timestamp>*/` (database, `.env`, old commit).
+
+### Routine update (one SSH session, from a whitelisted IP)
+
+The server's checked-out branch cannot be pushed to, so push to a side ref:
+
+```bash
+# on your PC
+git push vps:/var/www/hodi upgrade/django-6-sms-osm:refs/heads/incoming
+```
+
+```bash
+# on the server
+cd /var/www/hodi
+B=/var/backups/hodi/$(date -u +%Y%m%d%H%M%S); mkdir -p $B; git rev-parse HEAD > $B/commit
+python3 -c "import sqlite3;s=sqlite3.connect('file:db.sqlite3?mode=ro',uri=True);d=sqlite3.connect('$B/db.sqlite3');s.backup(d)"
+git merge --ff-only incoming && git branch -D incoming
+chown -R www-data:www-data . && chown -R root:root .git
+M="sudo -u www-data venv/bin/python manage.py"
+$M migrate --noinput && $M collectstatic --noinput -v0 && $M check --deploy
+systemctl restart hodi
+curl -s -o /dev/null -w '%{http_code}
+' --resolve hodi-admin.co.ke:443:127.0.0.1 https://hodi-admin.co.ke/login/   # 200
+$M check_data          # read-only data report; expect 0 errors
+```
+
+Rollback: `git reset --hard $(cat $B/commit)`, put `$B/db.sqlite3` back if a
+migration ran, fix ownership as above, `systemctl restart hodi`.
+
+The GitHub "Deploy to production" workflow still cannot reach the server (its
+SSH is blocked since the November hardening), so merging into `main` changes
+nothing on the server; deploy by hand as above.

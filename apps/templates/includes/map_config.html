@@ -1,0 +1,4 @@
+{% load static %}{# Map provider chosen under Administration > Map Settings; read by hodi-map.js #}
+{{ hodi_map_config|json_script:"hodi-map-config" }}
+<style>.hodi-map-pin{background:none;border:none}.leaflet-popup-content h6{margin:0 0 6px}</style>
+<script src="{% static 'assets/js/hodi-map.js' %}"></script>

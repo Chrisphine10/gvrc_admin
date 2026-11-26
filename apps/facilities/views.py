@@ -6,7 +6,10 @@ Views for facilities app
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q, Count
+import math
+
+from django.db.models import Q, Count, Prefetch
+from django.http import JsonResponse
 from django.db import transaction
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -26,6 +29,9 @@ from .forms import (
 )
 from apps.geography.models import County
 from apps.lookups.models import OperationalStatus, ServiceCategory
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @permission_required('view_facilities')
@@ -152,92 +158,79 @@ def facility_detail(request, facility_id):
     return render(request, 'facilities/facility_detail.html', context)
 
 
+def _float_param(request, name):
+    try:
+        value = float(request.GET.get(name, ''))
+    except (TypeError, ValueError):
+        return None
+    return value if math.isfinite(value) else None
+
+
 @permission_required('view_facilities')
 def facility_map(request):
-    """Show facilities on a map with coordinates - optimized for millions of records"""
-    # Get viewport parameters for efficient loading
-    ne_lat = request.GET.get('ne_lat')
-    ne_lng = request.GET.get('ne_lng')
-    sw_lat = request.GET.get('sw_lat')
-    sw_lng = request.GET.get('sw_lng')
-    zoom_level = request.GET.get('zoom', 7)
-    
-    # Base queryset with coordinates
-    facilities = Facility.objects.filter(
-        is_active=True,
-        facilitycoordinate__latitude__isnull=False,
-        facilitycoordinate__longitude__isnull=False
-    ).select_related(
-        'ward__constituency__county',
-        'operational_status'
-    ).prefetch_related(
-        'facilitycoordinate_set'
+    """Facilities with GPS coordinates on a map (OpenStreetMap or Google Maps,
+    chosen under Map Settings). ``?format=json`` with ne_lat/ne_lng/sw_lat/sw_lng
+    returns only the facilities inside the visible area, for panning."""
+    ne_lat, ne_lng = _float_param(request, 'ne_lat'), _float_param(request, 'ne_lng')
+    sw_lat, sw_lng = _float_param(request, 'sw_lat'), _float_param(request, 'sw_lng')
+    viewport = None not in (ne_lat, ne_lng, sw_lat, sw_lng)
+    try:
+        zoom_level = max(1, min(int(request.GET.get('zoom', 7)), 21))
+    except (TypeError, ValueError):
+        zoom_level = 7
+
+    coords_qs = FacilityCoordinate.objects.filter(
+        is_active=True, latitude__isnull=False, longitude__isnull=False,
     )
-    
-    # Apply viewport filtering if provided (for dynamic loading)
-    if ne_lat and ne_lng and sw_lat and sw_lng:
-        facilities = facilities.filter(
-            facilitycoordinate__latitude__gte=float(sw_lat),
-            facilitycoordinate__latitude__lte=float(ne_lat),
-            facilitycoordinate__longitude__gte=float(sw_lng),
-            facilitycoordinate__longitude__lte=float(ne_lng)
+    if viewport:
+        coords_qs = coords_qs.filter(
+            latitude__gte=sw_lat, latitude__lte=ne_lat,
+            longitude__gte=sw_lng, longitude__lte=ne_lng,
         )
-    
-    # Limit results based on zoom level for performance
-    zoom_level = int(zoom_level)
+    facilities = Facility.objects.filter(
+        is_active=True, facilitycoordinate__in=coords_qs,
+    ).distinct().select_related(
+        'ward__constituency__county', 'operational_status',
+    ).prefetch_related(Prefetch('facilitycoordinate_set', queryset=coords_qs, to_attr='map_coords'))
+
+    # Cap the number of pins by zoom so a country-wide view stays responsive.
     if zoom_level <= 5:
-        # Country level - show only major facilities
-        facilities = facilities.filter(
-            operational_status__status_name='Operational'
-        )[:1000]  # Limit to 1000 facilities
+        facilities = facilities.filter(operational_status__status_name='Operational')[:1000]
     elif zoom_level <= 8:
-        # Regional level - show more facilities
-        facilities = facilities[:5000]  # Limit to 5000 facilities
+        facilities = facilities[:5000]
     else:
-        # Local level - show all facilities in viewport
-        facilities = facilities[:10000]  # Limit to 10000 facilities
-    
-    # Filter facilities with coordinates and serialize for JavaScript
+        facilities = facilities[:10000]
+
     facilities_with_coords = []
     for facility in facilities:
-        coords = facility.facilitycoordinate_set.filter(is_active=True).first()
-        if coords and coords.latitude and coords.longitude:
-            facilities_with_coords.append({
-                'facility': {
-                    'facility_id': facility.facility_id,
-                    'facility_name': facility.facility_name,
-                    'registration_number': facility.registration_number,
-                    'ward': {
-                        'ward_name': facility.ward.ward_name,
-                        'constituency': {
-                            'county': {
-                                'county_name': facility.ward.constituency.county.county_name
-                            }
-                        }
-                    },
-                    'operational_status': {
-                        'status_name': facility.operational_status.status_name
-                    }
+        coords = facility.map_coords[0] if facility.map_coords else None
+        if coords is None:
+            continue
+        facilities_with_coords.append({
+            'facility': {
+                'facility_id': facility.facility_id,
+                'facility_name': facility.facility_name,
+                'registration_number': facility.registration_number,
+                'ward': {
+                    'ward_name': facility.ward.ward_name,
+                    'constituency': {'county': {'county_name': facility.ward.constituency.county.county_name}},
                 },
-                'coordinates': {
-                    'latitude': float(coords.latitude),
-                    'longitude': float(coords.longitude)
-                }
-            })
-    
-    import json
-    
+                'operational_status': {'status_name': facility.operational_status.status_name},
+            },
+            'coordinates': {'latitude': float(coords.latitude), 'longitude': float(coords.longitude)},
+        })
+
+    if request.GET.get('format') == 'json':
+        return JsonResponse({'facilities': facilities_with_coords, 'count': len(facilities_with_coords)})
+
     context = {
         'facilities_with_coords': facilities_with_coords,
-        'facilities_with_coords_json': json.dumps(facilities_with_coords),
         'total_facilities': Facility.objects.filter(is_active=True).count(),
         'facilities_with_coords_count': len(facilities_with_coords),
         'segment': 'facility_map',
-        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
-        'viewport_filtered': bool(ne_lat and ne_lng and sw_lat and sw_lng),
+        'viewport_filtered': viewport,
         'zoom_level': zoom_level,
     }
-    
     return render(request, 'facilities/facility_map.html', context)
 
 
@@ -275,7 +268,7 @@ def facility_create(request):
                         raise ValueError('Ward selection required')
                     
                     if request.user.is_authenticated:
-                        facility.created_by = request.user.user_id
+                        facility.created_by = request.user
                     facility.save()
                     
                     # Save coordinates if provided
@@ -283,7 +276,7 @@ def facility_create(request):
                         coordinate = coordinate_form.save(commit=False)
                         coordinate.facility = facility
                         if request.user.is_authenticated:
-                            coordinate.created_by = request.user.user_id
+                            coordinate.created_by = request.user
                         coordinate.save()
                     
                     # Save GBV categories
@@ -291,7 +284,8 @@ def facility_create(request):
                     for category in gbv_categories:
                         FacilityGBVCategory.objects.create(
                             facility=facility,
-                            gbv_category=category
+                            gbv_category=category,
+                            created_by=request.user,
                         )
                     
                     # Save contacts
@@ -300,7 +294,7 @@ def facility_create(request):
                             contact = contact_form.save(commit=False)
                             contact.facility = facility
                             if request.user.is_authenticated:
-                                contact.created_by = request.user.user_id
+                                contact.created_by = request.user
                             contact.save()
                     
                     # Save services
@@ -309,7 +303,7 @@ def facility_create(request):
                             service = service_form.save(commit=False)
                             service.facility = facility
                             if request.user.is_authenticated:
-                                service.created_by = request.user.user_id
+                                service.created_by = request.user
                             service.save()
                     
                     # Save owners
@@ -318,7 +312,7 @@ def facility_create(request):
                             owner = owner_form.save(commit=False)
                             owner.facility = facility
                             if request.user.is_authenticated:
-                                owner.created_by = request.user.user_id
+                                owner.created_by = request.user
                             owner.save()
                     
                     # Save infrastructure
@@ -326,14 +320,17 @@ def facility_create(request):
                         if (infrastructure_form.cleaned_data and 
                             not infrastructure_form.cleaned_data.get('DELETE', False)):
                             try:
-                                infrastructure = infrastructure_form.save(commit=False)
-                                infrastructure.facility = facility
-                                if request.user.is_authenticated:
-                                    infrastructure.created_by = request.user.user_id
-                                infrastructure.save()
-                            except Exception as e:
-                                # Log error but don't fail the entire operation
-                                print(f"Error saving infrastructure: {e}")
+                                # Own savepoint: a failed row must not poison the
+                                # facility's transaction (later queries would all fail).
+                                with transaction.atomic():
+                                    infrastructure = infrastructure_form.save(commit=False)
+                                    infrastructure.facility = facility
+                                    if request.user.is_authenticated:
+                                        infrastructure.created_by = request.user
+                                    infrastructure.save()
+                            except Exception:
+                                logger.exception("Could not save an infrastructure row for facility %s", facility.pk)
+                                messages.warning(request, "One infrastructure entry could not be saved. Please check it and add it again.")
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" created successfully!')
@@ -342,7 +339,8 @@ def facility_create(request):
                     return redirect('facilities:facility_list')
                     
             except Exception as e:
-                messages.error(request, f'Error creating facility: {str(e)}')
+                logger.exception("facilities: request failed")
+                messages.error(request, 'Could not create facility. Please try again.')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -414,7 +412,7 @@ def facility_update(request, facility_id):
                         raise ValueError('Ward selection required')
                     
                     if request.user.is_authenticated:
-                        facility.updated_by = request.user.user_id
+                        facility.updated_by = request.user
                     facility.save()
                     
                     # Update or create coordinates
@@ -422,13 +420,13 @@ def facility_update(request, facility_id):
                         if existing_coordinate:
                             coordinate = coordinate_form.save(commit=False)
                             if request.user.is_authenticated:
-                                coordinate.updated_by = request.user.user_id
+                                coordinate.updated_by = request.user
                             coordinate.save()
                         else:
                             coordinate = coordinate_form.save(commit=False)
                             coordinate.facility = facility
                             if request.user.is_authenticated:
-                                coordinate.created_by = request.user.user_id
+                                coordinate.created_by = request.user
                             coordinate.save()
                     
                     # Update GBV categories
@@ -439,7 +437,8 @@ def facility_update(request, facility_id):
                     for category in gbv_categories:
                         FacilityGBVCategory.objects.create(
                             facility=facility,
-                            gbv_category=category
+                            gbv_category=category,
+                            created_by=request.user,
                         )
                     
                     # Mark existing related objects as inactive (soft delete)
@@ -455,7 +454,7 @@ def facility_update(request, facility_id):
                             contact = contact_form.save(commit=False)
                             contact.facility = facility
                             if request.user.is_authenticated:
-                                contact.created_by = request.user.user_id
+                                contact.created_by = request.user
                             contact.save()
                     
                     # Save new services
@@ -464,7 +463,7 @@ def facility_update(request, facility_id):
                             service = service_form.save(commit=False)
                             service.facility = facility
                             if request.user.is_authenticated:
-                                service.created_by = request.user.user_id
+                                service.created_by = request.user
                             service.save()
                     
                     # Save new owners
@@ -473,7 +472,7 @@ def facility_update(request, facility_id):
                             owner = owner_form.save(commit=False)
                             owner.facility = facility
                             if request.user.is_authenticated:
-                                owner.created_by = request.user.user_id
+                                owner.created_by = request.user
                             owner.save()
                     
                     # Save new infrastructure
@@ -481,14 +480,17 @@ def facility_update(request, facility_id):
                         if (infrastructure_form.cleaned_data and 
                             not infrastructure_form.cleaned_data.get('DELETE', False)):
                             try:
-                                infrastructure = infrastructure_form.save(commit=False)
-                                infrastructure.facility = facility
-                                if request.user.is_authenticated:
-                                    infrastructure.created_by = request.user.user_id
-                                infrastructure.save()
-                            except Exception as e:
-                                # Log error but don't fail the entire operation
-                                print(f"Error saving infrastructure: {e}")
+                                # Own savepoint: a failed row must not poison the
+                                # facility's transaction (later queries would all fail).
+                                with transaction.atomic():
+                                    infrastructure = infrastructure_form.save(commit=False)
+                                    infrastructure.facility = facility
+                                    if request.user.is_authenticated:
+                                        infrastructure.created_by = request.user
+                                    infrastructure.save()
+                            except Exception:
+                                logger.exception("Could not save an infrastructure row for facility %s", facility.pk)
+                                messages.warning(request, "One infrastructure entry could not be saved. Please check it and add it again.")
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" updated successfully!')
@@ -497,7 +499,8 @@ def facility_update(request, facility_id):
                     return redirect('facilities:facility_list')
                     
             except Exception as e:
-                messages.error(request, f'Error updating facility: {str(e)}')
+                logger.exception("facilities: request failed")
+                messages.error(request, 'Could not update facility. Please try again.')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:

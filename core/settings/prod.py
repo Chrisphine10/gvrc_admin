@@ -3,12 +3,29 @@
 Production settings
 """
 
+from django.core.exceptions import ImproperlyConfigured
+
 from .base import *
 
 DEBUG = False
 
-# HOSTs List
-ALLOWED_HOSTS = [APP_DOMAIN, ".deploypro.dev", "172.31.47.58", "hodi.co.ke"]
+# base.py falls back to a placeholder so local tools work without a .env.
+# In production that would sign sessions and reset links with a key anyone can
+# read in the repository, so refuse to start instead.
+if not SECRET_KEY or SECRET_KEY == "TODO_SET_SECRET_KEY" or len(SECRET_KEY) < 32:
+    raise ImproperlyConfigured("Set a long random SECRET_KEY in the environment (.env) for production.")
+
+def _env_list(name):
+    return [v.strip() for v in os.getenv(name, "").split(",") if v.strip()]
+
+
+# HOSTs List. The server's .env ALLOWED_HOSTS is honoured (it used to be
+# ignored here, so switching the server to these settings would have answered
+# every request to hodi-admin.co.ke with 400 Bad Request).
+ALLOWED_HOSTS = list(dict.fromkeys(
+    [h for h in _env_list("ALLOWED_HOSTS") if h != "*"]
+    + [APP_DOMAIN, "hodi-admin.co.ke", "www.hodi-admin.co.ke", "hodi.co.ke", "localhost", "127.0.0.1"]
+))
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
@@ -26,7 +43,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.hodi-admin.co.ke",
     "https://hodi.co.ke",
     "https://*.deploypro.dev",
-]
+] + [o for o in _env_list("CSRF_TRUSTED_ORIGINS") if o.startswith("https://")]  # never trust plain http
 
 # Database
 DB_ENGINE = os.getenv("DB_ENGINE", None)
@@ -83,8 +100,17 @@ SECURE_HSTS_PRELOAD = False
 # Redirect at the edge, where the protocol is actually known.
 SECURE_SSL_REDIRECT = False
 
+# Both are deliberate (see the two comments above): nginx does the HTTPS
+# redirect, and HSTS preload is a one-way door. Silenced so that
+# `check --deploy` reports only real problems.
+SILENCED_SYSTEM_CHECKS = ["security.W008", "security.W021"]
+
 # Static files configuration for production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE was removed in Django 5.1; STORAGES replaces it.
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "core.storage.HodiStaticFilesStorage"},
+}
 
 # Logging configuration
 LOGGING = {
@@ -101,10 +127,13 @@ LOGGING = {
         },
     },
     'handlers': {
+        # Rotating: the old plain FileHandler let logs/ grow past 300 MB.
         'file': {
             'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': '/var/log/gvrc_admin/django.log',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.getenv('DJANGO_LOG_FILE', str(BASE_DIR / 'logs' / 'django.log')),
+            'maxBytes': 10 * 1024 * 1024,
+            'backupCount': 5,
             'formatter': 'verbose',
         },
         'console': {
@@ -151,13 +180,19 @@ CACHES = {
 # }
 
 # Email configuration for production
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@hodi.co.ke')
+# No mail account configured on the server (EMAIL_HOST empty, as on
+# hodi-admin.co.ke in Nov 2026): discard mail instead of failing on every send.
+# The console backend would print password reset links into the service log.
+# Reset links also go by SMS, so resets still work.
+MAILERS = smtp_mailers_from_env() if os.getenv("EMAIL_HOST", "").strip() else {
+    "default": {"BACKEND": "django.core.mail.backends.dummy.EmailBackend"},
+}
+if not os.getenv("EMAIL_HOST", "").strip():
+    # Deliberate while no mail account exists; `manage.py check_data` keeps
+    # reporting it as a warning so it is not forgotten.
+    SILENCED_SYSTEM_CHECKS = SILENCED_SYSTEM_CHECKS + ["mail.E001"]
+# The SMTP account usually only sends as itself, so default to it.
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') or os.getenv('EMAIL_HOST_USER') or 'noreply@hodi.co.ke'
 
 # Performance optimizations
 CONN_MAX_AGE = 60  # Database connection pooling

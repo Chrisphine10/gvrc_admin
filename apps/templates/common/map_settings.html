@@ -1,0 +1,111 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Map Settings{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'common:application_settings' %}">Settings</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Maps</li>
+    </ol>
+  </nav>
+  <h1 class="h3 mb-1">Map Settings</h1>
+  <p class="text-muted">Choose the map used on the facility map, the facility location picker, and in the Hodi mobile app.</p>
+
+  {% if settings.map_provider == 'google' and not google_key_configured %}
+  <div class="alert alert-warning">
+    <i class="fas fa-exclamation-triangle mr-2"></i>
+    Google Maps is selected but this server has no <code>GOOGLE_MAPS_API_KEY</code>, so OpenStreetMap is shown instead.
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-lg-6">
+      <form method="post" class="card" novalidate>
+        {% csrf_token %}
+        <div class="card-header"><h3 class="mb-0">Provider</h3></div>
+        <div class="card-body">
+          {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+          <fieldset class="mb-4">
+            <legend class="sr-only">Map provider</legend>
+            {% for radio in form.map_provider %}
+            <div class="custom-control custom-radio mb-2">
+              <input type="radio" class="custom-control-input" name="{{ radio.data.name }}" id="{{ radio.id_for_label }}"
+                     value="{{ radio.data.value }}" {% if radio.data.selected %}checked{% endif %}>
+              <label class="custom-control-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+            </div>
+            {% endfor %}
+            <small class="text-muted d-block mt-2">
+              OpenStreetMap is free and needs no key. Google Maps uses the server's API key
+              ({% if google_key_configured %}<span class="text-success">configured</span>{% else %}<span class="text-danger">not configured</span>{% endif %})
+              and is billed by Google.
+            </small>
+          </fieldset>
+
+          <h4 class="h6 text-uppercase text-muted">OpenStreetMap</h4>
+          <div class="form-group">
+            <label for="{{ form.osm_tile_url.id_for_label }}">Tile server</label>
+            {{ form.osm_tile_url }}
+            <small class="text-muted">{{ form.osm_tile_url.help_text }}</small>
+            {% for e in form.osm_tile_url.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.osm_attribution.id_for_label }}">Credit line</label>
+            {{ form.osm_attribution }}
+            <small class="text-muted">{{ form.osm_attribution.help_text }}</small>
+            {% for e in form.osm_attribution.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+
+          <h4 class="h6 text-uppercase text-muted mt-4">Where maps open</h4>
+          <div class="form-row">
+            <div class="col-md-4 form-group">
+              <label for="{{ form.map_default_latitude.id_for_label }}">Latitude</label>{{ form.map_default_latitude }}
+              {% for e in form.map_default_latitude.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="{{ form.map_default_longitude.id_for_label }}">Longitude</label>{{ form.map_default_longitude }}
+              {% for e in form.map_default_longitude.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="{{ form.map_default_zoom.id_for_label }}">Zoom</label>{{ form.map_default_zoom }}
+              {% for e in form.map_default_zoom.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary" id="use-map-center">Use the preview map's current view</button>
+        </div>
+        <div class="card-footer text-right"><button type="submit" class="btn btn-primary">Save map settings</button></div>
+      </form>
+    </div>
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Preview</h3>
+          <span class="badge badge-info">Showing: {% if map_config.provider == 'google' %}Google Maps{% else %}OpenStreetMap{% endif %}</span>
+        </div>
+        <div class="card-body p-0"><div id="map-preview" style="height: 460px;"></div></div>
+        <div class="card-footer small text-muted">
+          The mobile app reads these settings from <code>/mobile/config/map/</code> and switches on its next map load.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{% include "includes/map_config.html" %}
+<script>
+HodiMap.create('map-preview').then(function (map) {
+  document.getElementById('use-map-center').addEventListener('click', function () {
+    var b = map.getBounds();
+    if (!b) return;
+    document.getElementById('{{ form.map_default_latitude.id_for_label }}').value = ((b.ne.lat + b.sw.lat) / 2).toFixed(6);
+    document.getElementById('{{ form.map_default_longitude.id_for_label }}').value = ((b.ne.lng + b.sw.lng) / 2).toFixed(6);
+    document.getElementById('{{ form.map_default_zoom.id_for_label }}').value = Math.max(1, Math.min(18, map.getZoom()));
+  });
+});
+</script>
+{% endblock %}

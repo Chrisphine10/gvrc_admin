@@ -62,6 +62,20 @@ class FacilityMapViewTest(TestCase):
             collection_date='2024-01-01'
         )
         
+        # Dashboard views use the custom RBAC layer: a logged-in account with
+        # no role is redirected to /dashboard/ (302). Give the test user a role
+        # holding view_facilities, as the Facility Manager role would.
+        from apps.authentication.models import (
+            Permission, RolePermission, UserRole, UserRoleAssignment,
+        )
+        role = UserRole.objects.create(role_name='Facility Viewer')
+        RolePermission.objects.create(
+            role=role,
+            permission=Permission.objects.get(permission_name='view_facilities'),
+            granted_by=self.user,
+        )
+        UserRoleAssignment.objects.create(user=self.user, role=role, assigned_by=self.user)
+
         # Create client
         self.client = Client()
     
@@ -84,17 +98,33 @@ class FacilityMapViewTest(TestCase):
         self.assertIn('facilities_with_coords', response.context)
         self.assertIn('total_facilities', response.context)
         self.assertIn('facilities_with_coords_count', response.context)
-        self.assertIn('google_maps_api_key', response.context)
         
         # Check that facility with coordinates is included
         self.assertEqual(len(response.context['facilities_with_coords']), 1)
         self.assertEqual(response.context['total_facilities'], 1)
         self.assertEqual(response.context['facilities_with_coords_count'], 1)
         
-        # Check that Google Maps API key is present
-        self.assertIsNotNone(response.context['google_maps_api_key'])
-        self.assertTrue(len(response.context['google_maps_api_key']) > 0)
+        # The map provider/key used to be passed by the view as
+        # google_maps_api_key; it now comes from the map-settings context
+        # processor (hodi_map_config). Accept either, but a map must be
+        # configurable.
+        if 'google_maps_api_key' in response.context:
+            self.assertTrue(response.context['google_maps_api_key'])
+        else:
+            self.assertIn('hodi_map_config', response.context)
+            self.assertIn(response.context['hodi_map_config']['provider'], ('google', 'openstreetmap'))
     
+    def test_facility_map_view_without_permission_redirects(self):
+        """A logged-in user without view_facilities is sent to the dashboard"""
+        UserRoleAssignment = __import__(
+            'apps.authentication.models', fromlist=['UserRoleAssignment']
+        ).UserRoleAssignment
+        UserRoleAssignment.objects.filter(user=self.user).delete()
+        self.client.login(username='test@example.com', password='testpass123')
+        response = self.client.get(reverse('facilities:facility_map'))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['Location'], '/dashboard/')
+
     def test_facility_map_view_no_coordinates(self):
         """Test facility map view when no facilities have coordinates"""
         # Delete coordinates

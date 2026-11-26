@@ -138,7 +138,10 @@ CACHES = {
 }
 
 # Django Debug Toolbar — surfaces SQL queries, cache hits, and N+1 patterns in the browser
-if DEBUG:
+# (Only when installed: it is in requirements-dev.txt, not requirements.txt.)
+import importlib.util
+
+if DEBUG and importlib.util.find_spec("debug_toolbar"):
     INSTALLED_APPS += ["debug_toolbar"]
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
     INTERNAL_IPS = ["127.0.0.1"]

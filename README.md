@@ -48,104 +48,71 @@ The system categorizes GBV response services into four main areas:
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (local)
 
-### Installation
+Python 3.15 (3.12+ works). Local development uses SQLite; never point local
+tools at a production database.
+
 ```bash
-git clone https://github.com/your-repo/gvrc_dmin.git
-cd gvrc_dmin
-python -m virtualenv env
-source env/bin/activate  # Windows: env\Scripts\activate
-pip install -r requirements.txt
+uv venv --python 3.15.2 venv          # or: python -m venv venv
+venv/Scripts/python -m pip install -r requirements-dev.txt   # Linux/macOS: venv/bin/python
+venv/Scripts/python run_local.py migrate
+venv/Scripts/python run_local.py runserver 127.0.0.1:8000
 ```
 
-### Setup
+* Web: http://127.0.0.1:8000/ (landing page), staff dashboard at `/dashboard/`
+* API docs: `/swagger/`
+* Staff accounts are created by an administrator (`createsuperuser`, then
+  Users in the dashboard). Self-registration is off unless
+  `ALLOW_SELF_REGISTRATION=true`.
+
+### Tests
+
 ```bash
-python manage.py migrate
-python manage.py load_initial_data
-python manage.py create_test_user
-python manage.py runserver
+venv/Scripts/python -m pytest -q --no-cov      # ~1,300 tests, settings core.settings.test (in-memory SQLite)
+venv/Scripts/python manage.py check_data       # read-only data consistency report
 ```
 
-### Access
-- **Web Interface**: http://localhost:8000/
-- **Login**: admin@gvrc.com / admin123
-- **API Docs**: http://localhost:8000/swagger/
-- **Admin Panel**: http://localhost:8000/admin/
+### Production
 
-### API Improvements
-- **🗺️ Simplified Geography API** - Single endpoint for counties, constituencies, and wards
-- **📱 Mobile-Optimized** - Reduced API calls for better mobile app performance
-- **🔗 Consolidated Endpoints** - Streamlined data access patterns
+See [DEPLOY.md](./DEPLOY.md): server layout, routine update, rollback.
 
 ---
 
-## 📖 Complete Documentation
-
-**👉 [FULL DOCUMENTATION](./DOCUMENTATION_INDEX.md)** - Complete system documentation
-
-### Quick Links
-- **[Complete Guide](./GVRC_ADMIN_COMPLETE_DOCUMENTATION.md)** - Everything you need to know
-- **[API Reference](./GVRC_ADMIN_COMPLETE_DOCUMENTATION.md#api-documentation)** - REST API with examples
-- **[Authentication](./GVRC_ADMIN_COMPLETE_DOCUMENTATION.md#authentication-system)** - Custom email-based auth
-- **[Database Schema](./GVRC_ADMIN_COMPLETE_DOCUMENTATION.md#database-schema)** - Complete data model
-- **[Deployment](./GVRC_ADMIN_COMPLETE_DOCUMENTATION.md#deployment)** - Production deployment guide
-
----
-
-### 🔗 Inter-Agency Coordination Features
-
-#### **Unified GBV Response Directory**
-- **🗂️ Centralized Registry** - Single database of all GBV response facilities across sectors
-- **🔍 Smart Search** - Find appropriate services by location, service type, and availability
-- **📊 Real-time Status** - Operational status, contact information, and service availability
-
-#### **Seamless Referral System**
-- **📍 Geographic Mapping** - GPS coordinates for easy navigation between facilities
-- **🏷️ Service Categorization** - Clear identification of specialized GBV services offered
-- **📞 Multi-Channel Contacts** - Phone, email, WhatsApp, and emergency contact information
-- **⏰ Operating Hours** - 24/7 emergency services vs. regular operating hours
-
-#### **Cross-Sector Analytics**
-- **📈 Usage Patterns** - Track facility interactions and referral pathways
-- **🗺️ Coverage Analysis** - Identify service gaps by geographic area and service type
-- **📊 Response Metrics** - Monitor inter-agency coordination effectiveness
-- **📋 Reporting Tools** - Generate reports for stakeholders across all sectors
-
-## ✨ Key Features
-
-🏥 **Multi-Institutional Management** - Police, hospitals, NGOs, safe houses, legal centers  
-🎯 **GBV-Focused Services** - Physical, sexual, emotional, and economic violence response  
-🗺️ **Geographic Hierarchy** - County → Constituency → Ward structure with GPS mapping  
-👥 **Sector-Agnostic Authentication** - Email-based auth for all institution types  
-📱 **Mobile-First API** - RESTful API optimized for field workers and mobile apps  
-📊 **Cross-Sector Analytics** - Comprehensive reporting across all GBV response institutions  
-🔗 **Referral Coordination** - Seamless inter-agency referrals and service mapping  
-🔐 **Multi-Level Security** - Role-based access for different institution types  
-📄 **Document Hub** - Centralized policy, training, and reference materials  
-🎯 **Impact Tracking** - Monitor survivor support pathways across institutions  
-
----
-
-## 🏗️ System Architecture
+## 🗂️ Project layout
 
 ```
-GVRC Admin
-├── 🔐 Authentication (Email-based, Custom User Model)
-├── 🏥 Facilities (Complete facility management)
-├── 🗺️ Geography (County/Constituency/Ward hierarchy)
-├── 📡 API (REST with Swagger documentation)
-├── 🗄️ Database (Comprehensive schema)
-└── 👤 Admin (Django admin interface)
+apps/
+  authentication/  users, roles and permissions (custom RBAC), login, password reset (email + SMS)
+  facilities/      facilities, contacts, services, map; manage.py repair_contacts
+  geography/       counties / constituencies / wards
+  lookups/         reference lists (contact types, GBV categories, ...)
+  chat/            help chats between the app and staff (+ SMS alerts)
+  mobile/, mobile_sessions/  the mobile app API (/mobile/...)
+  api/             REST API (/api/...)
+  sms/             bulk SMS and chat alerts through Bonga (Intelli-Wealth)
+  common/          application settings, map settings, check_data
+  documents/, music/, analytics/, monitoring/, home/
+  templates/, static/   web UI (Argon/Bootstrap + assets/css/hodi-theme.css)
+core/              settings (dev/prod/test), urls, errors.py (error pages + API errors), storage
+tests/             pytest suite
+docs/              design notes and older documentation
+scripts/           one-off tools (not collected by pytest)
+systemd/           hodi-sms service + timer
 ```
 
-### Technology Stack
-- **Backend**: Django 4.2.8 + Django REST Framework
-- **Database**: SQLite (dev) / PostgreSQL (prod)
-- **API**: OpenAPI/Swagger documentation
-- **Auth**: Custom email-based authentication
-- **Frontend**: Argon Dashboard with Bootstrap
-- **Deployment**: Docker support, Render.com ready
+### Errors
+
+Clients never see exception text. The app and API get JSON
+(`{"error": "...", "detail": ...}`), browsers get the branded 403/404/500 pages,
+and the real exception is logged with its traceback (`core/errors.py`).
+
+### Technology stack
+- **Backend**: Django 6.1, Django REST Framework 3.18, Python 3.15
+- **Database**: SQLite (production and local), PostgreSQL supported (`DJANGO_ENV=postgres`)
+- **Web UI**: Argon Dashboard (Bootstrap 4.6) with the Hodi theme; Leaflet/OpenStreetMap or Google Maps
+- **SMS**: Bonga SMS (Intelli-Wealth account)
+- **Serving**: gunicorn 27 behind nginx
 
 ---
 
@@ -729,8 +696,8 @@ ALLOWED_HOSTS=your-domain.com
 
 ## 🆘 Support
 
-- **📖 Documentation**: [Complete Guide](./GVRC_ADMIN_COMPLETE_DOCUMENTATION.md)
-- **🔧 Troubleshooting**: [Common Issues](./GVRC_ADMIN_COMPLETE_DOCUMENTATION.md#troubleshooting)
+- **📖 Documentation**: [Complete Guide](./docs/GVRC_ADMIN_COMPLETE_DOCUMENTATION.md)
+- **🔧 Troubleshooting**: [Common Issues](./docs/GVRC_ADMIN_COMPLETE_DOCUMENTATION.md#troubleshooting)
 - **📧 Email**: admin@gvrc.com
 - **🐛 Issues**: Create issue in repository
 

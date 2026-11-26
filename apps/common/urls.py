@@ -58,6 +58,7 @@ urlpatterns = [
     
     # Application Settings
     path('settings/', settings_views.application_settings, name='application_settings'),
+    path('settings/maps/', settings_views.map_settings, name='map_settings'),
     path('settings/preview-theme/', settings_views.preview_theme, name='preview_theme'),
     path('settings/reset-theme/', settings_views.reset_theme_colors, name='reset_theme_colors'),
     path('settings/delete-logo/', settings_views.delete_logo, name='delete_logo'),

@@ -1,0 +1,13 @@
+{% if not sms_ready %}
+<div class="alert alert-warning d-flex align-items-start" role="alert">
+  <i class="fas fa-exclamation-triangle mr-3 mt-1"></i>
+  <div>
+    <strong>SMS will not go out yet.</strong>
+    {% if not sms_settings.enabled %}Sending is switched off in SMS settings.{% endif %}
+    {% if sms_missing %}The SMS account is missing: {{ sms_missing|join:", " }}.{% endif %}
+    {% if not sms_network %}This server has ENABLE_SMS_NETWORK_CALLS turned off.{% endif %}
+    Messages you create now wait in the queue and send once this is fixed.
+    {% if can_configure or segment == 'sms_settings' %}<a href="{% url 'sms:settings' %}" class="alert-link">Open SMS settings</a>.{% endif %}
+  </div>
+</div>
+{% endif %}

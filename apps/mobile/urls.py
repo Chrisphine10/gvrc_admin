@@ -5,6 +5,8 @@ Mobile App API URL Configuration
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
+from .config_views import MobileMapConfigView
 from .views import (
     # Mobile Chat endpoints
     MobileChatViewSet,
@@ -72,6 +74,9 @@ mobile_resources_router.register(r'resources', MobileResourcesViewSet, basename=
 app_name = 'mobile'
 
 urlpatterns = [
+    # Public app configuration (map provider chosen in Map Settings)
+    path('config/map/', MobileMapConfigView.as_view(), name='map-config'),
+
     # Mobile Chat System
     path('', include(mobile_chat_router.urls)),
     

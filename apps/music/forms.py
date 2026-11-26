@@ -89,6 +89,9 @@ class MusicForm(forms.ModelForm):
     
     def clean_duration(self):
         duration = self.cleaned_data.get('duration')
+        from datetime import timedelta as _td
+        if isinstance(duration, _td):
+            return duration  # DurationField has already parsed it
         if duration:
             # Convert string duration to timedelta
             try:

@@ -19,6 +19,9 @@ from apps.lookups.models import (
 )
 from apps.facilities.models import Facility
 from apps.authentication.permissions import permission_required
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -148,7 +151,8 @@ def add_operational_status(request):
         )
         messages.success(request, f'Operational status "{status_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding operational status: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add operational status. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -166,7 +170,8 @@ def edit_operational_status(request, status_id):
         status.save()
         messages.success(request, f'Operational status "{status.status_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating operational status: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update operational status. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -182,7 +187,8 @@ def delete_operational_status(request, status_id):
         status.delete()
         messages.success(request, f'Operational status "{status_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting operational status: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete operational status. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -207,7 +213,8 @@ def add_contact_type(request):
         )
         messages.success(request, f'Contact type "{type_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding contact type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add contact type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -224,7 +231,8 @@ def edit_contact_type(request, type_id):
         contact_type.save()
         messages.success(request, f'Contact type "{contact_type.type_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating contact type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update contact type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -240,7 +248,8 @@ def delete_contact_type(request, type_id):
         contact_type.delete()
         messages.success(request, f'Contact type "{type_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting contact type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete contact type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -267,7 +276,8 @@ def add_service_category(request):
         )
         messages.success(request, f'Service category "{category_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding service category: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add service category. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -285,7 +295,8 @@ def edit_service_category(request, category_id):
         category.save()
         messages.success(request, f'Service category "{category.category_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating service category: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update service category. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -301,7 +312,8 @@ def delete_service_category(request, category_id):
         category.delete()
         messages.success(request, f'Service category "{category_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting service category: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete service category. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -326,7 +338,8 @@ def add_owner_type(request):
         )
         messages.success(request, f'Owner type "{type_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding owner type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add owner type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -343,7 +356,8 @@ def edit_owner_type(request, type_id):
         owner_type.save()
         messages.success(request, f'Owner type "{owner_type.type_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating owner type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update owner type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -359,7 +373,8 @@ def delete_owner_type(request, type_id):
         owner_type.delete()
         messages.success(request, f'Owner type "{type_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting owner type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete owner type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -386,7 +401,8 @@ def add_gbv_category(request):
         )
         messages.success(request, f'GBV category "{category_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding GBV category: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add GBV category. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -404,7 +420,8 @@ def edit_gbv_category(request, category_id):
         category.save()
         messages.success(request, f'GBV category "{category.category_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating GBV category: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update GBV category. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -420,7 +437,8 @@ def delete_gbv_category(request, category_id):
         category.delete()
         messages.success(request, f'GBV category "{category_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting GBV category: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete GBV category. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -445,7 +463,8 @@ def add_infrastructure_type(request):
         )
         messages.success(request, f'Infrastructure type "{type_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding infrastructure type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add infrastructure type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -462,7 +481,8 @@ def edit_infrastructure_type(request, type_id):
         infra_type.save()
         messages.success(request, f'Infrastructure type "{infra_type.type_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating infrastructure type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update infrastructure type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -478,7 +498,8 @@ def delete_infrastructure_type(request, type_id):
         infra_type.delete()
         messages.success(request, f'Infrastructure type "{type_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting infrastructure type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete infrastructure type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -503,7 +524,8 @@ def add_condition_status(request):
         )
         messages.success(request, f'Condition status "{status_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding condition status: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add condition status. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -520,7 +542,8 @@ def edit_condition_status(request, status_id):
         status.save()
         messages.success(request, f'Condition status "{status.status_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating condition status: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update condition status. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -536,7 +559,8 @@ def delete_condition_status(request, status_id):
         status.delete()
         messages.success(request, f'Condition status "{status_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting condition status: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete condition status. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -565,7 +589,8 @@ def add_document_type(request):
         )
         messages.success(request, f'Document type "{type_name}" added successfully')
     except Exception as e:
-        messages.error(request, f'Error adding document type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not add document type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -584,7 +609,8 @@ def edit_document_type(request, type_id):
         doc_type.save()
         messages.success(request, f'Document type "{doc_type.type_name}" updated successfully')
     except Exception as e:
-        messages.error(request, f'Error updating document type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not update document type. Please try again.')
     
     return redirect('common:lookup_tables')
 
@@ -600,7 +626,8 @@ def delete_document_type(request, type_id):
         doc_type.delete()
         messages.success(request, f'Document type "{type_name}" deleted successfully')
     except Exception as e:
-        messages.error(request, f'Error deleting document type: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete document type. Please try again.')
     
     return redirect('common:lookup_tables')
 

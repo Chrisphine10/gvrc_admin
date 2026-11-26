@@ -3,6 +3,7 @@
 Views for authentication app
 """
 
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -42,7 +43,7 @@ def login_view(request):
     Custom login view using email-based authentication with comprehensive error logging
     """
     logger.info(f"Login attempt from IP: {request.META.get('REMOTE_ADDR', 'Unknown')}")
-    
+
     if request.method == 'POST':
         try:
             form = LoginForm(request.POST)
@@ -52,7 +53,7 @@ def login_view(request):
                     if user:
                         # Log successful authentication
                         logger.info(f"Successful login for user: {user.email} (ID: {user.user_id})")
-                        
+
                         # Check if user is active
                         if not user.is_active:
                             logger.warning(f"Login attempt for inactive user: {user.email}")
@@ -61,12 +62,12 @@ def login_view(request):
                                 'form': form,
                                 'msg': 'Account deactivated'
                             })
-                        
+
                         # Check if user is staff (for admin access)
                         if not user.is_staff:
                             logger.warning(f"Non-staff user login attempt: {user.email}")
                             messages.warning(request, 'You do not have administrative privileges.')
-                        
+
                         try:
                             # Create user session for tracking
                             user_session = create_user_session(user, request)
@@ -74,19 +75,25 @@ def login_view(request):
                         except Exception as session_error:
                             logger.error(f"Failed to create user session for {user.email}: {str(session_error)}")
                             # Continue with login even if session creation fails
-                        
+
                         # Use Django's built-in login function
                         login(request, user)
-                        
+
                         # Set additional session data for our custom tracking
                         if user_session:
                             request.session['session_id'] = user_session.session_id
-                        
+
                         messages.success(request, f'Welcome back, {user.full_name}!')
                         logger.info(f"User {user.email} successfully logged in and redirected")
-                        
+
                         # Redirect to next page or dashboard
-                        next_page = request.GET.get('next', '/dashboard/')
+                        # Only same-site targets: ?next=https://evil.example
+                        # used to be followed after a successful login.
+                        next_page = request.GET.get('next') or '/dashboard/'
+                        if not url_has_allowed_host_and_scheme(
+                            next_page, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+                        ):
+                            next_page = '/dashboard/'
                         return redirect(next_page)
                     else:
                         logger.warning(f"Invalid credentials for email: {form.cleaned_data.get('email', 'Unknown')}")
@@ -100,7 +107,7 @@ def login_view(request):
                 email = form.data.get('email', 'Unknown')
                 logger.warning(f"Form validation failed for email: {email}")
                 logger.debug(f"Form errors: {form.errors}")
-                
+
                 # Check for specific validation errors
                 if 'email' in form.errors:
                     messages.error(request, 'Please enter a valid email address.')
@@ -108,7 +115,7 @@ def login_view(request):
                     messages.error(request, 'Password is required.')
                 else:
                     messages.error(request, 'Please correct the errors below.')
-                    
+
         except ValidationError as ve:
             logger.error(f"Validation error in login form: {str(ve)}")
             messages.error(request, 'Invalid form data. Please check your input.')
@@ -130,7 +137,7 @@ def login_view(request):
     else:
         form = LoginForm()
         logger.debug("Login page accessed")
-    
+
     return render(request, 'accounts/login.html', {
         'form': form,
         'msg': None
@@ -141,12 +148,15 @@ def register_view(request):
     """
     Custom registration view
     """
+    if not getattr(settings, 'ALLOW_SELF_REGISTRATION', False):
+        messages.info(request, 'Hodi accounts are created by an administrator. Please ask your administrator for access.')
+        return redirect('login')
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             messages.success(
-                request, 
+                request,
                 f'Account created successfully for {user.full_name}! You can now <a href="{reverse("login")}">sign in</a>.'
             )
             return render(request, 'accounts/register.html', {
@@ -159,7 +169,7 @@ def register_view(request):
             messages.error(request, 'Please correct the errors below.')
     else:
         form = SignUpForm()
-    
+
     return render(request, 'accounts/register.html', {
         'form': form,
         'success': False,
@@ -180,11 +190,11 @@ def logout_view(request):
             user_session.save()
         except UserSession.DoesNotExist:
             pass
-    
+
     # Use Django's built-in logout function
     from django.contrib.auth import logout
     logout(request)
-    
+
     messages.success(request, 'You have been logged out successfully.')
     return redirect('/')
 
@@ -197,33 +207,25 @@ def password_reset_view(request):
         form = PasswordResetRequestForm(request.POST)
         if form.is_valid():
             user = form.get_user()
-            token, reset_token = form.create_reset_token()
-            
-            if token and reset_token:
-                # Send reset email (for now, just show a message)
+            token, ok = form.create_reset_token()
+            if user and ok:
                 reset_url = request.build_absolute_uri(
                     reverse('password_reset_confirm', kwargs={'token': token})
                 )
-                
-                # In a real app, you would send an email here
-                # For demo purposes, we'll just show a success message with the link
-                messages.success(
-                    request,
-                    f'Password reset link has been generated. '
-                    f'<a href="{reset_url}" target="_blank">Click here to reset your password</a>'
-                )
-                
-                return render(request, 'accounts/password_reset_done.html', {
-                    'reset_url': reset_url  # For demo purposes
-                })
-            else:
-                messages.error(request, 'Failed to create reset token.')
-        else:
-            # Form has errors
-            pass
+                # The link only ever goes to the account's own mailbox and
+                # phone (SMS through Bonga); it is never shown on the page.
+                from .reset_delivery import deliver_reset_link
+                deliver_reset_link(user, reset_url)
+            # Same answer whether or not the address has an account.
+            messages.success(
+                request,
+                'If that email belongs to a Hodi account, a link to reset the password is on its way '
+                'by email and by SMS to the phone number on the account.'
+            )
+            return redirect('password_reset_done')
     else:
         form = PasswordResetRequestForm()
-    
+
     return render(request, 'accounts/password_reset.html', {
         'form': form
     })
@@ -236,25 +238,15 @@ def password_reset_confirm_view(request, token):
     if request.method == 'POST':
         form = PasswordResetConfirmForm(request.POST, token=token)
         if form.is_valid():
-            user = form.save()
-            if user:
-                messages.success(
-                    request,
-                    f'Password reset successful for {user.full_name}! '
-                    f'You can now <a href="{reverse("login")}">sign in</a> with your new password.'
-                )
-                return render(request, 'accounts/password_reset_complete.html')
-            else:
-                messages.error(request, 'Failed to reset password.')
-        else:
-            # Form has errors
-            pass
+            form.save()
+            messages.success(request, 'Your password has been changed. You can sign in with it now.')
+            return redirect('password_reset_complete')
     else:
-        # Validate token first
-        # Note: ResetToken functionality needs to be implemented with the new schema
-        messages.error(request, 'Password reset functionality is being updated.')
-        return redirect('password_reset')
-    
+        if PasswordResetConfirmForm.user_for_token(token) is None:
+            messages.error(request, 'This reset link is invalid or has expired. Please request a new one.')
+            return redirect('password_reset')
+        form = PasswordResetConfirmForm(token=token)
+
     return render(request, 'accounts/password_reset_confirm.html', {
         'form': form,
         'token': token
@@ -283,9 +275,9 @@ def custom_login_required(view_func):
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect('/login/')
-        
+
         return view_func(request, *args, **kwargs)
-    
+
     return wrapper
 
 
@@ -293,7 +285,7 @@ def custom_login_required(view_func):
 def user_list(request):
     """List all users with comprehensive data"""
     users = User.objects.filter(is_active=True).order_by('full_name')
-    
+
     # Search functionality
     search_query = request.GET.get('search', '')
     if search_query:
@@ -302,11 +294,11 @@ def user_list(request):
             Q(email__icontains=search_query) |
             Q(phone_number__icontains=search_query)
         )
-    
+
     # Get statistics
     active_users_count = users.count()
     total_sessions = UserSession.objects.filter(expires_at__gt=timezone.now()).count()
-    
+
     context = {
         'users': users,
         'search_query': search_query,
@@ -314,33 +306,36 @@ def user_list(request):
         'total_sessions': total_sessions,
         'segment': 'users',
     }
-    
+
+    from .permissions import has_permission as _has_permission
+    context['can_add_users'] = _has_permission(request.user, 'add_users')
     return render(request, 'authentication/user_list.html', context)
 
 
 @custom_login_required
+@permission_required('view_users')
 def user_detail(request, user_id):
     """Show user details with all related data"""
     user = get_object_or_404(
         User.objects.select_related(),
-        user_id=user_id, 
+        user_id=user_id,
         is_active=True
     )
-    
+
     # Get related data efficiently
     sessions = user.usersession_set.order_by('-created_at')[:10]
-    
+
     # Get user statistics
     total_sessions = user.usersession_set.count()
     active_sessions = user.usersession_set.filter(expires_at__gt=timezone.now()).count()
-    
+
     context = {
         'user': user,
         'sessions': sessions,
         'total_sessions': total_sessions,
         'active_sessions': active_sessions,
     }
-    
+
     return render(request, 'authentication/user_detail.html', context)
 
 
@@ -349,17 +344,17 @@ def user_analytics(request):
     """Show user analytics and statistics"""
     total_users = User.objects.filter(is_active=True).count()
     active_sessions = UserSession.objects.filter(expires_at__gt=timezone.now()).count()
-    
+
     # Get users by facility (placeholder for future implementation)
     users_by_facility = []
-    
+
     # Get users by county (placeholder for future implementation)
     users_by_county = []
-    
+
     # Get recent user activity
     # Note: UserLocation functionality needs to be implemented with the new schema
     recent_locations = []
-    
+
     context = {
         'total_users': total_users,
         'active_sessions': active_sessions,
@@ -368,7 +363,7 @@ def user_analytics(request):
         'recent_locations': recent_locations,
         'segment': 'user_analytics',
     }
-    
+
     return render(request, 'authentication/user_analytics.html', context)
 
 
@@ -376,7 +371,12 @@ def user_analytics(request):
 def profile_view(request):
     """User profile view - allows viewing and editing profile information"""
     user = request.user
-    
+    # Both forms always exist; the POST branch rebinds the one submitted.
+    # (Only one was bound before, so an invalid submission crashed with
+    # UnboundLocalError instead of showing the errors.)
+    form = ProfileEditForm(instance=user)
+    password_form = PasswordChangeForm(user)
+
     if request.method == 'POST':
         if 'profile_form' in request.POST:
             # Handle profile update
@@ -394,10 +394,7 @@ def profile_view(request):
                 return redirect('logout')
         else:
             messages.error(request, 'Invalid form submission.')
-    else:
-        form = ProfileEditForm(instance=user)
-        password_form = PasswordChangeForm(user)
-    
+
     # Get or create user profile
     try:
         profile = user.userprofile
@@ -406,7 +403,7 @@ def profile_view(request):
     except AttributeError:
         # Handle case where userprofile relationship doesn't exist yet
         profile = None
-    
+
     context = {
         'user': user,
         'profile': profile,
@@ -414,7 +411,7 @@ def profile_view(request):
         'password_form': password_form,
         'segment': 'profile',
     }
-    
+
     return render(request, 'authentication/profile.html', context)
 
 
@@ -422,7 +419,7 @@ def profile_view(request):
 def change_password_view(request):
     """Separate view for changing password"""
     user = request.user
-    
+
     if request.method == 'POST':
         form = PasswordChangeForm(user, request.POST)
         if form.is_valid():
@@ -431,11 +428,11 @@ def change_password_view(request):
             return redirect('logout')
     else:
         form = PasswordChangeForm(user)
-    
+
     context = {
         'form': form,
     }
-    
+
     return render(request, 'authentication/change_password.html', context)
 
 
@@ -448,7 +445,7 @@ def role_list(request):
         user_count=Count('userroleassignment'),
         permission_count=Count('rolepermission')
     ).order_by('role_name')
-    
+
     # Search functionality
     search_query = request.GET.get('search', '')
     if search_query:
@@ -456,13 +453,13 @@ def role_list(request):
             Q(role_name__icontains=search_query) |
             Q(description__icontains=search_query)
         )
-    
+
     context = {
         'roles': roles,
         'search_query': search_query,
         'segment': 'roles',
     }
-    
+
     return render(request, 'authentication/role_list.html', context)
 
 
@@ -470,13 +467,13 @@ def role_list(request):
 def role_detail(request, role_id):
     """Show role details with assigned permissions and users"""
     role = get_object_or_404(UserRole, role_id=role_id)
-    
+
     # Get permissions for this role
     role_permissions = role.rolepermission_set.select_related('permission').order_by('permission__resource_name', 'permission__action_name')
-    
+
     # Get users with this role
     users_with_role = role.userroleassignment_set.select_related('user').order_by('user__full_name')
-    
+
     # Get all available permissions for potential assignment
     all_permissions = Permission.objects.exclude(
         rolepermission__role=role
@@ -496,7 +493,7 @@ def role_detail(request, role_id):
         'all_permissions': all_permissions,
         'users_without_role': users_without_role,
     }
-    
+
     return render(request, 'authentication/role_detail.html', context)
 
 
@@ -507,7 +504,7 @@ def role_create(request):
         role_name = request.POST.get('role_name')
         description = request.POST.get('description', '')
         is_system_role = request.POST.get('is_system_role') == 'on'
-        
+
         if role_name:
             try:
                 role = UserRole.objects.create(
@@ -518,10 +515,11 @@ def role_create(request):
                 messages.success(request, f'Role "{role.role_name}" created successfully!')
                 return redirect('role_detail', role_id=role.role_id)
             except Exception as e:
-                messages.error(request, f'Error creating role: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not create role. Please try again.')
         else:
             messages.error(request, 'Role name is required.')
-    
+
     return render(request, 'authentication/role_form.html', {
         'action': 'Create',
         'role': None,
@@ -534,12 +532,12 @@ def role_create(request):
 def role_edit(request, role_id):
     """Edit an existing user role"""
     role = get_object_or_404(UserRole, role_id=role_id)
-    
+
     if request.method == 'POST':
         role_name = request.POST.get('role_name')
         description = request.POST.get('description', '')
         is_system_role = request.POST.get('is_system_role') == 'on'
-        
+
         if role_name:
             try:
                 role.role_name = role_name
@@ -549,10 +547,11 @@ def role_edit(request, role_id):
                 messages.success(request, f'Role "{role.role_name}" updated successfully!')
                 return redirect('role_detail', role_id=role.role_id)
             except Exception as e:
-                messages.error(request, f'Error updating role: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not update role. Please try again.')
         else:
             messages.error(request, 'Role name is required.')
-    
+
     return render(request, 'authentication/role_form.html', {
         'action': 'Edit',
         'role': role,
@@ -565,7 +564,7 @@ def role_edit(request, role_id):
 def role_delete(request, role_id):
     """Delete a user role"""
     role = get_object_or_404(UserRole, role_id=role_id)
-    
+
     if request.method == 'POST':
         try:
             role_name = role.role_name
@@ -573,8 +572,9 @@ def role_delete(request, role_id):
             messages.success(request, f'Role "{role_name}" deleted successfully!')
             return redirect('role_list')
         except Exception as e:
-            messages.error(request, f'Error deleting role: {str(e)}')
-    
+            logger.exception("authentication: request failed")
+            messages.error(request, 'Could not delete role. Please try again.')
+
     return render(request, 'authentication/role_confirm_delete.html', {
         'role': role,
         'segment': 'roles',
@@ -587,7 +587,7 @@ def permission_list(request):
     permissions = Permission.objects.annotate(
         role_count=Count('rolepermission')
     ).order_by('resource_name', 'action_name')
-    
+
     # Search functionality
     search_query = request.GET.get('search', '')
     if search_query:
@@ -597,7 +597,7 @@ def permission_list(request):
             Q(action_name__icontains=search_query) |
             Q(description__icontains=search_query)
         )
-    
+
     # Group by resource
     permissions_by_resource = {}
     for permission in permissions:
@@ -605,14 +605,14 @@ def permission_list(request):
         if resource not in permissions_by_resource:
             permissions_by_resource[resource] = []
         permissions_by_resource[resource].append(permission)
-    
+
     context = {
         'permissions': permissions,
         'permissions_by_resource': permissions_by_resource,
         'search_query': search_query,
         'segment': 'permissions',
     }
-    
+
     return render(request, 'authentication/permission_list.html', context)
 
 
@@ -625,7 +625,7 @@ def permission_create(request):
         resource_name = request.POST.get('resource_name')
         action_name = request.POST.get('action_name')
         description = request.POST.get('description', '')
-        
+
         if permission_name and resource_name and action_name:
             try:
                 permission = Permission.objects.create(
@@ -637,10 +637,11 @@ def permission_create(request):
                 messages.success(request, f'Permission "{permission.permission_name}" created successfully!')
                 return redirect('permission_list')
             except Exception as e:
-                messages.error(request, f'Error creating permission: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not create permission. Please try again.')
         else:
             messages.error(request, 'Permission name, resource name, and action name are required.')
-    
+
     return render(request, 'authentication/permission_form.html', {
         'action': 'Create',
         'permission': None,
@@ -653,13 +654,13 @@ def permission_create(request):
 def permission_edit(request, permission_id):
     """Edit an existing permission"""
     permission = get_object_or_404(Permission, permission_id=permission_id)
-    
+
     if request.method == 'POST':
         permission_name = request.POST.get('permission_name')
         resource_name = request.POST.get('resource_name')
         action_name = request.POST.get('action_name')
         description = request.POST.get('description', '')
-        
+
         if permission_name and resource_name and action_name:
             try:
                 permission.permission_name = permission_name
@@ -670,10 +671,11 @@ def permission_edit(request, permission_id):
                 messages.success(request, f'Permission "{permission.permission_name}" updated successfully!')
                 return redirect('permission_list')
             except Exception as e:
-                messages.error(request, f'Error updating permission: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not update permission. Please try again.')
         else:
             messages.error(request, 'Permission name, resource name, and action name are required.')
-    
+
     return render(request, 'authentication/permission_form.html', {
         'action': 'Edit',
         'permission': permission,
@@ -686,7 +688,7 @@ def permission_edit(request, permission_id):
 def permission_delete(request, permission_id):
     """Delete a permission"""
     permission = get_object_or_404(Permission, permission_id=permission_id)
-    
+
     if request.method == 'POST':
         try:
             permission_name = permission.permission_name
@@ -694,8 +696,9 @@ def permission_delete(request, permission_id):
             messages.success(request, f'Permission "{permission_name}" deleted successfully!')
             return redirect('permission_list')
         except Exception as e:
-            messages.error(request, f'Error deleting permission: {str(e)}')
-    
+            logger.exception("authentication: request failed")
+            messages.error(request, 'Could not delete permission. Please try again.')
+
     return render(request, 'authentication/permission_confirm_delete.html', {
         'permission': permission,
         'segment': 'permissions',
@@ -709,31 +712,32 @@ def assign_permission_to_role(request, role_id):
     try:
         data = json.loads(request.body)
         permission_id = data.get('permission_id')
-        
+
         if not permission_id:
             return JsonResponse({'success': False, 'error': 'Permission ID is required'})
-        
+
         role = get_object_or_404(UserRole, role_id=role_id)
         permission = get_object_or_404(Permission, permission_id=permission_id)
-        
+
         # Check if permission is already assigned
         existing = role.rolepermission_set.filter(permission=permission).first()
         if existing:
             return JsonResponse({'success': False, 'error': 'Permission already assigned to this role'})
-        
+
         # Assign permission
         role.rolepermission_set.create(
             permission=permission,
             granted_by=request.user
         )
-        
+
         return JsonResponse({
             'success': True,
             'message': f'Permission "{permission.permission_name}" assigned to role "{role.role_name}"'
         })
-        
+
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -744,17 +748,18 @@ def remove_permission_from_role(request, role_id, permission_id):
     try:
         role = get_object_or_404(UserRole, role_id=role_id)
         permission = get_object_or_404(Permission, permission_id=permission_id)
-        
+
         # Remove permission
         role.rolepermission_set.filter(permission=permission).delete()
-        
+
         return JsonResponse({
             'success': True,
             'message': f'Permission "{permission.permission_name}" removed from role "{role.role_name}"'
         })
-        
+
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -765,31 +770,32 @@ def assign_role_to_user(request, user_id):
     try:
         data = json.loads(request.body)
         role_id = data.get('role_id')
-        
+
         if not role_id:
             return JsonResponse({'success': False, 'error': 'Role ID is required'})
-        
+
         user = get_object_or_404(User, user_id=user_id)
         role = get_object_or_404(UserRole, role_id=role_id)
-        
+
         # Check if role is already assigned
         existing = user.userroleassignment_set.filter(role=role).first()
         if existing:
             return JsonResponse({'success': False, 'error': 'User already has this role'})
-        
+
         # Assign role
         user.userroleassignment_set.create(
             role=role,
             assigned_by=request.user
         )
-        
+
         return JsonResponse({
             'success': True,
             'message': f'Role "{role.role_name}" assigned to user "{user.full_name}"'
         })
-        
+
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -800,17 +806,18 @@ def remove_role_from_user(request, user_id, role_id):
     try:
         user = get_object_or_404(User, user_id=user_id)
         role = get_object_or_404(UserRole, role_id=role_id)
-        
+
         # Remove role
         user.userroleassignment_set.filter(role=role).delete()
-        
+
         return JsonResponse({
             'success': True,
             'message': f'Role "{role.role_name}" removed from user "{user.full_name}"'
         })
-        
+
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -818,7 +825,7 @@ def remove_role_from_user(request, user_id, role_id):
 def user_edit(request, user_id):
     """Edit user information"""
     user = get_object_or_404(User, user_id=user_id)
-    
+
     if request.method == 'POST':
         form = ProfileEditForm(request.POST, instance=user)
         if form.is_valid():
@@ -829,20 +836,51 @@ def user_edit(request, user_id):
             messages.error(request, 'Please correct the errors below.')
     else:
         form = ProfileEditForm(instance=user)
-    
+
     # Get user's current roles
     user_roles = user.userroleassignment_set.select_related('role').order_by('role__role_name')
-    
+
     # Get all available roles for potential assignment
     all_roles = UserRole.objects.exclude(
         userroleassignment__user=user
     ).order_by('role_name')
-    
+
     context = {
         'user': user,
         'form': form,
         'user_roles': user_roles,
         'all_roles': all_roles,
     }
-    
+
     return render(request, 'authentication/user_edit.html', context)
+
+
+@custom_login_required
+@permission_required('add_users')
+def user_create(request):
+    """Add a staff user. No password is set here: the person receives a
+    one-time link (email + SMS) to choose their own."""
+    from django.contrib.auth.tokens import default_token_generator
+    from django.db import transaction
+    from django.utils.encoding import force_bytes
+    from django.utils.http import urlsafe_base64_encode
+
+    from .forms import StaffUserCreateForm
+    from .reset_delivery import deliver_reset_link
+
+    form = StaffUserCreateForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        with transaction.atomic():
+            user = form.save()
+            role = form.cleaned_data.get('role')
+            if role:
+                UserRoleAssignment.objects.create(user=user, role=role, assigned_by=request.user)
+        token = f"{urlsafe_base64_encode(force_bytes(user.pk))}.{default_token_generator.make_token(user)}"
+        url = request.build_absolute_uri(reverse('password_reset_confirm', kwargs={'token': token}))
+        deliver_reset_link(user, url, welcome=True)
+        messages.success(
+            request,
+            f'{user.full_name} was added. A link to set their password was sent to {user.email} and by SMS.'
+        )
+        return redirect('user_detail', user_id=user.user_id)
+    return render(request, 'authentication/user_create.html', {'form': form, 'segment': 'users'})

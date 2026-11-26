@@ -11,7 +11,7 @@ import json
 from datetime import datetime
 
 # Setup Django
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # project root; this script lives in scripts/
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings.dev')
 django.setup()
 

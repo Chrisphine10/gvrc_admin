@@ -21,6 +21,15 @@ workers. The default stays dev, so local development is unchanged.
 """
 
 import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+# Read DJANGO_ENV from the project's .env too, not only the process
+# environment. base.py loads .env, but only after this file has already picked
+# dev or prod, so DJANGO_ENV=prod in .env alone used to be ignored. Existing
+# environment variables still win (load_dotenv does not override them).
+load_dotenv(Path(__file__).resolve().parent.parent.parent / '.env')
 
 _env = os.getenv('DJANGO_ENV', 'dev').strip().lower()
 

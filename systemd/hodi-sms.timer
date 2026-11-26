@@ -1,0 +1,13 @@
+[Unit]
+Description=Every minute, finish any bulk SMS a restart interrupted
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+AccuracySec=10s
+# A oneshot that is still running is not started again, so a long broadcast
+# is never sent by two processes at once (and each recipient is claimed in the
+# database anyway).
+
+[Install]
+WantedBy=timers.target

@@ -65,8 +65,8 @@ echo "✓ Change log created"
 
 # Create baseline test results
 echo "Creating baseline test results..."
-if [ -f "test_all_apis.py" ]; then
-    python test_all_apis.py > "logs/test_baseline_$TIMESTAMP.log" 2>&1 || true
+if [ -f "scripts/test_all_apis.py" ]; then
+    python scripts/test_all_apis.py > "logs/test_baseline_$TIMESTAMP.log" 2>&1 || true
     echo "✓ Baseline test results saved"
 fi
 

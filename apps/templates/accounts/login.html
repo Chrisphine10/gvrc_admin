@@ -1,165 +1,134 @@
 {% extends 'layouts/base-auth.html' %}
 
-{% block title %} Sign In {% endblock title %}
+{% block title %} Sign in {% endblock title %}
 
 {% block content %}
+  <div class="auth-wrap">
+    <div class="gvrc-auth-card">
+      <div class="card-header">
+        <div class="gvrc-logo-container">
+          <img src="/static/assets/img/brand/hodi-wordmark.png" alt="Hodi: Care, Empower, Thrive" width="200" height="100">
+        </div>
+        <h1 class="auth-title">Sign in to Hodi</h1>
+        <p class="gvrc-brand-subtitle">For staff of the Hodi GBV help directory</p>
+      </div>
+      <div class="card-body">
 
-    <!-- Page content -->
-    <div class="container" style="min-height: 80vh; display: flex; align-items: center;">
-      <div class="row justify-content-center w-100">
-        <div class="col-lg-5 col-md-7">
-          <div class="gvrc-auth-card">
-            <div class="card-header">
-              <div class="gvrc-logo-container">
-                <img src="/static/assets/img/brand/hodi-wordmark.png" alt="Hodi — Care, Empower, Thrive" width="240" height="120" style="width: 240px; max-width: 100%; height: auto; object-fit: contain; margin-bottom: .5rem;">
-                <p class="gvrc-brand-subtitle">Admin Management Dashboard</p>
+        {% if msg %}
+          <div class="gvrc-alert gvrc-alert-danger" id="login-error-msg" role="alert">
+            <i class="fas fa-exclamation-circle" aria-hidden="true"></i> {{ msg }}
+          </div>
+        {% endif %}
+
+        <!-- Django Messages Display -->
+        {% if messages %}
+          <div id="django-messages">
+            {% for message in messages %}
+              <div class="gvrc-alert gvrc-alert-{{ message.tags|default:'info' }}" role="status">
+                <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %}" aria-hidden="true"></i>
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="POST" id="login-form" novalidate>
+          {% csrf_token %}
+
+          <div class="gvrc-form-group">
+            <label for="{{ form.email.id_for_label }}">Email address</label>
+            <div class="gvrc-input-group input-group{% if form.email.errors %} has-error{% endif %}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+              </div>
+              {{ form.email }}
+            </div>
+            {% if form.email.errors %}
+              <small class="field-error" id="email-error">{{ form.email.errors.0 }}</small>
+            {% endif %}
+          </div>
+
+          <div class="gvrc-form-group">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <label for="{{ form.password.id_for_label }}">Password</label>
+              <a href="{% url 'password_reset' %}" class="small-link">Forgot password?</a>
+            </div>
+            <div class="gvrc-input-group input-group{% if form.password.errors %} has-error{% endif %}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-lock" aria-hidden="true"></i></span>
+              </div>
+              {{ form.password }}
+              <div class="input-group-append">
+                <button type="button" class="input-group-text pw-toggle" id="pw-toggle" aria-label="Show password" aria-pressed="false"><i class="fas fa-eye" aria-hidden="true"></i></button>
               </div>
             </div>
-            <div class="card-body">
-              
-              {% if msg %}
-                <div class="gvrc-alert gvrc-alert-danger" id="login-error-msg">
-                  {{ msg }}
-                </div>
-              {% else %}
-                <div class="text-center mb-4">
-                  <h3 class="text-dark mb-2">Welcome Back</h3>
-                  <p class="text-muted">Sign in to access your healthcare dashboard</p>
-                </div>
-              {% endif %}
-
-              <!-- Django Messages Display -->
-              {% if messages %}
-                <div id="django-messages">
-                  {% for message in messages %}
-                    <div class="gvrc-alert gvrc-alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
-                      <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
-                      {{ message }}
-                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                  {% endfor %}
-                </div>
-              {% endif %}
-
-              <form method="POST" id="login-form">
-                {% csrf_token %}
-
-                <div class="gvrc-form-group">
-                  <div class="gvrc-input-group input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="fas fa-envelope"></i>
-                      </span>
-                    </div>
-                    {{ form.email }}
-                  </div>
-                  {% if form.email.errors %}
-                    <small class="text-danger mt-1 d-block">{{ form.email.errors.0 }}</small>
-                  {% endif %}
-                </div>
-
-                <div class="gvrc-form-group">
-                  <div class="gvrc-input-group input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="fas fa-lock"></i>
-                      </span>
-                    </div>
-                    {{ form.password }}
-                  </div>
-                  {% if form.password.errors %}
-                    <small class="text-danger mt-1 d-block">{{ form.password.errors.0 }}</small>
-                  {% endif %}
-                </div>
-
-                <div class="gvrc-checkbox">
-                  <input type="checkbox" id="rememberMe" name="remember_me">
-                  <label for="rememberMe">Keep me signed in</label>
-                </div>
-
-                <div class="text-center">
-                  <button type="submit" class="gvrc-btn-primary w-100" id="login-submit-btn">
-                    <i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard
-                  </button>
-                </div>
-                
-                <div class="text-center mt-3">
-                  <p class="text-muted mb-0">
-                    Don't have an account? 
-                    <a href="{% url 'register' %}" class="text-primary font-weight-bold">Sign Up</a>
-                    <span class="mx-2">|</span>
-                    <a href="{% url 'password_reset' %}" class="text-primary font-weight-bold">Forgot Password?</a>
-                  </p>
-                </div>
-              </form>
-            </div>
+            {% if form.password.errors %}
+              <small class="field-error" id="password-error">{{ form.password.errors.0 }}</small>
+            {% endif %}
           </div>
-        </div>
+
+          <div class="gvrc-checkbox">
+            <input type="checkbox" id="rememberMe" name="remember_me">
+            <label for="rememberMe">Keep me signed in on this device</label>
+          </div>
+
+          <button type="submit" class="gvrc-btn-primary w-100" id="login-submit-btn">
+            <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Sign in
+          </button>
+
+          {% if allow_self_registration %}
+          <p class="auth-alt">
+            No account yet? <a href="{% url 'register' %}">Create one</a>
+          </p>
+          {% else %}
+          <p class="auth-alt">Accounts are created by a Hodi administrator.</p>
+          {% endif %}
+        </form>
       </div>
     </div>
-
+    <p class="auth-back"><a href="{% url 'landing' %}"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to the Hodi home page</a></p>
+  </div>
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
 {% block javascripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Convert Django messages to toasts using the new auth toast system
-    const messages = document.querySelectorAll('#django-messages .gvrc-alert');
-    messages.forEach(function(message) {
-        const messageText = message.textContent.trim();
-        const messageType = message.classList.contains('gvrc-alert-danger') ? 'error' : 
-                           message.classList.contains('gvrc-alert-warning') ? 'warning' : 
-                           message.classList.contains('gvrc-alert-success') ? 'success' : 'info';
-        
-        // Show toast notification using the new auth toast system
-        if (window.authToastManager) {
-            window.authToastManager.show(messageText, messageType);
-        }
-        
-        // Hide the original message after a short delay
-        setTimeout(function() {
-            message.style.display = 'none';
-        }, 1000);
-    });
-    
-    // Handle form submission with loading state
+    // Errors stay on the form (next to the field) so screen readers and
+    // people who look away still find them; they are not turned into toasts.
     const loginForm = document.getElementById('login-form');
     const submitBtn = document.getElementById('login-submit-btn');
-    
     if (loginForm && submitBtn) {
         loginForm.addEventListener('submit', function() {
-            // Show loading state
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing In...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Signing in…';
             submitBtn.disabled = true;
-            
-            // Re-enable button after 5 seconds as fallback
             setTimeout(function() {
-                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard';
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt" aria-hidden="true"></i> Sign in';
                 submitBtn.disabled = false;
-            }, 5000);
+            }, 8000);
         });
     }
-    
-    // Handle specific error messages from the msg variable
-    const errorMsg = document.getElementById('login-error-msg');
-    if (errorMsg && window.authToastManager) {
-        const errorText = errorMsg.textContent.trim();
-        window.authToastManager.error(errorText, 'Login Error');
-        
-        // Hide the error message after showing toast
-        setTimeout(function() {
-            errorMsg.style.display = 'none';
-        }, 1000);
-    }
-    
-    // Handle form validation errors and show them as toasts
-    const formErrors = document.querySelectorAll('.text-danger');
-    formErrors.forEach(function(error) {
-        if (error.textContent.trim() && window.authToastManager) {
-            window.authToastManager.error(error.textContent.trim(), 'Validation Error');
+    // Link field errors to their inputs
+    [['email', 'email-error'], ['password', 'password-error']].forEach(function (pair) {
+        const input = document.querySelector('#login-form [name="' + pair[0] + '"]');
+        if (input && document.getElementById(pair[1])) {
+            input.setAttribute('aria-invalid', 'true');
+            input.setAttribute('aria-describedby', pair[1]);
         }
     });
+    const email = document.querySelector('#login-form [name="email"]');
+    if (email) { email.setAttribute('autocomplete', 'username'); if (!email.value) email.focus(); }
+    const pw = document.querySelector('#login-form [name="password"]');
+    if (pw) pw.setAttribute('autocomplete', 'current-password');
+    const toggle = document.getElementById('pw-toggle');
+    if (toggle && pw) {
+        toggle.addEventListener('click', function () {
+            const show = pw.type === 'password';
+            pw.type = show ? 'text' : 'password';
+            toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+            toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+            toggle.innerHTML = '<i class="fas fa-eye' + (show ? '-slash' : '') + '" aria-hidden="true"></i>';
+        });
+    }
 });
 </script>
 {% endblock javascripts %}

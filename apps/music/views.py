@@ -18,6 +18,9 @@ from apps.authentication.views import custom_login_required
 import json
 from django.contrib.auth import get_user_model
 from apps.authentication.permissions import permission_required
+import logging
+
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
@@ -164,7 +167,7 @@ def track_play(request):
         
         if music_id and user_id:
             music = get_object_or_404(Music, music_id=music_id)
-            user = get_object_or_404(User, id=user_id)
+            user = get_object_or_404(User, user_id=user_id)  # the custom User's key is user_id
             
             MusicPlay.objects.create(
                 music=music,
@@ -179,7 +182,8 @@ def track_play(request):
             return JsonResponse({'status': 'error', 'message': 'Missing required fields'}, status=400)
             
     except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        logger.exception("music: request failed")
+        return JsonResponse({'status': 'error', 'message': 'Something went wrong. Please try again.'}, status=500)
 
 
 @custom_login_required

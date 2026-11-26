@@ -36,7 +36,26 @@ class IsStaffUser(permissions.BasePermission):
     """Custom permission to only allow staff users"""
     
     def has_permission(self, request, view):
-        return request.user and request.user.is_staff
+        return bool(request.user and request.user.is_authenticated and request.user.is_staff)
+
+
+class ChatStaffPermission(permissions.BasePermission):
+    """Signed-in staff holding view_chat (reads) or change_chat (writes).
+
+    AdminConversationViewSet used to have no permission classes at all, so an
+    anonymous caller could list every GBV conversation, read the messages and
+    change their status.
+    """
+
+    def has_permission(self, request, view):
+        from apps.authentication.permissions import has_permission
+        user = request.user
+        if not (user and user.is_authenticated):
+            return False
+        if user.is_superuser:
+            return True
+        needed = 'view_chat' if request.method in permissions.SAFE_METHODS else 'change_chat'
+        return bool(user.is_staff and has_permission(user, needed))
 
 
 class AdminConversationViewSet(viewsets.ViewSet):
@@ -51,8 +70,8 @@ class AdminConversationViewSet(viewsets.ViewSet):
     - View statistics
     """
     
-    permission_classes = []  # No authentication required
-    
+    permission_classes = [ChatStaffPermission]
+
     @swagger_auto_schema(
         operation_id="admin_conversations_list",
         operation_description="List all conversations with filtering options",
@@ -395,21 +414,21 @@ class AdminConversationViewSet(viewsets.ViewSet):
             conversation = get_object_or_404(Conversation, pk=pk)
             
             # Handle both form data (file uploads) and JSON data
-            print(f"DEBUG: Request content type: {request.content_type}")
-            print(f"DEBUG: Request data keys: {list(request.data.keys()) if hasattr(request.data, 'keys') else 'No keys'}")
-            print(f"DEBUG: Request FILES keys: {list(request.FILES.keys()) if request.FILES else 'No FILES'}")
+            logger.debug(f"Request content type: {request.content_type}")
+            logger.debug(f"Request data keys: {list(request.data.keys()) if hasattr(request.data, 'keys') else 'No keys'}")
+            logger.debug(f"Request FILES keys: {list(request.FILES.keys()) if request.FILES else 'No FILES'}")
             
             # For file uploads, we need to merge request.FILES into request.data
             if request.content_type and 'multipart/form-data' in request.content_type:
-                print(f"DEBUG: Using multipart form data")
+                logger.debug(f"Using multipart form data")
                 # Create a mutable copy of request.data and merge files
                 data = request.data.copy()
                 if request.FILES:
                     data.update(request.FILES)
-                print(f"DEBUG: Merged data keys: {list(data.keys())}")
+                logger.debug(f"Merged data keys: {list(data.keys())}")
                 serializer = CreateMessageSerializer(data=data)
             else:
-                print(f"DEBUG: Using regular data")
+                logger.debug(f"Using regular data")
                 serializer = CreateMessageSerializer(data=request.data)
             
             if serializer.is_valid():
@@ -421,11 +440,11 @@ class AdminConversationViewSet(viewsets.ViewSet):
                 is_urgent = serializer.validated_data.get('is_urgent', False)
                 metadata = serializer.validated_data.get('metadata', {})
                 
-                print(f"DEBUG: After validation - media_file: {media_file}")
+                logger.debug(f"After validation - media_file: {media_file}")
                 if media_file:
-                    print(f"DEBUG: media_file type: {type(media_file)}")
-                    print(f"DEBUG: media_file name: {media_file.name}")
-                    print(f"DEBUG: media_file size: {media_file.size}")
+                    logger.debug(f"media_file type: {type(media_file)}")
+                    logger.debug(f"media_file name: {media_file.name}")
+                    logger.debug(f"media_file size: {media_file.size}")
                 
                 # Determine message type based on file if not specified
                 if media_file:
@@ -448,7 +467,7 @@ class AdminConversationViewSet(viewsets.ViewSet):
                     conversation=conversation,
                     content=content,
                     sender_type='admin',
-                    sender=None,  # No specific user since we're not authenticated
+                    sender=request.user,  # the staff member who wrote the reply
                     message_type=message_type,
                     media_file=media_file,
                     media_url=media_url,
@@ -463,12 +482,9 @@ class AdminConversationViewSet(viewsets.ViewSet):
             
         except Exception as e:
             # Add debugging information
-            import traceback
-            print(f"Error in create_message: {str(e)}")
-            print(f"Traceback: {traceback.format_exc()}")
+            logger.exception("Error in admin send-message")
             return Response({
-                'error': str(e),
-                'traceback': traceback.format_exc()
+                'error': 'The message could not be sent. Please try again.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     @swagger_auto_schema(
@@ -985,5 +1001,5 @@ class NotificationViewSet(viewsets.ViewSet):
             logger.exception("Failed to fetch unread conversations for user %s", request.user)
             return Response({
                 'error': 'Failed to fetch unread conversations',
-                'detail': str(e)
+                'detail': 'Something went wrong. Please try again.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -36,3 +36,16 @@ Thumbs.db
 staticfiles/
 logs/
 media/
+
+# Local runtime output and one-off exports (kept out of the repo, Nov 2026 tidy-up)
+*.log
+nohup.out
+*.stackdump
+api_test_results.json
+facility_contacts_for_hr_*.json
+UsersAncient.sshconfig
+/settings.py
+/ApiConfig.dart
+.coverage
+htmlcov/
+venv*/

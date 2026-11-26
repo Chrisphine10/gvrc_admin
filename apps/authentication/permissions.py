@@ -17,6 +17,16 @@ from rest_framework import status
 from .models import User, UserRole, Permission, UserRoleAssignment, RolePermission
 
 
+
+def _active_assignment(prefix=''):
+    """Role assignments that have not expired: no expiry date, or one in the
+    future. (Only ``expires_at IS NULL`` counted before, so an assignment given
+    an end date stopped working the moment it was saved.)"""
+    from django.db.models import Q
+    from django.utils import timezone
+    return Q(**{f'{prefix}expires_at__isnull': True}) | Q(**{f'{prefix}expires_at__gt': timezone.now()})
+
+
 def has_permission(user, permission_name):
     """
     Check if a user has a specific permission through their roles
@@ -37,8 +47,8 @@ def has_permission(user, permission_name):
     
     # Check if user has permission through their roles
     user_roles = UserRoleAssignment.objects.filter(
+        _active_assignment(),
         user=user,
-        expires_at__isnull=True  # Non-expired roles only
     ).values_list('role', flat=True)
     
     return RolePermission.objects.filter(
@@ -66,9 +76,9 @@ def has_role(user, role_name):
         return True
     
     return UserRoleAssignment.objects.filter(
+        _active_assignment(),
         user=user,
         role__role_name=role_name,
-        expires_at__isnull=True  # Non-expired roles only
     ).exists()
 
 
@@ -91,9 +101,9 @@ def has_any_role(user, role_names):
         return True
     
     return UserRoleAssignment.objects.filter(
+        _active_assignment(),
         user=user,
         role__role_name__in=role_names,
-        expires_at__isnull=True  # Non-expired roles only
     ).exists()
 
 
@@ -115,8 +125,8 @@ def get_user_permissions(user):
         return Permission.objects.all()
     
     user_roles = UserRoleAssignment.objects.filter(
+        _active_assignment(),
         user=user,
-        expires_at__isnull=True  # Non-expired roles only
     ).values_list('role', flat=True)
     
     return Permission.objects.filter(
@@ -142,8 +152,8 @@ def get_user_roles(user):
         return UserRole.objects.all()
     
     return UserRole.objects.filter(
+        _active_assignment('userroleassignment__'),
         userroleassignment__user=user,
-        userroleassignment__expires_at__isnull=True  # Non-expired roles only
     ).distinct()
 
 

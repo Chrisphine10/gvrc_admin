@@ -14,7 +14,7 @@ if os.path.exists(venv_path):
 import django
 
 # Setup Django
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # project root; this script lives in scripts/
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings.prod')
 django.setup()
 

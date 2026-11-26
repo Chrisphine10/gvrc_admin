@@ -1,0 +1,179 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}New bulk SMS{% endblock %}
+
+{% block stylesheets %}
+<style>
+  .audience-box { border: 1px solid #e9ecef; border-radius: .5rem; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .audience-box.active { border-color: var(--primary-color, #5e72e4); background: #f8f9fe; }
+  .audience-box .filters { display: none; margin-top: .75rem; }
+  .audience-box.active .filters { display: block; }
+  .sms-counter { font-variant-numeric: tabular-nums; }
+  .summary-card { position: sticky; top: 1rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sms:broadcast_list' %}">Bulk SMS</a></li>
+      <li class="breadcrumb-item active" aria-current="page">New</li>
+    </ol>
+  </nav>
+  <h1 class="h3 mb-3">New bulk SMS</h1>
+
+  {% include 'sms/_status_banner.html' %}
+
+  <form method="post" id="compose-form" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card"><div class="card-body">
+          <h3 class="h5">1. Message</h3>
+          <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+            <small class="form-text text-muted">{{ form.title.help_text }}</small>
+            {% for e in form.title.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="form-group mb-0">
+            <label for="sms-message">{{ form.message.label }}</label>
+            {{ form.message }}
+            <div class="d-flex justify-content-between">
+              <small class="form-text text-muted">{{ form.message.help_text }}</small>
+              <small class="form-text sms-counter" id="sms-counter" aria-live="polite">0 characters &middot; 0 SMS</small>
+            </div>
+            {% for e in form.message.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+        </div></div>
+
+        <div class="card"><div class="card-body">
+          <h3 class="h5">2. Recipients</h3>
+          <p class="text-muted small">Pick one or more groups. A number that appears in more than one group gets one SMS.</p>
+
+          <div class="audience-box {% if form.facilities.value %}active{% endif %}" data-toggle-box>
+            <div class="custom-control custom-checkbox">
+              {{ form.facilities }}
+              <label class="custom-control-label font-weight-bold" for="{{ form.facilities.id_for_label }}">{{ form.facilities.label }}</label>
+            </div>
+            <div class="filters">
+              <div class="form-row">
+                <div class="col-md-4 form-group"><label class="small" for="{{ form.county.id_for_label }}">County</label>{{ form.county }}</div>
+                <div class="col-md-4 form-group"><label class="small" for="{{ form.constituency.id_for_label }}">Constituency</label>{{ form.constituency }}</div>
+                <div class="col-md-4 form-group"><label class="small" for="{{ form.ward.id_for_label }}">Ward</label>{{ form.ward }}</div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-6 form-group"><label class="small" for="{{ form.gbv_category.id_for_label }}">GBV service</label>{{ form.gbv_category }}</div>
+                <div class="col-md-6 form-group d-flex align-items-end">
+                  <div class="custom-control custom-checkbox">{{ form.primary_only }}
+                    <label class="custom-control-label" for="{{ form.primary_only.id_for_label }}">{{ form.primary_only.label }}</label></div>
+                </div>
+              </div>
+              <small class="text-muted">Only mobile numbers are texted; landlines and emails in facility contacts are left out.</small>
+            </div>
+          </div>
+
+          <div class="audience-box {% if form.staff.value %}active{% endif %}" data-toggle-box>
+            <div class="custom-control custom-checkbox">
+              {{ form.staff }}
+              <label class="custom-control-label font-weight-bold" for="{{ form.staff.id_for_label }}">{{ form.staff.label }}</label>
+            </div>
+            <div class="filters">
+              <div class="form-row"><div class="col-md-6 form-group mb-0"><label class="small" for="{{ form.role.id_for_label }}">Role</label>{{ form.role }}</div></div>
+            </div>
+          </div>
+
+          <div class="form-group mb-0">
+            <label for="{{ form.custom_numbers.id_for_label }}" class="font-weight-bold">{{ form.custom_numbers.label }}</label>
+            {{ form.custom_numbers }}
+            <small class="form-text text-muted">{{ form.custom_numbers.help_text }}</small>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card summary-card"><div class="card-body">
+          <h3 class="h5">3. Check and send</h3>
+          <dl class="row mb-2">
+            <dt class="col-7 font-weight-normal text-muted">Recipients</dt><dd class="col-5 text-right h4 mb-1" id="sum-recipients">-</dd>
+            <dt class="col-7 font-weight-normal text-muted">SMS per person</dt><dd class="col-5 text-right mb-1" id="sum-parts">-</dd>
+            <dt class="col-7 font-weight-normal text-muted">Total SMS (billed)</dt><dd class="col-5 text-right mb-1" id="sum-total">-</dd>
+            <dt class="col-7 font-weight-normal text-muted">Invalid numbers skipped</dt><dd class="col-5 text-right mb-1" id="sum-invalid">-</dd>
+          </dl>
+          <div class="small text-muted mb-3" id="sum-sample"></div>
+          <div class="bg-secondary rounded p-3 mb-3 small" style="white-space:pre-wrap" id="sum-preview" aria-label="Message preview">Message preview appears here.</div>
+          <button type="submit" class="btn btn-primary btn-block" id="send-btn">
+            <i class="fas fa-paper-plane"></i> Send bulk SMS
+          </button>
+          <a href="{% url 'sms:broadcast_list' %}" class="btn btn-link btn-block">Cancel</a>
+        </div></div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+(function () {
+  const form = document.getElementById('compose-form');
+  const msg = document.getElementById('sms-message');
+  const counter = document.getElementById('sms-counter');
+  const GSM = "@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞ ÆæßÉ !\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà^{}\\[~]|€";
+  function parts(text) {
+    if (!text) return 0;
+    const gsm = [...text].every(c => GSM.includes(c));
+    const single = gsm ? 160 : 70, multi = gsm ? 153 : 67;
+    return text.length <= single ? 1 : Math.ceil(text.length / multi);
+  }
+  function preview(text) { return text.replace(/\{name\}/gi, 'Wanjiku'); }
+  function updateCounter() {
+    const t = preview(msg.value);
+    counter.textContent = t.length + ' characters · ' + parts(t) + ' SMS';
+    document.getElementById('sum-preview').textContent = t || 'Message preview appears here.';
+  }
+
+  document.querySelectorAll('[data-toggle-box]').forEach(box => {
+    const cb = box.querySelector('input[type=checkbox]');
+    cb.addEventListener('change', () => { box.classList.toggle('active', cb.checked); schedule(); });
+  });
+
+  let timer = null;
+  function schedule() { clearTimeout(timer); timer = setTimeout(refresh, 400); }
+  async function refresh() {
+    const data = new FormData(form);
+    try {
+      const res = await fetch("{% url 'sms:audience_preview' %}", {method: 'POST', body: data,
+        headers: {'X-Requested-With': 'XMLHttpRequest'}, credentials: 'same-origin'});
+      if (!res.ok) return;
+      const j = await res.json();
+      document.getElementById('sum-recipients').textContent = j.recipients;
+      document.getElementById('sum-parts').textContent = j.parts_per_message || '-';
+      document.getElementById('sum-total').textContent = j.estimated_sms;
+      document.getElementById('sum-invalid').textContent = j.invalid;
+      document.getElementById('sum-sample').textContent = j.sample.length
+        ? 'e.g. ' + j.sample.map(s => (s.name ? s.name + ' ' : '') + s.phone).join(', ') : '';
+    } catch (e) { /* preview is a convenience; sending still validates on the server */ }
+  }
+
+  msg.addEventListener('input', () => { updateCounter(); schedule(); });
+  form.querySelectorAll('select, textarea[name=custom_numbers]').forEach(el => el.addEventListener('change', schedule));
+  form.querySelector('textarea[name=custom_numbers]').addEventListener('input', schedule);
+
+  form.addEventListener('submit', (e) => {
+    const n = document.getElementById('sum-recipients').textContent;
+    if (!confirm('Send this SMS to ' + n + ' recipient(s)? This cannot be undone and is billed to the SMS account.')) {
+      e.preventDefault(); return;
+    }
+    const btn = document.getElementById('send-btn');
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+  });
+
+  updateCounter(); refresh();
+})();
+</script>
+{% endblock %}

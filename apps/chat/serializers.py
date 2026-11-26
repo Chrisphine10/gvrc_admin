@@ -7,6 +7,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Conversation, Message, ChatNotification
 from apps.mobile_sessions.models import MobileSession
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -53,23 +56,23 @@ class MessageSerializer(serializers.ModelSerializer):
         """Get full URL for media file if it exists"""
         if obj.media_file:
             # Debug logging
-            print(f"DEBUG: Processing media_file for message {obj.message_id}")
-            print(f"DEBUG: media_file value: {obj.media_file}")
-            print(f"DEBUG: media_file.url: {obj.media_file.url}")
-            print(f"DEBUG: media_file.name: {obj.media_file.name}")
+            logger.debug(f"Processing media_file for message {obj.message_id}")
+            logger.debug(f"media_file value: {obj.media_file}")
+            logger.debug(f"media_file.url: {obj.media_file.url}")
+            logger.debug(f"media_file.name: {obj.media_file.name}")
             
             request = self.context.get('request')
             if request:
                 # Use build_absolute_uri if request is available
                 try:
                     url = request.build_absolute_uri(obj.media_file.url)
-                    print(f"DEBUG: Using request.build_absolute_uri: {url}")
+                    logger.debug(f"Using request.build_absolute_uri: {url}")
                     return url
                 except Exception as e:
-                    print(f"DEBUG: Error in build_absolute_uri: {e}")
+                    logger.debug(f"Error in build_absolute_uri: {e}")
                     # Fall through to manual construction
             else:
-                print(f"DEBUG: No request context available for message {obj.message_id}")
+                logger.debug(f"No request context available for message {obj.message_id}")
             
             # Fallback: construct URL manually
             # This handles cases where serializer is used without request context
@@ -99,16 +102,16 @@ class MessageSerializer(serializers.ModelSerializer):
                     media_url = '/' + media_url
                 
                 url = f"{base_url.rstrip('/')}{media_url}"
-                print(f"DEBUG: Using fallback URL construction: {url}")
+                logger.debug(f"Using fallback URL construction: {url}")
                 return url
                 
             except Exception as e:
                 # Final fallback: just return the relative URL
-                print(f"DEBUG: Exception in fallback URL construction: {e}")
-                print(f"DEBUG: Returning relative URL: {obj.media_file.url}")
+                logger.debug(f"Exception in fallback URL construction: {e}")
+                logger.debug(f"Returning relative URL: {obj.media_file.url}")
                 return obj.media_file.url
         else:
-            print(f"DEBUG: No media_file for message {obj.message_id}")
+            logger.debug(f"No media_file for message {obj.message_id}")
         return None
     
     def get_sender_info(self, obj):

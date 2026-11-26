@@ -1,37 +1,28 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
-{% block title %} Document Management {% endblock title %}
+{% block title %} Documents {% endblock title %}
 
 {% block content %}
   <div class="container-fluid py-4">
     
-    <!-- Header with breadcrumb navigation -->
-    <div class="row">
-      <div class="col-12">
-        <nav aria-label="breadcrumb" class="mb-3">
+    <div class="page-head">
+      <div>
+        <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'facilities:facility_list' %}">Facilities</a></li>
             <li class="breadcrumb-item active" aria-current="page">Documents</li>
           </ol>
         </nav>
+        <h1 class="page-title">Documents</h1>
+        <p class="page-sub">Guides and resources published to the Hodi app. Public documents can be read in the app without an account.</p>
+      </div>
+      <div class="page-actions">
+        <a href="{% url 'documents:document_analytics' %}" class="btn btn-neutral"><i class="fas fa-chart-pie" aria-hidden="true"></i> Document reach</a>
+        <a href="{% url 'documents:document_create' %}" class="btn btn-primary"><i class="fas fa-upload" aria-hidden="true"></i> Upload document</a>
       </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="row mb-4">
-      <div class="col-12">
-        <div class="d-flex justify-content-end">
-          <a href="{% url 'documents:document_create' %}" class="btn btn-primary me-2">
-            <i class="ni ni-fat-add"></i> Upload Document
-          </a>
-          <a href="{% url 'documents:document_analytics' %}" class="btn btn-info">
-            <i class="ni ni-chart-bar-32"></i> Analytics
-          </a>
-        </div>
-      </div>
-    </div>
     <!-- Statistics Cards -->
     <div class="row">
       <div class="col-xl-3 col-md-6">
@@ -168,7 +159,7 @@
                   <div class="form-group">
                     <label>&nbsp;</label>
                     <div>
-                      <button type="submit" class="btn btn-primary">
+                      <button type="submit" class="btn btn-neutral">
                         <i class="fas fa-filter"></i> Apply Filters
                       </button>
                       <a href="{% url 'documents:document_list' %}" class="btn btn-secondary">
@@ -320,7 +311,7 @@
                     Get started by uploading your first document.
                   {% endif %}
                 </p>
-                <a href="{% url 'documents:document_create' %}" class="btn btn-primary">
+                <a href="{% url 'documents:document_create' %}" class="btn btn-neutral">
                   <i class="ni ni-fat-add"></i> Upload First Document
                 </a>
               </div>

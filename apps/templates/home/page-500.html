@@ -1,43 +1,13 @@
-{% extends 'layouts/base-fullscreen.html' %}
-
-{% block title %} Error 404 {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
-
-{% block content %}
-
-    <!-- Page content -->
-    <div class="container mt--8 pb-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-          <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5">
-
-              <div class="text-muted text-center mt-2 mb-3">
-                Oups! Error 500      
-              </div>
-
-              <div class="text-center mb-4">
-                Server error, please contact support - <a href="{% url 'landing' %}">Home</a>.
-              </div>
-
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-6">
-                              <a href="{% url 'landing' %}" class="text-light"><small>Home</small></a>
-            </div>
-            <div class="col-6 text-right">
-              <a target="_blank" 
-                 href="#" class="text-light"><small>Get Support</small></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-{% endblock content %}
-
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+{% extends 'layouts/base-error.html' %}
+{% comment %}Rendered with an empty context and no request: no user, request,
+   app_settings or csrf here. Static files and url tags only.{% endcomment %}
+{% block title %}Something went wrong{% endblock %}
+{% block card %}
+  <span class="code">Error 500</span>
+  <h1>Something went wrong on our side</h1>
+  <p>The problem has been logged and is not caused by anything you did. Please try again in a moment. If you were saving a form, check whether the change was kept before entering it again.</p>
+  <div class="actions">
+    <a class="btn primary" href="{% url 'home' %}">Back to the dashboard</a>
+    <a class="btn" href="{% url 'landing' %}">Hodi home page</a>
+  </div>
+{% endblock %}

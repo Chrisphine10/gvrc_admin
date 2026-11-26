@@ -10,11 +10,15 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core.files.storage import default_storage
 from .models import ApplicationSettings
-from .forms import ApplicationSettingsForm, ThemePreviewForm
+from .forms import ApplicationSettingsForm, MapSettingsForm, ThemePreviewForm
 from apps.authentication.permissions import permission_required
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
+@permission_required('change_settings')
 def application_settings(request):
     """Display and manage application settings"""
     # Get or create settings instance
@@ -28,7 +32,8 @@ def application_settings(request):
                 messages.success(request, 'Application settings updated successfully!')
                 return redirect('common:application_settings')
             except Exception as e:
-                messages.error(request, f'Error updating settings: {str(e)}')
+                logger.exception("common: request failed")
+                messages.error(request, 'Could not update settings. Please try again.')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -96,7 +101,8 @@ def reset_theme_colors(request):
         messages.success(request, 'Theme colors reset to default values!')
         
     except Exception as e:
-        messages.error(request, f'Error resetting theme colors: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not reset theme colors. Please try again.')
     
     return redirect('common:application_settings')
 
@@ -123,7 +129,8 @@ def delete_logo(request):
             messages.info(request, 'No logo to delete.')
             
     except Exception as e:
-        messages.error(request, f'Error deleting logo: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete logo. Please try again.')
     
     return redirect('common:application_settings')
 
@@ -150,7 +157,8 @@ def delete_favicon(request):
             messages.info(request, 'No favicon to delete.')
             
     except Exception as e:
-        messages.error(request, f'Error deleting favicon: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete favicon. Please try again.')
     
     return redirect('common:application_settings')
 
@@ -177,7 +185,32 @@ def delete_apple_touch_icon(request):
             messages.info(request, 'No apple touch icon to delete.')
             
     except Exception as e:
-        messages.error(request, f'Error deleting apple touch icon: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete apple touch icon. Please try again.')
     
     return redirect('common:application_settings')
 
+
+@login_required
+@permission_required('change_settings')
+def map_settings(request):
+    """Choose the map provider (OpenStreetMap or Google Maps) for the admin
+    maps, the location pickers and the mobile app."""
+    from django.conf import settings as dj_settings
+
+    settings_obj = ApplicationSettings.get_settings()
+    form = MapSettingsForm(request.POST or None, instance=settings_obj)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Map settings saved. The mobile app picks them up the next time it opens a map.')
+            return redirect('common:map_settings')
+        messages.error(request, 'Please correct the errors below.')
+    return render(request, 'common/map_settings.html', {
+        'form': form,
+        'settings': settings_obj,
+        'map_config': settings_obj.map_config(),
+        'google_key_configured': bool(getattr(dj_settings, 'GOOGLE_MAPS_API_KEY', '')),
+        'segment': 'map_settings',
+        'page_title': 'Map Settings',
+    })

@@ -15,6 +15,9 @@ from django.conf import settings
 import os
 import json
 from datetime import datetime, timedelta
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -36,7 +39,8 @@ def health_check(request):
             cursor.execute("SELECT 1")
             db_status = "healthy"
     except Exception as e:
-        db_status = f"unhealthy: {str(e)}"
+        logger.exception("monitoring: request failed")
+        db_status = "unhealthy"
     
     return JsonResponse({
         'status': 'healthy' if db_status == 'healthy' else 'degraded',
@@ -100,8 +104,9 @@ def system_metrics(request):
             }
         })
     except Exception as e:
+        logger.exception("monitoring: request failed")
         return JsonResponse({
-            'error': str(e),
+            'error': 'Something went wrong. Please try again.',
             'timestamp': datetime.now().isoformat()
         }, status=500)
 
@@ -146,9 +151,10 @@ def database_metrics(request):
             'connection_pool': pool_info,
         })
     except Exception as e:
+        logger.exception("monitoring: request failed")
         return JsonResponse({
             'status': 'disconnected',
-            'error': str(e),
+            'error': 'Something went wrong. Please try again.',
             'timestamp': datetime.now().isoformat()
         }, status=500)
 
@@ -210,8 +216,9 @@ def application_metrics(request):
             'allowed_hosts_count': len(getattr(settings, 'ALLOWED_HOSTS', [])),
         })
     except Exception as e:
+        logger.exception("monitoring: request failed")
         return JsonResponse({
-            'error': str(e),
+            'error': 'Something went wrong. Please try again.',
             'timestamp': datetime.now().isoformat()
         }, status=500)
 
@@ -232,7 +239,8 @@ def full_status(request):
                 cursor.execute("SELECT 1")
                 db_status = "healthy"
         except Exception as e:
-            db_status = f"unhealthy: {str(e)}"
+            logger.exception("monitoring: request failed")
+            db_status = "unhealthy"
         
         # Cache check
         cache_status = "working"
@@ -265,9 +273,10 @@ def full_status(request):
             'alerts': _generate_alerts(cpu_percent, memory.percent, disk.percent, db_status)
         })
     except Exception as e:
+        logger.exception("monitoring: request failed")
         return JsonResponse({
             'status': 'error',
-            'error': str(e),
+            'error': 'Something went wrong. Please try again.',
             'timestamp': datetime.now().isoformat()
         }, status=500)
 

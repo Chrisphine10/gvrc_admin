@@ -11,6 +11,12 @@ class NotificationManager {
         this.retryCount = 0;
         this.maxRetries = 5;
         this.retryDelay = 3000; // 3 seconds
+        this.everConnected = false;
+        // Production runs plain WSGI (no /ws/ endpoint). After the first failed
+        // attempt we remember that for a while and only poll, instead of trying
+        // (and logging errors) five times on every page load.
+        this.WS_SKIP_KEY = 'hodiWsUnavailableUntil';
+        this.WS_SKIP_MS = 10 * 60 * 1000;
         
         this.init();
     }
@@ -21,7 +27,24 @@ class NotificationManager {
         this.setupEventListeners();
     }
 
+    wsKnownUnavailable() {
+        try {
+            return Number(sessionStorage.getItem(this.WS_SKIP_KEY) || 0) > Date.now();
+        } catch (e) {
+            return false;
+        }
+    }
+
+    markWsUnavailable() {
+        try {
+            sessionStorage.setItem(this.WS_SKIP_KEY, String(Date.now() + this.WS_SKIP_MS));
+        } catch (e) { /* private mode: just poll this time */ }
+    }
+
     setupWebSocket() {
+        if (this.wsKnownUnavailable()) {
+            return; // polling (set up in init) covers it
+        }
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         const wsUrl = `${protocol}//${window.location.host}/ws/notifications/`;
         
@@ -29,9 +52,10 @@ class NotificationManager {
             this.websocket = new WebSocket(wsUrl);
             
             this.websocket.onopen = () => {
-                console.log('Notification WebSocket connected');
                 this.isConnected = true;
+                this.everConnected = true;
                 this.retryCount = 0;
+                try { sessionStorage.removeItem(this.WS_SKIP_KEY); } catch (e) { /* ignore */ }
             };
             
             this.websocket.onmessage = (event) => {
@@ -44,36 +68,40 @@ class NotificationManager {
             };
             
             this.websocket.onclose = () => {
-                console.log('Notification WebSocket disconnected');
                 this.isConnected = false;
+                if (!this.everConnected) {
+                    // The server has no WebSocket endpoint: poll quietly.
+                    this.markWsUnavailable();
+                    return;
+                }
                 this.scheduleReconnect();
             };
             
-            this.websocket.onerror = (error) => {
-                console.error('Notification WebSocket error:', error);
+            this.websocket.onerror = () => {
                 this.isConnected = false;
             };
         } catch (error) {
-            console.error('Failed to setup WebSocket:', error);
-            this.setupPeriodicUpdate(); // Fallback to polling
+            this.markWsUnavailable();
         }
     }
 
     scheduleReconnect() {
         if (this.retryCount < this.maxRetries) {
             this.retryCount++;
-            console.log(`Scheduling WebSocket reconnect attempt ${this.retryCount}/${this.maxRetries} in ${this.retryDelay}ms`);
             setTimeout(() => {
                 this.setupWebSocket();
             }, this.retryDelay);
         } else {
-            console.log('Max WebSocket reconnection attempts reached, falling back to polling');
-            this.setupPeriodicUpdate();
+            this.markWsUnavailable(); // polling is already running
         }
     }
 
     setupPeriodicUpdate() {
-        // Update notifications every 30 seconds if WebSocket is not available
+        // One 30-second poll for when the WebSocket is not connected. Guarded so
+        // repeated fallbacks cannot stack several timers.
+        if (this.updateInterval) {
+            return;
+        }
         this.updateInterval = setInterval(() => {
             if (!this.isConnected) {
                 this.updateNotifications();
@@ -132,7 +160,7 @@ class NotificationManager {
 
     async updateNotifications() {
         try {
-            const response = await fetch('/api/chat/notifications/unread-conversations/', {
+            const response = await fetch('/api/chat/admin/notifications/unread-conversations/', {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': this.getCSRFToken(),
@@ -290,7 +318,7 @@ class NotificationManager {
 
     async markConversationAsRead(conversationId) {
         try {
-            const response = await fetch(`/api/chat/conversations/${conversationId}/messages/read/`, {
+            const response = await fetch(`/api/chat/admin/conversations/${conversationId}/messages/read/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': this.getCSRFToken(),

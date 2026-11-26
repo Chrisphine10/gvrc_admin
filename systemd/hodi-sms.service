@@ -1,0 +1,14 @@
+[Unit]
+Description=Hodi - send queued bulk SMS (Intelli-Wealth / Bonga)
+After=network-online.target
+
+[Service]
+Type=oneshot
+# Must match the User= of hodi.service, so the SQLite database stays writable.
+# Check with: systemctl cat hodi.service | grep User
+User=www-data
+WorkingDirectory=/var/www/hodi
+Environment=DJANGO_ENV=prod
+ExecStart=/var/www/hodi/venv/bin/python manage.py send_sms_broadcasts
+TimeoutStartSec=55min
+Nice=5

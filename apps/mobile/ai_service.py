@@ -198,6 +198,8 @@ def _build_prompt(user_message, history, grounding_context):
     if history:
         lines = []
         for msg in history[-8:]:
+            if not isinstance(msg, dict):
+                continue  # malformed item from the app: skip it, never 500
             role = (msg.get('role') or msg.get('sender') or 'user').lower()
             content = msg.get('content') or msg.get('message') or ''
             if not content:
@@ -247,13 +249,15 @@ def generate_reply(user_message, history=None, grounding_context=None):
     for model in MODEL_NAMES:
         url = (
             'https://generativelanguage.googleapis.com/v1beta/models/'
-            f'{model}:generateContent?key={api_key}'
+            f'{model}:generateContent'
         )
         try:
             with _ForceIPv4():
+                # Key in a header, not the URL: request exceptions quote the
+                # URL, and those messages are logged.
                 resp = requests.post(
                     url,
-                    headers={'Content-Type': 'application/json'},
+                    headers={'Content-Type': 'application/json', 'x-goog-api-key': api_key},
                     data=json.dumps(body),
                     timeout=TIMEOUT_SECONDS,
                 )

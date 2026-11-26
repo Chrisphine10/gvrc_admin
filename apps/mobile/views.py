@@ -44,6 +44,20 @@ from apps.api.serializers import (
 # Import services
 from apps.chat.services import ConversationService, MessageService
 from apps.mobile_sessions.services import MobileSessionService
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def _session_location(validated_data):
+    """Latitude/longitude from a session request. The serializer accepts
+    ``latitude``/``longitude`` (and older clients may send ``location_data``);
+    the view only ever read ``location_data``, so locations were dropped."""
+    loc = dict(validated_data.get('location_data') or {})
+    lat, lng = validated_data.get('latitude'), validated_data.get('longitude')
+    if lat is not None and lng is not None:
+        loc.update(latitude=lat, longitude=lng)
+    return loc if 'latitude' in loc and 'longitude' in loc else {}
 
 
 class MobileSessionPermission(BasePermission):
@@ -204,8 +218,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     response_serializer = ConversationSerializer(conversation, context={'request': request})
                     return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                 except Exception as e:
+                    logger.exception("mobile: request failed")
                     return Response(
-                        {'error': f'Failed to create conversation: {str(e)}'}, 
+                        {'error': 'Could not create conversation. Please try again.'}, 
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR
                     )
                     
@@ -215,8 +230,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Unexpected error: {str(e)}'}, 
+                    {'error': 'Something went wrong. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
@@ -367,7 +383,7 @@ class MobileChatViewSet(viewsets.ViewSet):
         if request.user and request.user.is_authenticated and request.user.is_superuser:
             # Handle both form data (file uploads) and JSON data
             if request.content_type and 'multipart/form-data' in request.content_type:
-                serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
+                serializer = CreateMessageSerializer(data=request.data)  # request.data already holds the uploaded files
             else:
                 serializer = CreateMessageSerializer(data=request.data)
                 
@@ -411,8 +427,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     response_serializer = MessageSerializer(message, context={'request': request})
                     return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                 except Exception as e:
+                    logger.exception("mobile: request failed")
                     return Response(
-                        {'error': f'Failed to create message: {str(e)}'}, 
+                        {'error': 'Could not create message. Please try again.'}, 
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR
                     )
             else:
@@ -434,7 +451,7 @@ class MobileChatViewSet(viewsets.ViewSet):
         
         # Handle both form data (file uploads) and JSON data
         if request.content_type and 'multipart/form-data' in request.content_type:
-            serializer = CreateMessageSerializer(data=request.data, files=request.FILES)
+            serializer = CreateMessageSerializer(data=request.data)  # request.data already holds the uploaded files
         else:
             serializer = CreateMessageSerializer(data=request.data)
             
@@ -476,8 +493,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                 response_serializer = MessageSerializer(message, context={'request': request})
                 return Response(response_serializer.data, status=status.HTTP_201_CREATED)
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Failed to create message: {str(e)}'}, 
+                    {'error': 'Could not create message. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         else:
@@ -555,8 +573,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                 response_serializer = MessageSerializer(message, context={'request': request})
                 return Response(response_serializer.data)
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Failed to update message status: {str(e)}'}, 
+                    {'error': 'Could not update message status. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
@@ -607,8 +626,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     'conversation': response_serializer.data
                 }, status=status.HTTP_200_OK)
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Failed to close conversation: {str(e)}'}, 
+                    {'error': 'Could not close conversation. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
@@ -645,8 +665,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                 'conversation': response_serializer.data
             }, status=status.HTTP_200_OK)
         except Exception as e:
+            logger.exception("mobile: request failed")
             return Response(
-                {'error': f'Failed to close conversation: {str(e)}'}, 
+                {'error': 'Could not close conversation. Please try again.'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
@@ -1334,8 +1355,8 @@ class MobileSessionViewSet(viewsets.ViewSet):
                 if serializer.validated_data.get('preferred_language'):
                     existing_session.preferred_language = serializer.validated_data['preferred_language']
                     update_fields.append('preferred_language')
-                if serializer.validated_data.get('location_data'):
-                    location_data = serializer.validated_data['location_data']
+                location_data = _session_location(serializer.validated_data)
+                if location_data:
                     if 'latitude' in location_data and 'longitude' in location_data:
                         existing_session.latitude = location_data['latitude']
                         existing_session.longitude = location_data['longitude']
@@ -1353,7 +1374,7 @@ class MobileSessionViewSet(viewsets.ViewSet):
                 session = MobileSessionService.create_session(
                     device_id=device_id,
                     device_info=serializer.validated_data.get('device_info', {}),
-                    location_data=serializer.validated_data.get('location_data', {})
+                    location_data=_session_location(serializer.validated_data)
                 )
                 
                 response_serializer = MobileSessionSerializer(session, context={'request': request})
@@ -1657,13 +1678,10 @@ class MobileDocumentViewSet(viewsets.ViewSet):
     'is_active', 'uploaded_at')
 
 
-        # Filter by is_public if provided (accept 'true'/'false' case-insensitive)
-        if is_public is not None:
-            is_public_str = str(is_public).lower()
-            if is_public_str in ['true', '1', 'yes']:
-                queryset = queryset.filter(is_public=True)
-            elif is_public_str in ['false', '0', 'no']:
-                queryset = queryset.filter(is_public=False)
+        # The app only ever receives public documents. (It used to get private
+        # ones too unless it asked for is_public=true itself, and could ask for
+        # is_public=false to list only the private ones.)
+        queryset = queryset.filter(is_public=True)
 
         # Filter by document_type (expecting int id)
         if document_type:
@@ -1962,8 +1980,9 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         except Exception as e:
+            logger.exception("mobile: request failed")
             return Response(
-                {'error': f'Failed to track interaction: {str(e)}'}, 
+                {'error': 'Could not track interaction. Please try again.'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -2065,8 +2084,9 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
+            logger.exception("mobile: request failed")
             return Response(
-                {'error': f'Failed to track contact click: {str(e)}'}, 
+                {'error': 'Could not track contact click. Please try again.'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 

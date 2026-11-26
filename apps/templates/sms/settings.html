@@ -1,0 +1,116 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}SMS settings{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sms:broadcast_list' %}">Bulk SMS</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Settings</li>
+    </ol>
+  </nav>
+  <h1 class="h3 mb-1">SMS settings</h1>
+  <p class="text-muted">Hodi sends SMS through the Intelli-Wealth account on Bonga SMS, the same account IntelliCash uses.</p>
+
+  {% if sms_ready %}
+  <div class="alert alert-success"><i class="fas fa-check-circle mr-2"></i>SMS is ready to send.</div>
+  {% else %}
+  {% include 'sms/_status_banner.html' %}
+  {% endif %}
+
+  <div class="row">
+    <div class="col-lg-7">
+      <form method="post" class="card" autocomplete="off">
+        {% csrf_token %}
+        <div class="card-header"><h3 class="mb-0">Account</h3></div>
+        <div class="card-body">
+          {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+          <div class="custom-control custom-switch mb-4">
+            <input type="checkbox" class="custom-control-input" name="{{ form.enabled.html_name }}" id="{{ form.enabled.id_for_label }}" {% if form.enabled.value %}checked{% endif %}>
+            <label class="custom-control-label" for="{{ form.enabled.id_for_label }}">Sending switched on</label>
+          </div>
+          <div class="form-row">
+            <div class="col-md-7 form-group"><label for="{{ form.provider_name.id_for_label }}">Account name</label>{{ form.provider_name }}</div>
+            <div class="col-md-5 form-group"><label for="{{ form.sender_id.id_for_label }}">Sender ID</label>{{ form.sender_id }}
+              <small class="text-muted">{{ form.sender_id.help_text }}</small></div>
+          </div>
+          <hr>
+          <p class="small text-muted">Secrets are never shown again after saving. Leave a box empty to keep what is saved. A value that is not saved here is read from the server's <code>BONGA_SMS_*</code> environment variables.</p>
+          {% for field, src in credential_rows %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}
+              <span class="badge badge-{% if src == 'missing' %}danger{% elif src == 'saved' %}success{% else %}info{% endif %} ml-1">{% if src == 'saved' %}saved here{% elif src == 'environment' %}from server environment{% elif src == 'default' %}standard endpoint{% else %}missing{% endif %}</span>
+            </label>
+            {{ field }}
+            <small class="text-muted">{{ field.help_text }}</small>
+            {% for e in field.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          {% endfor %}
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" name="{{ form.clear_saved_credentials.html_name }}" id="{{ form.clear_saved_credentials.id_for_label }}">
+            <label class="custom-control-label small" for="{{ form.clear_saved_credentials.id_for_label }}">{{ form.clear_saved_credentials.label }}</label>
+          </div>
+          <hr>
+          <h4 class="h6 text-uppercase mb-2" id="chat-alerts">Chat alerts</h4>
+          <p class="small text-muted">Texts say only that a help chat is waiting and link to it. They never include what the person wrote, because an SMS shows on a locked screen.</p>
+          {% for f in alert_switches %}
+          <div class="custom-control custom-switch mb-2">
+            <input type="checkbox" class="custom-control-input" name="{{ f.html_name }}" id="{{ f.id_for_label }}" {% if f.value %}checked{% endif %}>
+            <label class="custom-control-label" for="{{ f.id_for_label }}">{{ f.help_text }}</label>
+          </div>
+          {% endfor %}
+          <div class="form-group mt-3">
+            <label for="{{ form.alert_numbers.id_for_label }}">On-call numbers</label>
+            {{ form.alert_numbers }}
+            <small class="text-muted">{{ form.alert_numbers.help_text }} Staff get assignment texts on the phone number in their user account.</small>
+            {% for e in form.alert_numbers.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+        </div>
+        <div class="card-footer text-right"><button type="submit" class="btn btn-primary">Save settings</button></div>
+      </form>
+    </div>
+    <div class="col-lg-5">
+      <form method="post" action="{% url 'sms:test' %}" class="card">
+        {% csrf_token %}
+        <div class="card-header"><h3 class="mb-0">Send a test SMS</h3></div>
+        <div class="card-body">
+          <p class="small text-muted">Sends one real SMS (billed) and records the provider's answer under Bulk SMS.</p>
+          <div class="form-group"><label for="{{ test_form.phone.id_for_label }}">Phone</label>{{ test_form.phone }}</div>
+          <div class="form-group"><label for="{{ test_form.message.id_for_label }}">Message</label>{{ test_form.message }}</div>
+        </div>
+        <div class="card-footer text-right"><button type="submit" class="btn btn-outline-primary"><i class="fas fa-paper-plane"></i> Send test</button></div>
+      </form>
+      <div class="card">
+        <div class="card-header"><h3 class="mb-0 h5">Recent chat alerts</h3></div>
+        {% if recent_alerts %}
+        <div class="table-responsive">
+          <table class="table table-sm align-items-center mb-0">
+            <thead class="thead-light"><tr><th>When</th><th>Alert</th><th>To</th><th>Result</th></tr></thead>
+            <tbody>
+              {% for a in recent_alerts %}
+              <tr>
+                <td class="small">{{ a.created_at|date:"d M H:i" }}</td>
+                <td class="small">{{ a.get_kind_display }} #{{ a.conversation_id }}</td>
+                <td class="small">{{ a.phone|slice:":6" }}***{{ a.phone|slice:"-2:" }}</td>
+                <td class="small"><span class="badge badge-{% if a.status == 'sent' %}success{% elif a.status == 'failed' %}danger{% else %}secondary{% endif %}" title="{{ a.provider_message }}">{{ a.get_status_display }}</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="card-body small text-muted">No chat alerts yet.</div>
+        {% endif %}
+      </div>
+      <div class="card"><div class="card-body small text-muted">
+        <h3 class="h6 text-uppercase">Server setup</h3>
+        Bulk messages send in the background. The <code>hodi-sms.timer</code> systemd timer runs this every minute, so a broadcast cut short by a restart still finishes:
+        <pre class="mt-2 mb-0 small">cd /var/www/hodi &amp;&amp; DJANGO_ENV=prod venv/bin/python manage.py send_sms_broadcasts</pre>
+      </div></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

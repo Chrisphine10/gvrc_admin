@@ -15,6 +15,7 @@ from apps.documents.models import Document
 from apps.facilities.models import Facility
 from apps.authentication.models import User
 from apps.authentication.views import custom_login_required
+from apps.authentication.permissions import permission_required
 from apps.geography.models import County
 import logging
 from django.utils import timezone
@@ -31,24 +32,82 @@ def landing_page(request):
     """Landing page for unauthenticated users"""
     if request.user.is_authenticated:
         return redirect('home')
-    
-    # Get some public statistics to showcase the system
-    total_facilities = Facility.objects.filter(is_active=True).count()
-    total_counties = County.objects.count()
-    
-    # Get operational facilities count
-    operational_facilities = Facility.objects.filter(
-        is_active=True,
-        operational_status__status_name='Operational'
-    ).count()
-    
+
+    # Local imports keep this public view's extra needs next to it.
+    from django.core.cache import cache
+    from django.db.models import Max
+    from apps.facilities.models import FacilityGBVCategory
+    from apps.documents.models import Document as _Document
+
+    active = Facility.objects.filter(is_active=True)
+
+    # One cheap query fingerprints the directory. The heavier coverage
+    # aggregates below are cached under that fingerprint, so any added,
+    # removed or edited facility shows on the next visit, and the public page
+    # otherwise costs one query per 15 minutes.
+    fingerprint = active.aggregate(
+        n=Count('facility_id'), changed=Max('updated_at'), created=Max('created_at'),
+    )
+    total_facilities = fingerprint['n'] or 0
+    cache_key = 'landing:coverage:v1:%s:%s:%s' % (
+        total_facilities,
+        fingerprint['changed'].timestamp() if fingerprint['changed'] else 0,
+        fingerprint['created'].timestamp() if fingerprint['created'] else 0,
+    )
+
+    def build_coverage():
+        county_rows = list(
+            active.exclude(ward__isnull=True)
+            .values('ward__constituency__county__county_name')
+            .annotate(n=Count('facility_id'))
+            .order_by('-n', 'ward__constituency__county__county_name')
+        )
+        service_rows = list(
+            FacilityService.objects.filter(is_active=True, facility__is_active=True)
+            .values('service_category__category_name')
+            .annotate(n=Count('facility', distinct=True))
+            .order_by('-n', 'service_category__category_name')
+        )
+        gbv_rows = list(
+            FacilityGBVCategory.objects.filter(facility__is_active=True)
+            .values('gbv_category__category_name')
+            .annotate(n=Count('facility', distinct=True))
+            .order_by('-n', 'gbv_category__category_name')
+        )
+        top = county_rows[:8]
+        top_max = top[0]['n'] if top else 0
+        return {
+            'operational_facilities': active.filter(
+                operational_status__status_name='Operational').count(),
+            'facilities_on_map': active.filter(
+                facilitycoordinate__isnull=False).distinct().count(),
+            'counties_covered': len(county_rows),
+            'top_counties': [
+                {'name': r['ward__constituency__county__county_name'], 'count': r['n'],
+                 'pct': round(100 * r['n'] / top_max) if top_max else 0}
+                for r in top
+            ],
+            'service_categories': [
+                {'name': r['service_category__category_name'], 'count': r['n']}
+                for r in service_rows if r['service_category__category_name']
+            ][:10],
+            'gbv_categories': [
+                {'name': r['gbv_category__category_name'], 'count': r['n']}
+                for r in gbv_rows if r['gbv_category__category_name']
+            ][:10],
+            'public_documents': _Document.objects.filter(is_active=True, is_public=True).count(),
+            'music_tracks': Music.objects.filter(is_active=True).count(),
+        }
+
+    coverage = cache.get_or_set(cache_key, build_coverage, 60 * 15)
+
     context = {
         'total_facilities': total_facilities,
-        'total_counties': total_counties,
-        'operational_facilities': operational_facilities,
+        'total_counties': County.objects.count() or 47,
         'segment': 'landing',
+        **coverage,
     }
-    
+
     return render(request, 'home/landing.html', context)
 
 
@@ -216,6 +275,8 @@ def community_facilities(request):
     return redirect('facilities:facility_list')
 
 
+@custom_login_required
+@permission_required('view_facilities')
 def services_programs(request):
     """Services & Programs List Page"""
     from apps.facilities.models import FacilityService, Facility
@@ -240,6 +301,7 @@ def services_programs(request):
     # Apply filters
     if search:
         services = services.filter(
+            Q(service_name__icontains=search) |
             Q(service_description__icontains=search) |
             Q(service_category__category_name__icontains=search) |
             Q(facility__facility_name__icontains=search) |
@@ -314,6 +376,8 @@ def add_service(request):
     return redirect('facilities:facility_list')
 
 
+@custom_login_required
+@permission_required('view_facilities')
 def human_resources(request):
     """Human Resources List Page - Based on Facility Contacts"""
     from apps.facilities.models import FacilityContact, Facility
@@ -423,6 +487,8 @@ def add_staff(request):
     return redirect('facilities:facility_list')
 
 
+@custom_login_required
+@permission_required('view_facilities')
 def infrastructure(request):
     """Infrastructure Page - displays list of all infrastructure from facilities"""
     from apps.facilities.models import FacilityInfrastructure
@@ -523,12 +589,15 @@ def help_page(request):
     return render(request, 'home/help.html', context)
 
 
+@custom_login_required
 def pages(request):
     context = {}
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
     try:
-        load_template = request.path.split('/')[-1]
+        # Last non-empty segment: '/icons/' used to give '' and so '.html',
+        # which never exists, so every one of these pages served the 404 text.
+        load_template = request.path.rstrip('/').split('/')[-1]
 
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
@@ -561,11 +630,11 @@ def pages(request):
 <body>
 <h1>404 - Page Not Found</h1>
     <p>The page you are looking for does not exist.</p>
-    <a href="{% url 'landing' %}">Return to Home</a>
+    <a href="/">Return to Home</a>
 </body>
 </html>
         """
-        return HttpResponse(error_html)
+        return HttpResponse(error_html, status=404)
 
     except Exception as e:
         # Return simple 404 page without template loading
@@ -576,8 +645,8 @@ def pages(request):
 <body>
     <h1>Page Not Found</h1>
 <p>The requested page could not be found.</p>
-    <a href="{% url 'landing' %}">Return to Home</a>
+    <a href="/">Return to Home</a>
 </body>
 </html>
         """
-        return HttpResponse(error_html)
+        return HttpResponse(error_html, status=404)

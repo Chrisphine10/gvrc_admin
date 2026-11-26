@@ -274,6 +274,18 @@ class FacilityCoordinateForm(forms.ModelForm):
         self.fields['collection_method'].required = False
         self.fields['collection_date'].required = False
 
+    def clean_latitude(self):
+        value = self.cleaned_data.get('latitude')
+        if value is not None and not (-90 <= value <= 90):
+            raise forms.ValidationError('Latitude must be between -90 and 90.')
+        return value
+
+    def clean_longitude(self):
+        value = self.cleaned_data.get('longitude')
+        if value is not None and not (-180 <= value <= 180):
+            raise forms.ValidationError('Longitude must be between -180 and 180.')
+        return value
+
 
 class FacilityInfrastructureForm(forms.ModelForm):
     """Form for facility infrastructure"""

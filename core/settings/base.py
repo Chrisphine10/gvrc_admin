@@ -22,6 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "TODO_SET_SECRET_KEY")
 
 APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
+# Public address of this admin, for links that leave the site (SMS alerts).
+SITE_URL = os.getenv("SITE_URL", "https://hodi-admin.co.ke").rstrip("/")
+# Staff accounts are created by administrators. Self-registration made accounts
+# anyone could open; turn it on only deliberately (ALLOW_SELF_REGISTRATION=true).
+ALLOW_SELF_REGISTRATION = os.getenv("ALLOW_SELF_REGISTRATION", "false").strip().lower() in ("1", "true", "yes", "on")
 
 
 def _clean_str(value: str) -> str:
@@ -45,7 +50,8 @@ def _parse_csv_env(env_name: str) -> set[str]:
     }
 
 # Google Maps API Configuration
-GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "AIzaSyBYKU1YgvaJwUYkFUqYkfwdPuOG5EvA_Bk")
+# No default: a key committed here is public. Without one, maps use OpenStreetMap.
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "")
 GOOGLE_PLACES_API_KEY = GOOGLE_MAPS_API_KEY  # Same key works for both Maps and Places
 
 # Application definition
@@ -76,6 +82,7 @@ INSTALLED_APPS = [
     "apps.mobile_sessions",
     "apps.chat",
     "apps.mobile",
+    "apps.sms",
 ]
 
 MIDDLEWARE = [
@@ -156,7 +163,41 @@ LOGIN_REDIRECT_URL = "/dashboard/"
 LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "/login/"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# Email. Django 6.1 replaces EMAIL_BACKEND/EMAIL_HOST/... with MAILERS.
+# Development prints mail to the console; prod.py switches to SMTP.
+MAILERS = {
+    "default": {"BACKEND": "django.core.mail.backends.console.EmailBackend"},
+}
+
+
+def smtp_mailers_from_env():
+    """SMTP mailer built from the same EMAIL_* environment variables as before."""
+    return {
+        "default": {
+            "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+            "OPTIONS": {
+                "host": os.getenv("EMAIL_HOST", "smtp.gmail.com"),
+                "port": int(os.getenv("EMAIL_PORT", "587")),
+                "username": os.getenv("EMAIL_HOST_USER", ""),
+                "password": os.getenv("EMAIL_HOST_PASSWORD", ""),
+                "use_tls": os.getenv("EMAIL_USE_TLS", "True").lower() == "true",
+                "timeout": 20,
+            },
+        },
+    }
+
+
+# Bulk SMS (apps.sms) through the Intelli-Wealth Bonga account. Credentials
+# come from SMS settings in the dashboard or the BONGA_SMS_* variables.
+# ENABLE_SMS_NETWORK_CALLS=false keeps every message queued (staging, demos).
+SMS_NETWORK_ENABLED = os.getenv("ENABLE_SMS_NETWORK_CALLS", "true").strip().lower() in ("1", "true", "yes", "on")
+SMS_SEND_IN_BACKGROUND = True
+
+
+# drf-yasg: use the current renderer formats (no "." prefix), silencing its
+# deprecation warning. The schema URLs in core/urls.py use format suffixes
+# without the dot.
+SWAGGER_USE_COMPAT_RENDERERS = False
 
 # Custom authentication settings
 AUTH_USER_MODEL = 'authentication.User'
@@ -175,7 +216,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
+    # JSON {"error": ...} for every API failure; unexpected ones are logged, not shown.
+    'EXCEPTION_HANDLER': 'core.errors.api_exception_handler',
 }
 
 # Swagger settings (keep minimal and valid for drf-yasg)

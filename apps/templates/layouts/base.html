@@ -1,44 +1,29 @@
-<!--
-=========================================================
-* Hodi Admin Dashboard
-=========================================================
-* Custom Dashboard for Hodi App Management
-=========================================================
--->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="canonical" href="https://hodi.admin.ke">
-  
-  <title>
-    {% if app_settings %}{{ app_settings.site_name }}{% else %}Hodi Admin{% endif %} - {% block title %} Hodi App Management Dashboard {% endblock %} | Kenya
-  </title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B4A28">
+
+  <title>{% block title %} Dashboard {% endblock %} &middot; {% if app_settings %}{{ app_settings.site_name }}{% else %}Hodi Admin{% endif %}</title>
 
   <!-- Favicon - loaded dynamically -->
   <link rel="icon" href="{% if app_settings %}{{ app_settings.get_favicon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}" type="image/x-icon">
-  <link rel="shortcut icon" href="{% if app_settings %}{{ app_settings.get_favicon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}" type="image/x-icon">
   <link rel="apple-touch-icon" href="{% if app_settings %}{{ app_settings.get_apple_touch_icon_url }}{% else %}/static/assets/img/icons/common/favicon.ico{% endif %}">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <!-- Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <!-- Fonts: Inter, with the system UI stack as the fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   <!-- Icons -->
   <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
   <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
-  <!-- Page plugins -->
-  <!-- Argon CSS -->
+  <!-- Argon CSS, then the Hodi brand colours, then the Hodi design system -->
   <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
   <link rel="stylesheet" href="/static/assets/css/hodi-brand.css?v=1.2.0" type="text/css">
+  <link rel="stylesheet" href="/static/assets/css/hodi-theme.css?v=2.0.2" type="text/css">
 
-  <!-- Dynamic Theme CSS Variables -->
-  <style>
-    :root {
-      --primary-color: #5e72e4;
-    }
-  </style>
-  
   <!-- Dynamic theme variables will be applied via JavaScript -->
   {% if theme_css_variables %}
   {% comment %}json_script: the dict used to be printed with |safe, which gives Python
@@ -60,237 +45,37 @@
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
-  
+
   <!-- Extra CSS block for page-specific styles -->
   {% block extra_css %}{% endblock extra_css %}
 
-  <!-- Toast Notification Styles -->
+  <!-- Notification dropdown styles -->
   <style>
-    .toast-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1050;
-      max-width: 400px;
-      min-width: 300px;
-    }
-
-    .toast {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      margin-bottom: 10px;
-      padding: 16px 20px;
-      border-left: 4px solid #007bff;
-      transition: all 0.3s ease;
-      animation: slideInRight 0.3s ease-out;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .toast.toast-success {
-      border-left-color: #28a745;
-    }
-
-    .toast.toast-success .toast-icon {
-      color: #28a745;
-    }
-
-    .toast.toast-error {
-      border-left-color: #dc3545;
-    }
-
-    .toast.toast-error .toast-icon {
-      color: #dc3545;
-    }
-
-    .toast.toast-warning {
-      border-left-color: #ffc107;
-    }
-
-    .toast.toast-warning .toast-icon {
-      color: #ffc107;
-    }
-
-    .toast.toast-info {
-      border-left-color: #17a2b8;
-    }
-
-    .toast.toast-info .toast-icon {
-      color: #17a2b8;
-    }
-
-    .toast-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .toast-icon {
-      font-size: 18px;
-      margin-right: 10px;
-      color: #007bff;
-    }
-
-    .toast-title {
-      font-weight: 600;
-      font-size: 14px;
-      color: #333;
-      margin: 0;
-      flex: 1;
-    }
-
-    .toast-close {
-      background: none;
-      border: none;
-      font-size: 18px;
-      color: #999;
-      cursor: pointer;
-      padding: 0;
-      margin-left: 10px;
-      line-height: 1;
-      transition: color 0.2s ease;
-    }
-
-    .toast-close:hover {
-      color: #666;
-    }
-
-    .toast-message {
-      font-size: 13px;
-      color: #666;
-      line-height: 1.4;
-      margin: 0;
-    }
-
-    .toast.toast-removing {
-      animation: slideOutRight 0.3s ease-in;
-    }
-
-    @keyframes slideInRight {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideOutRight {
-      from {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-    }
-
-    /* Progress bar for auto-dismiss */
-    .toast-progress {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 3px;
-      background: rgba(0, 0, 0, 0.1);
-      transition: width linear;
-    }
-
-    .toast-success .toast-progress {
-      background: #28a745;
-    }
-
-    .toast-error .toast-progress {
-      background: #dc3545;
-    }
-
-    .toast-warning .toast-progress {
-      background: #ffc107;
-    }
-
-    .toast-info .toast-progress {
-      background: #17a2b8;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .toast-container {
-        right: 10px;
-        left: 10px;
-        bottom: 10px;
-        max-width: none;
-        min-width: auto;
-      }
-    }
-
-    /* Notification styles */
-    .notification-item {
-      transition: all 0.2s ease;
-      border-left: 3px solid transparent;
-    }
-
-    .notification-item:hover {
-      background-color: #f8f9fa;
-      border-left-color: #5e72e4;
-      transform: translateX(2px);
-    }
-
-    .notification-item .badge {
-      font-size: 0.6rem;
-      padding: 0.2rem 0.4rem;
-    }
-
-    .badge-dot {
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      min-width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      font-size: 0;
-      padding: 0;
-    }
-
-    .badge-dot-lg {
-      min-width: 12px;
-      height: 12px;
-    }
-
-    .time-ago {
-      font-size: 0.75rem;
-    }
-
-    .notification-item .avatar {
-      position: relative;
-    }
-
-    .notification-item .avatar::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 8px;
-      height: 8px;
-      background-color: #5e72e4;
-      border-radius: 50%;
-      border: 2px solid white;
-    }
-
-    .notification-item.unread .avatar::after {
-      background-color: #dc3545;
-    }
-
-    .notification-item.read .avatar::after {
-      display: none;
-    }
+    .notification-item { transition: background-color .15s ease; border-left: 3px solid transparent; }
+    .notification-item:hover { background-color: var(--hover); border-left-color: var(--hodi-primary); }
+    .notification-item .badge { font-size: .625rem; padding: .2rem .4rem; }
+    .badge-dot { position: absolute; top: -2px; right: -2px; min-width: 8px; height: 8px; border-radius: 50%; font-size: 0; padding: 0; }
+    .badge-dot-lg { min-width: 10px; height: 10px; }
+    .time-ago { font-size: .75rem; }
+    .notification-item .avatar { position: relative; }
+    .notification-item .avatar::after { content: ''; position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background-color: var(--hodi-primary); border-radius: 50%; border: 2px solid white; }
+    .notification-item.unread .avatar::after { background-color: var(--bad-solid); }
+    .notification-item.read .avatar::after { display: none; }
   </style>
 
 </head>
 
 <body class="">
+  {% comment %}Set the sidebar state before the first paint (argon.js did it after load,
+     so every page shifted sideways once). argon.js still owns the toggling.{% endcomment %}
+  <script>
+    (function () {
+      var m = document.cookie.match(/(?:^|; )sidenav-state=([^;]*)/);
+      var pinned = !m || m[1] === 'pinned';
+      document.body.className += (window.innerWidth > 1200 && pinned) ? ' g-sidenav-show g-sidenav-pinned' : ' g-sidenav-hidden';
+    })();
+  </script>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   {% include "includes/sidenav.html" %}
 
@@ -298,16 +83,26 @@
 
     {% include "includes/navigation.html" %}
 
+    <main id="main" tabindex="-1">
     {% block content %}{% endblock content %}
+    </main>
 
   </div>
 
+  {% comment %}Django messages, read by the toast script below. Pages that also print
+     them inline are de-duplicated by text.{% endcomment %}
+  {% if messages %}
+  <ul id="hodi-messages" hidden>
+    {% for message in messages %}<li data-level="{{ message.tags }}">{{ message }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+
   <!-- Toast Container for bottom-right positioned notifications -->
-  <div id="toast-container" class="toast-container"></div>
+  <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
 
   {% include "includes/scripts.html" %}
 
-  <!-- Specific JS goes HERE --> 
+  <!-- Specific JS goes HERE -->
   {% block javascripts %}{% endblock javascripts %}
 
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>
@@ -316,7 +111,7 @@
        carried a wrong integrity hash, so browsers blocked it on every page. -->
 
   <!-- Real-time Notifications JavaScript -->
-  <script src="/static/assets/js/notifications.js?v=1.1.0"></script>
+  <script src="/static/assets/js/notifications.js?v=1.2.0"></script>
 
   <!-- Toast Notification JavaScript -->
   <script>
@@ -346,6 +141,7 @@
       createToast(message, type, title, duration) {
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
+        toast.setAttribute('role', type === 'error' ? 'alert' : 'status');
 
         const iconMap = {
           success: 'fas fa-check-circle',
@@ -361,20 +157,31 @@
           info: 'Information'
         };
 
-        const toastTitle = title || titleMap[type];
-        const icon = iconMap[type];
-
-        toast.innerHTML = `
-          <div class="toast-header">
-            <i class="${icon} toast-icon"></i>
-            <h6 class="toast-title">${toastTitle}</h6>
-            <button type="button" class="toast-close" onclick="toastManager.dismiss(this.closest('.toast'))">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-          <p class="toast-message">${message}</p>
-          ${duration > 0 ? '<div class="toast-progress"></div>' : ''}
-        `;
+        // Built with textContent: messages can carry names typed by users.
+        const header = document.createElement('div');
+        header.className = 'toast-header';
+        const icon = document.createElement('i');
+        icon.className = `${iconMap[type] || iconMap.info} toast-icon`;
+        icon.setAttribute('aria-hidden', 'true');
+        const heading = document.createElement('h6');
+        heading.className = 'toast-title';
+        heading.textContent = title || titleMap[type] || titleMap.info;
+        const close = document.createElement('button');
+        close.type = 'button';
+        close.className = 'toast-close';
+        close.setAttribute('aria-label', 'Dismiss');
+        close.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+        close.addEventListener('click', () => this.dismiss(toast));
+        header.append(icon, heading, close);
+        const body = document.createElement('p');
+        body.className = 'toast-message';
+        body.textContent = message;
+        toast.append(header, body);
+        if (duration > 0) {
+          const bar = document.createElement('div');
+          bar.className = 'toast-progress';
+          toast.appendChild(bar);
+        }
 
         // Add click to dismiss
         toast.addEventListener('click', (e) => {
@@ -391,7 +198,7 @@
         if (progressBar) {
           progressBar.style.width = '100%';
           progressBar.style.transition = `width ${duration}ms linear`;
-          
+
           // Start the animation after a small delay to ensure the initial width is set
           setTimeout(() => {
             progressBar.style.width = '0%';
@@ -403,7 +210,7 @@
         if (!toast || !toast.parentNode) return;
 
         toast.classList.add('toast-removing');
-        
+
         setTimeout(() => {
           if (toast.parentNode) {
             toast.parentNode.removeChild(toast);
@@ -443,22 +250,29 @@
     window.toastManager = toastManager;
     window.showToast = (message, type, title, duration) => toastManager.show(message, type, title, duration);
 
-    // Auto-convert Django messages to toasts
+    // Django messages become toasts. Only flash messages are converted: the old
+    // script turned EVERY .alert into a toast and hid it, including delete
+    // warnings, form errors and the SMS status banner.
     document.addEventListener('DOMContentLoaded', function() {
-      // Convert existing Django messages to toasts
-      const alerts = document.querySelectorAll('.alert:not(.toast-converted)');
-      alerts.forEach(alert => {
-        const message = alert.textContent.trim();
-        if (message) {
-          let type = 'info';
-          if (alert.classList.contains('alert-success')) type = 'success';
-          else if (alert.classList.contains('alert-danger') || alert.classList.contains('alert-error')) type = 'error';
-          else if (alert.classList.contains('alert-warning')) type = 'warning';
-          
-          toastManager.show(message, type);
-          alert.style.display = 'none';
-          alert.classList.add('toast-converted');
-        }
+      const levelOf = (s) => /error|danger/.test(s) ? 'error' : /warning/.test(s) ? 'warning' : /success/.test(s) ? 'success' : 'info';
+      const seen = new Set();
+      const show = (text, level) => {
+        text = (text || '').replace(/\s+/g, ' ').trim();
+        if (!text || seen.has(text)) return;
+        seen.add(text);
+        toastManager.show(text, level, null, level === 'error' ? 8000 : 6000);
+      };
+      document.querySelectorAll('#hodi-messages li').forEach(li => show(li.textContent, levelOf(li.dataset.level || '')));
+      // Inline flash messages printed by older templates (always .alert-dismissible)
+      document.querySelectorAll('.alert.alert-dismissible:not(.toast-converted):not([data-persist])').forEach(alert => {
+        show(alert.textContent.replace('×', ''), levelOf(alert.className));
+        alert.style.display = 'none';
+        alert.classList.add('toast-converted');
+      });
+      // Bootstrap 5 dismiss buttons in a Bootstrap 4 page
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('[data-bs-dismiss="alert"]');
+        if (btn) { const a = btn.closest('.alert'); if (a) a.remove(); }
       });
     });
   </script>

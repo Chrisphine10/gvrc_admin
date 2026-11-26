@@ -24,6 +24,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "TODO_SET_SECRET_KEY")
 APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
 # Public address of this admin, for links that leave the site (SMS alerts).
 SITE_URL = os.getenv("SITE_URL", "https://hodi-admin.co.ke").rstrip("/")
+# Staff accounts are created by administrators. Self-registration made accounts
+# anyone could open; turn it on only deliberately (ALLOW_SELF_REGISTRATION=true).
+ALLOW_SELF_REGISTRATION = os.getenv("ALLOW_SELF_REGISTRATION", "false").strip().lower() in ("1", "true", "yes", "on")
 
 
 def _clean_str(value: str) -> str:
@@ -47,7 +50,8 @@ def _parse_csv_env(env_name: str) -> set[str]:
     }
 
 # Google Maps API Configuration
-GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "AIzaSyBYKU1YgvaJwUYkFUqYkfwdPuOG5EvA_Bk")
+# No default: a key committed here is public. Without one, maps use OpenStreetMap.
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "")
 GOOGLE_PLACES_API_KEY = GOOGLE_MAPS_API_KEY  # Same key works for both Maps and Places
 
 # Application definition
@@ -212,7 +216,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
+    # JSON {"error": ...} for every API failure; unexpected ones are logged, not shown.
+    'EXCEPTION_HANDLER': 'core.errors.api_exception_handler',
 }
 
 # Swagger settings (keep minimal and valid for drf-yasg)

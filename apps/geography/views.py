@@ -5,6 +5,9 @@ from django.db.models import Q
 from .models import County, Constituency, Ward
 import json
 from apps.authentication.permissions import permission_required
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -21,9 +24,10 @@ def get_constituencies(request, county_id):
             'constituencies': list(constituencies)
         })
     except Exception as e:
+        logger.exception("geography: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e)
+            'error': 'Something went wrong. Please try again.'
         }, status=400)
 
 @login_required
@@ -39,9 +43,10 @@ def get_wards(request, constituency_id):
             'wards': list(wards)
         })
     except Exception as e:
+        logger.exception("geography: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e)
+            'error': 'Something went wrong. Please try again.'
         }, status=400)
 
 @login_required
@@ -92,9 +97,10 @@ def search_geography(request):
             'results': results
         })
     except Exception as e:
+        logger.exception("geography: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e)
+            'error': 'Something went wrong. Please try again.'
         }, status=400)
 
 @login_required
@@ -218,7 +224,8 @@ def add_geography_item(request):
     except json.JSONDecodeError:
         return JsonResponse({'success': False, 'error': 'Invalid JSON data'}, status=400)
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+        logger.exception("geography: request failed")
+        return JsonResponse({'success': False, 'error': 'Invalid request.'}, status=400)
 
 @login_required
 def check_facility_connections(request):
@@ -252,9 +259,10 @@ def check_facility_connections(request):
     except (County.DoesNotExist, Constituency.DoesNotExist, Ward.DoesNotExist):
         return JsonResponse({'success': False, 'error': 'Item not found'}, status=404)
     except Exception as e:
+        logger.exception("geography: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e)
+            'error': 'Something went wrong. Please try again.'
         }, status=400)
 
 @login_required
@@ -397,7 +405,8 @@ def edit_geography_item(request):
     except json.JSONDecodeError:
         return JsonResponse({'success': False, 'error': 'Invalid JSON data'}, status=400)
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+        logger.exception("geography: request failed")
+        return JsonResponse({'success': False, 'error': 'Invalid request.'}, status=400)
 
 @login_required
 @permission_required('delete_geography')
@@ -495,7 +504,8 @@ def delete_geography_item(request):
     except json.JSONDecodeError:
         return JsonResponse({'success': False, 'error': 'Invalid JSON data'}, status=400)
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+        logger.exception("geography: request failed")
+        return JsonResponse({'success': False, 'error': 'Invalid request.'}, status=400)
 
 @login_required
 def get_all_counties(request):
@@ -507,9 +517,10 @@ def get_all_counties(request):
             'counties': list(counties)
         })
     except Exception as e:
+        logger.exception("geography: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e)
+            'error': 'Something went wrong. Please try again.'
         }, status=400)
 
 @login_required
@@ -524,7 +535,8 @@ def get_all_constituencies(request):
             'constituencies': list(constituencies)
         })
     except Exception as e:
+        logger.exception("geography: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e)
+            'error': 'Something went wrong. Please try again.'
         }, status=400)

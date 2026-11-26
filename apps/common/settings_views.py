@@ -12,6 +12,9 @@ from django.core.files.storage import default_storage
 from .models import ApplicationSettings
 from .forms import ApplicationSettingsForm, MapSettingsForm, ThemePreviewForm
 from apps.authentication.permissions import permission_required
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -29,7 +32,8 @@ def application_settings(request):
                 messages.success(request, 'Application settings updated successfully!')
                 return redirect('common:application_settings')
             except Exception as e:
-                messages.error(request, f'Error updating settings: {str(e)}')
+                logger.exception("common: request failed")
+                messages.error(request, 'Could not update settings. Please try again.')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -97,7 +101,8 @@ def reset_theme_colors(request):
         messages.success(request, 'Theme colors reset to default values!')
         
     except Exception as e:
-        messages.error(request, f'Error resetting theme colors: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not reset theme colors. Please try again.')
     
     return redirect('common:application_settings')
 
@@ -124,7 +129,8 @@ def delete_logo(request):
             messages.info(request, 'No logo to delete.')
             
     except Exception as e:
-        messages.error(request, f'Error deleting logo: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete logo. Please try again.')
     
     return redirect('common:application_settings')
 
@@ -151,7 +157,8 @@ def delete_favicon(request):
             messages.info(request, 'No favicon to delete.')
             
     except Exception as e:
-        messages.error(request, f'Error deleting favicon: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete favicon. Please try again.')
     
     return redirect('common:application_settings')
 
@@ -178,7 +185,8 @@ def delete_apple_touch_icon(request):
             messages.info(request, 'No apple touch icon to delete.')
             
     except Exception as e:
-        messages.error(request, f'Error deleting apple touch icon: {str(e)}')
+        logger.exception("common: request failed")
+        messages.error(request, 'Could not delete apple touch icon. Please try again.')
     
     return redirect('common:application_settings')
 

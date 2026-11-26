@@ -1001,5 +1001,5 @@ class NotificationViewSet(viewsets.ViewSet):
             logger.exception("Failed to fetch unread conversations for user %s", request.user)
             return Response({
                 'error': 'Failed to fetch unread conversations',
-                'detail': str(e)
+                'detail': 'Something went wrong. Please try again.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -169,6 +169,24 @@ class TestDrfTokenEndpoint:
 # Registration and password reset
 # ---------------------------------------------------------------------------
 
+class TestRegistrationOffByDefault:
+    def test_register_redirects_to_login_with_a_message(self, client):
+        r = client.get(reverse("register"), follow=True)
+        assert r.redirect_chain[-1][0] == reverse("login")
+        assert b"created by an administrator" in r.content
+
+    def test_post_creates_nobody(self, client):
+        client.post(reverse("register"), {"full_name": "X", "email": "x@example.com", "phone_number": "+254711000998",
+                                          "password1": "Sup3r-Secret-Pass", "password2": "Sup3r-Secret-Pass"})
+        assert not User.objects.filter(email="x@example.com").exists()
+
+
+@pytest.fixture
+def registration_on(settings):
+    settings.ALLOW_SELF_REGISTRATION = True
+
+
+@pytest.mark.usefixtures("registration_on")
 class TestRegistration:
     def _payload(self, **kw):
         data = {

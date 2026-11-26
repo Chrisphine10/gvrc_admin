@@ -1,333 +1,177 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
-{% block title %} Community Facilities {% endblock title %}
+{% block title %} Facilities {% endblock title %}
 
 {% block content %}
-  <div class="container-fluid py-4">
-    
-    <!-- Action Buttons -->
-    <div class="row mb-4">
-      <div class="col-12">
-        <div class="d-flex justify-content-end">
-          <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary me-2">
-            <i class="ni ni-fat-add"></i> Add Facility
-          </a>
-          <a href="{% url 'facilities:facility_map' %}" class="btn btn-info">
-            <i class="fas fa-map"></i> View Map
-          </a>
-        </div>
+  <div class="container-fluid">
+
+    <div class="page-head">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Facilities</li>
+          </ol>
+        </nav>
+        <h1 class="page-title">Facilities</h1>
+        <p class="page-sub">Every place in the directory that people can be referred to: health, police, legal aid, counselling and shelters.</p>
+      </div>
+      <div class="page-actions">
+        <a href="{% url 'facilities:facility_map' %}" class="btn btn-neutral"><i class="fas fa-map-marked-alt" aria-hidden="true"></i> Map view</a>
+        {% if user.is_superuser or 'add_facilities' in user_permission_names %}
+        <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary"><i class="fas fa-plus" aria-hidden="true"></i> Add facility</a>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Statistics Cards -->
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Facilities</p>
-                  <h5 class="font-weight-bolder mb-0">{{ total_facilities }}</h5>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Operational</p>
-                  <h5 class="font-weight-bolder mb-0">{{ operational_facilities_count }}</h5>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
-                  <i class="ni ni-check-bold text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Counties Covered</p>
-                  <h5 class="font-weight-bolder mb-0">{{ counties_count }}</h5>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
-                  <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-capitalize font-weight-bold">Wards Covered</p>
-                  <h5 class="font-weight-bolder mb-0">{{ wards_count }}</h5>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md">
-                  <i class="ni ni-pin-3 text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Key numbers -->
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-body"><span class="stat-label">{% if search_query or selected_county or selected_status %}Matching{% else %}Active{% endif %} facilities</span><span class="stat-value">{{ total_facilities }}</span></div><span class="icon-shape"><i class="fas fa-hospital" aria-hidden="true"></i></span></div>
+      <div class="kpi"><div class="kpi-body"><span class="stat-label">Operational</span><span class="stat-value">{{ operational_facilities_count }}</span><div class="kpi-meta">across the whole directory</div></div><span class="icon-shape"><i class="fas fa-check" aria-hidden="true"></i></span></div>
+      <div class="kpi"><div class="kpi-body"><span class="stat-label">Counties covered</span><span class="stat-value">{{ counties_count }}</span></div><span class="icon-shape icon-shape-info"><i class="fas fa-globe-africa" aria-hidden="true"></i></span></div>
+      <div class="kpi"><div class="kpi-body"><span class="stat-label">Wards covered</span><span class="stat-value">{{ wards_count }}</span>{% if search_query or selected_county or selected_status %}<div class="kpi-meta">in these results</div>{% endif %}</div><span class="icon-shape icon-shape-warning"><i class="fas fa-map-pin" aria-hidden="true"></i></span></div>
     </div>
 
-    <!-- Search and Filter Section -->
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header pb-0">
-            <h6>Search & Filter Facilities</h6>
+    <!-- Facilities list with its filters -->
+    <div class="card">
+      <div class="card-header">
+        <form method="get" class="form-row align-items-end" role="search" aria-label="Filter facilities">
+          <div class="col-lg-5 col-md-12 form-group mb-lg-0">
+            <label for="search">Search</label>
+            <input type="search" class="form-control" id="search" name="search"
+                   value="{{ search_query }}" placeholder="Name, registration number, ward or county">
           </div>
-          <div class="card-body">
-            <form method="get" class="row g-3">
-              <div class="col-md-4">
-                <label for="search" class="form-label text-sm">Search Facilities</label>
-                <input type="text" class="form-control" id="search" name="search" 
-                       value="{{ search_query }}" placeholder="Name, registration, location...">
-              </div>
-              <div class="col-md-3">
-                <label for="county" class="form-label text-sm">County</label>
-                <select class="form-control" id="county" name="county">
-                  <option value="">All Counties</option>
-                  {% for county in counties %}
-                  <option value="{{ county.county_id }}" 
-                          {% if county.county_id|stringformat:"s" == selected_county %}selected{% endif %}>
-                    {{ county.county_name }}
-                  </option>
+          <div class="col-lg-3 col-md-6 form-group mb-lg-0">
+            <label for="county">County</label>
+            <select class="form-control" id="county" name="county">
+              <option value="">All counties</option>
+              {% for county in counties %}
+              <option value="{{ county.county_id }}"
+                      {% if county.county_id|stringformat:"s" == selected_county %}selected{% endif %}>
+                {{ county.county_name }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-6 form-group mb-lg-0">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+              <option value="">All statuses</option>
+              {% for status in operational_statuses %}
+              <option value="{{ status.operational_status_id }}"
+                      {% if status.operational_status_id|stringformat:"s" == selected_status %}selected{% endif %}>
+                {{ status.status_name }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-12 form-group mb-0 d-flex" style="gap:.5rem">
+            <button type="submit" class="btn btn-neutral flex-fill"><i class="fas fa-search" aria-hidden="true"></i> Apply</button>
+            {% if search_query or selected_county or selected_status %}
+            <a href="{% url 'facilities:facility_list' %}" class="btn btn-link px-2">Clear</a>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+      <div class="px-4 py-2 border-bottom text-sm text-muted" aria-live="polite">
+        {% if total_facilities %}
+          Showing {{ facilities.start_index }}&ndash;{{ facilities.end_index }} of {{ total_facilities }}{% if search_query %} for &ldquo;{{ search_query }}&rdquo;{% endif %}{% if total_pages > 1 %} &middot; page {{ current_page }} of {{ total_pages }}{% endif %}
+        {% else %}
+          No facilities{% if search_query %} for &ldquo;{{ search_query }}&rdquo;{% endif %}
+        {% endif %}
+      </div>
+      <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th scope="col">Facility</th>
+              <th scope="col">Status</th>
+              <th scope="col">Location</th>
+              <th scope="col" class="text-right">Services</th>
+              <th scope="col" class="text-right">Contacts</th>
+              <th scope="col" class="text-right"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for facility in facilities %}
+            <tr>
+              <td style="min-width:220px">
+                <a href="{% url 'facilities:facility_detail' facility.facility_id %}" class="font-weight-bold cell-truncate" title="{{ facility.facility_name }}">{{ facility.facility_name }}</a>
+                <small class="text-muted d-block">Reg. {{ facility.registration_number|default:"not recorded" }}</small>
+                {% if facility.facilitygbvcategory_set.exists %}
+                <div class="mt-1">
+                  {% for gbv_cat in facility.facilitygbvcategory_set.all|slice:":2" %}
+                  <span class="badge badge-purple mr-1">{{ gbv_cat.gbv_category.category_name }}</span>
                   {% endfor %}
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label for="status" class="form-label text-sm">Operational Status</label>
-                <select class="form-control" id="status" name="status">
-                  <option value="">All Statuses</option>
-                  {% for status in operational_statuses %}
-                  <option value="{{ status.operational_status_id }}" 
-                          {% if status.operational_status_id|stringformat:"s" == selected_status %}selected{% endif %}>
-                    {{ status.status_name }}
-                  </option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary btn-sm me-2">
-                  <i class="fas fa-search"></i> Search
-                </button>
-                <a href="{% url 'facilities:facility_list' %}" class="btn btn-outline-secondary btn-sm">
-                  <i class="fas fa-times"></i> Clear
-                </a>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Facilities List -->
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header pb-0">
-            <div class="row">
-              <div class="col-6">
-                <h6>Community Facilities
-                  {% if search_query %}
-                    <small class="text-dark">- Search results for "{{ search_query }}"</small>
+                  {% if facility.facilitygbvcategory_set.count > 2 %}
+                  <span class="text-xs text-muted">+{{ facility.facilitygbvcategory_set.count|add:"-2" }} more</span>
                   {% endif %}
-                  <small class="text-muted">({{ total_facilities }} total facilities)</small>
-                </h6>
-              </div>
-              <div class="col-6 text-end">
-                <a href="{% url 'facilities:facility_map' %}" class="btn btn-info btn-sm me-2">
-                  <i class="ni ni-pin-3"></i> Map View
-                </a>
-                <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary btn-sm">
-                  <i class="fas fa-plus"></i> Add Facility
-                </a>
-              </div>
-            </div>
-            <!-- Pagination Info -->
-            <div class="row mt-2">
-              <div class="col-12">
-                <small class="text-muted">
-                  Showing {{ facilities.start_index }}-{{ facilities.end_index }} of {{ total_facilities }} facilities
-                  (Page {{ current_page }} of {{ total_pages }})
-                </small>
-              </div>
-            </div>
-          </div>
-          <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-              <table class="table align-items-center mb-0">
-                <thead>
-                  <tr>
-                    <th class="text-uppercase text-dark text-xxs font-weight-bolder">Facility Details</th>
-                    <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2">Status</th>
-                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Location</th>
-                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Services</th>
-                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder">Contacts</th>
-                    <th class="text-dark">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for facility in facilities %}
-                  <tr>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">
-                            <a href="{% url 'facilities:facility_detail' facility.facility_id %}" 
-                               class="text-dark font-weight-bold">
-                              {{ facility.facility_name }}
-                            </a>
-                          </h6>
-                          <p class="text-xs text-dark mb-0">
-                            Reg: {{ facility.registration_number }}
-                          </p>
-                          {% if facility.facilitygbvcategory_set.exists %}
-                          <div class="mt-1">
-                            {% for gbv_cat in facility.facilitygbvcategory_set.all|slice:":2" %}
-                            <span class="badge badge-sm bg-gradient-danger me-1">
-                              {{ gbv_cat.gbv_category.category_name }}
-                            </span>
-                            {% endfor %}
-                            {% if facility.facilitygbvcategory_set.count > 2 %}
-                            <span class="text-xs text-dark">+{{ facility.facilitygbvcategory_set.count|add:"-2" }} more</span>
-                            {% endif %}
-                          </div>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      {% if facility.operational_status %}
-                      <span class="badge badge-sm 
-                        {% if facility.operational_status.status_name == 'Operational' %}bg-gradient-success
-                        {% elif facility.operational_status.status_name == 'Under Construction' %}bg-gradient-warning
-                        {% else %}bg-gradient-secondary
-                        {% endif %}">
-                        {{ facility.operational_status.status_name }}
-                      </span>
-                      {% else %}
-                      <span class="text-xs text-dark">-</span>
-                      {% endif %}
-                    </td>
-                    <td class="align-middle text-center text-sm">
-                      {% if facility.ward %}
-                      <div class="d-flex flex-column align-items-center">
-                        <a href="{% url 'common:county_detail' facility.ward.constituency.county.county_id %}" 
-                           class="badge badge-sm bg-gradient-info text-decoration-none mb-1">
-                          {{ facility.ward.constituency.county.county_name }}
-                        </a>
-                        <span class="text-xs text-dark">{{ facility.ward.ward_name }}</span>
-                      </div>
-                      {% else %}
-                      <span class="text-xs text-dark">-</span>
-                      {% endif %}
-                    </td>
-                    <td class="align-middle text-center">
-                      {% if facility.facilityservice_set.exists %}
-                      <div class="d-flex flex-column align-items-center">
-                        <span class="text-xs font-weight-bold text-success">
-                          {{ facility.facilityservice_set.count }} Service{{ facility.facilityservice_set.count|pluralize }}
-                        </span>
-                        <small class="text-xs text-dark">
-                          {% for service in facility.facilityservice_set.all|slice:":2" %}
-                            {{ service.service_name|default:service.service_category.category_name }}{% if not forloop.last %}, {% endif %}
-                          {% endfor %}
-                          {% if facility.facilityservice_set.count > 2 %}...{% endif %}
-                        </small>
-                      </div>
-                      {% else %}
-                      <span class="text-xs text-dark">No services</span>
-                      {% endif %}
-                    </td>
-                    <td class="align-middle text-center">
-                      {% if facility.facilitycontact_set.exists %}
-                      <div class="d-flex flex-column align-items-center">
-                        <span class="text-xs font-weight-bold text-info">
-                          {{ facility.facilitycontact_set.count }} Contact{{ facility.facilitycontact_set.count|pluralize }}
-                        </span>
-                        {% for contact in facility.facilitycontact_set.all|slice:":1" %}
-                        <small class="text-xs text-dark">
-                          {{ contact.contact_type.type_name }}: {{ contact.contact_value|truncatechars:15 }}
-                        </small>
-                        {% endfor %}
-                      </div>
-                      {% else %}
-                      <span class="text-xs text-dark">No contacts</span>
-                      {% endif %}
-                    </td>
-                    <td class="align-middle">
-                      <div class="d-flex align-items-center">
-                        <a href="{% url 'facilities:facility_detail' facility.facility_id %}" 
-                           class="btn btn-outline-primary btn-sm me-1" title="View Details">
-                          <i class="fas fa-eye"></i>
-                        </a>
-                        <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-outline-secondary btn-sm me-1" title="Edit">
-                          <i class="fas fa-edit"></i>
-                        </a>
-                        {% if facility.facilitycoordinate_set.exists %}
-                        <a href="{% url 'facilities:facility_map' %}?facility={{ facility.facility_id }}" 
-                           class="btn btn-outline-info btn-sm" title="View on Map">
-                          <i class="ni ni-pin-3"></i>
-                        </a>
-                        {% endif %}
-                      </div>
-                    </td>
-                  </tr>
-                  {% empty %}
-                  <tr>
-                    <td colspan="6" class="text-center py-4">
-                      <div class="d-flex flex-column align-items-center">
-                        <i class="ni ni-building text-muted" style="font-size: 3rem;"></i>
-                        <p class="text-dark mt-2 mb-0">No facilities found.</p>
-                        {% if search_query or selected_county or selected_status %}
-                        <small class="text-dark">Try adjusting your filters or search terms.</small>
-                        {% else %}
-                        <a href="{% url 'facilities:facility_create' %}" class="btn btn-primary btn-sm mt-2">
-                          <i class="fas fa-plus"></i> Add First Facility
-                        </a>
-                        {% endif %}
-                      </div>
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          
-          <!-- Pagination Controls -->
+                </div>
+                {% endif %}
+              </td>
+              <td>
+                {% if facility.operational_status %}
+                <span class="badge {% if facility.operational_status.status_name == 'Operational' %}badge-success{% elif facility.operational_status.status_name == 'Under Construction' %}badge-warning{% elif facility.operational_status.status_name == 'Closed' %}badge-danger{% else %}badge-secondary{% endif %}">{{ facility.operational_status.status_name }}</span>
+                {% else %}
+                <span class="text-muted">&ndash;</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if facility.ward %}
+                <a href="{% url 'common:county_detail' facility.ward.constituency.county.county_id %}" class="font-weight-bold">{{ facility.ward.constituency.county.county_name }}</a>
+                <small class="text-muted d-block">{{ facility.ward.ward_name }}</small>
+                {% else %}
+                <span class="text-muted">&ndash;</span>
+                {% endif %}
+              </td>
+              <td class="text-right">
+                {% if facility.facilityservice_set.exists %}
+                <span class="font-weight-bold text-dark">{{ facility.facilityservice_set.count }}</span>
+                <small class="text-muted d-block cell-truncate ml-auto" style="max-width:180px" title="{% for service in facility.facilityservice_set.all %}{{ service.service_name|default:service.service_category.category_name }}{% if not forloop.last %}, {% endif %}{% endfor %}">{% for service in facility.facilityservice_set.all|slice:":2" %}{{ service.service_name|default:service.service_category.category_name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% if facility.facilityservice_set.count > 2 %}&hellip;{% endif %}</small>
+                {% else %}
+                <span class="text-muted">None</span>
+                {% endif %}
+              </td>
+              <td class="text-right">
+                {% if facility.facilitycontact_set.exists %}
+                <span class="font-weight-bold text-dark">{{ facility.facilitycontact_set.count }}</span>
+                {% for contact in facility.facilitycontact_set.all|slice:":1" %}
+                <small class="text-muted d-block">{{ contact.contact_type.type_name }}: {{ contact.contact_value|truncatechars:18 }}</small>
+                {% endfor %}
+                {% else %}
+                <span class="text-muted">None</span>
+                {% endif %}
+              </td>
+              <td class="text-right text-nowrap">
+                <a href="{% url 'facilities:facility_detail' facility.facility_id %}" class="btn btn-neutral btn-sm btn-icon-only" title="View" aria-label="View {{ facility.facility_name }}"><i class="fas fa-eye" aria-hidden="true"></i></a>
+                <a href="{% url 'facilities:facility_update' facility.facility_id %}" class="btn btn-neutral btn-sm btn-icon-only" title="Edit" aria-label="Edit {{ facility.facility_name }}"><i class="fas fa-pen" aria-hidden="true"></i></a>
+                {% if facility.facilitycoordinate_set.exists %}
+                <a href="{% url 'facilities:facility_map' %}?facility={{ facility.facility_id }}" class="btn btn-neutral btn-sm btn-icon-only" title="Show on map" aria-label="Show {{ facility.facility_name }} on the map"><i class="fas fa-map-pin" aria-hidden="true"></i></a>
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="6">
+                <div class="empty-state">
+                  <span class="empty-icon"><i class="fas fa-hospital" aria-hidden="true"></i></span>
+                  {% if search_query or selected_county or selected_status %}
+                  <h4>No facilities match these filters</h4>
+                  <p>Try a shorter search term or another county. <a href="{% url 'facilities:facility_list' %}">Clear the filters</a>.</p>
+                  {% else %}
+                  <h4>No facilities yet</h4>
+                  <p>Use <strong>Add facility</strong> above to create the first entry.</p>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+<!-- Pagination Controls -->
           {% if total_pages > 1 %}
           <div class="card-footer">
             <nav aria-label="Facilities pagination">
@@ -335,7 +179,7 @@
                 <!-- Previous Page -->
                 {% if has_previous %}
                 <li class="page-item">
-                  <a class="page-link" href="?page={{ previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}" aria-label="Previous">
+                  <a class="page-link" href="?page={{ previous_page_number }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
@@ -353,11 +197,11 @@
                   </li>
                   {% elif page_num >= current_page|add:"-2" and page_num <= current_page|add:"2" %}
                   <li class="page-item">
-                    <a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}">{{ page_num }}</a>
+                    <a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}">{{ page_num }}</a>
                   </li>
                   {% elif page_num == 1 or page_num == total_pages %}
                   <li class="page-item">
-                    <a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}">{{ page_num }}</a>
+                    <a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}">{{ page_num }}</a>
                   </li>
                   {% elif page_num == current_page|add:"-3" or page_num == current_page|add:"3" %}
                   <li class="page-item disabled">
@@ -369,7 +213,7 @@
                 <!-- Next Page -->
                 {% if has_next %}
                 <li class="page-item">
-                  <a class="page-link" href="?page={{ next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}" aria-label="Next">
+                  <a class="page-link" href="?page={{ next_page_number }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}{% if selected_county %}&county={{ selected_county }}{% endif %}{% if selected_status %}&status={{ selected_status }}{% endif %}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
@@ -385,21 +229,21 @@
             <div class="row mt-3">
               <div class="col-12 text-center">
                 <small class="text-muted">
-                  Jump to page: 
+                  <label for="jump-page" class="mb-0 mr-1 font-weight-normal text-muted">Jump to page</label>
                   <form method="get" class="d-inline">
                     {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
                     {% if selected_county %}<input type="hidden" name="county" value="{{ selected_county }}">{% endif %}
                     {% if selected_status %}<input type="hidden" name="status" value="{{ selected_status }}">{% endif %}
-                    <input type="number" name="page" min="1" max="{{ total_pages }}" value="{{ current_page }}" class="form-control form-control-sm d-inline-block" style="width: 80px;">
-                    <button type="submit" class="btn btn-sm btn-outline-primary ms-1">Go</button>
+                    <input type="number" id="jump-page" name="page" min="1" max="{{ total_pages }}" value="{{ current_page }}" class="form-control form-control-sm d-inline-block" style="width: 80px;">
+                    <button type="submit" class="btn btn-sm btn-neutral ml-1">Go</button>
                   </form>
                 </small>
               </div>
             </div>
           </div>
           {% endif %}
-        </div>
-      </div>
     </div>
+
+    {% include "includes/footer.html" %}
   </div>
 {% endblock content %}

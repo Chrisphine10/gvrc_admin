@@ -14,6 +14,9 @@ from .models import Document
 from .forms import DocumentForm, DocumentUploadForm
 from apps.lookups.models import DocumentType, GBVCategory
 from apps.authentication.permissions import permission_required
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -117,7 +120,8 @@ def document_create(request):
                 return redirect('documents:document_list')
                 
             except Exception as e:
-                messages.error(request, f'Error creating document: {str(e)}')
+                logger.exception("documents: request failed")
+                messages.error(request, 'Could not create document. Please try again.')
         else:
             # Display form errors
             for field, errors in form.errors.items():
@@ -158,7 +162,8 @@ def document_edit(request, document_id):
                 return redirect('documents:document_list')
                 
             except Exception as e:
-                messages.error(request, f'Error updating document: {str(e)}')
+                logger.exception("documents: request failed")
+                messages.error(request, 'Could not update document. Please try again.')
         else:
             # Display form errors
             for field, errors in form.errors.items():
@@ -197,7 +202,8 @@ def document_delete(request, document_id):
             messages.success(request, f'Document "{document.title}" deleted successfully.')
             return redirect('documents:document_list')
         except Exception as e:
-            messages.error(request, f'Error deleting document: {str(e)}')
+            logger.exception("documents: request failed")
+            messages.error(request, 'Could not delete document. Please try again.')
             return redirect('documents:document_detail', document_id=document_id)
     
     # GET request - show confirmation
@@ -226,9 +232,10 @@ def document_toggle_public(request, document_id):
                 'message': f'Document is now {"public" if document.is_public else "private"}'
             })
         except Exception as e:
+            logger.exception("documents: request failed")
             return JsonResponse({
                 'success': False,
-                'error': str(e)
+                'error': 'Something went wrong. Please try again.'
             })
     
     return JsonResponse({'success': False, 'error': 'Invalid request method'})

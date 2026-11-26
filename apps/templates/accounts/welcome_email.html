@@ -1,0 +1,11 @@
+{% autoescape off %}Hello {{ user.full_name }},
+
+An account was created for you on {{ site_name }} ({{ user.email }}), the Hodi directory and help-chat system.
+
+Choose your password here:
+{{ reset_url }}
+
+The link works once and expires in 3 days. If it has expired, use "Forgot password?" on the sign-in page.
+
+The Hodi team
+{% endautoescape %}

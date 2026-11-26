@@ -129,3 +129,9 @@ try:
     urlpatterns.append(path("api/auth/token/", view=obtain_auth_token, name='api_token_auth'))
 except:
     pass
+
+# Branded pages for browsers, JSON for /api/ and /mobile/ (core/errors.py).
+handler400 = "core.errors.bad_request"
+handler403 = "core.errors.permission_denied"
+handler404 = "core.errors.page_not_found"
+handler500 = "core.errors.server_error"

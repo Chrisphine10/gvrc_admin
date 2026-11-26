@@ -412,3 +412,58 @@ class PasswordChangeForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+
+class StaffUserCreateForm(forms.ModelForm):
+    """Administrators add staff here. No password: the new person gets a
+    one-time "set your password" link by email and SMS, so nobody else ever
+    knows it."""
+
+    role = forms.ModelChoiceField(
+        queryset=None, required=False, empty_label="No role yet",
+        help_text="What this person can see and do. You can change it later.",
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+
+    class Meta:
+        model = User
+        fields = ("full_name", "email", "phone_number", "is_staff")
+        widgets = {
+            "full_name": forms.TextInput(attrs={"class": "form-control", "autocomplete": "off"}),
+            "email": forms.EmailInput(attrs={"class": "form-control", "autocomplete": "off"}),
+            "phone_number": forms.TextInput(attrs={"class": "form-control", "placeholder": "0712345678"}),
+        }
+        help_texts = {
+            "email": "The sign-in name. The set-password link is emailed here.",
+            "phone_number": "A Kenyan mobile number: the set-password link and chat alerts are sent here by SMS.",
+            "is_staff": "Staff can be assigned help chats.",
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from .models import UserRole
+        self.fields["role"].queryset = UserRole.objects.order_by("role_name")
+        self.fields["is_staff"].initial = True
+
+    def clean_email(self):
+        email = (self.cleaned_data.get("email") or "").strip().lower()
+        if User.objects.filter(email__iexact=email).exists():
+            raise ValidationError("A user with this email already exists.")
+        return email
+
+    def clean_phone_number(self):
+        from apps.sms.services import is_sendable_phone, normalize_phone
+        phone = (self.cleaned_data.get("phone_number") or "").strip()
+        if not is_sendable_phone(phone):
+            raise ValidationError("Enter a Kenyan mobile number, e.g. 0712345678.")
+        phone = "+" + normalize_phone(phone)
+        if User.objects.filter(phone_number__in=[phone, phone[1:], "0" + phone[4:]]).exists():
+            raise ValidationError("A user with this phone number already exists.")
+        return phone
+
+    def save(self, commit=True):
+        d = self.cleaned_data
+        return User.objects.create_user(
+            email=d["email"], full_name=d["full_name"].strip(), phone_number=d["phone_number"],
+            password=None, is_staff=d.get("is_staff", False),
+        )

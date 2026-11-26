@@ -20,9 +20,9 @@
   }
   
   .gbv-categories-select-wrapper select:focus {
-    border-color: #1976d2;
+    border-color: #247F2F;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(36, 127, 47, 0.3);
   }
   
   .gbv-categories-select-wrapper select.is-invalid {
@@ -43,7 +43,7 @@
   }
   
   .gbv-categories-select-wrapper select option:checked {
-    background-color: #1976d2;
+    background-color: #247F2F;
     color: white;
     font-weight: 500;
   }
@@ -53,7 +53,7 @@
   }
   
   .gbv-categories-select-wrapper select option:checked:hover {
-    background-color: #1565c0;
+    background-color: #0B4A28;
   }
   
   /* Selection count indicator */
@@ -142,37 +142,11 @@
     <form method="post" id="facility-form">
       {% csrf_token %}
       
-      <!-- Header Card -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-md-8">
-                  <div class="d-flex align-items-center">
-                    <div class="me-3">
-                      <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                        <i class="ni ni-building text-lg opacity-10" aria-hidden="true"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 class="mb-0">{{ form_action }} Facility</h4>
-                      <p class="text-sm text-dark mb-0">{{ page_title }}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 text-end">
-                  <a href="{% if facility %}{% url 'facilities:facility_detail' facility.facility_id %}{% else %}{% url 'facilities:facility_list' %}{% endif %}" 
-                     class="btn btn-outline-secondary btn-sm me-2">
-                    <i class="fas fa-times"></i> Cancel
-                  </a>
-                  <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="fas fa-save"></i> {{ form_action }} Facility
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- Page header -->
+      <div class="page-head mt-0">
+        <div>
+          <h1 class="page-title">{% if facility %}Edit {{ facility.facility_name }}{% else %}Add a facility{% endif %}</h1>
+          <p class="page-sub">Fields marked <span class="text-danger" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required. Contacts, services, ownership and infrastructure have their own sections in this form.</p>
         </div>
       </div>
 
@@ -807,6 +781,15 @@
 
         </div>
       </div>
+
+      <!-- One save bar for the whole form, always in reach on long pages -->
+      <div class="form-savebar">
+        <span class="text-sm text-muted d-none d-md-inline">{% if facility %}Changes are saved when you press Save.{% else %}The facility is listed once saved.{% endif %}</span>
+        <div class="ml-auto d-flex" style="gap:.5rem">
+          <a href="{% if facility %}{% url 'facilities:facility_detail' facility.facility_id %}{% else %}{% url 'facilities:facility_list' %}{% endif %}" class="btn btn-neutral">Cancel</a>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save" aria-hidden="true"></i> {% if facility %}Save changes{% else %}Save facility{% endif %}</button>
+        </div>
+      </div>
     </form>
   </div>
 
@@ -816,7 +799,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="geographyModalLabel">Add New Geography Item</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form id="geographyForm">
@@ -858,7 +841,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" onclick="saveGeographyItem()">Save</button>
         </div>
       </div>
@@ -1194,7 +1177,7 @@
     
     // Geography modal functions
     function showAddGeographyModal(type) {
-      const modal = new bootstrap.Modal(document.getElementById('geographyModal'));
+      const modal = { show: () => $('#geographyModal').modal('show') };
       const typeSelect = document.getElementById('geographyType');
       const countySelection = document.getElementById('countySelection');
       const constituencySelection = document.getElementById('constituencySelection');
@@ -1322,7 +1305,7 @@
           }
           
           // Close modal
-          bootstrap.Modal.getInstance(document.getElementById('geographyModal')).hide();
+          $('#geographyModal').modal('hide');
         } else {
           alert('Error: ' + data.error);
         }
@@ -1398,7 +1381,7 @@
 
     function searchAddress() {
       const el = document.getElementById('placesModal');
-      placesState.modal = placesState.modal || new bootstrap.Modal(el);
+      placesState.modal = placesState.modal || { show: () => $(el).modal('show'), hide: () => $(el).modal('hide') };
       placesState.modal.show();
       if (placesState.map) { setTimeout(() => placesState.map.resize(), 250); return; }
 

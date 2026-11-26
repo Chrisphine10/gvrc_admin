@@ -1050,9 +1050,10 @@ def obtain_api_token(request):
             'error': 'Invalid credentials'
         }, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
+        logger.exception("api: request failed")
         return Response({
             'error': 'Authentication failed',
-            'details': str(e)
+            'details': 'Something went wrong. Please try again.'
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -1808,10 +1809,11 @@ class MobileContactInteractionView(generics.GenericAPIView):
             }, status=status.HTTP_404_NOT_FOUND)
             
         except Exception as e:
+            logger.exception("api: request failed")
             return Response({
                 'success': False,
                 'error': 'Failed to track contact interaction',
-                'details': str(e)
+                'details': 'Something went wrong. Please try again.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -1874,9 +1876,10 @@ class MobileLookupView(generics.GenericAPIView):
             return Response(lookup_data)
             
         except Exception as e:
+            logger.exception("api: request failed")
             return Response({
                 'error': 'Failed to retrieve lookup data',
-                'details': str(e)
+                'details': 'Something went wrong. Please try again.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -1935,8 +1938,9 @@ class GameScoreUpdateView(generics.GenericAPIView):
             }, status=status.HTTP_200_OK)
             
         except Exception as e:
+            logger.exception("api: request failed")
             return Response({
                 'success': False,
                 'error': 'Failed to update game score',
-                'details': str(e)
+                'details': 'Something went wrong. Please try again.'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -32,24 +32,82 @@ def landing_page(request):
     """Landing page for unauthenticated users"""
     if request.user.is_authenticated:
         return redirect('home')
-    
-    # Get some public statistics to showcase the system
-    total_facilities = Facility.objects.filter(is_active=True).count()
-    total_counties = County.objects.count()
-    
-    # Get operational facilities count
-    operational_facilities = Facility.objects.filter(
-        is_active=True,
-        operational_status__status_name='Operational'
-    ).count()
-    
+
+    # Local imports keep this public view's extra needs next to it.
+    from django.core.cache import cache
+    from django.db.models import Max
+    from apps.facilities.models import FacilityGBVCategory
+    from apps.documents.models import Document as _Document
+
+    active = Facility.objects.filter(is_active=True)
+
+    # One cheap query fingerprints the directory. The heavier coverage
+    # aggregates below are cached under that fingerprint, so any added,
+    # removed or edited facility shows on the next visit, and the public page
+    # otherwise costs one query per 15 minutes.
+    fingerprint = active.aggregate(
+        n=Count('facility_id'), changed=Max('updated_at'), created=Max('created_at'),
+    )
+    total_facilities = fingerprint['n'] or 0
+    cache_key = 'landing:coverage:v1:%s:%s:%s' % (
+        total_facilities,
+        fingerprint['changed'].timestamp() if fingerprint['changed'] else 0,
+        fingerprint['created'].timestamp() if fingerprint['created'] else 0,
+    )
+
+    def build_coverage():
+        county_rows = list(
+            active.exclude(ward__isnull=True)
+            .values('ward__constituency__county__county_name')
+            .annotate(n=Count('facility_id'))
+            .order_by('-n', 'ward__constituency__county__county_name')
+        )
+        service_rows = list(
+            FacilityService.objects.filter(is_active=True, facility__is_active=True)
+            .values('service_category__category_name')
+            .annotate(n=Count('facility', distinct=True))
+            .order_by('-n', 'service_category__category_name')
+        )
+        gbv_rows = list(
+            FacilityGBVCategory.objects.filter(facility__is_active=True)
+            .values('gbv_category__category_name')
+            .annotate(n=Count('facility', distinct=True))
+            .order_by('-n', 'gbv_category__category_name')
+        )
+        top = county_rows[:8]
+        top_max = top[0]['n'] if top else 0
+        return {
+            'operational_facilities': active.filter(
+                operational_status__status_name='Operational').count(),
+            'facilities_on_map': active.filter(
+                facilitycoordinate__isnull=False).distinct().count(),
+            'counties_covered': len(county_rows),
+            'top_counties': [
+                {'name': r['ward__constituency__county__county_name'], 'count': r['n'],
+                 'pct': round(100 * r['n'] / top_max) if top_max else 0}
+                for r in top
+            ],
+            'service_categories': [
+                {'name': r['service_category__category_name'], 'count': r['n']}
+                for r in service_rows if r['service_category__category_name']
+            ][:10],
+            'gbv_categories': [
+                {'name': r['gbv_category__category_name'], 'count': r['n']}
+                for r in gbv_rows if r['gbv_category__category_name']
+            ][:10],
+            'public_documents': _Document.objects.filter(is_active=True, is_public=True).count(),
+            'music_tracks': Music.objects.filter(is_active=True).count(),
+        }
+
+    coverage = cache.get_or_set(cache_key, build_coverage, 60 * 15)
+
     context = {
         'total_facilities': total_facilities,
-        'total_counties': total_counties,
-        'operational_facilities': operational_facilities,
+        'total_counties': County.objects.count() or 47,
         'segment': 'landing',
+        **coverage,
     }
-    
+
     return render(request, 'home/landing.html', context)
 
 

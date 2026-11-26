@@ -29,6 +29,9 @@ from .forms import (
 )
 from apps.geography.models import County
 from apps.lookups.models import OperationalStatus, ServiceCategory
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @permission_required('view_facilities')
@@ -317,14 +320,17 @@ def facility_create(request):
                         if (infrastructure_form.cleaned_data and 
                             not infrastructure_form.cleaned_data.get('DELETE', False)):
                             try:
-                                infrastructure = infrastructure_form.save(commit=False)
-                                infrastructure.facility = facility
-                                if request.user.is_authenticated:
-                                    infrastructure.created_by = request.user
-                                infrastructure.save()
-                            except Exception as e:
-                                # Log error but don't fail the entire operation
-                                print(f"Error saving infrastructure: {e}")
+                                # Own savepoint: a failed row must not poison the
+                                # facility's transaction (later queries would all fail).
+                                with transaction.atomic():
+                                    infrastructure = infrastructure_form.save(commit=False)
+                                    infrastructure.facility = facility
+                                    if request.user.is_authenticated:
+                                        infrastructure.created_by = request.user
+                                    infrastructure.save()
+                            except Exception:
+                                logger.exception("Could not save an infrastructure row for facility %s", facility.pk)
+                                messages.warning(request, "One infrastructure entry could not be saved. Please check it and add it again.")
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" created successfully!')
@@ -333,7 +339,8 @@ def facility_create(request):
                     return redirect('facilities:facility_list')
                     
             except Exception as e:
-                messages.error(request, f'Error creating facility: {str(e)}')
+                logger.exception("facilities: request failed")
+                messages.error(request, 'Could not create facility. Please try again.')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -473,14 +480,17 @@ def facility_update(request, facility_id):
                         if (infrastructure_form.cleaned_data and 
                             not infrastructure_form.cleaned_data.get('DELETE', False)):
                             try:
-                                infrastructure = infrastructure_form.save(commit=False)
-                                infrastructure.facility = facility
-                                if request.user.is_authenticated:
-                                    infrastructure.created_by = request.user
-                                infrastructure.save()
-                            except Exception as e:
-                                # Log error but don't fail the entire operation
-                                print(f"Error saving infrastructure: {e}")
+                                # Own savepoint: a failed row must not poison the
+                                # facility's transaction (later queries would all fail).
+                                with transaction.atomic():
+                                    infrastructure = infrastructure_form.save(commit=False)
+                                    infrastructure.facility = facility
+                                    if request.user.is_authenticated:
+                                        infrastructure.created_by = request.user
+                                    infrastructure.save()
+                            except Exception:
+                                logger.exception("Could not save an infrastructure row for facility %s", facility.pk)
+                                messages.warning(request, "One infrastructure entry could not be saved. Please check it and add it again.")
                                 continue
                     
                     messages.success(request, f'Facility "{facility.facility_name}" updated successfully!')
@@ -489,7 +499,8 @@ def facility_update(request, facility_id):
                     return redirect('facilities:facility_list')
                     
             except Exception as e:
-                messages.error(request, f'Error updating facility: {str(e)}')
+                logger.exception("facilities: request failed")
+                messages.error(request, 'Could not update facility. Please try again.')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:

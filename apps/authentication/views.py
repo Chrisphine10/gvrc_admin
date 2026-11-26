@@ -148,6 +148,9 @@ def register_view(request):
     """
     Custom registration view
     """
+    if not getattr(settings, 'ALLOW_SELF_REGISTRATION', False):
+        messages.info(request, 'Hodi accounts are created by an administrator. Please ask your administrator for access.')
+        return redirect('login')
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -304,6 +307,8 @@ def user_list(request):
         'segment': 'users',
     }
 
+    from .permissions import has_permission as _has_permission
+    context['can_add_users'] = _has_permission(request.user, 'add_users')
     return render(request, 'authentication/user_list.html', context)
 
 
@@ -510,7 +515,8 @@ def role_create(request):
                 messages.success(request, f'Role "{role.role_name}" created successfully!')
                 return redirect('role_detail', role_id=role.role_id)
             except Exception as e:
-                messages.error(request, f'Error creating role: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not create role. Please try again.')
         else:
             messages.error(request, 'Role name is required.')
 
@@ -541,7 +547,8 @@ def role_edit(request, role_id):
                 messages.success(request, f'Role "{role.role_name}" updated successfully!')
                 return redirect('role_detail', role_id=role.role_id)
             except Exception as e:
-                messages.error(request, f'Error updating role: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not update role. Please try again.')
         else:
             messages.error(request, 'Role name is required.')
 
@@ -565,7 +572,8 @@ def role_delete(request, role_id):
             messages.success(request, f'Role "{role_name}" deleted successfully!')
             return redirect('role_list')
         except Exception as e:
-            messages.error(request, f'Error deleting role: {str(e)}')
+            logger.exception("authentication: request failed")
+            messages.error(request, 'Could not delete role. Please try again.')
 
     return render(request, 'authentication/role_confirm_delete.html', {
         'role': role,
@@ -629,7 +637,8 @@ def permission_create(request):
                 messages.success(request, f'Permission "{permission.permission_name}" created successfully!')
                 return redirect('permission_list')
             except Exception as e:
-                messages.error(request, f'Error creating permission: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not create permission. Please try again.')
         else:
             messages.error(request, 'Permission name, resource name, and action name are required.')
 
@@ -662,7 +671,8 @@ def permission_edit(request, permission_id):
                 messages.success(request, f'Permission "{permission.permission_name}" updated successfully!')
                 return redirect('permission_list')
             except Exception as e:
-                messages.error(request, f'Error updating permission: {str(e)}')
+                logger.exception("authentication: request failed")
+                messages.error(request, 'Could not update permission. Please try again.')
         else:
             messages.error(request, 'Permission name, resource name, and action name are required.')
 
@@ -686,7 +696,8 @@ def permission_delete(request, permission_id):
             messages.success(request, f'Permission "{permission_name}" deleted successfully!')
             return redirect('permission_list')
         except Exception as e:
-            messages.error(request, f'Error deleting permission: {str(e)}')
+            logger.exception("authentication: request failed")
+            messages.error(request, 'Could not delete permission. Please try again.')
 
     return render(request, 'authentication/permission_confirm_delete.html', {
         'permission': permission,
@@ -725,7 +736,8 @@ def assign_permission_to_role(request, role_id):
         })
 
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -746,7 +758,8 @@ def remove_permission_from_role(request, role_id, permission_id):
         })
 
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -781,7 +794,8 @@ def assign_role_to_user(request, user_id):
         })
 
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -802,7 +816,8 @@ def remove_role_from_user(request, user_id, role_id):
         })
 
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        logger.exception("authentication: request failed")
+        return JsonResponse({'success': False, 'error': 'Something went wrong. Please try again.'})
 
 
 @custom_login_required
@@ -838,3 +853,34 @@ def user_edit(request, user_id):
     }
 
     return render(request, 'authentication/user_edit.html', context)
+
+
+@custom_login_required
+@permission_required('add_users')
+def user_create(request):
+    """Add a staff user. No password is set here: the person receives a
+    one-time link (email + SMS) to choose their own."""
+    from django.contrib.auth.tokens import default_token_generator
+    from django.db import transaction
+    from django.utils.encoding import force_bytes
+    from django.utils.http import urlsafe_base64_encode
+
+    from .forms import StaffUserCreateForm
+    from .reset_delivery import deliver_reset_link
+
+    form = StaffUserCreateForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        with transaction.atomic():
+            user = form.save()
+            role = form.cleaned_data.get('role')
+            if role:
+                UserRoleAssignment.objects.create(user=user, role=role, assigned_by=request.user)
+        token = f"{urlsafe_base64_encode(force_bytes(user.pk))}.{default_token_generator.make_token(user)}"
+        url = request.build_absolute_uri(reverse('password_reset_confirm', kwargs={'token': token}))
+        deliver_reset_link(user, url, welcome=True)
+        messages.success(
+            request,
+            f'{user.full_name} was added. A link to set their password was sent to {user.email} and by SMS.'
+        )
+        return redirect('user_detail', user_id=user.user_id)
+    return render(request, 'authentication/user_create.html', {'form': form, 'segment': 'users'})

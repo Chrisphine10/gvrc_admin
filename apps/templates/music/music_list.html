@@ -67,27 +67,20 @@
 {% block content %}
   <div class="container-fluid py-4">
     
-    <!-- Header with breadcrumb navigation -->
-    <div class="row">
-      <div class="col-12">
-        <nav aria-label="breadcrumb" class="mb-3">
+    <div class="page-head">
+      <div>
+        <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Music</li>
+            <li class="breadcrumb-item active" aria-current="page">Calming music</li>
           </ol>
         </nav>
-        <h1 class="h3 mb-0">Music Library</h1>
+        <h1 class="page-title">Calming music</h1>
+        <p class="page-sub">Slow ambient tracks that play in the app's Calm &amp; grounding section, also offline.</p>
       </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="row mb-4">
-      <div class="col-12">
-        <div class="d-flex justify-content-end">
-          <a href="{% url 'music:add_music' %}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Add Music
-          </a>
-        </div>
+      <div class="page-actions">
+        <a href="{% url 'music:music_analytics' %}" class="btn btn-neutral"><i class="fas fa-headphones" aria-hidden="true"></i> Listening trends</a>
+        <a href="{% url 'music:add_music' %}" class="btn btn-primary"><i class="fas fa-plus" aria-hidden="true"></i> Add music</a>
       </div>
     </div>
 
@@ -193,7 +186,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>&nbsp;</label>
-                    <button type="submit" class="btn btn-primary btn-block">
+                    <button type="submit" class="btn btn-neutral btn-block">
                         <i class="fas fa-search"></i> Filter
                     </button>
                 </div>
@@ -274,7 +267,7 @@
                 <i class="fas fa-music fa-3x text-muted mb-3"></i>
                 <h4 class="text-muted">No music tracks found</h4>
                 <p class="text-muted">Try adjusting your search criteria or add some music tracks.</p>
-                <a href="{% url 'music:add_music' %}" class="btn btn-primary">
+                <a href="{% url 'music:add_music' %}" class="btn btn-neutral">
                     <i class="fas fa-plus"></i> Add Music Track
                 </a>
             </div>

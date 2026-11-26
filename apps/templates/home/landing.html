@@ -1,242 +1,502 @@
-﻿{% extends 'layouts/base-auth.html' %}
+﻿{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hodi &middot; Find GBV help near you in Kenya</title>
+  <meta name="description" content="Hodi is Kenya's directory of help for survivors of gender-based violence: {{ total_facilities }} verified facilities, live maps, emergency numbers and a private mobile app. No account needed.">
+  <meta name="theme-color" content="#0B4A28">
+  <meta name="referrer" content="no-referrer">
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hodi">
+  <meta property="og:title" content="Hodi &middot; Find GBV help near you in Kenya">
+  <meta property="og:description" content="Verified health, police, legal, counselling and shelter services for survivors of gender-based violence, in every county. Free emergency numbers and a private mobile app.">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}/">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'assets/img/brand/hodi-logo-full.png' %}">
+  <meta property="og:image:width" content="640">
+  <meta property="og:image:height" content="320">
+  <meta property="og:locale" content="en_KE">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="{% if app_settings %}{{ app_settings.get_favicon_url }}{% else %}{% static 'assets/img/icons/common/favicon.ico' %}{% endif %}">
+  <link rel="apple-touch-icon" href="{% static 'assets/img/brand/hodi-logo.png' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="{% static 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}">
+  <link rel="preload" as="image" href="{% static 'assets/img/landing/app-home.png' %}">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"{% if app_settings.organization_name %}{{ app_settings.organization_name|escapejs }}{% else %}Hodi{% endif %}","url":"{{ request.scheme }}://{{ request.get_host }}/","logo":"{{ request.scheme }}://{{ request.get_host }}{% static 'assets/img/brand/hodi-logo-full.png' %}"}
+  </script>
+  <style>
+    :root {
+      --deep: #0B4A28; --green: #247F2F; --leaf: #7CB528; --tint: #EDF5E7; --tint-2: #f6faf4;
+      --ink: #15231b; --ink-2: #2c3b32; --muted: #56645b; --line: #e2e8e3;
+      --red: #b42318; --red-bg: #fde8e7;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --wrap: 1160px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; font-family: var(--font); color: var(--ink-2); background: #fff; line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--green); }
+    a:hover { color: var(--deep); }
+    h1, h2, h3 { color: var(--ink); letter-spacing: -.02em; line-height: 1.2; margin: 0; }
+    p { margin: 0; }
+    :focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-radius: 4px; }
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .skip { position: absolute; left: 12px; top: -60px; background: #fff; color: var(--deep); padding: 8px 14px; border-radius: 8px; font-weight: 700; z-index: 100; }
+    .skip:focus { top: 12px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 
-{% block title %}Hodi - GBV Directory Management System{% endblock title %}
+    /* ---------- Quick exit ---------- */
+    /* Lives in the sticky top bar, so it is on screen at every scroll position
+       without covering content. */
+    .quick-exit {
+      display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
+      background: var(--red); color: #fff; border: 2px solid #fff; border-radius: 8px;
+      padding: 7px 14px; font: 700 14px/1.2 var(--font); cursor: pointer;
+    }
+    .quick-exit:hover { background: #912018; }
+    .quick-exit:focus-visible { outline: 3px solid #fde68a; outline-offset: 2px; }
+    .quick-exit small { font-weight: 500; opacity: .9; font-size: 11px; border: 1px solid rgba(255,255,255,.6); border-radius: 4px; padding: 1px 4px; }
+    @media (max-width: 560px) { .quick-exit small { display: none; } }
+    [id] { scroll-margin-top: 80px; }
 
-{% block stylesheets %}
-<style>
-  /* Allow the page to scroll past base-auth's fixed viewport */
-  html { overflow-y: auto !important; height: auto !important; }
-  body.gvrc-auth-bg, body { overflow-y: auto !important; overflow-x: hidden; min-height: 100vh; }
-  .main-content { overflow: visible !important; }
+    /* ---------- Top bar ---------- */
+    .topbar { position: sticky; top: 0; z-index: 50; background: rgba(11, 74, 40, .97); color: #fff; }
+    .topbar .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+    .topbar .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 20px; letter-spacing: -.02em; }
+    .topbar .brand img { width: 34px; height: 34px; border-radius: 8px; background: #fff; padding: 2px; }
+    .topbar nav { display: flex; gap: 4px; margin-left: auto; }
+    .topbar nav a { color: rgba(255,255,255,.88); text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 10px; border-radius: 8px; }
+    .topbar nav a:hover { color: #fff; background: rgba(255,255,255,.1); }
+    .topbar .signin { color: var(--deep); background: #fff; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 8px; text-decoration: none; white-space: nowrap; }
+    .topbar .signin:hover { color: var(--deep); background: var(--tint); }
+    @media (max-width: 900px) { .topbar nav { display: none; } .topbar .signin { margin-left: auto; } }
+    .topbar .wrap { gap: 12px; }
+    .topbar .quick-exit { order: 10; }
+    .topbar .signin .short { display: none; }
+    @media (max-width: 420px) { .topbar .signin .long { display: none; } .topbar .signin .short { display: inline; } .topbar .wrap { padding: 0 12px; } .topbar .brand span { display: none; } }
 
-  :root {
-    --hodi-deep: #0e3d24;
-    --hodi-green: #1f7a3f;
-    --hodi-bright: #7bc043;
-    --hodi-tint: #eef7ee;
-    --ink: #14231a;
-    --ink-soft: #5b6b60;
-  }
-  /* Inherit, never force: `.landing *` overrode Font Awesome's own
-     font-family on every <i>, so no icon on the page could render. */
-  .landing { font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    /* ---------- Hero ---------- */
+    .hero {
+      color: #fff; overflow: hidden;
+      background:
+        radial-gradient(900px 500px at 85% -10%, rgba(124,181,40,.28), transparent 60%),
+        radial-gradient(700px 420px at -10% 110%, rgba(36,127,47,.30), transparent 55%),
+        linear-gradient(160deg, #0B3F23 0%, #14532d 55%, #1f7a3f 100%);
+    }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; padding-top: 64px; padding-bottom: 72px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+    .hero h1 { color: #fff; font-size: clamp(32px, 4.4vw, 52px); font-weight: 800; margin: 18px 0 16px; }
+    .hero h1 .accent { color: #b9e27a; }
+    .hero .lead { font-size: 18px; color: rgba(255,255,255,.9); max-width: 36rem; }
+    .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; border-radius: 10px; padding: 13px 20px; font-weight: 700; font-size: 15px; text-decoration: none; border: 2px solid transparent; }
+    .btn-light { background: #fff; color: var(--deep); }
+    .btn-light:hover { color: var(--deep); background: var(--tint); }
+    .btn-ghost { border-color: rgba(255,255,255,.6); color: #fff; }
+    .btn-ghost:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,.08); }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-green:hover { background: var(--deep); color: #fff; }
+    .btn-outline { border-color: var(--line); color: var(--ink); background: #fff; }
+    .btn-outline:hover { border-color: var(--green); color: var(--deep); }
+    .hero-note { margin-top: 18px; font-size: 14px; color: rgba(255,255,255,.8); }
+    .phones { position: relative; height: 520px; }
+    .phone { position: absolute; width: 218px; border-radius: 26px; overflow: hidden; border: 6px solid rgba(255,255,255,.92); box-shadow: 0 30px 60px rgba(0,0,0,.35); background: #fff; aspect-ratio: 420 / 943; }
+    .phone.p1 { left: 4%; top: 40px; transform: rotate(-7deg); z-index: 1; }
+    .phone.p2 { left: 31%; top: 0; z-index: 3; width: 234px; }
+    .phone.p3 { right: 2%; top: 56px; transform: rotate(7deg); z-index: 2; }
+    @media (max-width: 900px) {
+      .hero .wrap { grid-template-columns: 1fr; padding-top: 40px; padding-bottom: 48px; }
+      .phones { height: 360px; max-width: 420px; width: 100%; margin: 0 auto; }
+      .phone { width: 150px; border-width: 4px; border-radius: 20px; }
+      .phone.p2 { width: 162px; left: 30%; }
+    }
+    @media (max-width: 420px) { .phones { height: 320px; } .phone { width: 128px; } .phone.p2 { width: 140px; left: 29%; } }
 
-  /* ---------- Hero ---------- */
-  .hero {
-    position: relative;
-    background:
-      radial-gradient(900px 500px at 85% -10%, rgba(123,192,67,.28), transparent 60%),
-      radial-gradient(700px 420px at -10% 110%, rgba(31,122,63,.25), transparent 55%),
-      linear-gradient(160deg, var(--hodi-deep) 0%, #14532d 55%, var(--hodi-green) 100%);
-    color: #fff;
-    overflow: hidden;
-  }
-  .hero-grid {
-    max-width: 1180px; margin: 0 auto;
-    display: grid; grid-template-columns: 1.1fr .9fr; gap: 2rem;
-    align-items: center; padding: 4.5rem 2rem 5rem;
-  }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: .5rem;
-    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22);
-    border-radius: 999px; padding: .35rem .9rem; font-size: .8rem;
-    letter-spacing: .04em; backdrop-filter: blur(4px);
-  }
-  .hero h1 { font-size: clamp(2rem, 4.2vw, 3.2rem); font-weight: 800; line-height: 1.12; margin: 1.1rem 0 .9rem; letter-spacing: -.02em; color:#fff; }
-  .hero h1 .accent { color: var(--hodi-bright); }
-  .hero p.lead-text { font-size: 1.08rem; color: rgba(255,255,255,.85); max-width: 34rem; line-height: 1.65; }
-  .hero-ctas { display: flex; gap: .9rem; margin-top: 1.8rem; flex-wrap: wrap; }
-  .btn-hodi {
-    display: inline-flex; align-items: center; gap: .55rem;
-    border-radius: 12px; padding: .8rem 1.5rem; font-weight: 700; font-size: .95rem;
-    text-decoration: none; transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .btn-hodi:hover { transform: translateY(-2px); text-decoration: none; }
-  .btn-hodi.primary { background: #fff; color: var(--hodi-deep); box-shadow: 0 10px 28px rgba(0,0,0,.22); }
-  .btn-hodi.primary:hover { color: var(--hodi-deep); }
-  .btn-hodi.ghost { border: 1.5px solid rgba(255,255,255,.55); color: #fff; }
-  .btn-hodi.ghost:hover { color: #fff; border-color: #fff; }
+    /* ---------- Emergency band ---------- */
+    .sos { background: #fff7f6; border-bottom: 1px solid #f6d3cf; }
+    .sos .wrap { padding-top: 28px; padding-bottom: 28px; }
+    .sos-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 16px; }
+    .sos-head h2 { font-size: 20px; color: var(--red); }
+    .sos-head p { color: var(--ink-2); font-size: 14px; }
+    .sos-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .sos-card { display: flex; flex-direction: column; gap: 2px; background: #fff; border: 1px solid #f3c9c4; border-radius: 12px; padding: 14px 16px; text-decoration: none; color: var(--ink-2); }
+    .sos-card:hover { border-color: var(--red); color: var(--ink-2); }
+    .sos-card .num { font-size: 26px; font-weight: 800; color: var(--red); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+    .sos-card .what { font-weight: 700; color: var(--ink); font-size: 15px; }
+    .sos-card .note { font-size: 13px; color: var(--muted); }
+    @media (max-width: 900px) { .sos-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 380px) { .sos-grid { grid-template-columns: 1fr; } }
 
-  /* Phone gallery: real screenshots of the mobile app */
-  .phones { position: relative; height: 520px; }
-  .phone {
-    position: absolute; width: 218px; border-radius: 26px; overflow: hidden;
-    border: 6px solid rgba(255,255,255,.92);
-    box-shadow: 0 30px 60px rgba(0,0,0,.35);
-    background: #fff;
-  }
-  .phone img { display: block; width: 100%; height: auto; }
-  .phone.p1 { left: 4%;  top: 40px; transform: rotate(-7deg); z-index: 1; }
-  .phone.p2 { left: 31%; top: 0;    z-index: 3; width: 234px; }
-  .phone.p3 { right: 2%; top: 56px; transform: rotate(7deg); z-index: 2; }
+    /* ---------- Sections ---------- */
+    section.block { padding: 72px 0; }
+    section.alt { background: var(--tint-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .kicker { color: var(--green); font-weight: 700; letter-spacing: .12em; font-size: 12px; text-transform: uppercase; }
+    .title { font-size: clamp(26px, 3vw, 36px); font-weight: 800; margin: 8px 0 12px; }
+    .intro { color: var(--muted); font-size: 17px; max-width: 46rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; align-items: start; }
+    @media (max-width: 900px) { .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; } .grid-2 { grid-template-columns: 1fr; gap: 32px; } section.block { padding: 52px 0; } }
+    @media (max-width: 560px) { .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+    .tile { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+    .tile .ic { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--tint); color: var(--green); font-size: 18px; margin-bottom: 14px; }
+    .tile h3 { font-size: 17px; margin-bottom: 6px; }
+    .tile p { color: var(--muted); font-size: 15px; }
 
-  /* ---------- Stats band ---------- */
-  .stats { background: #fff; border-bottom: 1px solid #e8efe9; }
-  .stats-grid {
-    max-width: 1180px; margin: 0 auto; padding: 1.6rem 2rem;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center;
-  }
-  .stat b { display: block; font-size: 1.7rem; color: var(--hodi-deep); letter-spacing: -.02em; }
-  .stat span { color: var(--ink-soft); font-size: .88rem; }
+    .steps { counter-reset: step; }
+    .step { position: relative; padding-top: 56px; }
+    .step::before { counter-increment: step; content: counter(step); position: absolute; top: 0; left: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .step h3 { font-size: 17px; margin-bottom: 6px; }
+    .step p { color: var(--muted); font-size: 15px; }
 
-  /* ---------- Features ---------- */
-  .features { background: var(--hodi-tint); padding: 4.2rem 2rem; }
-  .features-inner { max-width: 1180px; margin: 0 auto; }
-  .section-kicker { color: var(--hodi-green); font-weight: 700; letter-spacing: .12em; font-size: .78rem; text-transform: uppercase; }
-  .section-title { font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 800; color: var(--ink); margin: .4rem 0 2rem; letter-spacing: -.02em; }
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
-  .card-f {
-    background: #fff; border: 1px solid #e4ede5; border-radius: 18px; padding: 1.5rem;
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .card-f:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(20,60,35,.10); }
-  .card-f .ic {
-    width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, var(--hodi-green), var(--hodi-bright)); color: #fff; font-size: 1.15rem; margin-bottom: 1rem;
-  }
-  .card-f h3 { font-size: 1.02rem; font-weight: 700; color: var(--ink); margin-bottom: .45rem; }
-  .card-f p { color: var(--ink-soft); font-size: .9rem; line-height: 1.6; margin: 0; }
+    /* ---------- Coverage ---------- */
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 32px 0; }
+    .stat { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+    .stat b { display: block; font-size: 32px; font-weight: 800; color: var(--deep); letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.15; }
+    .stat span { color: var(--muted); font-size: 14px; }
+    @media (max-width: 900px) { .stats { grid-template-columns: 1fr 1fr; } }
+    .panel { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+    .panel h3 { font-size: 16px; margin-bottom: 14px; }
+    .bars { list-style: none; margin: 0; padding: 0; }
+    .bars li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 7px 0; font-size: 14px; }
+    .bars .bar { grid-column: 1 / -1; height: 8px; border-radius: 999px; background: #edf1ee; overflow: hidden; }
+    .bars .bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--green), var(--leaf)); }
+    .bars .n { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 6px 6px 12px; font-size: 14px; color: var(--ink-2); background: #fff; }
+    .chip b { background: var(--tint); color: var(--deep); border-radius: 999px; padding: 2px 9px; font-size: 13px; font-variant-numeric: tabular-nums; }
+    .coverage-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .coverage-cols .panel + .panel { margin-top: 0; }
+    @media (max-width: 900px) { .coverage-cols { grid-template-columns: 1fr; } }
+    .src { margin-top: 16px; font-size: 13px; color: var(--muted); }
 
-  /* ---------- Institutions ---------- */
-  .inst { background: #fff; padding: 4.2rem 2rem; }
-  .inst-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-  .inst ul { list-style: none; padding: 0; margin: 1.2rem 0 0; }
-  .inst li { display: flex; gap: .7rem; align-items: flex-start; padding: .45rem 0; color: var(--ink-soft); }
-  .inst li i { color: var(--hodi-green); margin-top: .2rem; }
-  .inst-visual {
-    background: linear-gradient(160deg, var(--hodi-tint), #ffffff);
-    border: 1px solid #e4ede5; border-radius: 22px; padding: 2.5rem; text-align: center;
-  }
-  .inst-visual img { max-width: 320px; width: 100%; }
-  .inst-visual .caption { color: var(--ink-soft); font-size: .85rem; margin-top: 1rem; }
+    /* ---------- App ---------- */
+    .checks { list-style: none; margin: 20px 0 0; padding: 0; }
+    .checks li { display: flex; gap: 12px; padding: 8px 0; color: var(--ink-2); }
+    .checks li i { color: var(--green); margin-top: 5px; }
+    .checks li b { color: var(--ink); }
+    .app-card { background: linear-gradient(160deg, var(--tint), #fff); border: 1px solid var(--line); border-radius: 18px; padding: 28px; }
+    .app-card .meta { font-size: 13px; color: var(--muted); margin-top: 10px; }
+    .shots { display: flex; gap: 12px; margin-top: 20px; }
+    .shots img { width: calc(33.33% - 8px); border-radius: 14px; border: 1px solid var(--line); aspect-ratio: 420 / 943; object-fit: cover; }
 
-  /* ---------- Footer ---------- */
-  .foot { background: var(--hodi-deep); color: rgba(255,255,255,.75); padding: 2.2rem 2rem; }
-  .foot-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: center; font-size: .88rem; }
-  .foot a { color: var(--hodi-bright); text-decoration: none; }
-  .foot a:hover { text-decoration: underline; }
+    /* ---------- FAQ ---------- */
+    .faq { max-width: 52rem; margin-top: 24px; }
+    .faq details { border-bottom: 1px solid var(--line); }
+    .faq summary { cursor: pointer; list-style: none; padding: 18px 36px 18px 0; font-weight: 700; color: var(--ink); position: relative; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; position: absolute; right: 4px; top: 14px; font-size: 22px; color: var(--green); font-weight: 600; }
+    .faq details[open] summary::after { content: "\2013"; }
+    .faq details p { padding: 0 0 18px; color: var(--muted); }
 
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; padding: 3rem 1.2rem; }
-    .phones { height: 430px; transform: scale(.82); transform-origin: top center; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .cards { grid-template-columns: 1fr; }
-    .inst-inner { grid-template-columns: 1fr; }
-  }
-</style>
-{% endblock stylesheets %}
+    /* ---------- Contact + footer ---------- */
+    .contact-list { list-style: none; padding: 0; margin: 16px 0 0; }
+    .contact-list li { display: flex; gap: 12px; padding: 8px 0; }
+    .contact-list i { color: var(--green); width: 18px; margin-top: 5px; }
+    .social { display: flex; gap: 10px; margin-top: 16px; }
+    .social a { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; color: var(--ink-2); }
+    .social a:hover { border-color: var(--green); color: var(--deep); }
+    footer.site { background: var(--deep); color: rgba(255,255,255,.8); padding: 32px 0; font-size: 14px; }
+    footer.site .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; }
+    footer.site a { color: #c9ec92; }
+  </style>
+</head>
+<body>
 
-{% block content %}
-<div class="landing">
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-grid">
-      <div>
-        <span class="hero-eyebrow"><i class="fas fa-shield-alt"></i> GBV Response Platform for Kenya</span>
-        <h1>Safety and support,<br>in <span class="accent">every county</span>.</h1>
-        <p class="lead-text">
-          Hodi connects survivors of gender-based violence to verified help &mdash;
-          health facilities, police desks, legal aid, counselling and shelters &mdash;
-          with live maps, spoken guidance and a one-tap SOS.
-        </p>
-        <div class="hero-ctas">
-          <a href="{% url 'login' %}" class="btn-hodi primary"><i class="fas fa-sign-in-alt"></i> Access System</a>
-          <a href="#features" class="btn-hodi ghost"><i class="fas fa-arrow-down"></i> Explore Features</a>
-        </div>
-      </div>
-      <div class="phones" aria-hidden="true">
-        <div class="phone p1"><img src="/static/assets/img/landing/app-directory.png" alt="Find Help directory listing facilities"></div>
-        <div class="phone p2"><img src="/static/assets/img/landing/app-home.png" alt="Hodi home screen with quick actions"></div>
-        <div class="phone p3"><img src="/static/assets/img/landing/app-map.png" alt="Walking route to a facility on the map"></div>
-      </div>
+  <header class="topbar">
+    <div class="wrap">
+      <!-- First in the tab order (one Tab from page load), shown last in the bar -->
+      <button type="button" class="quick-exit" id="quick-exit" aria-label="Quick exit: leave this site now" title="Leave this site now (or press Esc twice)"><i class="fas fa-times-circle" aria-hidden="true"></i> Quick exit <small>Esc Esc</small></button>
+      <a class="skip" href="#main">Skip to content</a>
+      <a class="brand" href="{% url 'landing' %}"><img src="{% static 'assets/img/brand/hodi-logo.png' %}" alt="Hodi" width="34" height="34"><span>Hodi</span></a>
+      <nav aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#coverage">Coverage</a>
+        <a href="#app">The app</a>
+        <a href="#safety">Privacy &amp; safety</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="signin" href="{% url 'login' %}"><span class="long">Staff sign in</span><span class="short">Sign in</span></a>
     </div>
-  </section>
+  </header>
 
-  <!-- Stats -->
-  <section class="stats">
-    <div class="stats-grid">
-      <div class="stat"><b>9,292</b><span>verified facilities</span></div>
-      <div class="stat"><b>47</b><span>counties covered</span></div>
-      <div class="stat"><b>24/7</b><span>SOS &amp; hotline access</span></div>
-      <div class="stat"><b>2</b><span>languages &mdash; English &amp; Kiswahili</span></div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="features-inner">
-      <div class="section-kicker">What Hodi does</div>
-      <h2 class="section-title">Everything a survivor needs to reach help</h2>
-      <div class="cards">
-        <div class="card-f">
-          <div class="ic"><i class="fas fa-hospital"></i></div>
-          <h3>Verified Directory</h3>
-          <p>Thousands of facilities across Kenya &mdash; health, police, legal aid, counselling and shelters &mdash; ranked nearest-first with working contacts.</p>
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <span class="eyebrow"><i class="fas fa-shield-alt" aria-hidden="true"></i> Help for survivors of gender-based violence in Kenya</span>
+          <h1>Safety and support,<br>in <span class="accent">every county</span>.</h1>
+          <p class="lead">
+            Hodi connects survivors of gender-based violence to verified help: health facilities,
+            police desks, legal aid, counselling and shelters, with live maps, spoken guidance and a one-tap SOS.
+          </p>
+          <div class="ctas">
+            <a href="#help-now" class="btn btn-light"><i class="fas fa-phone-alt" aria-hidden="true"></i> Get help now</a>
+            <a href="#app" class="btn btn-ghost"><i class="fas fa-mobile-alt" aria-hidden="true"></i> About the app</a>
+          </div>
+          <p class="hero-note"><i class="fas fa-lock" aria-hidden="true"></i> No account needed. If someone may be watching your screen, use <strong>Quick exit</strong>.</p>
         </div>
-        <div class="card-f">
-          <div class="ic"><i class="fas fa-route"></i></div>
-          <h3>Maps &amp; Live Routing</h3>
-          <p>Real walking and driving routes with distance and time, plus spoken guidance for moments when looking at a screen is not safe.</p>
-        </div>
-        <div class="card-f">
-          <div class="ic"><i class="fas fa-comments"></i></div>
-          <h3>Supportive AI Chat</h3>
-          <p>A grounded assistant that answers from the real directory, speaks the user's language, and always puts emergency escalation first.</p>
-        </div>
-        <div class="card-f">
-          <div class="ic"><i class="fas fa-bell"></i></div>
-          <h3>One-tap SOS</h3>
-          <p>An always-visible SOS reaches GVRC's crisis desk by call, SMS or WhatsApp &mdash; and a quick-exit button leaves the app instantly.</p>
-        </div>
-        <div class="card-f">
-          <div class="ic"><i class="fas fa-book-open"></i></div>
-          <h3>Rights &amp; Resources</h3>
-          <p>Curated guides on rights, safety planning and recovery, readable inside the app so nothing lands in the browser history.</p>
-        </div>
-        <div class="card-f">
-          <div class="ic"><i class="fas fa-spa"></i></div>
-          <h3>Calm &amp; Grounding</h3>
-          <p>Slow ambient audio and a small game for steadying breath and taking a breather &mdash; available even when offline.</p>
+        <div class="phones" aria-hidden="true">
+          <div class="phone p1"><img src="{% static 'assets/img/landing/app-directory.png' %}" alt="" width="420" height="943" loading="lazy" decoding="async"></div>
+          <div class="phone p2"><img src="{% static 'assets/img/landing/app-home.png' %}" alt="" width="420" height="943" fetchpriority="high" decoding="async"></div>
+          <div class="phone p3"><img src="{% static 'assets/img/landing/app-map.png' %}" alt="" width="420" height="943" loading="lazy" decoding="async"></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- For institutions -->
-  <section class="inst">
-    <div class="inst-inner">
-      <div>
-        <div class="section-kicker">For institutions</div>
-        <h2 class="section-title">One platform for the whole response network</h2>
-        <ul>
-          <li><i class="fas fa-check-circle"></i> Manage facilities, services, staff and infrastructure from a single dashboard.</li>
-          <li><i class="fas fa-check-circle"></i> Publish documents and calming audio straight to the mobile app &mdash; no release needed.</li>
-          <li><i class="fas fa-check-circle"></i> Understand reach with user, content and geography insights.</li>
-          <li><i class="fas fa-check-circle"></i> Respond to conversations from survivors in one queue.</li>
-          <li><i class="fas fa-check-circle"></i> Role-based access with a full permission system.</li>
-        </ul>
-        <div class="hero-ctas" style="margin-top: 1.6rem;">
-          <a href="{% url 'login' %}" class="btn-hodi primary" style="background: var(--hodi-green); color: #fff;"><i class="fas fa-sign-in-alt"></i> Sign in to the Dashboard</a>
+    <!-- Emergency numbers -->
+    <section class="sos" id="help-now" aria-labelledby="sos-title">
+      <div class="wrap">
+        <div class="sos-head">
+          <h2 id="sos-title"><i class="fas fa-phone-alt" aria-hidden="true"></i> In danger or need to talk now?</h2>
+          <p>These numbers work from any phone in Kenya. Tap to call.</p>
+        </div>
+        <div class="sos-grid">
+          <a class="sos-card" href="tel:1195"><span class="num">1195</span><span class="what">National GBV hotline</span><span class="note">Free, 24 hours a day</span></a>
+          <a class="sos-card" href="tel:999"><span class="num">999 / 112</span><span class="what">Police and emergency</span><span class="note">If you are in immediate danger</span></a>
+          <a class="sos-card" href="tel:116"><span class="num">116</span><span class="what">Childline Kenya</span><span class="note">For children and anyone worried about a child</span></a>
+          <a class="sos-card" href="tel:0800720565"><span class="num">0800 720 565</span><span class="what">GVRC</span><span class="note">Gender Violence Recovery Centre, toll-free</span></a>
         </div>
       </div>
-      <div class="inst-visual">
-        <img src="/static/assets/img/brand/hodi-logo-full.png" alt="Hodi - Care, Empower, Thrive">
-        <div class="caption">Built with the Gender Violence Recovery Centre for Kenya's GBV response network.</div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
-  <footer class="foot">
-    <div class="foot-inner">
-      <div>&copy; 2026 Hodi &middot; GBV Directory Management System</div>
-      <div>
-        Emergency: <a href="tel:0800720565">0800 720 565</a> (toll-free)
-        &nbsp;&middot;&nbsp; Support: <a href="mailto:admin@hodi.ke">admin@hodi.ke</a>
+    <!-- What Hodi is -->
+    <section class="block" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="kicker">What Hodi is</div>
+        <h2 class="title" id="about-title">One trusted place to find help, wherever you are</h2>
+        <p class="intro">Hodi is a directory and mobile app for people affected by gender-based violence in Kenya,
+          and for the people supporting them. It lists services that have been checked by the Hodi team,
+          shows how to reach them, and keeps emergency contacts one tap away.</p>
+        <div class="grid-3">
+          <div class="tile"><div class="ic"><i class="fas fa-hospital" aria-hidden="true"></i></div><h3>Verified directory</h3><p>Health, police, legal aid, counselling and shelters across Kenya, nearest first, with working contacts.</p></div>
+          <div class="tile"><div class="ic"><i class="fas fa-route" aria-hidden="true"></i></div><h3>Maps and directions</h3><p>Walking and driving routes with distance and time, and spoken guidance when looking at a screen is not safe.</p></div>
+          <div class="tile"><div class="ic"><i class="fas fa-hands-helping" aria-hidden="true"></i></div><h3>Support, not judgement</h3><p>A grounded chat assistant, guides on rights and safety planning, and calming audio for hard moments.</p></div>
+        </div>
       </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="block alt" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="kicker">How it works</div>
+        <h2 class="title" id="how-title">From "I need help" to the right door in four steps</h2>
+        <div class="grid-4 steps">
+          <div class="step"><h3>Open Hodi</h3><p>Install the app and start straight away. There is no sign-up and no account to create.</p></div>
+          <div class="step"><h3>Say what you need</h3><p>Choose a kind of help, such as medical care, police, legal aid, counselling or a safe place to stay.</p></div>
+          <div class="step"><h3>See verified places near you</h3><p>Hodi lists matching facilities nearest first, with opening status, contacts and services.</p></div>
+          <div class="step"><h3>Call or go</h3><p>Call with one tap or follow the route. The SOS button and Quick exit are always on screen.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live coverage -->
+    <section class="block" id="coverage" aria-labelledby="coverage-title">
+      <div class="wrap">
+        <div class="kicker">Live coverage</div>
+        <h2 class="title" id="coverage-title">Where help is listed today</h2>
+        <p class="intro">These figures come straight from the Hodi directory and update as staff add and verify facilities.</p>
+
+        <div class="stats">
+          <div class="stat"><b>{{ total_facilities }}</b><span>active facilities</span></div>
+          <div class="stat"><b>{{ counties_covered }}<small style="font-size:18px;color:var(--muted);font-weight:600"> / 47</small></b><span>counties with at least one facility</span></div>
+          <div class="stat"><b>{{ operational_facilities }}</b><span>marked operational</span></div>
+          <div class="stat"><b>{{ facilities_on_map }}</b><span>with a location on the map</span></div>
+        </div>
+
+        {% if total_facilities %}
+        <div class="coverage-cols">
+          <div class="panel">
+            <h3>Counties with the most facilities</h3>
+            <ul class="bars">
+              {% for c in top_counties %}
+              <li><span>{{ c.name }}</span><span class="n">{{ c.count }}</span><span class="bar" aria-hidden="true"><span style="width: {{ c.pct }}%"></span></span></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div>
+            <div class="panel" style="margin-bottom:16px">
+              <h3>Services offered <span style="font-weight:500;color:var(--muted);font-size:13px">(facilities per category)</span></h3>
+              {% if service_categories %}
+              <div class="chips">{% for s in service_categories %}<span class="chip">{{ s.name }} <b>{{ s.count }}</b></span>{% endfor %}</div>
+              {% else %}<p class="src">Service categories are being added.</p>{% endif %}
+            </div>
+            <div class="panel">
+              <h3>Forms of GBV supported <span style="font-weight:500;color:var(--muted);font-size:13px">(facilities per category)</span></h3>
+              {% if gbv_categories %}
+              <div class="chips">{% for g in gbv_categories %}<span class="chip">{{ g.name }} <b>{{ g.count }}</b></span>{% endfor %}</div>
+              {% else %}<p class="src">GBV categories are being added.</p>{% endif %}
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="panel"><p>The directory is being loaded. In the meantime, the emergency numbers above work everywhere in Kenya.</p></div>
+        {% endif %}
+        <p class="src">Updated {% now "j F Y" %}. A facility appears once Hodi staff have added and checked it.</p>
+      </div>
+    </section>
+
+    <!-- Mobile app -->
+    <section class="block alt" id="app" aria-labelledby="app-title">
+      <div class="wrap grid-2">
+        <div>
+          <div class="kicker">The Hodi app</div>
+          <h2 class="title" id="app-title">Help in your pocket, built for difficult moments</h2>
+          <ul class="checks">
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><b>Find Help directory</b> with filters for the kind of help you need.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><b>Maps and live routes</b> with spoken directions.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><b>One-tap SOS</b> to the crisis desk by call, SMS or WhatsApp.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><b>Supportive chat</b> that answers from the real directory and puts emergencies first.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><b>Rights and safety guides</b>{% if public_documents %} ({{ public_documents }} published){% endif %}, read inside the app.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><b>Calm and grounding</b> audio{% if music_tracks %} ({{ music_tracks }} tracks){% endif %} and a small breathing game, even offline.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span><b>English and Kiswahili.</b></span></li>
+          </ul>
+        </div>
+        <div class="app-card">
+          {% if app_settings and app_settings.has_apk %}
+            <h3 style="font-size:20px">Download for Android</h3>
+            <p style="color:var(--muted);margin-top:6px">Install Hodi directly on your Android phone.</p>
+            <div class="ctas" style="margin-top:18px">
+              <a class="btn btn-green" href="{{ app_settings.get_apk_url }}" rel="nofollow" download><i class="fab fa-android" aria-hidden="true"></i> Download the app</a>
+            </div>
+            <p class="meta">{% if app_settings.android_apk_version %}Version {{ app_settings.android_apk_version }}{% endif %}{% if app_settings.android_apk_version and app_settings.android_apk_size %} &middot; {% endif %}{% if app_settings.android_apk_size %}{{ app_settings.android_apk_size }}{% endif %}{% if app_settings.android_apk_version or app_settings.android_apk_size %} &middot; {% endif %}Your phone may ask you to allow installs from this browser.</p>
+          {% else %}
+            <h3 style="font-size:20px">Getting the app</h3>
+            <p style="color:var(--muted);margin-top:6px">The Android download will be published here. Until then, ask a Hodi partner organisation or use the emergency numbers above.</p>
+          {% endif %}
+          <div class="shots" aria-hidden="true">
+            <img src="{% static 'assets/img/landing/app-home.png' %}" alt="" width="420" height="943" loading="lazy" decoding="async">
+            <img src="{% static 'assets/img/landing/app-directory.png' %}" alt="" width="420" height="943" loading="lazy" decoding="async">
+            <img src="{% static 'assets/img/landing/app-map.png' %}" alt="" width="420" height="943" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy & safety -->
+    <section class="block" id="safety" aria-labelledby="safety-title">
+      <div class="wrap">
+        <div class="kicker">Privacy &amp; safety</div>
+        <h2 class="title" id="safety-title">Designed so that using Hodi does not put you at risk</h2>
+        <div class="grid-4">
+          <div class="tile"><div class="ic"><i class="fas fa-user-secret" aria-hidden="true"></i></div><h3>No account needed</h3><p>You do not give a name, phone number or email to use the app.</p></div>
+          <div class="tile"><div class="ic"><i class="fas fa-door-open" aria-hidden="true"></i></div><h3>Quick exit</h3><p>One button leaves Hodi instantly, in the app and on this page. Here you can also press Esc twice.</p></div>
+          <div class="tile"><div class="ic"><i class="fas fa-book-reader" aria-hidden="true"></i></div><h3>Reading stays private</h3><p>Guides open inside the app, so they do not land in your browser history.</p></div>
+          <div class="tile"><div class="ic"><i class="fas fa-mobile-alt" aria-hidden="true"></i></div><h3>Shared phone?</h3><p>Use a private browsing window for this site, and clear recent apps after using Hodi if someone checks your phone.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- For institutions -->
+    <section class="block alt" id="institutions" aria-labelledby="inst-title">
+      <div class="wrap grid-2">
+        <div>
+          <div class="kicker">For institutions</div>
+          <h2 class="title" id="inst-title">One platform for the whole response network</h2>
+          <ul class="checks">
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Keep facilities, services, staff contacts and infrastructure up to date from one dashboard.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Publish documents and calming audio straight to the app, with no app update needed.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Answer help chats from one queue, with SMS alerts that never include what the person wrote.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>See reach by county, content and chat volume.</span></li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i><span>Role-based access for every member of staff.</span></li>
+          </ul>
+          <div class="ctas"><a href="{% url 'login' %}" class="btn btn-green"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Sign in</a></div>
+          <p class="src">{% if not allow_self_registration %}Staff accounts are created by a Hodi administrator. {% endif %}To list or correct a facility, <a href="#contact">contact us</a>.</p>
+        </div>
+        <div class="app-card" style="text-align:center">
+          <img src="{% static 'assets/img/brand/hodi-logo-full.png' %}" alt="Hodi: Care, Empower, Thrive" width="640" height="320" loading="lazy" decoding="async" style="max-width:320px;margin:0 auto">
+          <p class="meta">Built with the Gender Violence Recovery Centre for Kenya's GBV response network.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="block" id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="kicker">Questions</div>
+        <h2 class="title" id="faq-title">Frequently asked questions</h2>
+        <div class="faq">
+          <details><summary>I am in danger right now. What should I do?</summary><p>Call 999 or 112 for the police, or 1195 for the national GBV hotline, which is free and open 24 hours. If you can, move to a place where other people are around.</p></details>
+          <details><summary>Do I need to create an account?</summary><p>No. The app works without an account, a name or a phone number.</p></details>
+          <details><summary>Who decides which facilities are listed?</summary><p>Hodi staff add each facility and check its details, services and contacts. When a facility closes or stops offering a service, its listing is updated.</p></details>
+          <details><summary>Can someone see that I used Hodi?</summary><p>Use Quick exit to leave immediately. On a shared phone, use a private browsing window for this site and remove Hodi from your recent apps. Guides open inside the app rather than in your browser.</p></details>
+          <details><summary>Which languages does Hodi support?</summary><p>English and Kiswahili.</p></details>
+          <details><summary>How do I list or correct a facility?</summary><p>Send the facility name, county and the change to the contact details below, and the Hodi team will check and update it.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="block alt" id="contact" aria-labelledby="contact-title">
+      <div class="wrap grid-2">
+        <div>
+          <div class="kicker">Contact</div>
+          <h2 class="title" id="contact-title">{% if app_settings.organization_name %}{{ app_settings.organization_name }}{% else %}Talk to the Hodi team{% endif %}</h2>
+          <p class="intro">For partnerships, facility listings and corrections. For emergencies, use the numbers at the top of this page.</p>
+        </div>
+        <div>
+          <ul class="contact-list">
+            {% if app_settings.contact_email %}
+              <li><i class="fas fa-envelope" aria-hidden="true"></i><span><a href="mailto:{{ app_settings.contact_email }}">{{ app_settings.contact_email }}</a></span></li>
+            {% else %}
+              <li><i class="fas fa-envelope" aria-hidden="true"></i><span><a href="mailto:admin@hodi.ke">admin@hodi.ke</a></span></li>
+            {% endif %}
+            {% if app_settings.support_email and app_settings.support_email != app_settings.contact_email %}
+              <li><i class="fas fa-life-ring" aria-hidden="true"></i><span>Support: <a href="mailto:{{ app_settings.support_email }}">{{ app_settings.support_email }}</a></span></li>
+            {% endif %}
+            {% if app_settings.contact_phone %}
+              <li><i class="fas fa-phone" aria-hidden="true"></i><span><a href="tel:{{ app_settings.contact_phone|cut:' ' }}">{{ app_settings.contact_phone }}</a></span></li>
+            {% endif %}
+            {% if app_settings.organization_address %}
+              <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i><span>{{ app_settings.organization_address|linebreaksbr }}</span></li>
+            {% endif %}
+            {% if app_settings.website_url %}
+              <li><i class="fas fa-globe" aria-hidden="true"></i><span><a href="{{ app_settings.website_url }}" rel="noopener">{{ app_settings.website_url }}</a></span></li>
+            {% endif %}
+          </ul>
+          {% if app_settings.facebook_url or app_settings.twitter_url or app_settings.linkedin_url %}
+          <div class="social">
+            {% if app_settings.facebook_url %}<a href="{{ app_settings.facebook_url }}" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>{% endif %}
+            {% if app_settings.twitter_url %}<a href="{{ app_settings.twitter_url }}" rel="noopener" aria-label="X (Twitter)"><i class="fab fa-twitter" aria-hidden="true"></i></a>{% endif %}
+            {% if app_settings.linkedin_url %}<a href="{{ app_settings.linkedin_url }}" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>{% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div>&copy; {% now "Y" %} {% if app_settings.organization_name %}{{ app_settings.organization_name }}{% else %}Hodi{% endif %} &middot; GBV help directory for Kenya</div>
+      <div>Emergency: <a href="tel:1195">1195</a> (GBV, free 24/7) &middot; <a href="tel:999">999</a> / <a href="tel:112">112</a> &middot; <a href="tel:0800720565">0800 720 565</a> (GVRC) &middot; <a href="{% url 'login' %}">Staff sign in</a></div>
     </div>
   </footer>
 
-</div>
-{% endblock content %}
+  <script>
+    (function () {
+      // Quick exit: swap this page for a neutral one without leaving a "back" entry.
+      function leave() {
+        try { document.title = 'Google'; document.body.innerHTML = ''; } catch (e) {}
+        window.location.replace('https://www.google.com');
+      }
+      document.getElementById('quick-exit').addEventListener('click', leave);
+      var last = 0;
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var now = Date.now();
+        if (now - last < 800) leave();
+        last = now;
+      });
+    })();
+  </script>
+</body>
+</html>

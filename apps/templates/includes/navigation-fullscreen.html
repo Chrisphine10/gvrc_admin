@@ -1,7 +1,7 @@
 <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
   <div class="container">
             <a class="navbar-brand" href="{% url 'landing' %}">
-      <img src="/static/assets/img/brand/white.png" alt="Argon Design - Template Starter Logo.">
+      <img src="/static/assets/img/brand/white.png" alt="Hodi">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-6 collapse-brand">
             <a href="{% url 'landing' %}">
-              <img src="/static/assets/img/brand/blue.png">
+              <img src="/static/assets/img/brand/blue.png" alt="Hodi">
             </a>
           </div>
           <div class="col-6 collapse-close">
@@ -28,11 +28,13 @@
             <span class="nav-link-inner--text">Login</span>
           </a>
         </li>
+        {% if allow_self_registration %}
         <li class="nav-item">
           <a href="{% url 'register' %}" class="nav-link">
             <span class="nav-link-inner--text">Register</span>
           </a>
         </li>
+        {% endif %}
       </ul>
       <hr class="d-lg-none" />
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">

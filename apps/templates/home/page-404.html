@@ -1,43 +1,17 @@
-{% extends 'layouts/base-fullscreen.html' %}
-
-{% block title %} Error 404 {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
-
-{% block content %}
-
-    <!-- Page content -->
-    <div class="container mt--8 pb-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-          <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5">
-
-              <div class="text-muted text-center mt-2 mb-3">
-                Oups! Error 404      
-              </div>
-
-              <div class="text-center mb-4">
-                Page not found - <a href="{% url 'landing' %}">Home</a>
-              </div>
-
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-6">
-                              <a href="{% url 'landing' %}" class="text-light"><small>Home</small></a>
-            </div>
-            <div class="col-6 text-right">
-              <a target="_blank" 
-                 href="#" class="text-light"><small>Get Support</small></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-{% endblock content %}
-
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+{% extends 'layouts/base-error.html' %}
+{% block title %}Page not found{% endblock %}
+{% block card %}
+  <span class="code">Error 404</span>
+  <h1>We could not find that page</h1>
+  <p>The link may be out of date, or the page may have moved. Check the address, or start again from one of these:</p>
+  <div class="actions">
+    {% if user.is_authenticated %}
+      <a class="btn primary" href="{% url 'home' %}">Go to the dashboard</a>
+      <a class="btn" href="{% url 'facilities:facility_list' %}">Facilities</a>
+      <a class="btn" href="{% url 'help' %}">Help</a>
+    {% else %}
+      <a class="btn primary" href="{% url 'landing' %}">Go to the Hodi home page</a>
+      <a class="btn" href="{% url 'login' %}">Staff sign in</a>
+    {% endif %}
+  </div>
+{% endblock %}

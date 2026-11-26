@@ -47,9 +47,11 @@
             </nav>
           </div>
           <div class="col-lg-6 col-5 text-right">
-            <a href="{% url 'register' %}" class="btn btn-sm btn-neutral">
-              <i class="ni ni-fat-add"></i> Add New User
+            {% if can_add_users %}
+            <a href="{% url 'user_create' %}" class="btn btn-sm btn-primary">
+              <i class="fas fa-plus" aria-hidden="true"></i> Add user
             </a>
+            {% endif %}
           </div>
         </div>
               </div>
@@ -204,9 +206,11 @@
                     Get started by creating your first user account.
                   {% endif %}
                 </p>
-                <a href="{% url 'register' %}" class="btn btn-primary">
-                  <i class="ni ni-fat-add"></i> Create First User
+                {% if can_add_users %}
+                <a href="{% url 'user_create' %}" class="btn btn-primary">
+                  <i class="ni ni-fat-add"></i> Add a user
                 </a>
+                {% endif %}
               </div>
             {% endif %}
           </div>

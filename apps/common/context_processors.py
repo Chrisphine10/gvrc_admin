@@ -3,6 +3,7 @@
 Context processors for common app
 """
 
+from django.conf import settings as dj_settings
 from .models import ApplicationSettings
 
 
@@ -55,6 +56,7 @@ def application_settings(request):
             'app_settings': settings,
             'theme_css_variables': settings.get_theme_css_variables(),
             'hodi_map_config': map_config_for_browser(settings),
+            'allow_self_registration': getattr(dj_settings, 'ALLOW_SELF_REGISTRATION', False),
         }
     except Exception:
         # Return default values if settings can't be loaded

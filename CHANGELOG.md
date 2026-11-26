@@ -1,5 +1,22 @@
 # Change Log
 
+## 2.2.0 - 2026-11-26
+
+**Web UI**
+- Professional redesign across the admin (`assets/css/hodi-theme.css`): Inter type scale, one card/table/button/form system, white grouped sidebar, sticky top bar with facility search, one primary action per page, WCAG AA colours, visible focus, responsive to 375px. New dashboard (key numbers, "needs attention", quick actions). Facility list/form, documents, music, users, sign-in and password pages reworked.
+- New public landing page: quick-exit button (Esc twice), emergency numbers (1195, 999/112, 116, GVRC), how it works, live coverage from the directory (top counties, services, GBV categories; cached 15 min), the app, privacy and safety, FAQ, contact; one footer; Open Graph tags.
+- Branded 403/404/500 pages that are now actually used (handlers in `core/errors.py`; the 500 page needs no database).
+- Fixed: every `.alert` was turned into a disappearing toast (form errors, delete warnings, SMS banners); sign-in errors vanished after a second; Bootstrap 5 popups on a Bootstrap 4 page on the facility form; notification script retried WebSockets 5x per page and stacked duplicate poll timers.
+
+**Backend**
+- Errors: the app and API always get JSON `{"error": ...}` (DRF `EXCEPTION_HANDLER` + 404/500 handlers); 82 places that sent exception text to users now show a clear message and log the traceback; debug `print`s replaced by logging.
+- Facility create/edit: a failing infrastructure row no longer breaks the facility's transaction silently (own savepoint + warning).
+- Users: self-registration off by default (`ALLOW_SELF_REGISTRATION`); new **Add user** page (`/users/new/`, permission `add_users`) - the person gets a one-time set-password link by email and SMS.
+- Removed the hard-coded Google Maps key default.
+- `manage.py repair_contacts [--apply]`: fixes the 34 broken phone contacts from imports (junk digits off, glued landline+mobile split, labelled text, email stored as phone); nothing deleted.
+- Repo tidy: docs in `docs/`, one-off tools in `scripts/` (not collected by pytest), logs/exports untracked; README rewritten.
+- Mail: production sends as `Hodi <no-reply@hodi-admin.co.ke>` through the local mail server.
+
 ## 2.1.0 - 2026-11-25
 
 - **Chat alerts by SMS (Bonga).** The staff member a help chat is assigned to gets a text; on-call numbers get one when a new chat starts and when the app marks a message urgent. Texts carry only the chat number and link, never what the person wrote. Switches and on-call numbers on SMS settings, with a list of recent alerts. Each alert goes once per chat and phone (`sms_notifications` table, migration `sms.0003`).

@@ -1,0 +1,48 @@
+{% load static %}<!DOCTYPE html>
+{% comment %}
+  Error page layout. page-500.html renders this with an EMPTY context and no
+  request (the database may be what failed), so nothing here may depend on
+  request, user, app_settings, theme variables or csrf. Static files and
+  {% url %} are fine. Self-contained CSS: no argon.css, no JavaScript.
+{% endcomment %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>{% block title %}Something went wrong{% endblock %} &middot; Hodi</title>
+  <link rel="icon" href="{% static 'assets/img/icons/common/favicon.ico' %}">
+  <style>
+    :root { --deep: #0B4A28; --green: #247F2F; --tint: #EDF5E7; --ink: #15231b; --muted: #56645b; --line: #e2e8e3; --red: #b42318; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: var(--ink); background: #f4f6f4; line-height: 1.6; }
+    header { background: var(--deep); padding: 14px 24px; }
+    header a { color: #fff; text-decoration: none; font-weight: 800; font-size: 20px; display: inline-flex; align-items: center; gap: 10px; }
+    header img { width: 32px; height: 32px; border-radius: 8px; background: #fff; padding: 2px; }
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; max-width: 540px; width: 100%; padding: 36px 32px; box-shadow: 0 8px 24px rgba(16,40,24,.08); }
+    .code { display: inline-block; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--green); background: var(--tint); border-radius: 999px; padding: 4px 12px; }
+    h1 { font-size: 26px; line-height: 1.25; margin: 14px 0 8px; letter-spacing: -.01em; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .btn { display: inline-flex; align-items: center; border-radius: 8px; padding: 10px 16px; font-weight: 600; font-size: 14px; text-decoration: none; border: 1px solid var(--line); color: var(--ink); background: #fff; }
+    .btn:hover { border-color: var(--green); }
+    .btn.primary { background: var(--green); border-color: var(--green); color: #fff; }
+    .btn.primary:hover { background: var(--deep); }
+    a:focus-visible { outline: 3px solid #7CB528; outline-offset: 2px; }
+    .help { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+    .help a { color: var(--red); font-weight: 700; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header><a href="{% url 'landing' %}"><img src="{% static 'assets/img/brand/hodi-logo.png' %}" alt="" width="32" height="32"> Hodi</a></header>
+  <main>
+    <div class="card">
+      {% block card %}{% endblock %}
+      <div class="help">
+        Need help now? Call <a href="tel:1195">1195</a> (GBV hotline, free, 24/7) or <a href="tel:999">999</a> / <a href="tel:112">112</a>.
+      </div>
+    </div>
+  </main>
+</body>
+</html>

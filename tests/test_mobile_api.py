@@ -76,7 +76,7 @@ def test_get_without_device_is_403_json(api, prefix, path):
     r = api.get(prefix + path)
     assert r.status_code == 403
     assert r["Content-Type"].startswith("application/json")
-    assert r.json() == {"detail": NOT_AUTH}
+    assert r.json() == {"detail": NOT_AUTH, "error": NOT_AUTH}
 
 
 @pytest.mark.parametrize("prefix", PREFIXES)
@@ -84,7 +84,7 @@ def test_get_without_device_is_403_json(api, prefix, path):
 def test_post_without_device_is_403_json(api, prefix, path):
     r = post(api, prefix + path, {"message": "hi"})
     assert r.status_code == 403
-    assert r.json() == {"detail": NOT_AUTH}
+    assert r.json() == {"detail": NOT_AUTH, "error": NOT_AUTH}
 
 
 @pytest.mark.parametrize("path", PROTECTED_GET)

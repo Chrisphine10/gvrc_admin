@@ -1,16 +1,7 @@
-
       <!-- Footer -->
-      <footer class="footer">
-        <div class="row align-items-center justify-content-xl-between">
-          <div class="col-xl-6">
-            <div class="text-center text-xl-left text-muted">
-              <span class="font-weight-bold ml-1">Hodi Admin Dashboard</span>
-            </div>
-          </div>
-          <div class="col-xl-6">
-            <div class="text-center text-xl-right text-muted">
-              <span class="font-weight-bold ml-1">&copy; 2024 Hodi App Management</span>
-            </div>
-          </div>
+      <footer class="footer hodi-footer">
+        <div class="d-flex flex-wrap justify-content-between" style="gap:.5rem 1.5rem">
+          <span>&copy; {% now "Y" %} {% if app_settings.organization_name %}{{ app_settings.organization_name }}{% else %}Hodi{% endif %} &middot; GBV help directory administration</span>
+          <span><a href="{% url 'help' %}">Help</a> &middot; <a href="/swagger/" target="_blank" rel="noopener">API docs</a></span>
         </div>
       </footer>

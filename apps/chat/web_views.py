@@ -20,6 +20,9 @@ from apps.authentication.views import custom_login_required
 from apps.authentication.permissions import has_permission, permission_required
 from functools import wraps
 from django.utils.dateparse import parse_date
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def chat_staff_required(permission_name='view_chat'):
@@ -388,7 +391,8 @@ def assign_conversation(request, conversation_id):
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            logger.exception("chat: request failed")
+            return JsonResponse({'error': 'Something went wrong. Please try again.'}, status=500)
     
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
@@ -414,7 +418,8 @@ def update_conversation_status(request, conversation_id):
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            logger.exception("chat: request failed")
+            return JsonResponse({'error': 'Something went wrong. Please try again.'}, status=500)
     
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
@@ -680,9 +685,10 @@ def test_conversations_api(request):
         return JsonResponse(data)
         
     except Exception as e:
+        logger.exception("chat: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e),
+            'error': 'Something went wrong. Please try again.',
             'traceback': str(e.__traceback__) if hasattr(e, '__traceback__') else 'No traceback'
         }, status=500)
 
@@ -720,8 +726,9 @@ def debug_messages(request, conversation_id):
             'error': f'Conversation {conversation_id} not found'
         }, status=404)
     except Exception as e:
+        logger.exception("chat: request failed")
         return JsonResponse({
             'success': False,
-            'error': str(e),
+            'error': 'Something went wrong. Please try again.',
             'traceback': str(e.__traceback__) if hasattr(e, '__traceback__') else 'No traceback'
         }, status=500)

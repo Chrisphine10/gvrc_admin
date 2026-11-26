@@ -12,6 +12,9 @@ from django.utils import timezone
 from .models import Conversation, Message
 from .services import MessageService
 from apps.mobile_sessions.models import MobileSession
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -107,9 +110,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'message': 'Invalid JSON format'
             }))
         except Exception as e:
+            logger.exception("chat: request failed")
             await self.send(text_data=json.dumps({
                 'type': 'error',
-                'message': f'Server error: {str(e)}'
+                'message': 'Something went wrong. Please try again.'
             }))
     
     async def handle_chat_message(self, data):
@@ -320,7 +324,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     metadata=metadata
                 )
         except Exception as e:
-            print(f"Error creating message: {e}")
+            logger.exception("Error creating message")
             return None
     
     @database_sync_to_async
@@ -341,7 +345,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except Message.DoesNotExist:
             return False
         except Exception as e:
-            print(f"Error updating message status: {e}")
+            logger.exception("Error updating message status")
             return False
     
     @database_sync_to_async
@@ -358,7 +362,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
             return count
         except Exception as e:
-            print(f"Error marking messages read: {e}")
+            logger.exception("Error marking messages read")
             return 0
     
     @database_sync_to_async
@@ -442,9 +446,10 @@ class NotificationConsumer(AsyncWebsocketConsumer):
                 'message': 'Invalid JSON format'
             }))
         except Exception as e:
+            logger.exception("chat: request failed")
             await self.send(text_data=json.dumps({
                 'type': 'error',
-                'message': f'Server error: {str(e)}'
+                'message': 'Something went wrong. Please try again.'
             }))
     
     async def handle_mark_read(self, data):
@@ -512,7 +517,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         except ChatNotification.DoesNotExist:
             return False
         except Exception as e:
-            print(f"Error marking notification read: {e}")
+            logger.exception("Error marking notification read")
             return False
 
 
@@ -634,9 +639,10 @@ class MobileChatConsumer(AsyncWebsocketConsumer):
                 'message': 'Invalid JSON format'
             }))
         except Exception as e:
+            logger.exception("chat: request failed")
             await self.send(text_data=json.dumps({
                 'type': 'error',
-                'message': f'Server error: {str(e)}'
+                'message': 'Something went wrong. Please try again.'
             }))
     
     async def handle_chat_message(self, data):
@@ -860,7 +866,7 @@ class MobileChatConsumer(AsyncWebsocketConsumer):
                 metadata=metadata
             )
         except Exception as e:
-            print(f"Error creating mobile message: {e}")
+            logger.exception("Error creating mobile message")
             return None
     
     @database_sync_to_async
@@ -881,7 +887,7 @@ class MobileChatConsumer(AsyncWebsocketConsumer):
         except Message.DoesNotExist:
             return False
         except Exception as e:
-            print(f"Error updating message status: {e}")
+            logger.exception("Error updating message status")
             return False
     
     @database_sync_to_async
@@ -898,7 +904,7 @@ class MobileChatConsumer(AsyncWebsocketConsumer):
             )
             return count
         except Exception as e:
-            print(f"Error marking messages read: {e}")
+            logger.exception("Error marking messages read")
             return 0
     
     @database_sync_to_async

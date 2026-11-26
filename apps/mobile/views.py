@@ -44,6 +44,9 @@ from apps.api.serializers import (
 # Import services
 from apps.chat.services import ConversationService, MessageService
 from apps.mobile_sessions.services import MobileSessionService
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def _session_location(validated_data):
@@ -215,8 +218,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     response_serializer = ConversationSerializer(conversation, context={'request': request})
                     return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                 except Exception as e:
+                    logger.exception("mobile: request failed")
                     return Response(
-                        {'error': f'Failed to create conversation: {str(e)}'}, 
+                        {'error': 'Could not create conversation. Please try again.'}, 
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR
                     )
                     
@@ -226,8 +230,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Unexpected error: {str(e)}'}, 
+                    {'error': 'Something went wrong. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
@@ -422,8 +427,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     response_serializer = MessageSerializer(message, context={'request': request})
                     return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                 except Exception as e:
+                    logger.exception("mobile: request failed")
                     return Response(
-                        {'error': f'Failed to create message: {str(e)}'}, 
+                        {'error': 'Could not create message. Please try again.'}, 
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR
                     )
             else:
@@ -487,8 +493,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                 response_serializer = MessageSerializer(message, context={'request': request})
                 return Response(response_serializer.data, status=status.HTTP_201_CREATED)
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Failed to create message: {str(e)}'}, 
+                    {'error': 'Could not create message. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         else:
@@ -566,8 +573,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                 response_serializer = MessageSerializer(message, context={'request': request})
                 return Response(response_serializer.data)
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Failed to update message status: {str(e)}'}, 
+                    {'error': 'Could not update message status. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
@@ -618,8 +626,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                     'conversation': response_serializer.data
                 }, status=status.HTTP_200_OK)
             except Exception as e:
+                logger.exception("mobile: request failed")
                 return Response(
-                    {'error': f'Failed to close conversation: {str(e)}'}, 
+                    {'error': 'Could not close conversation. Please try again.'}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
         
@@ -656,8 +665,9 @@ class MobileChatViewSet(viewsets.ViewSet):
                 'conversation': response_serializer.data
             }, status=status.HTTP_200_OK)
         except Exception as e:
+            logger.exception("mobile: request failed")
             return Response(
-                {'error': f'Failed to close conversation: {str(e)}'}, 
+                {'error': 'Could not close conversation. Please try again.'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
@@ -1970,8 +1980,9 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         except Exception as e:
+            logger.exception("mobile: request failed")
             return Response(
-                {'error': f'Failed to track interaction: {str(e)}'}, 
+                {'error': 'Could not track interaction. Please try again.'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -2073,8 +2084,9 @@ class MobileAnalyticsViewSet(viewsets.ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
+            logger.exception("mobile: request failed")
             return Response(
-                {'error': f'Failed to track contact click: {str(e)}'}, 
+                {'error': 'Could not track contact click. Please try again.'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
